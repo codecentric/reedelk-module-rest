@@ -85,7 +85,7 @@
                 <configuration>
                     <tasks>
                         <copy file="target/${project.artifactId}-${project.version}.jar"
-                              tofile="../../runtime/runtime-launcher/modules/${project.artifactId}-${project.version}.jar">
+                              tofile="../runtime/runtime-launcher/modules/${project.artifactId}-${project.version}.jar">
                         </copy>
                     </tasks>
                 </configuration>
