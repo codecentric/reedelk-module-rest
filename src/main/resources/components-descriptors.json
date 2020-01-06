@@ -67,7 +67,7 @@
                   "displayName": "Base path",
                   "propertyName": "basePath",
                   "defaultValue": "###USE_DEFAULT_VALUE###",
-                  "propertyInfo": "Sets the base request path for all listeners using this configuration e.g: /api/v1",
+                  "propertyInfo": "Sets the base request path for all listeners using this configuration e.g: /api/v1.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
                     "instance": {
