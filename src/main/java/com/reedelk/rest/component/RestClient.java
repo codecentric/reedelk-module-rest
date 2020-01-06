@@ -46,7 +46,7 @@ public class RestClient implements ProcessorAsync {
 
     @Property("Base URL")
     @PropertyInfo("The base URL of the HTTP request. " +
-            "It may include the request path as well, " +
+            "It may include a static request path " +
             "e.g: http://api.example.com/resource1")
     @Hint("https://api.example.com")
     @When(propertyName = "configuration", propertyValue = When.NULL)
@@ -55,6 +55,7 @@ public class RestClient implements ProcessorAsync {
 
     @Property("Path")
     @Hint("/resource/{id}")
+    @PropertyInfo("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map, e.g: /resource/{id}/{group}.")
     private String path;
 
     @Property("Body")
@@ -63,6 +64,7 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "method", propertyValue = "DELETE")
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
+    @PropertyInfo("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
     private DynamicByteArray body;
 
     @Property("Streaming")
@@ -70,6 +72,10 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "method", propertyValue = "DELETE")
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
+    @PropertyInfo("Determines the strategy type the body will be sent to the server. " +
+            "When <i>Stream</i> the request body will be sent chunk by chunk without loading the entire content into memory. " +
+            "When <i>None</i> the body will be loaded into memory and then sent to the server. When <i>Auto</i> the component " +
+            "will inspect the content of the body to determine the best strategy to send the HTTP request data.")
     private StreamingMode streaming = StreamingMode.AUTO;
 
     @TabGroup("Headers and parameters")

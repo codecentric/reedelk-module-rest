@@ -16,11 +16,13 @@ public class Response implements Implementor {
     @Default("#[message.payload()]")
     @Hint("content body text")
     @Property("Response body")
+    @PropertyInfo("The body of the response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
     @Default("200")
     @Hint("200")
     @Property("Response status")
+    @PropertyInfo("The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myResponseStatus</i>.")
     private DynamicInteger status;
 
     @TabGroup("Headers")

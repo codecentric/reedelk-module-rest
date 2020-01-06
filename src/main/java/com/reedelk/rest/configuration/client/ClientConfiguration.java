@@ -18,13 +18,16 @@ public class ClientConfiguration implements Implementor {
     // Base URL config
     @Property("Host")
     @Default("localhost")
+    @PropertyInfo("Sets the remote host the HTTP request will be sent to.")
     private String host;
 
     @Property("Port")
     @Default("80")
+    @PropertyInfo("Sets the remote port the HTTP request will be sent to.")
     private Integer port;
 
     @Property("Base path")
+    @PropertyInfo("Sets the base request path for all listeners using this configuration e.g: /api/v1.")
     private String basePath;
 
     @Property("Protocol")

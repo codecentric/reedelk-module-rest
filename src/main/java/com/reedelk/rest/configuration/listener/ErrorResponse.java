@@ -17,12 +17,14 @@ public class ErrorResponse implements Implementor {
     @Default("#[error]")
     @AutoCompleteContributor(error = true, message = false)
     @Property("Response body")
+    @PropertyInfo("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
     @Hint("500")
     @Default("500")
     @AutoCompleteContributor(error = true, message = false)
     @Property("Response status")
+    @PropertyInfo("The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myErrorResponseStatus</i>.")
     private DynamicInteger status;
 
     @TabGroup("Headers")

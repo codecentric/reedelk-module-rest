@@ -27,6 +27,7 @@ public class ListenerConfiguration implements Implementor {
 
     @Property("Base path")
     @Hint("/api")
+    @PropertyInfo("The base path shared by all the listeners using this configuration, e.g: /api/v1.")
     private String basePath;
 
     @Property("Keep alive")

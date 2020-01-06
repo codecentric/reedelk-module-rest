@@ -41,6 +41,7 @@
                   "displayName": "Host",
                   "propertyName": "host",
                   "defaultValue": "localhost",
+                  "propertyInfo": "Sets the remote host the HTTP request will be sent to.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
                     "instance": {
@@ -53,6 +54,7 @@
                   "displayName": "Port",
                   "propertyName": "port",
                   "defaultValue": "80",
+                  "propertyInfo": "Sets the remote port the HTTP request will be sent to.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
                     "instance": {
@@ -65,6 +67,7 @@
                   "displayName": "Base path",
                   "propertyName": "basePath",
                   "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "propertyInfo": "Sets the base request path for all listeners using this configuration e.g: /api/v1",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
                     "instance": {
@@ -498,7 +501,7 @@
           "displayName": "Base URL",
           "propertyName": "baseURL",
           "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The base URL of the HTTP request. It may include the request path as well, e.g: http://api.example.com/resource1",
+          "propertyInfo": "The base URL of the HTTP request. It may include a static request path e.g: http://api.example.com/resource1",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
             "instance": {
@@ -521,6 +524,7 @@
           "displayName": "Path",
           "propertyName": "path",
           "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyInfo": "The request path might contain parameters placeholders which will be bound to the values defined in the \u003ci\u003eHeaders and parameters\u003c/i\u003e \u003e \u003ci\u003ePath params\u003c/i\u003e map, e.g: /resource/{id}/{group}.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
             "instance": {
@@ -534,6 +538,7 @@
           "displayName": "Body",
           "propertyName": "body",
           "defaultValue": "#[message.payload()]",
+          "propertyInfo": "Sets the payload of the HTTP request. It could be a dynamic or a static value.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
@@ -559,6 +564,7 @@
           "displayName": "Streaming",
           "propertyName": "streaming",
           "defaultValue": "AUTO",
+          "propertyInfo": "Determines the strategy type the body will be sent to the server. When \u003ci\u003eStream\u003c/i\u003e the request body will be sent chunk by chunk without loading the entire content into memory. When \u003ci\u003eNone\u003c/i\u003e the body will be loaded into memory and then sent to the server. When \u003ci\u003eAuto\u003c/i\u003e the component will inspect the content of the body to determine the best strategy to send the HTTP request data.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
             "instance": {
@@ -733,6 +739,7 @@
                   "displayName": "Base path",
                   "propertyName": "basePath",
                   "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "propertyInfo": "The base path shared by all the listeners using this configuration, e.g: /api/v1.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
                     "instance": {
@@ -1072,7 +1079,7 @@
           "displayName": "Path",
           "propertyName": "path",
           "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyInfo": "The rest path this listener will be bound to. If present must start with \u0027/\u0027. The path might contain regex matching a segment, e.g: /api/{name:.*}.",
+          "propertyInfo": "The rest path this listener will be bound to. If present must start with \u0027/\u0027. The path might contain regexp, e.g: /{name:.*} which would match against anything it is compared to, or parameters /{group}/{id}. Path parameters are bound to a key/value map in the inbound message attributes.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
             "instance": {
@@ -1105,6 +1112,7 @@
           "displayName": "Streaming",
           "propertyName": "streaming",
           "defaultValue": "AUTO",
+          "propertyInfo": "Determines the way the response body is sent to the client. When set to Auto and if the size of the payload is not clear, e.g. it is a stream of data, then it uses \u003cb\u003eTransfer-Encoding: chunked\u003c/b\u003e when sending data back to the client. Otherwise \u003cb\u003eContent-Length\u003c/b\u003e encoding with the size of the payload is used. When set to Always \u003cb\u003eTransfer-Encoding: chunked\u003c/b\u003e is always used, and when none \u003cb\u003eContent-Length\u003c/b\u003e is always used instead.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
             "instance": {
@@ -1134,6 +1142,7 @@
                   "displayName": "Response body",
                   "propertyName": "body",
                   "defaultValue": "#[message.payload()]",
+                  "propertyInfo": "The body of the response might be a static or a dynamic value.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
                     "instance": {
@@ -1147,6 +1156,7 @@
                   "displayName": "Response status",
                   "propertyName": "status",
                   "defaultValue": "200",
+                  "propertyInfo": "The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: \u003ci\u003econtext.myResponseStatus\u003c/i\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
                     "instance": {
@@ -1190,6 +1200,7 @@
                   "displayName": "Response body",
                   "propertyName": "body",
                   "defaultValue": "#[error]",
+                  "propertyInfo": "The body of the error response might be a static or a dynamic value.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
                     "instance": {
@@ -1209,6 +1220,7 @@
                   "displayName": "Response status",
                   "propertyName": "status",
                   "defaultValue": "500",
+                  "propertyInfo": "The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: \u003ci\u003econtext.myErrorResponseStatus\u003c/i\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
                     "instance": {

@@ -37,7 +37,8 @@ public class RestListener extends AbstractInbound {
 
     @Property("Path")
     @PropertyInfo("The rest path this listener will be bound to. If present must start with '/'. " +
-            "The path might contain regex matching a segment, e.g: /api/{name:.*}.")
+            "The path might contain regexp, e.g: /{name:.*} which would match against anything it is compared to, " +
+            "or parameters /{group}/{id}. Path parameters are bound to a key/value map in the inbound message attributes.")
     @Hint("/resource/{id}")
     private String path;
 
@@ -47,6 +48,10 @@ public class RestListener extends AbstractInbound {
 
     @Property("Streaming")
     @Default("AUTO")
+    @PropertyInfo("Determines the way the response body is sent to the client. " +
+            "When set to Auto and if the size of the payload is not clear, e.g. it is a stream of data, then it uses <b>Transfer-Encoding: chunked</b> " +
+            "when sending data back to the client. Otherwise <b>Content-Length</b> encoding with the size of the payload is used. " +
+            "When set to Always <b>Transfer-Encoding: chunked</b> is always used, and when none <b>Content-Length</b> is always used instead.")
     private StreamingMode streaming = StreamingMode.AUTO;
 
     @Property("Response")
