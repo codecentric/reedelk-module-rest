@@ -25,7 +25,6 @@ public class Response implements Implementor {
     @PropertyInfo("The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myResponseStatus</i>.")
     private DynamicInteger status;
 
-    @TabGroup("Headers")
     @Property("Additional Headers")
     private DynamicStringMap headers = DynamicStringMap.empty();
 

@@ -27,7 +27,6 @@ public class ErrorResponse implements Implementor {
     @PropertyInfo("The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myErrorResponseStatus</i>.")
     private DynamicInteger status;
 
-    @TabGroup("Headers")
     @AutoCompleteContributor(error = true, message = false)
     @Property("Additional Headers")
     private DynamicStringMap headers = DynamicStringMap.empty();
