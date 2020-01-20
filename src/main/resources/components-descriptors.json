@@ -599,6 +599,7 @@
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
             "instance": {
               "tabGroup": "Headers and parameters",
+              "tabPlacement": "LEFT",
               "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
             }
           },
@@ -612,6 +613,7 @@
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
             "instance": {
               "tabGroup": "Headers and parameters",
+              "tabPlacement": "LEFT",
               "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
             }
           },
@@ -625,6 +627,7 @@
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
             "instance": {
               "tabGroup": "Headers and parameters",
+              "tabPlacement": "LEFT",
               "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
             }
           },
@@ -1172,6 +1175,7 @@
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
                     "instance": {
+                      "tabPlacement": "LEFT",
                       "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
                     }
                   },
@@ -1241,6 +1245,7 @@
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
                     "instance": {
+                      "tabPlacement": "LEFT",
                       "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
                     }
                   },
