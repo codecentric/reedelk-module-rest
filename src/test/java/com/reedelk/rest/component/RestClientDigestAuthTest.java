@@ -117,6 +117,6 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'");
+        assertThat(thrown).hasMessage("ClientConfiguration (com.reedelk.rest.configuration.client.ClientConfiguration) has a configuration error: Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'");
     }
 }

@@ -2,6 +2,7 @@ package com.reedelk.rest.server.configurer;
 
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.configuration.listener.*;
+import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.exception.ESBException;
 import io.netty.handler.ssl.SslContextBuilder;
 import reactor.netty.tcp.TcpServer;
@@ -19,7 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 public class ServerSecurityConfigurer {
 
-    public static TcpServer configure(TcpServer bootstrap, ListenerConfiguration configuration) {
+    public static TcpServer configure(Class<? extends Implementor> configurationClazz, TcpServer bootstrap, ListenerConfiguration configuration) {
         // Security is configured if and only if the protocol is HTTPS
         if (!HttpProtocol.HTTPS.equals(configuration.getProtocol())) return bootstrap;
         if (configuration.getSecurityConfiguration() == null) return bootstrap;
@@ -33,7 +34,7 @@ public class ServerSecurityConfigurer {
             ServerSecurityType configurationType = securityConfig.getType();
             if (ServerSecurityType.KEY_STORE.equals(configurationType)) {
                 KeyStoreConfiguration keyStoreConfig = requireNonNull(securityConfig.getKeyStore(), "key store config");
-                contextBuilder = SslContextBuilder.forServer(getKeyManagerFactory(keyStoreConfig));
+                contextBuilder = SslContextBuilder.forServer(getKeyManagerFactory(configurationClazz, keyStoreConfig));
 
             } else if (ServerSecurityType.CERTIFICATE_AND_PRIVATE_KEY.equals(configurationType)) {
                 // TODO: Error handling
@@ -50,7 +51,7 @@ public class ServerSecurityConfigurer {
             if (securityConfig.getUseTrustStore() != null && securityConfig.getUseTrustStore()) {
                 TrustStoreConfiguration trustStoreConfiguration =
                         requireNonNull(securityConfig.getTrustStoreConfiguration(), "trust store config");
-                contextBuilder.trustManager(getTrustManagerFactory(trustStoreConfiguration));
+                contextBuilder.trustManager(getTrustManagerFactory(configurationClazz, trustStoreConfiguration));
             }
 
             try {
@@ -62,11 +63,11 @@ public class ServerSecurityConfigurer {
     }
 
 
-    private static TrustManagerFactory getTrustManagerFactory(TrustStoreConfiguration config) {
+    private static TrustManagerFactory getTrustManagerFactory(Class<? extends Implementor> configurationClazz, TrustStoreConfiguration config) {
         String type = config.getType();
         String algorithm = config.getAlgorithm();
-        String location = requireNotBlank(config.getPath(), "Trust store location must not be empty");
-        String password = requireNotBlank(config.getPassword(), "Trust store password must not be empty");
+        String location = requireNotBlank(configurationClazz, config.getPath(), "Trust store location must not be empty");
+        String password = requireNotBlank(configurationClazz, config.getPassword(), "Trust store password must not be empty");
         try {
             String alg = Optional.ofNullable(algorithm).orElse(TrustManagerFactory.getDefaultAlgorithm());
             TrustManagerFactory factory = TrustManagerFactory.getInstance(alg);
@@ -81,11 +82,11 @@ public class ServerSecurityConfigurer {
         }
     }
 
-    private static KeyManagerFactory getKeyManagerFactory(KeyStoreConfiguration config) {
+    private static KeyManagerFactory getKeyManagerFactory(Class<? extends Implementor> configurationClazz, KeyStoreConfiguration config) {
         String type = config.getType();
         String algorithm = config.getAlgorithm();
-        String location = requireNotBlank(config.getPath(), "Key store location must not be empty");
-        String password = requireNotBlank(config.getPassword(), "Key store password must not be empty");
+        String location = requireNotBlank(configurationClazz, config.getPath(), "Key store location must not be empty");
+        String password = requireNotBlank(configurationClazz, config.getPassword(), "Key store password must not be empty");
         try {
             String alg = Optional.ofNullable(algorithm).orElse(KeyManagerFactory.getDefaultAlgorithm());
             KeyStore keyStore = type == null ? KeyStore.getInstance(KeyStore.getDefaultType()) : KeyStore.getInstance(type);

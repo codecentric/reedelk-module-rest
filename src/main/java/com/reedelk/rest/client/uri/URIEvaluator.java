@@ -108,7 +108,7 @@ public class URIEvaluator {
 
         public URIEvaluator build() {
             URIEvaluator evaluator = new URIEvaluator();
-            evaluator.scriptEngine = requireNotNull(scriptEngine, "script engine");
+            evaluator.scriptEngine = scriptEngine;
             evaluator.pathParameters = pathParameters;
             evaluator.queryParameters = queryParameters;
             evaluator.pathComponent = isBlank(path) ?
@@ -121,7 +121,7 @@ public class URIEvaluator {
 
             } else {
                 // Use config
-                requireNotNull(configuration, CONFIG_CLIENT_NULL_ERROR.format());
+                requireNotNull(ClientConfiguration.class, configuration, CONFIG_CLIENT_NULL_ERROR.format());
 
                 String host = configuration.getHost();
                 int port = port(configuration.getPort());
@@ -130,9 +130,9 @@ public class URIEvaluator {
                 try {
                     URI uri = new URI(scheme, null, host, port, basePath, null, null);
                     evaluator.baseURL = uri.toString();
-                } catch (URISyntaxException e) {
-                    String message = REQUEST_URL_ERROR.format(host ,port, basePath, scheme, e.getMessage());
-                    throw new ConfigurationException(message, e);
+                } catch (URISyntaxException exception) {
+                    String message = REQUEST_URL_ERROR.format(host ,port, basePath, scheme, exception.getMessage());
+                    throw new ConfigurationException(message, exception);
                 }
             }
             return evaluator;

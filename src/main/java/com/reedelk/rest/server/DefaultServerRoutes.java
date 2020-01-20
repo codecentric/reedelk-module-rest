@@ -75,7 +75,7 @@ public class DefaultServerRoutes implements HttpServerRoutes {
     }
 
 
-    class RouteAlreadyDefinedException extends ESBException {
+    static class RouteAlreadyDefinedException extends ESBException {
         RouteAlreadyDefinedException(String method, String path) {
             super(String.format("Route for method [%s] and path [%s] is already defined", method, path));
         }

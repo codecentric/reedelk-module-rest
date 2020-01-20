@@ -83,7 +83,7 @@ public class Server {
 
     private TcpServer createTcpServer(ListenerConfiguration configuration) {
         TcpServer bootstrap = TcpServer.create();
-        bootstrap = ServerSecurityConfigurer.configure(bootstrap, configuration);
+        bootstrap = ServerSecurityConfigurer.configure(ListenerConfiguration.class, bootstrap, configuration);
         bootstrap = bootstrap.bootstrap(serverBootstrap -> {
             ServerConfigurer.configure(serverBootstrap, configuration);
             return serverBootstrap

@@ -40,7 +40,8 @@ public class DefaultHttpClientFactory implements HttpClientFactory {
         Authentication authentication = config.getAuthentication();
         if (Authentication.BASIC.equals(authentication)) {
             BasicAuthenticationConfiguration basicConfig =
-                    requireNotNull(config.getBasicAuthentication(),
+                    requireNotNull(ClientConfiguration.class,
+                            config.getBasicAuthentication(),
                             Messages.RestClient.BASIC_AUTH_MISSING.format());
             configureBasicAuth(
                     config.getHost(),
@@ -54,7 +55,8 @@ public class DefaultHttpClientFactory implements HttpClientFactory {
         // Digest authentication config
         if (Authentication.DIGEST.equals(authentication)) {
             DigestAuthenticationConfiguration digestConfig =
-                    requireNotNull(config.getDigestAuthentication(),
+                    requireNotNull(ClientConfiguration.class,
+                            config.getDigestAuthentication(),
                             Messages.RestClient.DIGEST_AUTH_MISSING.format());
             configureDigestAuth(
                     config.getHost(),
@@ -69,7 +71,8 @@ public class DefaultHttpClientFactory implements HttpClientFactory {
         Proxy proxy = config.getProxy();
         if (Proxy.PROXY.equals(proxy)) {
             ProxyConfiguration proxyConfig =
-                    requireNotNull(config.getProxyConfiguration(),
+                    requireNotNull(ClientConfiguration.class,
+                            config.getProxyConfiguration(),
                             Messages.RestClient.PROXY_CONFIG_MISSING.format());
             configureProxy(
                     proxyConfig,
