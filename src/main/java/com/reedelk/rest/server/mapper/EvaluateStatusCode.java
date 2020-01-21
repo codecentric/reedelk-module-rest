@@ -1,7 +1,7 @@
 package com.reedelk.rest.server.mapper;
 
 import com.reedelk.runtime.api.exception.ESBException;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;

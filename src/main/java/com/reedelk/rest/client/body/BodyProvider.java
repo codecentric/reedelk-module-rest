@@ -1,6 +1,6 @@
 package com.reedelk.rest.client.body;
 
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import org.reactivestreams.Publisher;
 

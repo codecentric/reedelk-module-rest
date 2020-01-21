@@ -2,7 +2,7 @@ package com.reedelk.rest.client;
 
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.exception.ESBException;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;

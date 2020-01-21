@@ -1,7 +1,7 @@
 package com.reedelk.rest.server.body;
 
 import com.reedelk.runtime.api.commons.ScriptUtils;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;

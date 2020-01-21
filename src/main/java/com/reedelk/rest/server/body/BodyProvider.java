@@ -1,6 +1,6 @@
 package com.reedelk.rest.server.body;
 
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import org.reactivestreams.Publisher;
 import reactor.netty.http.server.HttpServerResponse;

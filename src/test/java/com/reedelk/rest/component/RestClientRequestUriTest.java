@@ -2,7 +2,7 @@ package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;

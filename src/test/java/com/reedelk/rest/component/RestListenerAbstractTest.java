@@ -4,7 +4,7 @@ import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.configuration.listener.ListenerConfiguration;
 import com.reedelk.rest.server.ServerProvider;
 import com.reedelk.runtime.api.commons.ModuleContext;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;

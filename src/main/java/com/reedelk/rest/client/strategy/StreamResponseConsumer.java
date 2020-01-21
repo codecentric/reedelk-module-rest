@@ -5,7 +5,7 @@ import com.reedelk.rest.client.response.HttpResponseMessageMapper;
 import com.reedelk.rest.commons.DataMarker;
 import com.reedelk.rest.commons.IsSuccessfulStatus;
 import com.reedelk.runtime.api.component.OnResult;
-import com.reedelk.runtime.api.message.FlowContext;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
