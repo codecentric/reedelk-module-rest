@@ -90,11 +90,11 @@ class StreamResponseConsumer extends AbstractAsyncResponseConsumer<Void> {
 
             Message message = HttpResponseMessageMapper.map(response, bytesStream);
 
-            callback.onResult(message, flowContext);
+            callback.onResult(flowContext, message);
 
         } else {
 
-            callback.onError(new HttpClientResponseException(response, bytesStream), flowContext);
+            callback.onError(flowContext, new HttpClientResponseException(response, bytesStream));
 
         }
     }

@@ -74,15 +74,15 @@ public class HttpClient {
         @Override
         public void failed(Exception exception) {
             delegate.onError(
-                    new ESBException(REQUEST_FAILED.format(requestUri, exception.getMessage()), exception),
-                    flowContext);
+                    flowContext,
+                    new ESBException(REQUEST_FAILED.format(requestUri, exception.getMessage()), exception));
         }
 
         @Override
         public void cancelled() {
             delegate.onError(
-                    new ESBException(REQUEST_CANCELLED.format(requestUri)),
-                    flowContext);
+                    flowContext,
+                    new ESBException(REQUEST_CANCELLED.format(requestUri)));
         }
     }
 }

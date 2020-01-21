@@ -30,7 +30,7 @@ class RestListenerPutTest extends RestListenerAbstractTest {
         putRequest.setEntity(entity);
 
         RestListener listener = listenerWith(PUT, defaultConfiguration);
-        listener.addEventListener((message, callback) -> callback.onResult(message, context));
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
         // Expect

@@ -96,7 +96,7 @@ public class HttpRequestHandler implements BiFunction<HttpServerRequest, HttpSer
         }
 
         @Override
-        public void onResult(Message outMessage, FlowContext flowContext) {
+        public void onResult(FlowContext flowContext, Message outMessage) {
             try {
 
                 responseMapper.map(outMessage, response, flowContext);
@@ -119,7 +119,7 @@ public class HttpRequestHandler implements BiFunction<HttpServerRequest, HttpSer
         }
 
         @Override
-        public void onError(Throwable exception, FlowContext flowContext) {
+        public void onError(FlowContext flowContext, Throwable exception) {
 
             Throwable realException = exception;
 

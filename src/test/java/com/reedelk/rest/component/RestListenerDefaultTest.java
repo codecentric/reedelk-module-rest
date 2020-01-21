@@ -20,7 +20,7 @@ class RestListenerDefaultTest extends RestListenerAbstractTest {
         HttpGet request = new HttpGet("http://" + defaultHost + ":"+ defaultPort);
 
         RestListener listener = listenerWith(GET, configWithoutHostAndPortDefined);
-        listener.addEventListener((message, callback) -> callback.onResult(message, context));
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
         // Expect

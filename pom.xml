@@ -24,6 +24,7 @@
         <assertj.version>3.11.1</assertj.version>
         <junit.version>5.5.2</junit.version>
         <mockito.version>2.23.0</mockito.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>

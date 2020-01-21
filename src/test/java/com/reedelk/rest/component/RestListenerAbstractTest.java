@@ -128,7 +128,7 @@ abstract class RestListenerAbstractTest {
                     // not be able to consume the payload because it is a Fast non-blocking Thread.
                     inboundMessage = message;
                     payload = message.payload();
-                    callback.onResult(MessageBuilder.get().empty().build(), context);
+                    callback.onResult(context, MessageBuilder.get().empty().build());
                 }).start());
         listener.onStart();
 

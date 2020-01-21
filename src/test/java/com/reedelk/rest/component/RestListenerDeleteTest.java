@@ -21,7 +21,7 @@ class RestListenerDeleteTest extends RestListenerAbstractTest {
     void shouldReturn200() {
         // Given
         RestListener listener = listenerWith(DELETE, defaultConfiguration);
-        listener.addEventListener((message, callback) -> callback.onResult(message, context));
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
         // Expect

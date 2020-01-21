@@ -108,15 +108,15 @@ class AssertHttpResponse {
 
         void assertThat() throws InterruptedException {
             CountDownLatch latch = new CountDownLatch(1);
-            component.apply(message, context, new OnResult() {
+            component.apply(context, message, new OnResult() {
                 @Override
-                public void onResult(Message message, FlowContext flowContext) {
+                public void onResult(FlowContext flowContext, Message message) {
                     response = message;
                     latch.countDown();
                 }
 
                 @Override
-                public void onError(Throwable throwable, FlowContext flowContext) {
+                public void onError(FlowContext flowContext, Throwable throwable) {
                     exception = throwable;
                     latch.countDown();
                 }
@@ -177,14 +177,14 @@ class AssertHttpResponse {
 
         void assertThat() throws InterruptedException {
             CountDownLatch latch = new CountDownLatch(1);
-            component.apply(message, context, new OnResult() {
+            component.apply(context, message, new OnResult() {
                 @Override
-                public void onResult(Message message, FlowContext flowContext) {
+                public void onResult(FlowContext flowContext, Message message) {
                     latch.countDown();
                 }
 
                 @Override
-                public void onError(Throwable throwable, FlowContext flowContext) {
+                public void onError(FlowContext flowContext, Throwable throwable) {
                     error = (HttpClientResponseException) throwable;
                     latch.countDown();
                 }

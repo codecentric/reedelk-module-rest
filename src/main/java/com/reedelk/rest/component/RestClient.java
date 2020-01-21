@@ -100,7 +100,7 @@ public class RestClient implements ProcessorAsync {
     private HeadersEvaluator headersEvaluator;
 
     @Override
-    public void apply(Message message, FlowContext flowContext, OnResult callback) {
+    public void apply(FlowContext flowContext, Message message, OnResult callback) {
 
         URIProvider uriProvider = uriEvaluator.provider(message, flowContext);
 

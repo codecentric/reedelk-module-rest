@@ -21,7 +21,7 @@ class RestListenerOptionsTest extends RestListenerAbstractTest {
     void shouldReturn200() {
         // Given
         RestListener listener = listenerWith(OPTIONS, defaultConfiguration);
-        listener.addEventListener((message, callback) -> callback.onResult(message, context));
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
         // Expect

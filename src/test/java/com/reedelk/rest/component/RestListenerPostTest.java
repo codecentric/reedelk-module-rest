@@ -53,7 +53,7 @@ class RestListenerPostTest extends RestListenerAbstractTest {
         postRequest.setEntity(entity);
 
         RestListener listener = listenerWith(POST, defaultConfiguration);
-        listener.addEventListener((message, callback) -> callback.onResult(message, context));
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
         // Expect

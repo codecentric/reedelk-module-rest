@@ -21,7 +21,7 @@ class RestListenerHeadTest extends RestListenerAbstractTest {
     void shouldReturn200() {
         // Given
         RestListener listener = listenerWith(HEAD, defaultConfiguration);
-        listener.addEventListener((message, callback) -> callback.onResult(message, context));
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
         // Expect
