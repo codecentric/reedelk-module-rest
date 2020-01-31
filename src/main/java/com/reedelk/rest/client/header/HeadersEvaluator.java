@@ -51,15 +51,9 @@ public class HeadersEvaluator {
 
     public static class Builder {
 
-        private ClientConfiguration configuration;
         private ScriptEngineService scriptEngine;
         private DynamicStringMap headers;
         private DynamicByteArray body;
-
-        public Builder configuration(ClientConfiguration configuration) {
-            this.configuration = configuration;
-            return this;
-        }
 
         public Builder scriptEngine(ScriptEngineService scriptEngine) {
             this.scriptEngine = scriptEngine;
