@@ -418,7 +418,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         HttpClientBuilder.create().build().execute(getRequest);
 
         // Then
-        MimeType inboundMessageMimeType = inboundMessage.getContent().mimeType();
+        MimeType inboundMessageMimeType = inboundMessage.content().mimeType();
         assertThat(inboundMessageMimeType).isEqualTo(UNKNOWN);
     }
 
@@ -445,7 +445,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         HttpClientBuilder.create().build().execute(request);
 
         // Then
-        MessageAttributes attributes = inboundMessage.getAttributes();
+        MessageAttributes attributes = inboundMessage.attributes();
         assertThat(attributes).isNotNull();
 
         assertThatAttributeIsEqualTo(attributes, HEADERS, headers -> {

@@ -87,12 +87,12 @@ class HttpRequestMessageMapperTest {
         assertThatContainsAttribute(message, CORRELATION_ID, "aabbccdd1");
 
         // Check that the content's mime type is correct
-        TypedContent<?,?> content = message.getContent();
+        TypedContent<?,?> content = message.content();
         assertThat(content.mimeType()).isEqualTo(MimeType.APPLICATION_JSON);
     }
 
     private void assertThatContainsAttribute(Message message, String attributeName, Serializable attributeValue) {
-        MessageAttributes attributes = message.getAttributes();
+        MessageAttributes attributes = message.attributes();
         Object actualAttributeValue = attributes.get(attributeName);
         assertThat(actualAttributeValue).isEqualTo(attributeValue);
     }

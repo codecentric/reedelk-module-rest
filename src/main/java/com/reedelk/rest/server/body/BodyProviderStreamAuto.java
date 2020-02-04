@@ -41,7 +41,7 @@ public class BodyProviderStreamAuto implements BodyProvider {
     }
 
     private boolean isMessageStreamable(Message message) {
-        return message.getContent().isStream() &&
-                !message.getContent().isConsumed();
+        return message.content().isStream() &&
+                !message.content().isConsumed();
     }
 }

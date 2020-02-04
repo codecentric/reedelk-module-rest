@@ -32,8 +32,8 @@ public class DefaultBodyProvider implements BodyProvider {
     @Override
     public boolean streamable(Message message) {
         if (isEvaluateMessagePayloadBody) {
-            return message.getContent().isStream() &&
-                    !message.getContent().isConsumed();
+            return message.content().isStream() &&
+                    !message.content().isConsumed();
         }
         return false;
     }
