@@ -40,7 +40,7 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
                         .withBody("Redirect success")
                         .withStatus(200)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT);
@@ -71,7 +71,7 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
                         .withBody("Redirect success")
                         .withStatus(200)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT);
@@ -96,7 +96,7 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
                         .withHeader("Location", "/v2/resource")
                         .withStatus(301)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isNotSuccessful(component, payload, flowContext, 301, "Moved Permanently");

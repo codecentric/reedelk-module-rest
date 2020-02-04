@@ -1,8 +1,9 @@
 package com.reedelk.rest.server.mapper;
 
-import com.reedelk.runtime.api.commons.TypedContentUtils;
+import com.reedelk.runtime.api.commons.StreamUtils;
+import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.TypedContent;
+import com.reedelk.runtime.api.message.content.utils.TypedPublisher;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +24,18 @@ class HttpRequestContentMapper {
      * For example, it checks the mime type of the request and it converts it a String
      * if it is a text based mime type, otherwise it keeps as bytes.
      */
-    static TypedContent<?> map(HttpRequestWrapper request) {
+    static MessageBuilder map(HttpRequestWrapper request) {
         MimeType mimeType = request.mimeType();
         // The content stream is fed into a byte sink
         // We retain and we release it when we read the bytes in the sink below.
         Flux<byte[]> byteArrayStream = request.data().retain().handle(asByteArrayStream());
 
-        return TypedContentUtils.from(byteArrayStream, mimeType);
+        // The stream might be converted to a string stream if the mime type is for instance
+        // application/json or text/plain and so on. Otherwise it is kept binary.
+        TypedPublisher<?> typedPublisher =
+                StreamUtils.FromByteArray.fromMimeType(byteArrayStream, mimeType);
+
+        return MessageBuilder.get().withTypedPublisher(typedPublisher, mimeType);
     }
 
     private static BiConsumer<ByteBuf, SynchronousSink<byte[]>> asByteArrayStream() {

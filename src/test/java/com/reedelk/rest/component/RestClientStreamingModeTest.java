@@ -8,7 +8,6 @@ import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
-import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicValue;
 import org.junit.jupiter.api.DisplayName;
@@ -87,10 +86,10 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
             String requestBodyChunk1 = "{\"Name\":";
             String requestBodyChunk2 = "\"John\"}";
 
-            ByteArrayContent byteArrayContent = new ByteArrayContent(Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes()),
-                    MimeType.APPLICATION_JSON);
+            Flux<byte[]> binaryStream = Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes());
+            Message message = MessageBuilder.get().withBinary(binaryStream, MimeType.APPLICATION_JSON).build();
 
-            doReturn(byteArrayContent.stream())
+            doReturn(message.content().stream())
                     .when(scriptEngine)
                     .evaluateStream(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
@@ -103,10 +102,8 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
                             .withStatus(200)));
 
 
-            Message payload = MessageBuilder.get().typedContent(byteArrayContent).build();
-
             // Expect
-            AssertHttpResponse.isSuccessful(component, payload, flowContext);
+            AssertHttpResponse.isSuccessful(component, message, flowContext);
         }
     }
 
@@ -130,10 +127,11 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
             String requestBodyChunk1 = "{\"Name\":";
             String requestBodyChunk2 = "\"John\"}";
 
-            ByteArrayContent byteArrayContent = new ByteArrayContent(Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes()),
-                    MimeType.APPLICATION_JSON);
+            Flux<byte[]> byteArrayStream = Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes());
 
-            doReturn(byteArrayContent.stream())
+            Message message = MessageBuilder.get().withBinary(byteArrayStream, MimeType.APPLICATION_JSON).build();
+
+            doReturn(message.content().stream())
                     .when(scriptEngine)
                     .evaluateStream(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
@@ -145,11 +143,8 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
                     .willReturn(aResponse()
                             .withStatus(200)));
 
-
-            Message payload = MessageBuilder.get().typedContent(byteArrayContent).build();
-
             // Expect
-            AssertHttpResponse.isSuccessful(component, payload, flowContext);
+            AssertHttpResponse.isSuccessful(component, message, flowContext);
         }
 
         @ParameterizedTest
@@ -167,9 +162,11 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
 
             String requestBody = "{\"Name\":\"John\"}";
 
-            ByteArrayContent byteArrayContent = new ByteArrayContent(requestBody.getBytes(), MimeType.APPLICATION_JSON);
+            byte[] requestBytes = requestBody.getBytes();
 
-            doReturn(Optional.of(requestBody.getBytes()))
+            Message payload = MessageBuilder.get().withBinary(requestBytes, MimeType.APPLICATION_JSON).build();
+
+            doReturn(Optional.of(requestBytes))
                     .when(scriptEngine)
                     .evaluate(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
@@ -180,9 +177,6 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
                     .withHeader("Content-Length", equalTo(String.valueOf(requestBody.getBytes().length)))
                     .willReturn(aResponse()
                             .withStatus(200)));
-
-
-            Message payload = MessageBuilder.get().typedContent(byteArrayContent).build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext);

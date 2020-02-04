@@ -1,15 +1,14 @@
 package com.reedelk.rest.client.response;
 
-
 import com.reedelk.rest.commons.HttpHeadersAsMap;
 import com.reedelk.rest.commons.MimeTypeExtract;
 import com.reedelk.rest.component.RestClient;
-import com.reedelk.runtime.api.commons.TypedContentUtils;
+import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.TypedContent;
+import com.reedelk.runtime.api.message.content.utils.TypedPublisher;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import reactor.core.publisher.Flux;
@@ -32,11 +31,13 @@ public class HttpResponseMessageMapper {
 
         MimeType mimeType = MimeTypeExtract.from(response.getAllHeaders());
 
-        TypedContent<?> content = TypedContentUtils.from(bytesStream, mimeType);
+        // Convert the response to string if the mime type is
+        // application/json or other string based mime type.
+        TypedPublisher<?> typedPublisher = StreamUtils.FromByteArray.fromMimeType(bytesStream, mimeType);
 
         return MessageBuilder.get()
                 .attributes(responseAttributes)
-                .typedContent(content)
+                .withTypedPublisher(typedPublisher, mimeType)
                 .build();
     }
 }

@@ -58,7 +58,7 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
                         .withStatus(200)));
 
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -92,7 +92,7 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
                 .willReturn(aResponse().withStatus(200)));
 
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);

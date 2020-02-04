@@ -107,7 +107,7 @@ class RestClientPostTest extends RestClientAbstractTest {
         @Test
         void shouldNotSetContentTypeHeaderWhenPayloadIsEmpty() {
             // Given
-            Message emptyPayload = MessageBuilder.get().build();
+            Message emptyPayload = MessageBuilder.get().empty().build();
 
             // Expect
             assertEmptyContentTypeAndPayload(EVALUATE_PAYLOAD_BODY, emptyPayload);
@@ -117,7 +117,7 @@ class RestClientPostTest extends RestClientAbstractTest {
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsNull() {
             // Given
             DynamicByteArray body = null;
-            Message emptyPayload = MessageBuilder.get().build();
+            Message emptyPayload = MessageBuilder.get().empty().build();
 
             // Expect
             assertEmptyContentTypeAndPayload(body, emptyPayload);
@@ -127,7 +127,7 @@ class RestClientPostTest extends RestClientAbstractTest {
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsEmptyString() {
             // Given
             DynamicByteArray body = DynamicByteArray.from(" ", moduleContext);
-            Message emptyPayload = MessageBuilder.get().build();
+            Message emptyPayload = MessageBuilder.get().empty().build();
 
             // Expect
             assertEmptyContentTypeAndPayload(body, emptyPayload);
@@ -137,7 +137,7 @@ class RestClientPostTest extends RestClientAbstractTest {
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsEmptyScript() {
             // Given
             DynamicByteArray body = DynamicByteArray.from("#[]", moduleContext);
-            Message emptyPayload = MessageBuilder.get().build();
+            Message emptyPayload = MessageBuilder.get().empty().build();
 
             // Expect
             assertEmptyContentTypeAndPayload(body, emptyPayload);
@@ -201,7 +201,7 @@ class RestClientPostTest extends RestClientAbstractTest {
                         .withHeader(CONTENT_TYPE, TEXT.toString())
                         .withBody(expectedErrorMessage)));
 
-        Message emptyPayload = MessageBuilder.get().build();
+        Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse

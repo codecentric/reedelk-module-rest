@@ -51,7 +51,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
 
         RestClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(restClient, payload, flowContext, "Expect continue success", TEXT);
@@ -86,8 +86,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
 
         RestClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
-        Message payload = MessageBuilder.get().build();
-
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(restClient, payload, flowContext, "Expect continue success", TEXT);
@@ -123,7 +122,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
 
         RestClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
 
         // Expect
@@ -150,8 +149,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
                         .withBody("Expect continue success")
                         .withStatus(200)));
 
-        Message payload = MessageBuilder.get().build();
-
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);

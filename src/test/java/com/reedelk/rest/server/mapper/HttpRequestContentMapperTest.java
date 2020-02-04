@@ -1,5 +1,7 @@
 package com.reedelk.rest.server.mapper;
 
+import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.message.content.StringContent;
@@ -29,9 +31,12 @@ class HttpRequestContentMapperTest {
         doReturn(ByteBufFlux.fromInbound(Mono.just(testPayload))).when(mockWrapper).data();
 
         // When
-        TypedContent<?> content = HttpRequestContentMapper.map(mockWrapper);
+        MessageBuilder messageBuilder = HttpRequestContentMapper.map(mockWrapper);
 
         // Then
+        Message message = messageBuilder.build();
+        TypedContent<?,?> content = message.content();
+
         assertThat(content.mimeType()).isEqualTo(MimeType.APPLICATION_JSON);
         assertThat(content.type()).isEqualTo(String.class);
 
@@ -46,9 +51,12 @@ class HttpRequestContentMapperTest {
         doReturn(ByteBufFlux.fromInbound(Mono.just(testPayload))).when(mockWrapper).data();
 
         // When
-        TypedContent<?> content = HttpRequestContentMapper.map(mockWrapper);
+        MessageBuilder messageBuilder = HttpRequestContentMapper.map(mockWrapper);
 
         // Then
+        Message message = messageBuilder.build();
+        TypedContent<?,?> content = message.content();
+
         assertThat(content.mimeType()).isEqualTo(MimeType.APPLICATION_BINARY);
         assertThat(content.type()).isEqualTo(byte[].class);
 
@@ -63,9 +71,12 @@ class HttpRequestContentMapperTest {
         doReturn(ByteBufFlux.fromInbound(Mono.just(testPayload))).when(mockWrapper).data();
 
         // When
-        TypedContent<?> content = HttpRequestContentMapper.map(mockWrapper);
+        MessageBuilder messageBuilder = HttpRequestContentMapper.map(mockWrapper);
 
         // Then
+        Message message = messageBuilder.build();
+        TypedContent<?,?> content = message.content();
+
         assertThat(content.mimeType()).isEqualTo(MimeType.UNKNOWN);
         assertThat(content.type()).isEqualTo(byte[].class);
 

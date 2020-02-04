@@ -59,7 +59,7 @@ class RestClientPutTest extends RestClientAbstractTest {
                         .withStatus(200)
                         .withBody(expectedResponseBody)));
 
-        Message emptyPayload = MessageBuilder.get().build();
+        Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(client, emptyPayload, flowContext, expectedResponseBody, TEXT);
@@ -77,7 +77,7 @@ class RestClientPutTest extends RestClientAbstractTest {
                         .withHeader(CONTENT_TYPE, TEXT.toString())
                         .withBody(expectedErrorMessage)));
 
-        Message emptyPayload = MessageBuilder.get().build();
+        Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);

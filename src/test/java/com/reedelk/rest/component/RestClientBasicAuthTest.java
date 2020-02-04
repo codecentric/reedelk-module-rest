@@ -52,7 +52,7 @@ class RestClientBasicAuthTest extends RestClientAbstractTest {
                 .withBasicAuth(username, password)
                 .willReturn(aResponse().withStatus(200)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -84,7 +84,7 @@ class RestClientBasicAuthTest extends RestClientAbstractTest {
                 .withBasicAuth(username, password)
                 .willReturn(aResponse().withStatus(200)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);

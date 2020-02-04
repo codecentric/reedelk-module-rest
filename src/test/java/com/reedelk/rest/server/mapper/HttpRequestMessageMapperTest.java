@@ -87,7 +87,7 @@ class HttpRequestMessageMapperTest {
         assertThatContainsAttribute(message, CORRELATION_ID, "aabbccdd1");
 
         // Check that the content's mime type is correct
-        TypedContent<?> content = message.getContent();
+        TypedContent<?,?> content = message.getContent();
         assertThat(content.mimeType()).isEqualTo(MimeType.APPLICATION_JSON);
     }
 

@@ -67,12 +67,12 @@ class AssertHttpResponse {
 
     private static void assertContent(Message message, String expectedContent, MimeType expectedMimeType) {
         assertContent(message, expectedContent);
-        TypedContent<?> typedContent = message.getContent();
+        TypedContent<?,?> typedContent = message.getContent();
         assertThat(typedContent.mimeType()).isEqualTo(expectedMimeType);
     }
 
     private static void assertContent(Message message, String expectedContent) {
-        TypedContent<?> typedContent = message.getContent();
+        TypedContent<?,?> typedContent = message.getContent();
         Object stringContent = typedContent.data();
         assertThat(stringContent).isEqualTo(expectedContent);
     }

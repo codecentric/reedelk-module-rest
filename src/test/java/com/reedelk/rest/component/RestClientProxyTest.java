@@ -48,7 +48,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
                 .withHeader("Host", equalTo("my-test-host.com:7891"))
                 .willReturn(aResponse().withStatus(200)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -116,7 +116,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
                     .withHeader("Proxy-Authorization", matching("Digest username=\"squid-user\", realm=\"SurfinUSA\",.*"))
                     .willReturn(aResponse().withStatus(200)));
 
-            Message payload = MessageBuilder.get().build();
+            Message payload = MessageBuilder.get().empty().build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -163,7 +163,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
                     .withHeader("Proxy-Authorization", equalTo("Basic c3F1aWQtdXNlcjpzcXVpZC1wYXNz"))
                     .willReturn(aResponse().withStatus(200)));
 
-            Message payload = MessageBuilder.get().build();
+            Message payload = MessageBuilder.get().empty().build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext);

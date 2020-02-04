@@ -137,7 +137,7 @@ class MessageHttpResponseMapperTest {
             void shouldNotSetContentTypeHeaderWhenBodyIsEmptyText() {
                 // Given
                 MessageHttpResponseMapper mapper = newMapperWithBody(DynamicByteArray.from("", moduleContext));
-                Message message = MessageBuilder.get().build();
+                Message message = MessageBuilder.get().empty().build();
 
                 // When
                 mapper.map(message, response, flowContext);
@@ -151,7 +151,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray body = null;
                 MessageHttpResponseMapper mapper = newMapperWithBody(body);
-                Message message = MessageBuilder.get().build();
+                Message message = MessageBuilder.get().empty().build();
 
                 doReturn(new HashMap<>())
                         .when(scriptEngine)
@@ -170,7 +170,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray body = DynamicByteArray.from(null, moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithBody(body);
-                Message message = MessageBuilder.get().build();
+                Message message = MessageBuilder.get().empty().build();
 
                 doReturn(new HashMap<>())
                         .when(scriptEngine)
@@ -201,7 +201,7 @@ class MessageHttpResponseMapperTest {
                 headers.put("header2", "my header 2");
 
                 MessageHttpResponseMapper mapper = newMapperWithAdditionalHeaders(headers);
-                Message message = MessageBuilder.get().build();
+                Message message = MessageBuilder.get().empty().build();
 
                 doReturn(of("header1", "my header 1", "header2", "my header 2"))
                         .when(scriptEngine)
@@ -228,7 +228,7 @@ class MessageHttpResponseMapperTest {
                 headers.put("coNteNt-TyPe", "new content type");
 
                 MessageHttpResponseMapper mapper = newMapperWithAdditionalHeaders(headers);
-                Message message = MessageBuilder.get().build();
+                Message message = MessageBuilder.get().empty().build();
 
                 doReturn(of("coNteNt-TyPe", "new content type"))
                         .when(scriptEngine)
@@ -249,7 +249,7 @@ class MessageHttpResponseMapperTest {
                 HttpHeaders initialHeaders = new DefaultHttpHeaders();
 
                 MessageHttpResponseMapper mapper = newMapperWithAdditionalHeaders(null);
-                Message message = MessageBuilder.get().build();
+                Message message = MessageBuilder.get().empty().build();
 
                 // When
                 mapper.map(message, response, flowContext);

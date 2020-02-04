@@ -6,7 +6,6 @@ import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.TypedContent;
 import reactor.netty.http.server.HttpServerRequest;
 
 import java.io.Serializable;
@@ -50,14 +49,11 @@ public class HttpRequestMessageMapper {
 
         MimeType mimeType = request.mimeType();
 
-        TypedContent<?> content = MULTIPART_FORM_DATA.equals(mimeType) ?
+        MessageBuilder messageBuilder = MULTIPART_FORM_DATA.equals(mimeType) ?
                 HttpRequestMultipartFormDataMapper.map(request) :
                 HttpRequestContentMapper.map(request);
 
-        return MessageBuilder.get()
-                .attributes(requestAttributes)
-                .typedContent(content)
-                .build();
+        return messageBuilder.attributes(requestAttributes).build();
     }
 
     private void setCorrelationIdIfPresent(HttpRequestWrapper request, Map<String, Serializable> attributes) {

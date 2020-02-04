@@ -2,6 +2,7 @@ package com.reedelk.rest.server.mapper;
 
 import com.reedelk.rest.ExecutionException;
 import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
@@ -22,7 +23,7 @@ class HttpRequestMultipartFormDataMapper {
     private HttpRequestMultipartFormDataMapper() {
     }
 
-    static TypedContent map(HttpRequestWrapper request) {
+    static MessageBuilder map(HttpRequestWrapper request) {
         if (HttpMethod.POST != HttpMethod.valueOf(request.method()) ||
                 HttpVersion.HTTP_1_1 != HttpVersion.valueOf(request.version())) {
             throw new ExecutionException(ERROR_MULTIPART_NOT_SUPPORTED.format());
@@ -68,7 +69,7 @@ class HttpRequestMultipartFormDataMapper {
             }
         });
 
-        return new MultipartContent(partsMono, MimeType.MULTIPART_FORM_DATA);
+        return MessageBuilder.get().withJavaObject(partsMono, Parts.class, request.mimeType());
     }
 
     private static void handleFileUploadPart(Parts parts, FileUpload fileUpload) {

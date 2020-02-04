@@ -26,7 +26,7 @@ class RestClientGetTest extends RestClientAbstractTest {
                         .withStatus(200)
                         .withBody(responseBody)));
 
-        Message payload = MessageBuilder.get().build();
+        Message payload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse
@@ -45,7 +45,7 @@ class RestClientGetTest extends RestClientAbstractTest {
                         .withHeader(CONTENT_TYPE, TEXT.toString())
                         .withBody(expectedErrorMessage)));
 
-        Message emptyPayload = MessageBuilder.get().build();
+        Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse
@@ -60,7 +60,7 @@ class RestClientGetTest extends RestClientAbstractTest {
                 .willReturn(aResponse()
                         .withStatus(500)));
 
-        Message emptyPayload = MessageBuilder.get().build();
+        Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
         AssertHttpResponse
