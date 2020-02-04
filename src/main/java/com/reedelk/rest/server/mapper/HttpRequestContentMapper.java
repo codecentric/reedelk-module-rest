@@ -3,7 +3,7 @@ package com.reedelk.rest.server.mapper;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.utils.TypedPublisher;
+import com.reedelk.runtime.api.message.content.TypedPublisher;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

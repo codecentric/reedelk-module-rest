@@ -8,7 +8,7 @@ import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.utils.TypedPublisher;
+import com.reedelk.runtime.api.message.content.TypedPublisher;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import reactor.core.publisher.Flux;
