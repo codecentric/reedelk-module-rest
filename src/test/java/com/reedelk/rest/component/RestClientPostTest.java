@@ -3,6 +3,7 @@ package com.reedelk.rest.component;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.message.content.TypedMono;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,8 +17,7 @@ import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.rest.commons.RestMethod.POST;
 import static com.reedelk.runtime.api.message.content.MimeType.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.*;
 
 class RestClientPostTest extends RestClientAbstractTest {
 
@@ -108,6 +108,9 @@ class RestClientPostTest extends RestClientAbstractTest {
         void shouldNotSetContentTypeHeaderWhenPayloadIsEmpty() {
             // Given
             Message emptyPayload = MessageBuilder.get().empty().build();
+            lenient().doReturn(TypedMono.emptyVoid())
+                    .when(scriptEngine)
+                    .evaluateStream(EVALUATE_PAYLOAD_BODY, flowContext, emptyPayload);
 
             // Expect
             assertEmptyContentTypeAndPayload(EVALUATE_PAYLOAD_BODY, emptyPayload);

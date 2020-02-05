@@ -5,6 +5,7 @@ import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.message.content.TypedMono;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -16,6 +17,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
 
 class RestClientCustomHeadersTest extends RestClientAbstractTest {
 
@@ -39,9 +41,12 @@ class RestClientCustomHeadersTest extends RestClientAbstractTest {
 
         RestClient component = clientWith(RestMethod.valueOf(method), BASE_URL, PATH, EVALUATE_PAYLOAD_BODY, additionalHeadersMap);
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message message = MessageBuilder.get().empty().build();
+
+        lenient().doReturn(TypedMono.emptyVoid()).when(scriptEngine)
+                .evaluateStream(EVALUATE_PAYLOAD_BODY, flowContext, message);
 
         // Expect
-        AssertHttpResponse.isSuccessful(component, payload, flowContext);
+        AssertHttpResponse.isSuccessful(component, message, flowContext);
     }
 }
