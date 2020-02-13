@@ -3,7 +3,9 @@ package com.reedelk.rest.client.response;
 import com.reedelk.rest.commons.HttpHeadersAsMap;
 import com.reedelk.rest.commons.MimeTypeExtract;
 import com.reedelk.rest.component.RestClient;
+import com.reedelk.runtime.api.commons.JavaType;
 import com.reedelk.runtime.api.commons.StreamUtils;
+import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -11,15 +13,17 @@ import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.message.content.TypedPublisher;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.util.EntityUtils;
 import reactor.core.publisher.Flux;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HttpResponseMessageMapper {
 
-    public static Message map(HttpResponse response, Flux<byte[]> bytesStream) {
+    public static Message map(HttpResponse response) {
         StatusLine statusLine = response.getStatusLine();
 
         Map<String, Serializable> attributes = new HashMap<>();
@@ -33,11 +37,25 @@ public class HttpResponseMessageMapper {
 
         // Convert the response to string if the mime type is
         // application/json or other string based mime type.
-        TypedPublisher<?> typedPublisher = StreamUtils.FromByteArray.fromMimeType(bytesStream, mimeType);
-
-        return MessageBuilder.get()
-                .attributes(responseAttributes)
-                .withTypedPublisher(typedPublisher, mimeType)
-                .build();
+        if (String.class == JavaType.from(mimeType)) {
+            try {
+                return MessageBuilder.get()
+                        .attributes(responseAttributes)
+                        .withString(EntityUtils.toString(response.getEntity()), mimeType)
+                        .build();
+            } catch (IOException e) {
+                // TODO: Fixme
+                throw new ESBException(e);
+            }
+        } else {
+            try {
+                return MessageBuilder.get()
+                        .attributes(responseAttributes)
+                        .withBinary(EntityUtils.toByteArray(response.getEntity()), mimeType)
+                        .build();
+            } catch (IOException e) {
+                throw new ESBException(e);
+            }
+        }
     }
 }

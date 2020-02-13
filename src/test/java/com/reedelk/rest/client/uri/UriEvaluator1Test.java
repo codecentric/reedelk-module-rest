@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-class URIEvaluatorTest {
+class UriEvaluator1Test {
 
     @Mock
     private ScriptEngineService mockScriptEngine;
@@ -31,12 +31,12 @@ class URIEvaluatorTest {
         ClientConfiguration configuration = new ClientConfiguration();
         configuration.setHost("localhost");
 
-        URIEvaluator evaluator = URIEvaluator.builder()
+        UriEvaluator1 evaluator = UriEvaluator1.builder()
                 .configuration(configuration)
                 .scriptEngine(mockScriptEngine)
                 .build();
 
-        URIProvider provider = evaluator.provider(message, context);
+        UriProvider1 provider = evaluator.provider(message, context);
 
         // When
         URI uri = provider.uri();
@@ -51,7 +51,7 @@ class URIEvaluatorTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class,
-                () -> URIEvaluator.builder()
+                () -> UriEvaluator1.builder()
                 .configuration(configuration)
                 .scriptEngine(mockScriptEngine)
                 .build());
@@ -66,12 +66,12 @@ class URIEvaluatorTest {
         configuration.setHost("localhost");
         configuration.setBasePath("/api");
 
-        URIEvaluator evaluator = URIEvaluator.builder()
+        UriEvaluator1 evaluator = UriEvaluator1.builder()
                 .configuration(configuration)
                 .scriptEngine(mockScriptEngine)
                 .build();
 
-        URIProvider provider = evaluator.provider(message, context);
+        UriProvider1 provider = evaluator.provider(message, context);
 
         // When
         URI uri = provider.uri();
@@ -87,12 +87,12 @@ class URIEvaluatorTest {
         configuration.setPort(8867);
         configuration.setBasePath("/api");
 
-        URIEvaluator evaluator = URIEvaluator.builder()
+        UriEvaluator1 evaluator = UriEvaluator1.builder()
                 .configuration(configuration)
                 .scriptEngine(mockScriptEngine)
                 .build();
 
-        URIProvider provider = evaluator.provider(message, context);
+        UriProvider1 provider = evaluator.provider(message, context);
 
         // When
         URI uri = provider.uri();
@@ -105,7 +105,7 @@ class URIEvaluatorTest {
     void shouldThrowExceptionWhenConfigAndBaseURLAreNull() {
         // Given
         ConfigurationException thrown = assertThrows(ConfigurationException.class,
-                () -> URIEvaluator.builder()
+                () -> UriEvaluator1.builder()
                         .scriptEngine(mockScriptEngine)
                         .build());
 
@@ -116,12 +116,12 @@ class URIEvaluatorTest {
     @Test
     void shouldReturnCorrectUrlWhenBaseURLIsPresent() {
         // Given
-        URIEvaluator evaluator = URIEvaluator.builder()
+        UriEvaluator1 evaluator = UriEvaluator1.builder()
                 .baseURL("http://localhost/api/resource")
                 .scriptEngine(mockScriptEngine)
                 .build();
 
-        URIProvider provider = evaluator.provider(message, context);
+        UriProvider1 provider = evaluator.provider(message, context);
 
         // When
         URI uri = provider.uri();

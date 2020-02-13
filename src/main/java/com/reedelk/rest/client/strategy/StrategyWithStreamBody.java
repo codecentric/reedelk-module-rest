@@ -3,12 +3,13 @@ package com.reedelk.rest.client.strategy;
 import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
-import com.reedelk.rest.client.uri.URIProvider;
+import com.reedelk.rest.client.uri.UriProvider1;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.nio.client.methods.HttpAsyncMethods;
 import org.reactivestreams.Publisher;
 
 import java.net.URI;
@@ -32,9 +33,9 @@ public class StrategyWithStreamBody implements Strategy {
 
     @Override
     public void execute(HttpClient client, OnResult callback, Message input, FlowContext flowContext,
-                        URIProvider uriProvider, HeaderProvider headerProvider, BodyProvider bodyProvider) {
+                        UriProvider1 uriProvider1, HeaderProvider headerProvider, BodyProvider bodyProvider) {
 
-        URI uri = uriProvider.uri();
+        URI uri = uriProvider1.uri();
 
         Publisher<byte[]> body = bodyProvider.asStream(input, flowContext);
 
@@ -50,7 +51,7 @@ public class StrategyWithStreamBody implements Strategy {
 
         client.execute(
                 new StreamRequestProducer(extractHost(uri), request, body, requestBufferSize),
-                new StreamResponseConsumer(callback, flowContext, responseBufferSize),
+                HttpAsyncMethods.createConsumer(),
                 new HttpClient.ResultCallback(callback, flowContext, uri));
 
     }
