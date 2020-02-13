@@ -3,7 +3,7 @@ package com.reedelk.rest.client.strategy;
 import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
-import com.reedelk.rest.client.uri.UriProvider1;
+import com.reedelk.rest.client.uri.UriProvider;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
@@ -20,13 +20,13 @@ public class StrategyWithAutoStreamBody implements Strategy {
 
     @Override
     public void execute(HttpClient client, OnResult callback, Message input, FlowContext flowContext,
-                        UriProvider1 uriProvider1, HeaderProvider headerProvider, BodyProvider bodyProvider) {
+                        UriProvider uriProvider, HeaderProvider headerProvider, BodyProvider bodyProvider) {
         if (bodyProvider.streamable(input)) {
             strategyWithStreamBody.execute(client, callback, input, flowContext,
-                    uriProvider1, headerProvider, bodyProvider);
+                    uriProvider, headerProvider, bodyProvider);
         } else {
             strategyWithBody.execute(client, callback, input, flowContext,
-                    uriProvider1, headerProvider, bodyProvider);
+                    uriProvider, headerProvider, bodyProvider);
         }
     }
 }

@@ -8,8 +8,8 @@ import com.reedelk.rest.client.header.HeaderProvider;
 import com.reedelk.rest.client.header.HeadersEvaluator;
 import com.reedelk.rest.client.strategy.ExecutionStrategyBuilder;
 import com.reedelk.rest.client.strategy.Strategy;
-import com.reedelk.rest.client.uri.UriEvaluator1;
-import com.reedelk.rest.client.uri.UriProvider1;
+import com.reedelk.rest.client.uri.UriEvaluator;
+import com.reedelk.rest.client.uri.UriProvider;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.configuration.StreamingMode;
 import com.reedelk.rest.configuration.client.AdvancedConfiguration;
@@ -95,26 +95,26 @@ public class RestClient implements ProcessorAsync {
 
     private HttpClient client;
     private Strategy execution;
-    private UriEvaluator1 uriEvaluator1;
+    private UriEvaluator uriEvaluator;
     private BodyEvaluator bodyEvaluator;
     private HeadersEvaluator headersEvaluator;
 
     @Override
     public void apply(FlowContext flowContext, Message message, OnResult callback) {
 
-        UriProvider1 uriProvider1 = uriEvaluator1.provider(message, flowContext);
+        UriProvider uriProvider = uriEvaluator.provider(message, flowContext);
 
         HeaderProvider headerProvider = headersEvaluator.provider(message, flowContext);
 
         BodyProvider bodyProvider = bodyEvaluator.provider();
 
-        execution.execute(client, callback, message, flowContext, uriProvider1, headerProvider, bodyProvider);
+        execution.execute(client, callback, message, flowContext, uriProvider, headerProvider, bodyProvider);
     }
 
     @Override
     public synchronized void initialize() {
         // Init uri evaluator
-        uriEvaluator1 = UriEvaluator1.builder()
+        uriEvaluator = UriEvaluator.builder()
                 .queryParameters(queryParameters)
                 .pathParameters(pathParameters)
                 .configuration(configuration)
@@ -162,7 +162,7 @@ public class RestClient implements ProcessorAsync {
             client = null;
         }
         scriptEngine = null;
-        uriEvaluator1 = null;
+        uriEvaluator = null;
         bodyEvaluator = null;
         headersEvaluator = null;
         clientFactory = null;

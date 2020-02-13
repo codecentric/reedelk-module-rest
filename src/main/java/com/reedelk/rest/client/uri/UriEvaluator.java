@@ -19,7 +19,7 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 import static com.reedelk.runtime.api.commons.StringUtils.isBlank;
 import static com.reedelk.runtime.api.commons.StringUtils.isNotNull;
 
-public class UriEvaluator1 {
+public class UriEvaluator {
 
     private String baseURL;
     private URIPathComponent pathComponent;
@@ -29,7 +29,7 @@ public class UriEvaluator1 {
 
     private static final Map<String, String> EMPTY_MAP = new HashMap<>();
 
-    public UriProvider1 provider(Message message, FlowContext flowContext) {
+    public UriProvider provider(Message message, FlowContext flowContext) {
         String requestURI = baseURL + evaluateRequestURI(message, flowContext);
         return () -> URI.create(requestURI);
     }
@@ -106,8 +106,8 @@ public class UriEvaluator1 {
             return this;
         }
 
-        public UriEvaluator1 build() {
-            UriEvaluator1 evaluator = new UriEvaluator1();
+        public UriEvaluator build() {
+            UriEvaluator evaluator = new UriEvaluator();
             evaluator.scriptEngine = scriptEngine;
             evaluator.pathParameters = pathParameters;
             evaluator.queryParameters = queryParameters;
