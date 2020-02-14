@@ -143,7 +143,10 @@ public class HttpClientFactory {
                 if (clients.isEmpty()) {
                     if (configIdClientMap.containsKey(configId)) {
                         // There are no more users of the client.
-                        configIdClientMap.get(configId).close();
+                        HttpClient removed = configIdClientMap.remove(configId);
+                        if (removed != null) {
+                            removed.close();
+                        }
                     }
                 }
             }
