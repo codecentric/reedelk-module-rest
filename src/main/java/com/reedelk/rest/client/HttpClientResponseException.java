@@ -1,20 +1,18 @@
 package com.reedelk.rest.client;
 
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.exception.ESBException;
-import org.apache.http.HttpResponse;
-import org.reactivestreams.Publisher;
 
 public class HttpClientResponseException extends ESBException {
 
-    private final HttpResponse response;
-    private Publisher<byte[]> data;
-    private String message;
+    private final byte[] data;
+    private final int statusCode;
+    private final String reasonPhrase;
 
-    public HttpClientResponseException(HttpResponse response, Publisher<byte[]> data) {
+    public HttpClientResponseException(int statusCode, String reasonPhrase, byte[] data) {
         super();
+        this.statusCode = statusCode;
+        this.reasonPhrase = reasonPhrase;
         this.data = data;
-        this.response = response;
     }
 
     // The method get message from an exception might be called
@@ -23,19 +21,14 @@ public class HttpClientResponseException extends ESBException {
     // in order to use it multiple times if needed.
     @Override
     public synchronized String getMessage() {
-        if (message == null) {
-            byte[] from = StreamUtils.FromByteArray.consume(data);
-            message = new String(from);
-            data = null;
-        }
-        return message;
+        return new String(data);
     }
 
     public int getStatusCode() {
-        return response.getStatusLine().getStatusCode();
+        return statusCode;
     }
 
     public String getReasonPhrase() {
-        return response.getStatusLine().getReasonPhrase();
+        return reasonPhrase;
     }
 }

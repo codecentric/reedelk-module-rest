@@ -44,6 +44,10 @@ public class ClientConfiguration implements Implementor {
     @Property("Socket timeout")
     private Integer socketTimeout;
 
+    @Property("Max Pool Connections")
+    @Hint("20")
+    private Integer maxPoolConnections;
+
     @Property("Keep alive")
     @Default("true")
     private Boolean keepAlive;
@@ -115,6 +119,38 @@ public class ClientConfiguration implements Implementor {
         this.protocol = protocol;
     }
 
+    public Integer getRequestTimeout() {
+        return requestTimeout;
+    }
+
+    public void setRequestTimeout(Integer requestTimeout) {
+        this.requestTimeout = requestTimeout;
+    }
+
+    public Integer getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public void setConnectTimeout(Integer connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public Integer getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public void setSocketTimeout(Integer socketTimeout) {
+        this.socketTimeout = socketTimeout;
+    }
+
+    public Integer getMaxPoolConnections() {
+        return maxPoolConnections;
+    }
+
+    public void setMaxPoolConnections(Integer maxPoolConnections) {
+        this.maxPoolConnections = maxPoolConnections;
+    }
+
     public Boolean getKeepAlive() {
         return keepAlive;
     }
@@ -137,22 +173,6 @@ public class ClientConfiguration implements Implementor {
 
     public void setExpectContinue(Boolean expectContinue) {
         this.expectContinue = expectContinue;
-    }
-
-    public Integer getRequestTimeout() {
-        return requestTimeout;
-    }
-
-    public void setRequestTimeout(Integer requestTimeout) {
-        this.requestTimeout = requestTimeout;
-    }
-
-    public Integer getConnectTimeout() {
-        return connectTimeout;
-    }
-
-    public void setConnectTimeout(Integer connectTimeout) {
-        this.connectTimeout = connectTimeout;
     }
 
     public Authentication getAuthentication() {
@@ -193,13 +213,5 @@ public class ClientConfiguration implements Implementor {
 
     public void setProxyConfiguration(ProxyConfiguration proxyConfiguration) {
         this.proxyConfiguration = proxyConfiguration;
-    }
-
-    public Integer getSocketTimeout() {
-        return socketTimeout;
-    }
-
-    public void setSocketTimeout(Integer socketTimeout) {
-        this.socketTimeout = socketTimeout;
     }
 }

@@ -4,12 +4,16 @@ import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.Messages;
 import com.reedelk.rest.configuration.client.*;
 import com.reedelk.runtime.api.exception.ESBException;
+import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.auth.DigestScheme;
@@ -21,6 +25,7 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
 import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.nio.reactor.IOReactorException;
+import org.apache.http.protocol.HttpContext;
 import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
@@ -40,10 +45,10 @@ public class HttpClientFactory {
     private static final int DEFAULT_MAX_CONNECTION_PER_ROUTE = 5;
     private static final int DEFAULT_MAX_CONNECTIONS = 30;
 
-    private final PoolingNHttpClientConnectionManager sharedConnectionManager;
+    private final PoolingNHttpClientConnectionManager connectionManager;
 
     public HttpClientFactory() {
-        sharedConnectionManager = newDefaultConnectionPool();
+        connectionManager = newDefaultConnectionPool();
     }
 
     public HttpClient from(ClientConfiguration config) {
@@ -52,6 +57,9 @@ public class HttpClientFactory {
         HttpClientContext context = HttpClientContext.create();
 
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+
+        // Connection Pool
+        PoolingNHttpClientConnectionManager poolConnectionManager = createConnectionManager(config);
 
         // Request config
         RequestConfig requestConfig = createRequestConfig(config);
@@ -103,8 +111,10 @@ public class HttpClientFactory {
 
         CloseableHttpAsyncClient client = builder
                 .setDefaultRequestConfig(requestConfig)
+                .setConnectionManager(poolConnectionManager)
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build();
+
 
         return new HttpClient(client, context);
     }
@@ -127,9 +137,9 @@ public class HttpClientFactory {
     }
 
     public void shutdown() {
-        if (sharedConnectionManager != null) {
+        if (connectionManager != null) {
             try {
-                sharedConnectionManager.shutdown();
+                connectionManager.shutdown();
             } catch (IOException e) {
                 // nothing we can do.
             }
@@ -220,6 +230,22 @@ public class HttpClientFactory {
         PoolingNHttpClientConnectionManager pool = new PoolingNHttpClientConnectionManager(ioReactor);
         pool.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTION_PER_ROUTE);
         pool.setMaxTotal(DEFAULT_MAX_CONNECTIONS);
+        return pool;
+    }
+
+    private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
+
+    private PoolingNHttpClientConnectionManager createConnectionManager(ClientConfiguration configuration) {
+        DefaultConnectingIOReactor ioReactor = null;
+        try {
+            ioReactor = new DefaultConnectingIOReactor();
+        } catch (IOReactorException e) {
+            throw new ESBException(e);
+        }
+        int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);
+        PoolingNHttpClientConnectionManager pool = new PoolingNHttpClientConnectionManager(ioReactor);
+        pool.setDefaultMaxPerRoute(maxConnections);
+        pool.setMaxTotal(maxConnections);
         return pool;
     }
 }

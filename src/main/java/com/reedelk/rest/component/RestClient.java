@@ -2,15 +2,18 @@ package com.reedelk.rest.component;
 
 import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.HttpClientFactory;
+import com.reedelk.rest.client.HttpClientResponseException;
 import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyEvaluator;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
 import com.reedelk.rest.client.header.HeadersEvaluator;
+import com.reedelk.rest.client.response.HttpResponseMessageMapper;
 import com.reedelk.rest.client.strategy.ExecutionStrategyBuilder;
 import com.reedelk.rest.client.strategy.Strategy;
 import com.reedelk.rest.client.uri.UriEvaluator;
 import com.reedelk.rest.client.uri.UriProvider;
+import com.reedelk.rest.commons.IsSuccessfulStatus;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.configuration.StreamingMode;
 import com.reedelk.rest.configuration.client.AdvancedConfiguration;
@@ -24,9 +27,12 @@ import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.util.EntityUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -116,16 +122,26 @@ public class RestClient implements ProcessorSync {
 
         URI uri = uriProvider.uri();
 
-        HttpClientResultCallback callback = new HttpClientResultCallback(uri);
+        HttpClientResultCallback callback = new HttpClientResultCallback();
 
         Future<HttpResponse> result = execution.execute(client, message, flowContext, uri, headerProvider, bodyProvider, callback);
+        HttpResponse response;
         try {
-            result.get();
-        } catch (InterruptedException | ExecutionException exception) {
-            throw new ESBException(exception);
-        }
+            // Response is ready to be consumed.
+            response = result.get();
 
-        return callback.get();
+            // If the response is not successful we throw an exception.
+            StatusLine statusLine = response.getStatusLine();
+            if (IsSuccessfulStatus.status(statusLine.getStatusCode())) {
+                return HttpResponseMessageMapper.map(response);
+            } else {
+                byte[] bytes = EntityUtils.toByteArray(response.getEntity());
+                throw new HttpClientResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase(), bytes);
+            }
+
+        } catch (InterruptedException | ExecutionException | IOException thrown) {
+            throw new ESBException(thrown);
+        }
     }
 
 
