@@ -2,18 +2,15 @@ package com.reedelk.rest.component;
 
 import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.HttpClientFactory;
-import com.reedelk.rest.client.HttpClientResponseException;
 import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyEvaluator;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
 import com.reedelk.rest.client.header.HeadersEvaluator;
-import com.reedelk.rest.client.response.HttpResponseMessageMapper;
 import com.reedelk.rest.client.strategy.ExecutionStrategyBuilder;
 import com.reedelk.rest.client.strategy.Strategy;
 import com.reedelk.rest.client.uri.UriEvaluator;
 import com.reedelk.rest.client.uri.UriProvider;
-import com.reedelk.rest.commons.IsSuccessfulStatus;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.configuration.StreamingMode;
 import com.reedelk.rest.configuration.client.AdvancedConfiguration;
@@ -21,23 +18,15 @@ import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.component.ProcessorAsync;
-import com.reedelk.runtime.api.component.ProcessorSync;
-import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.util.EntityUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import static java.util.Objects.requireNonNull;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -164,21 +153,16 @@ public class RestClient implements ProcessorAsync {
 
         // Init rest client
         if (configuration != null) {
-            client = clientFactory.create(configuration);
-            client.start();
+            client = clientFactory.create(this, configuration);
         } else {
             requireNonNull(baseURL, "RestClient base URL must be defined");
             client = clientFactory.create();
-            client.start();
         }
     }
 
     @Override
     public synchronized void dispose() {
-        if (client != null) {
-            client.close();
-            client = null;
-        }
+        clientFactory.release(configuration, this, client);
         scriptEngine = null;
         uriEvaluator = null;
         bodyEvaluator = null;

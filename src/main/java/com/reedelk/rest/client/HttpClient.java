@@ -41,7 +41,7 @@ public class HttpClient {
         }
     }
 
-    public void close() {
+    void close() {
         try {
             delegate.close();
         } catch (Exception e) {

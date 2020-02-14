@@ -1,5 +1,6 @@
 package com.reedelk.rest.client;
 
+import com.reedelk.rest.component.RestClient;
 import com.reedelk.rest.configuration.client.*;
 import com.reedelk.runtime.api.exception.ESBException;
 import org.apache.http.HttpHost;
@@ -17,7 +18,7 @@ import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.nio.reactor.IOReactorException;
 import org.osgi.service.component.annotations.Component;
 
-import java.util.Optional;
+import java.util.*;
 
 import static com.reedelk.rest.commons.Messages.RestClient.*;
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
@@ -26,16 +27,30 @@ import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
 @Component(service = HttpClientFactory.class, scope = SINGLETON)
 public class HttpClientFactory {
 
-
     private static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 6000;
     private static final int DEFAULT_CONNECT_TIMEOUT = 6000;
     private static final int DEFAULT_SOCKET_TIMEOUT = 60000;
 
-    private static final int DEFAULT_MAX_CONNECTION_PER_ROUTE = 5;
-    private static final int DEFAULT_MAX_CONNECTIONS = 30;
+    private final Map<String, HttpClient> configIdClientMap = new HashMap<>();
+    private final Map<String, List<RestClient>> configIdClients = new HashMap<>();
 
+    public synchronized HttpClient create(RestClient listener, ClientConfiguration config) {
 
-    public HttpClient create(ClientConfiguration config) {
+        String configId = config.getId();
+        if (configIdClientMap.containsKey(configId)) {
+            List<RestClient> listeners;
+            if (!configIdClients.containsKey(configId)) {
+                listeners = new ArrayList<>();
+                configIdClients.put(configId, listeners);
+            } else {
+                listeners = configIdClients.get(configId);
+            }
+            listeners.add(listener);
+            return configIdClientMap.get(configId);
+        }
+
+        // We need to create a new client...
+
         HttpAsyncClientBuilder builder = HttpAsyncClients.custom();
 
         HttpClientContext context = HttpClientContext.create();
@@ -73,35 +88,66 @@ public class HttpClientFactory {
             configureProxy(proxyConfig, builder, credentialsProvider, context);
         }
 
-        CloseableHttpAsyncClient client = builder
+        CloseableHttpAsyncClient asyncClient = builder
                 .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(poolConnectionManager)
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build();
 
         HttpClientContextProvider contextProvider = new HttpClientContextProvider(authHost, config.getBasicAuthentication(), config.getDigestAuthentication());
-        return new HttpClient(client, contextProvider);
+        HttpClient client = new HttpClient(asyncClient, contextProvider);
+
+        List<RestClient> listeners;
+        if (!configIdClients.containsKey(configId)) {
+            listeners = new ArrayList<>();
+            configIdClients.put(configId, listeners);
+        } else {
+            listeners = configIdClients.get(configId);
+        }
+        listeners.add(listener);
+        configIdClientMap.put(configId, client);
+
+        client.start();
+        return client;
     }
 
-    public HttpClient create() {
+    public synchronized HttpClient create() {
         RequestConfig defaultRequestConfig = newDefaultRequestConfig();
         CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
                 .setDefaultRequestConfig(defaultRequestConfig)
                 .build();
-        return new HttpClient(client);
+        HttpClient c = new HttpClient(client);
+        c.start();
+        return c;
     }
 
-    private RequestConfig newDefaultRequestConfig() {
-        // See Request Config for documentation on how to set the values correctly.
-        return RequestConfig.custom()
-                .setConnectionRequestTimeout(DEFAULT_CONNECTION_REQUEST_TIMEOUT)
-                .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
-                .setSocketTimeout(DEFAULT_SOCKET_TIMEOUT)
-                .build();
-    }
-
-    public void shutdown() {
+    public synchronized void shutdown() {
         // Nothing to do.
+        configIdClientMap.forEach((configId, httpClient) -> {
+            if (httpClient != null) {
+                httpClient.close();
+            }
+        });
+        configIdClientMap.clear();
+        configIdClients.clear();
+    }
+
+    public synchronized void release(ClientConfiguration connectionConfig, RestClient client, HttpClient httpClient) {
+        if (connectionConfig == null) {
+            httpClient.close();
+        } else {
+            String configId = connectionConfig.getId();
+            if (configIdClients.containsKey(configId)) {
+                List<RestClient> clients = configIdClients.get(configId);
+                clients.remove(client);
+                if (clients.isEmpty()) {
+                    if (configIdClientMap.containsKey(configId)) {
+                        // There are no more users of the client.
+                        configIdClientMap.get(configId).close();
+                    }
+                }
+            }
+        }
     }
 
     private void configureBasicAuth(HttpHost host, BasicAuthenticationConfiguration basicAuthConfig, CredentialsProvider credentialsProvider, HttpClientContext context) {
@@ -124,6 +170,15 @@ public class HttpClientFactory {
             ProxyDigestAuthenticationConfiguration digestAuthConfig = proxyConfig.getDigestAuthentication();
             addCredentialsFor(credentialsProvider, proxyHost, digestAuthConfig.getUsername(), digestAuthConfig.getPassword());
         }
+    }
+
+    private RequestConfig newDefaultRequestConfig() {
+        // See Request Config for documentation on how to set the values correctly.
+        return RequestConfig.custom()
+                .setConnectionRequestTimeout(DEFAULT_CONNECTION_REQUEST_TIMEOUT)
+                .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
+                .setSocketTimeout(DEFAULT_SOCKET_TIMEOUT)
+                .build();
     }
 
     private RequestConfig createRequestConfig(ClientConfiguration configuration) {
