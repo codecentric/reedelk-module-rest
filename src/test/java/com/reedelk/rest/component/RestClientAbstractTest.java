@@ -9,10 +9,7 @@ import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -45,7 +42,7 @@ abstract class RestClientAbstractTest {
 
     DynamicByteArray EVALUATE_PAYLOAD_BODY = DynamicByteArray.from(EVALUATE_PAYLOAD, moduleContext);
 
-    private HttpClientFactory clientFactory = new HttpClientFactory();
+    private HttpClientFactory clientFactory;
 
 
     @BeforeAll
@@ -62,7 +59,13 @@ abstract class RestClientAbstractTest {
 
     @BeforeEach
     void setUp() {
+        clientFactory = new HttpClientFactory();
         mockServer.resetAll();
+    }
+
+    @AfterEach
+    void tearDown() {
+        clientFactory.shutdown();
     }
 
     RestClient clientWith(RestMethod method, ClientConfiguration configuration, String path) {

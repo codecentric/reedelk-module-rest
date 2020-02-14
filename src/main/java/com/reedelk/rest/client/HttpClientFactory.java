@@ -17,7 +17,6 @@ import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.nio.reactor.IOReactorException;
 import org.osgi.service.component.annotations.Component;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import static com.reedelk.rest.commons.Messages.RestClient.*;
@@ -35,11 +34,6 @@ public class HttpClientFactory {
     private static final int DEFAULT_MAX_CONNECTION_PER_ROUTE = 5;
     private static final int DEFAULT_MAX_CONNECTIONS = 30;
 
-    private final PoolingNHttpClientConnectionManager connectionManager;
-
-    public HttpClientFactory() {
-        connectionManager = newDefaultConnectionPool();
-    }
 
     public HttpClient create(ClientConfiguration config) {
         HttpAsyncClientBuilder builder = HttpAsyncClients.custom();
@@ -93,10 +87,6 @@ public class HttpClientFactory {
         RequestConfig defaultRequestConfig = newDefaultRequestConfig();
         CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
                 .setDefaultRequestConfig(defaultRequestConfig)
-                .setConnectionManager(connectionManager)
-                // The HttpClientFactory manages the connection manager,
-                // therefore dont want it to be automatically closed when the client is closed.
-                .setConnectionManagerShared(true)
                 .build();
         return new HttpClient(client);
     }
@@ -111,13 +101,7 @@ public class HttpClientFactory {
     }
 
     public void shutdown() {
-        if (connectionManager != null) {
-            try {
-                connectionManager.shutdown();
-            } catch (IOException e) {
-                // nothing we can do.
-            }
-        }
+        // Nothing to do.
     }
 
     private void configureBasicAuth(HttpHost host, BasicAuthenticationConfiguration basicAuthConfig, CredentialsProvider credentialsProvider, HttpClientContext context) {
@@ -173,23 +157,10 @@ public class HttpClientFactory {
                 new UsernamePasswordCredentials(userName, password));
     }
 
-    private PoolingNHttpClientConnectionManager newDefaultConnectionPool() {
-        DefaultConnectingIOReactor ioReactor = null;
-        try {
-            ioReactor = new DefaultConnectingIOReactor();
-        } catch (IOReactorException e) {
-            throw new ESBException(e);
-        }
-        PoolingNHttpClientConnectionManager pool = new PoolingNHttpClientConnectionManager(ioReactor);
-        pool.setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTION_PER_ROUTE);
-        pool.setMaxTotal(DEFAULT_MAX_CONNECTIONS);
-        return pool;
-    }
-
     private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
 
     private PoolingNHttpClientConnectionManager createConnectionManager(ClientConfiguration configuration) {
-        DefaultConnectingIOReactor ioReactor = null;
+        DefaultConnectingIOReactor ioReactor;
         try {
             ioReactor = new DefaultConnectingIOReactor();
         } catch (IOReactorException e) {

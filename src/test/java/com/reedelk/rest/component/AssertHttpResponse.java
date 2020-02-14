@@ -123,7 +123,7 @@ class AssertHttpResponse {
             });
 
             latch.await();
-
+            component.dispose();
 
             if (response != null) {
                 if (expectedBody != null) {
@@ -189,6 +189,7 @@ class AssertHttpResponse {
             });
 
             latch.await();
+            component.dispose();
 
             if (error != null) {
                 if (expectedErrorMessage != null) {
