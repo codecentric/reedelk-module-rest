@@ -1,11 +1,14 @@
 package com.reedelk.rest.component;
 
 import com.reedelk.rest.client.HttpClientResponseException;
+import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.message.content.TypedContent;
 import org.assertj.core.api.Assertions;
+
+import java.util.concurrent.CountDownLatch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -17,15 +20,23 @@ class AssertHttpResponse {
                              FlowContext context,
                              String expectedBody,
                              MimeType expectedMimeType) {
-        SuccessAssertion successAssertion = new SuccessAssertion(client, message, context, expectedBody, expectedMimeType);
-        successAssertion.assertThat();
+        try {
+            SuccessAssertion successAssertion = new SuccessAssertion(client, message, context, expectedBody, expectedMimeType);
+            successAssertion.assertThat();
+        } catch (InterruptedException e) {
+            Assertions.fail("SuccessAssertion failed", e);
+        }
     }
 
     static void isSuccessful(RestClient component,
                              Message message,
                              FlowContext context) {
-        SuccessAssertion successAssertion = new SuccessAssertion(component, message, context);
-        successAssertion.assertThat();
+        try {
+            SuccessAssertion successAssertion = new SuccessAssertion(component, message, context);
+            successAssertion.assertThat();
+        } catch (InterruptedException e) {
+            Assertions.fail("SuccessAssertion failed", e);
+        }
     }
 
     static void isNotSuccessful(RestClient component,
@@ -33,26 +44,34 @@ class AssertHttpResponse {
                                 FlowContext context,
                                 int status,
                                 String reasonPhrase) {
-        UnSuccessAssertion unSuccessAssertion = new UnSuccessAssertion(component, message, context, status, reasonPhrase);
-        unSuccessAssertion.assertThat();
+        try {
+            UnSuccessAssertion unSuccessAssertion = new UnSuccessAssertion(component, message, context, status, reasonPhrase);
+            unSuccessAssertion.assertThat();
+        } catch (InterruptedException e) {
+            Assertions.fail("UnSuccessAssertion failed", e);
+        }
     }
 
     static void isNotSuccessful(RestClient component,
                                 Message message,
                                 FlowContext context,
                                 String expectedErrorMessage) {
-        UnSuccessAssertion unSuccessAssertion = new UnSuccessAssertion(component, message, context, expectedErrorMessage);
-        unSuccessAssertion.assertThat();
+        try {
+            UnSuccessAssertion unSuccessAssertion = new UnSuccessAssertion(component, message, context, expectedErrorMessage);
+            unSuccessAssertion.assertThat();
+        } catch (InterruptedException e) {
+            Assertions.fail("UnSuccessAssertion failed", e);
+        }
     }
 
     private static void assertContent(Message message, String expectedContent, MimeType expectedMimeType) {
         assertContent(message, expectedContent);
-        TypedContent<?,?> typedContent = message.content();
+        TypedContent<?, ?> typedContent = message.content();
         assertThat(typedContent.mimeType()).isEqualTo(expectedMimeType);
     }
 
     private static void assertContent(Message message, String expectedContent) {
-        TypedContent<?,?> typedContent = message.content();
+        TypedContent<?, ?> typedContent = message.content();
         Object stringContent = typedContent.data();
         assertThat(stringContent).isEqualTo(expectedContent);
     }
@@ -86,12 +105,25 @@ class AssertHttpResponse {
             this(component, message, context, null, null);
         }
 
-        void assertThat() {
-            try {
-                response = component.apply(context, message);
-            } catch (Exception e) {
-                exception = e;
-            }
+        void assertThat() throws InterruptedException {
+            CountDownLatch latch = new CountDownLatch(1);
+
+            component.apply(context, message, new OnResult() {
+                @Override
+                public void onResult(FlowContext flowContext, Message message) {
+                    response = message;
+                    latch.countDown();
+                }
+
+                @Override
+                public void onError(FlowContext flowContext, Throwable throwable) {
+                    exception = throwable;
+                    latch.countDown();
+                }
+            });
+
+            latch.await();
+
 
             if (response != null) {
                 if (expectedBody != null) {
@@ -115,9 +147,9 @@ class AssertHttpResponse {
         private HttpClientResponseException error;
 
         UnSuccessAssertion(RestClient component,
-                         Message message,
-                         FlowContext context,
-                         String expectedErrorMessage) {
+                           Message message,
+                           FlowContext context,
+                           String expectedErrorMessage) {
             this.expectedStatus = -1;
             this.expectedReasonPhrase = null;
             this.message = message;
@@ -140,12 +172,23 @@ class AssertHttpResponse {
 
         }
 
-        void assertThat() {
-            try {
-                component.apply(context, message);
-            } catch (Exception e) {
-                error = (HttpClientResponseException) e;
-            }
+        void assertThat() throws InterruptedException {
+            CountDownLatch latch = new CountDownLatch(1);
+
+            component.apply(context, message, new OnResult() {
+                @Override
+                public void onResult(FlowContext flowContext, Message message) {
+                    latch.countDown();
+                }
+
+                @Override
+                public void onError(FlowContext flowContext, Throwable throwable) {
+                    error = (HttpClientResponseException) throwable;
+                    latch.countDown();
+                }
+            });
+
+            latch.await();
 
             if (error != null) {
                 if (expectedErrorMessage != null) {

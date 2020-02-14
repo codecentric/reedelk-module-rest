@@ -19,6 +19,8 @@ import com.reedelk.rest.configuration.StreamingMode;
 import com.reedelk.rest.configuration.client.AdvancedConfiguration;
 import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.component.OnResult;
+import com.reedelk.runtime.api.component.ProcessorAsync;
 import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.flow.FlowContext;
@@ -42,7 +44,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @ESBComponent("REST Client")
 @Component(service = RestClient.class, scope = PROTOTYPE)
-public class RestClient implements ProcessorSync {
+public class RestClient implements ProcessorAsync {
 
     @Reference
     private ScriptEngineService scriptEngine;
@@ -112,38 +114,20 @@ public class RestClient implements ProcessorSync {
     private HeadersEvaluator headersEvaluator;
 
     @Override
-    public Message apply(FlowContext flowContext, Message message) {
+    public void apply(FlowContext flowContext, Message message, OnResult callback) {
+
+        BodyProvider bodyProvider = bodyEvaluator.provider();
 
         UriProvider uriProvider = uriEvaluator.provider(message, flowContext);
 
         HeaderProvider headerProvider = headersEvaluator.provider(message, flowContext);
 
-        BodyProvider bodyProvider = bodyEvaluator.provider();
-
         URI uri = uriProvider.uri();
 
-        HttpClientResultCallback callback = new HttpClientResultCallback();
+        HttpClientResultCallback resultCallback = new HttpClientResultCallback(uri, flowContext, callback);
 
-        Future<HttpResponse> result = execution.execute(client, message, flowContext, uri, headerProvider, bodyProvider, callback);
-        HttpResponse response;
-        try {
-            // Response is ready to be consumed.
-            response = result.get();
-
-            // If the response is not successful we throw an exception.
-            StatusLine statusLine = response.getStatusLine();
-            if (IsSuccessfulStatus.status(statusLine.getStatusCode())) {
-                return HttpResponseMessageMapper.map(response);
-            } else {
-                byte[] bytes = EntityUtils.toByteArray(response.getEntity());
-                throw new HttpClientResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase(), bytes);
-            }
-
-        } catch (InterruptedException | ExecutionException | IOException thrown) {
-            throw new ESBException(thrown);
-        }
+        execution.execute(client, message, flowContext, uri, headerProvider, bodyProvider, resultCallback);
     }
-
 
     @Override
     public synchronized void initialize() {
@@ -180,11 +164,11 @@ public class RestClient implements ProcessorSync {
 
         // Init rest client
         if (configuration != null) {
-            client = clientFactory.from(configuration);
+            client = clientFactory.create(configuration);
             client.start();
         } else {
             requireNonNull(baseURL, "RestClient base URL must be defined");
-            client = clientFactory.from(baseURL);
+            client = clientFactory.create();
             client.start();
         }
     }

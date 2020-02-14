@@ -1,23 +1,13 @@
 package com.reedelk.rest.client;
 
-import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.commons.Messages;
 import com.reedelk.rest.configuration.client.*;
 import com.reedelk.runtime.api.exception.ESBException;
-import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.auth.DigestScheme;
-import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
@@ -25,18 +15,18 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
 import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.nio.reactor.IOReactorException;
-import org.apache.http.protocol.HttpContext;
 import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.reedelk.rest.commons.Messages.RestClient.*;
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
-import static java.lang.Boolean.TRUE;
 import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
 
 @Component(service = HttpClientFactory.class, scope = SINGLETON)
 public class HttpClientFactory {
+
 
     private static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 6000;
     private static final int DEFAULT_CONNECT_TIMEOUT = 6000;
@@ -51,7 +41,7 @@ public class HttpClientFactory {
         connectionManager = newDefaultConnectionPool();
     }
 
-    public HttpClient from(ClientConfiguration config) {
+    public HttpClient create(ClientConfiguration config) {
         HttpAsyncClientBuilder builder = HttpAsyncClients.custom();
 
         HttpClientContext context = HttpClientContext.create();
@@ -64,49 +54,29 @@ public class HttpClientFactory {
         // Request config
         RequestConfig requestConfig = createRequestConfig(config);
 
+        HttpHost authHost = new HttpHost(config.getHost(), config.getPort(), config.getProtocol().name());
+
         // Basic authentication config
         Authentication authentication = config.getAuthentication();
         if (Authentication.BASIC.equals(authentication)) {
             BasicAuthenticationConfiguration basicConfig =
-                    requireNotNull(ClientConfiguration.class,
-                            config.getBasicAuthentication(),
-                            Messages.RestClient.BASIC_AUTH_MISSING.format());
-            configureBasicAuth(
-                    config.getHost(),
-                    config.getPort(),
-                    config.getProtocol(),
-                    basicConfig,
-                    credentialsProvider,
-                    context);
+                    requireNotNull(ClientConfiguration.class, config.getBasicAuthentication(), BASIC_AUTH_MISSING.format());
+            configureBasicAuth(authHost, basicConfig, credentialsProvider, context);
         }
 
         // Digest authentication config
         if (Authentication.DIGEST.equals(authentication)) {
             DigestAuthenticationConfiguration digestConfig =
-                    requireNotNull(ClientConfiguration.class,
-                            config.getDigestAuthentication(),
-                            Messages.RestClient.DIGEST_AUTH_MISSING.format());
-            configureDigestAuth(
-                    config.getHost(),
-                    config.getPort(),
-                    config.getProtocol(),
-                    digestConfig,
-                    credentialsProvider,
-                    context);
+                    requireNotNull(ClientConfiguration.class, config.getDigestAuthentication(), DIGEST_AUTH_MISSING.format());
+            configureDigestAuth(authHost, digestConfig, credentialsProvider, context);
         }
 
         // Proxy config
         Proxy proxy = config.getProxy();
         if (Proxy.PROXY.equals(proxy)) {
             ProxyConfiguration proxyConfig =
-                    requireNotNull(ClientConfiguration.class,
-                            config.getProxyConfiguration(),
-                            Messages.RestClient.PROXY_CONFIG_MISSING.format());
-            configureProxy(
-                    proxyConfig,
-                    builder,
-                    credentialsProvider,
-                    context);
+                    requireNotNull(ClientConfiguration.class, config.getProxyConfiguration(), PROXY_CONFIG_MISSING.format());
+            configureProxy(proxyConfig, builder, credentialsProvider, context);
         }
 
         CloseableHttpAsyncClient client = builder
@@ -115,16 +85,20 @@ public class HttpClientFactory {
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build();
 
-
-        return new HttpClient(client, context);
+        HttpClientContextProvider contextProvider = new HttpClientContextProvider(authHost, config.getBasicAuthentication(), config.getDigestAuthentication());
+        return new HttpClient(client, contextProvider);
     }
 
-    public HttpClient from(String baseURL) {
+    public HttpClient create() {
         RequestConfig defaultRequestConfig = newDefaultRequestConfig();
-        HttpAsyncClientBuilder.create()
+        CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
                 .setDefaultRequestConfig(defaultRequestConfig)
+                .setConnectionManager(connectionManager)
+                // The HttpClientFactory manages the connection manager,
+                // therefore dont want it to be automatically closed when the client is closed.
+                .setConnectionManagerShared(true)
                 .build();
-        return new HttpClient(HttpAsyncClients.createDefault());
+        return new HttpClient(client);
     }
 
     private RequestConfig newDefaultRequestConfig() {
@@ -146,33 +120,12 @@ public class HttpClientFactory {
         }
     }
 
-    private void configureBasicAuth(String host, int port, HttpProtocol protocol, BasicAuthenticationConfiguration basicAuthConfig, CredentialsProvider credentialsProvider, HttpClientContext context) {
-        HttpHost basicAuthHost = new HttpHost(host, port, protocol.name());
-        addCredentialsFor(credentialsProvider, basicAuthHost, basicAuthConfig.getUsername(), basicAuthConfig.getPassword());
-
-        // Preemptive
-        if (TRUE.equals(basicAuthConfig.getPreemptive())) {
-            AuthCache authCache = new BasicAuthCache();
-            authCache.put(basicAuthHost, new BasicScheme());
-            context.setAuthCache(authCache);
-        }
+    private void configureBasicAuth(HttpHost host, BasicAuthenticationConfiguration basicAuthConfig, CredentialsProvider credentialsProvider, HttpClientContext context) {
+        addCredentialsFor(credentialsProvider, host, basicAuthConfig.getUsername(), basicAuthConfig.getPassword());
     }
 
-    private void configureDigestAuth(String host, Integer port, HttpProtocol protocol, DigestAuthenticationConfiguration digestAuthConfig, CredentialsProvider credentialsProvider, HttpClientContext context) {
-        HttpHost digestAuthHost = new HttpHost(host, port, protocol.name());
-        addCredentialsFor(credentialsProvider, digestAuthHost, digestAuthConfig.getUsername(), digestAuthConfig.getPassword());
-
-        // Preemptive
-        if (TRUE.equals(digestAuthConfig.getPreemptive())) {
-            AuthCache authCache = new BasicAuthCache();
-            DigestScheme digestAuth = new DigestScheme();
-            // Realm and nonce are mandatory in order to compute
-            // the Digest auth header when preemptive is expected.
-            digestAuth.overrideParamter("realm", digestAuthConfig.getRealm());
-            digestAuth.overrideParamter("nonce", digestAuthConfig.getNonce());
-            authCache.put(digestAuthHost, digestAuth);
-            context.setAuthCache(authCache);
-        }
+    private void configureDigestAuth(HttpHost host, DigestAuthenticationConfiguration digestAuthConfig, CredentialsProvider credentialsProvider, HttpClientContext context) {
+        addCredentialsFor(credentialsProvider, host, digestAuthConfig.getUsername(), digestAuthConfig.getPassword());
     }
 
     private void configureProxy(ProxyConfiguration proxyConfig, HttpAsyncClientBuilder builder, CredentialsProvider credentialsProvider, HttpClientContext context) {

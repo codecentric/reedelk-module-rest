@@ -18,21 +18,23 @@ public class HttpClient {
     private static final Logger logger = LoggerFactory.getLogger(HttpClient.class);
 
     private final CloseableHttpAsyncClient delegate;
-    private final HttpClientContext context;
+    private final HttpClientContextProvider contextProvider;
+
 
     HttpClient(CloseableHttpAsyncClient delegate) {
         this.delegate = requireNonNull(delegate, "delegate http client");
-        this.context = null;
+        this.contextProvider = null;
     }
 
-    HttpClient(CloseableHttpAsyncClient delegate, HttpClientContext context) {
+    HttpClient(CloseableHttpAsyncClient delegate, HttpClientContextProvider contextProvider) {
         this.delegate = delegate;
-        this.context = context;
+        this.contextProvider = contextProvider;
     }
 
     public Future<HttpResponse> execute(HttpAsyncRequestProducer requestProducer, HttpClientResultCallback callback) {
         HttpAsyncResponseConsumer<HttpResponse> responseConsumer = HttpAsyncMethods.createConsumer();
-        if (context != null) {
+        if (contextProvider != null) {
+            HttpClientContext context = contextProvider.provide();
             return delegate.execute(requestProducer, responseConsumer, context, callback);
         } else {
             return delegate.execute(requestProducer, responseConsumer, callback);

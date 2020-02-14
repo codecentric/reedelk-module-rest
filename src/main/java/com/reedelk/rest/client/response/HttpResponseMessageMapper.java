@@ -43,19 +43,7 @@ public class HttpResponseMessageMapper {
                     .build();
         }
 
-        // We apply auto-decompression if needed.
-        Header contentEncoding = entity.getContentEncoding();
-        if (contentEncoding != null) {
-            HeaderElement[] elements = contentEncoding.getElements();
-            // We need to apply decompression in the reverse order they where
-            // applied, e.g Content-Encoding: deflate, gzip:
-            // in this case first we need to gzip and then deflate.
-            for (int i = elements.length - 1; i >= 0; i--) {
-                HeaderElement headerElement = elements[i];
-                String name = headerElement.getName();
-                entity = TYPE_STRATEGY_MAP.getOrDefault(name, DEFAULT_DECOMPRESSING_STRATEGY).apply(entity);
-            }
-        }
+        entity = applyDecompressStrategyFrom(entity);
 
         // Convert the response to string if the mime type is
         // application/json or other string based mime type.
@@ -74,6 +62,23 @@ public class HttpResponseMessageMapper {
         }
     }
 
+    public static HttpEntity applyDecompressStrategyFrom(HttpEntity entity) {
+        // We apply auto-decompression if needed.
+        HttpEntity resultingEntity = entity;
+        Header contentEncoding = resultingEntity.getContentEncoding();
+        if (contentEncoding != null) {
+            HeaderElement[] elements = contentEncoding.getElements();
+            // We need to apply decompression in the reverse order they where
+            // applied, e.g Content-Encoding: deflate, gzip:
+            // in this case first we need to gzip and then deflate.
+            for (int i = elements.length - 1; i >= 0; i--) {
+                HeaderElement headerElement = elements[i];
+                String name = headerElement.getName();
+                resultingEntity = TYPE_STRATEGY_MAP.getOrDefault(name, DEFAULT_DECOMPRESSING_STRATEGY).apply(resultingEntity);
+            }
+        }
+        return resultingEntity;
+    }
     private static final DecompressingStrategy DEFAULT_DECOMPRESSING_STRATEGY = new DefaultStrategy();
     private static final Map<String, DecompressingStrategy> TYPE_STRATEGY_MAP;
 
