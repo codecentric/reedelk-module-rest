@@ -175,15 +175,6 @@ public class HttpClientFactory {
         }
     }
 
-    private RequestConfig newDefaultRequestConfig() {
-        // See Request Config for documentation on how to set the values correctly.
-        return RequestConfig.custom()
-                .setConnectionRequestTimeout(DEFAULT_CONNECTION_REQUEST_TIMEOUT)
-                .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
-                .setSocketTimeout(DEFAULT_SOCKET_TIMEOUT)
-                .build();
-    }
-
     private RequestConfig createRequestConfig(ClientConfiguration configuration) {
         RequestConfig.Builder builder = RequestConfig.custom();
 
@@ -197,16 +188,28 @@ public class HttpClientFactory {
         Optional.ofNullable(configuration.getExpectContinue())
                 .ifPresent(builder::setExpectContinueEnabled);
 
-        Optional.ofNullable(configuration.getRequestTimeout())
-                .ifPresent(builder::setConnectionRequestTimeout);
+        Integer connectionRequestTimeout = Optional.ofNullable(configuration.getRequestTimeout())
+                .orElse(DEFAULT_CONNECTION_REQUEST_TIMEOUT);
+        builder.setConnectionRequestTimeout(connectionRequestTimeout);
 
-        Optional.ofNullable(configuration.getConnectTimeout())
-                .ifPresent(builder::setConnectTimeout); // or Else ..default
+        Integer connectTimeout = Optional.ofNullable(configuration.getConnectTimeout())
+                .orElse(DEFAULT_CONNECT_TIMEOUT);
+        builder.setConnectTimeout(connectTimeout);
 
-        Optional.ofNullable(configuration.getSocketTimeout())
-                .ifPresent(builder::setSocketTimeout); // or Else ... default
+        Integer socketTimeout = Optional.ofNullable(configuration.getSocketTimeout())
+                .orElse(DEFAULT_SOCKET_TIMEOUT);
+        builder.setSocketTimeout(socketTimeout);
 
         return builder.build();
+    }
+
+    private RequestConfig newDefaultRequestConfig() {
+        // See Request Config for documentation on how to set the values correctly.
+        return RequestConfig.custom()
+                .setConnectionRequestTimeout(DEFAULT_CONNECTION_REQUEST_TIMEOUT)
+                .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
+                .setSocketTimeout(DEFAULT_SOCKET_TIMEOUT)
+                .build();
     }
 
     private static void addCredentialsFor(CredentialsProvider provider, HttpHost host, String userName, String password) {
