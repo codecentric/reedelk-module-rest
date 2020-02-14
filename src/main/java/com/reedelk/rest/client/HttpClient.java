@@ -50,5 +50,4 @@ public class HttpClient {
     public void start() {
         this.delegate.start();
     }
-
 }

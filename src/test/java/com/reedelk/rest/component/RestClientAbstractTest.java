@@ -1,7 +1,6 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.reedelk.rest.client.DefaultHttpClientFactory;
 import com.reedelk.rest.client.HttpClientFactory;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.configuration.client.ClientConfiguration;
@@ -46,7 +45,7 @@ abstract class RestClientAbstractTest {
 
     DynamicByteArray EVALUATE_PAYLOAD_BODY = DynamicByteArray.from(EVALUATE_PAYLOAD, moduleContext);
 
-    private HttpClientFactory clientFactory = new DefaultHttpClientFactory();
+    private HttpClientFactory clientFactory = new HttpClientFactory();
 
 
     @BeforeAll
