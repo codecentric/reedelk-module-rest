@@ -41,6 +41,9 @@ public class ClientConfiguration implements Implementor {
     @Property("Connect timeout")
     private Integer connectTimeout;
 
+    @Property("Socket timeout")
+    private Integer socketTimeout;
+
     @Property("Keep alive")
     @Default("true")
     private Boolean keepAlive;
@@ -190,5 +193,13 @@ public class ClientConfiguration implements Implementor {
 
     public void setProxyConfiguration(ProxyConfiguration proxyConfiguration) {
         this.proxyConfiguration = proxyConfiguration;
+    }
+
+    public Integer getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public void setSocketTimeout(Integer socketTimeout) {
+        this.socketTimeout = socketTimeout;
     }
 }

@@ -1,24 +1,16 @@
 package com.reedelk.rest.client;
 
-import com.reedelk.rest.client.response.HttpResponseMessageMapper;
-import com.reedelk.runtime.api.component.OnResult;
-import com.reedelk.runtime.api.exception.ESBException;
-import com.reedelk.runtime.api.flow.FlowContext;
-import com.reedelk.runtime.api.message.Message;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.nio.client.methods.HttpAsyncMethods;
 import org.apache.http.nio.protocol.HttpAsyncRequestProducer;
 import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
 import java.util.concurrent.Future;
 
-import static com.reedelk.rest.commons.Messages.RestClient.REQUEST_CANCELLED;
-import static com.reedelk.rest.commons.Messages.RestClient.REQUEST_FAILED;
 import static java.util.Objects.requireNonNull;
 
 public class HttpClient {
@@ -38,11 +30,12 @@ public class HttpClient {
         this.context = context;
     }
 
-    public Future<HttpResponse> execute(HttpAsyncRequestProducer requestProducer, HttpAsyncResponseConsumer<HttpResponse> responseConsumer, ResultCallback resultCallback) {
+    public Future<HttpResponse> execute(HttpAsyncRequestProducer requestProducer, HttpClientResultCallback callback) {
+        HttpAsyncResponseConsumer<HttpResponse> responseConsumer = HttpAsyncMethods.createConsumer();
         if (context != null) {
-            return delegate.execute(requestProducer, responseConsumer, context, resultCallback);
+            return delegate.execute(requestProducer, responseConsumer, context, callback);
         } else {
-            return delegate.execute(requestProducer, responseConsumer, resultCallback);
+            return delegate.execute(requestProducer, responseConsumer, callback);
         }
     }
 
@@ -58,36 +51,4 @@ public class HttpClient {
         this.delegate.start();
     }
 
-    public static class ResultCallback implements FutureCallback<HttpResponse> {
-
-        private final URI requestUri;
-        private final OnResult delegate;
-        private final FlowContext flowContext;
-
-        public ResultCallback(OnResult delegate, FlowContext flowContext, URI requestUri) {
-            this.delegate = delegate;
-            this.requestUri =  requestUri;
-            this.flowContext = flowContext;
-        }
-
-        @Override
-        public void completed(HttpResponse result) {
-            Message mapped = HttpResponseMessageMapper.map(result);
-            delegate.onResult(flowContext, mapped);
-        }
-
-        @Override
-        public void failed(Exception exception) {
-            delegate.onError(
-                    flowContext,
-                    new ESBException(REQUEST_FAILED.format(requestUri, exception.getMessage()), exception));
-        }
-
-        @Override
-        public void cancelled() {
-            delegate.onError(
-                    flowContext,
-                    new ESBException(REQUEST_CANCELLED.format(requestUri)));
-        }
-    }
 }

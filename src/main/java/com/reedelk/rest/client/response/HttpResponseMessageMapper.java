@@ -49,9 +49,16 @@ public class HttpResponseMessageMapper {
             }
         } else {
             try {
+
+                byte[] bytes;
+                if (response.getEntity() != null) {
+                    bytes = EntityUtils.toByteArray(response.getEntity());
+                } else {
+                    bytes = new byte[0];
+                }
                 return MessageBuilder.get()
                         .attributes(responseAttributes)
-                        .withBinary(EntityUtils.toByteArray(response.getEntity()), mimeType)
+                        .withBinary(bytes, mimeType)
                         .build();
             } catch (IOException e) {
                 throw new ESBException(e);

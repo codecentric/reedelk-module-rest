@@ -1,18 +1,18 @@
 package com.reedelk.rest.client.strategy;
 
 import com.reedelk.rest.client.HttpClient;
+import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
-import com.reedelk.rest.client.uri.UriProvider;
-import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.nio.client.methods.HttpAsyncMethods;
 import org.reactivestreams.Publisher;
 
 import java.net.URI;
+import java.util.concurrent.Future;
 
 import static org.apache.http.client.utils.URIUtils.extractHost;
 
@@ -32,27 +32,25 @@ public class StrategyWithStreamBody implements Strategy {
     }
 
     @Override
-    public void execute(HttpClient client, OnResult callback, Message input, FlowContext flowContext,
-                        UriProvider uriProvider, HeaderProvider headerProvider, BodyProvider bodyProvider) {
-
-        URI uri = uriProvider.uri();
+    public Future<HttpResponse> execute(HttpClient client,
+                                        Message input,
+                                        FlowContext flowContext,
+                                        URI uri,
+                                        HeaderProvider headerProvider,
+                                        BodyProvider bodyProvider,
+                                        HttpClientResultCallback callback) {
 
         Publisher<byte[]> body = bodyProvider.asStream(input, flowContext);
-
         BasicHttpEntity entity = new BasicHttpEntity();
 
         HttpEntityEnclosingRequestBase request = requestFactory.create();
-
         request.setURI(uri);
-
         request.setEntity(entity);
 
         headerProvider.headers().forEach(request::addHeader);
 
-        client.execute(
-                new StreamRequestProducer(extractHost(uri), request, body, requestBufferSize),
-                HttpAsyncMethods.createConsumer(),
-                new HttpClient.ResultCallback(callback, flowContext, uri));
+        StreamRequestProducer requestProducer = new StreamRequestProducer(extractHost(uri), request, body, requestBufferSize);
 
+        return client.execute(requestProducer, callback);
     }
 }

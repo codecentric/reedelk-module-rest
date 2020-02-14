@@ -1,18 +1,18 @@
 package com.reedelk.rest.client.strategy;
 
 import com.reedelk.rest.client.HttpClient;
+import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
-import com.reedelk.rest.client.uri.UriProvider;
-import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
-import org.apache.http.nio.client.methods.HttpAsyncMethods;
 
 import java.net.URI;
+import java.util.concurrent.Future;
 
 /**
  * Strategy for methods without a body: GET, OPTIONS, HEAD
@@ -30,8 +30,13 @@ public class StrategyWithoutBody implements Strategy {
     }
 
     @Override
-    public void execute(HttpClient client, OnResult callback, Message input, FlowContext flowContext, UriProvider uriProvider, HeaderProvider headerProvider, BodyProvider bodyProvider) {
-        URI uri = uriProvider.uri();
+    public Future<HttpResponse> execute(HttpClient client,
+                                        Message input,
+                                        FlowContext flowContext,
+                                        URI uri,
+                                        HeaderProvider headerProvider,
+                                        BodyProvider bodyProvider,
+                                        HttpClientResultCallback callback) {
 
         HttpRequestBase baseRequest = requestFactory.create();
 
@@ -41,9 +46,8 @@ public class StrategyWithoutBody implements Strategy {
 
         HttpHost httpHost = URIUtils.extractHost(uri);
 
-        client.execute(
-                new EmptyStreamRequestProducer(httpHost, baseRequest),
-                HttpAsyncMethods.createConsumer(),
-                new HttpClient.ResultCallback(callback, flowContext, uri));
+        EmptyStreamRequestProducer requestProducer = new EmptyStreamRequestProducer(httpHost, baseRequest);
+
+        return client.execute(requestProducer, callback);
     }
 }

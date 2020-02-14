@@ -1,17 +1,18 @@
 package com.reedelk.rest.client.strategy;
 
 import com.reedelk.rest.client.HttpClient;
+import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
-import com.reedelk.rest.client.uri.UriProvider;
-import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.nio.client.methods.HttpAsyncMethods;
 import org.apache.http.nio.entity.NByteArrayEntity;
 
 import java.net.URI;
+import java.util.concurrent.Future;
 
 import static org.apache.http.client.utils.URIUtils.extractHost;
 
@@ -29,10 +30,13 @@ public class StrategyWithBody implements Strategy {
     }
 
     @Override
-    public void execute(HttpClient client, OnResult callback, Message input, FlowContext flowContext,
-                        UriProvider uriProvider, HeaderProvider headerProvider, BodyProvider bodyProvider) {
-
-        URI uri = uriProvider.uri();
+    public Future<HttpResponse> execute(HttpClient client,
+                                        Message input,
+                                        FlowContext flowContext,
+                                        URI uri,
+                                        HeaderProvider headerProvider,
+                                        BodyProvider bodyProvider,
+                                        HttpClientResultCallback callback) {
 
         byte[] body = bodyProvider.asByteArray(input, flowContext);
 
@@ -46,9 +50,6 @@ public class StrategyWithBody implements Strategy {
 
         headerProvider.headers().forEach(request::addHeader);
 
-        client.execute(
-                HttpAsyncMethods.create(extractHost(uri), request),
-                HttpAsyncMethods.createConsumer(),
-                new HttpClient.ResultCallback(callback, flowContext, uri));
+        return client.execute(HttpAsyncMethods.create(extractHost(uri), request), callback);
     }
 }

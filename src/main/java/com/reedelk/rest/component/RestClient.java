@@ -2,6 +2,7 @@ package com.reedelk.rest.component;
 
 import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.HttpClientFactory;
+import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyEvaluator;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
@@ -15,22 +16,27 @@ import com.reedelk.rest.configuration.StreamingMode;
 import com.reedelk.rest.configuration.client.AdvancedConfiguration;
 import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.component.OnResult;
-import com.reedelk.runtime.api.component.ProcessorAsync;
+import com.reedelk.runtime.api.component.ProcessorSync;
+import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import org.apache.http.HttpResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.net.URI;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import static java.util.Objects.requireNonNull;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @ESBComponent("REST Client")
 @Component(service = RestClient.class, scope = PROTOTYPE)
-public class RestClient implements ProcessorAsync {
+public class RestClient implements ProcessorSync {
 
     @Reference
     private ScriptEngineService scriptEngine;
@@ -100,7 +106,7 @@ public class RestClient implements ProcessorAsync {
     private HeadersEvaluator headersEvaluator;
 
     @Override
-    public void apply(FlowContext flowContext, Message message, OnResult callback) {
+    public Message apply(FlowContext flowContext, Message message) {
 
         UriProvider uriProvider = uriEvaluator.provider(message, flowContext);
 
@@ -108,8 +114,20 @@ public class RestClient implements ProcessorAsync {
 
         BodyProvider bodyProvider = bodyEvaluator.provider();
 
-        execution.execute(client, callback, message, flowContext, uriProvider, headerProvider, bodyProvider);
+        URI uri = uriProvider.uri();
+
+        HttpClientResultCallback callback = new HttpClientResultCallback(uri);
+
+        Future<HttpResponse> result = execution.execute(client, message, flowContext, uri, headerProvider, bodyProvider, callback);
+        try {
+            result.get();
+        } catch (InterruptedException | ExecutionException exception) {
+            throw new ESBException(exception);
+        }
+
+        return callback.get();
     }
+
 
     @Override
     public synchronized void initialize() {

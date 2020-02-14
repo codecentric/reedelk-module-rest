@@ -1,12 +1,15 @@
 package com.reedelk.rest.client.strategy;
 
 import com.reedelk.rest.client.HttpClient;
+import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
-import com.reedelk.rest.client.uri.UriProvider;
-import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import org.apache.http.HttpResponse;
+
+import java.net.URI;
+import java.util.concurrent.Future;
 
 public class StrategyWithAutoStreamBody implements Strategy {
 
@@ -19,14 +22,13 @@ public class StrategyWithAutoStreamBody implements Strategy {
     }
 
     @Override
-    public void execute(HttpClient client, OnResult callback, Message input, FlowContext flowContext,
-                        UriProvider uriProvider, HeaderProvider headerProvider, BodyProvider bodyProvider) {
+    public Future<HttpResponse> execute(HttpClient client, Message input, FlowContext flowContext, URI uri, HeaderProvider headerProvider, BodyProvider bodyProvider, HttpClientResultCallback callback) {
         if (bodyProvider.streamable(input)) {
-            strategyWithStreamBody.execute(client, callback, input, flowContext,
-                    uriProvider, headerProvider, bodyProvider);
+            return strategyWithStreamBody
+                    .execute(client, input, flowContext, uri, headerProvider, bodyProvider, callback);
         } else {
-            strategyWithBody.execute(client, callback, input, flowContext,
-                    uriProvider, headerProvider, bodyProvider);
+            return strategyWithBody
+                    .execute(client, input, flowContext, uri, headerProvider, bodyProvider, callback);
         }
     }
 }

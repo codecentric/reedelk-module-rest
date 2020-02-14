@@ -117,6 +117,18 @@
                   "whenDescriptors": []
                 },
                 {
+                  "displayName": "Socket timeout",
+                  "propertyName": "socketTimeout",
+                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "propertyType": {
+                    "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
+                    "instance": {
+                      "type": "java.lang.Integer"
+                    }
+                  },
+                  "whenDescriptors": []
+                },
+                {
                   "displayName": "Keep alive",
                   "propertyName": "keepAlive",
                   "defaultValue": "true",
