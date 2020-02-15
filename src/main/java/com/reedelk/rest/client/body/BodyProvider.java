@@ -2,9 +2,15 @@ package com.reedelk.rest.client.body;
 
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.content.Parts;
 import org.reactivestreams.Publisher;
 
 public interface BodyProvider {
+
+    default Parts asParts(Message message, FlowContext flowContext) {
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * Used by normal transfer encoding. Length
      * of the payload is known in advance.

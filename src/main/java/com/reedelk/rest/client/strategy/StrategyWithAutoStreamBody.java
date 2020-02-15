@@ -16,8 +16,8 @@ public class StrategyWithAutoStreamBody implements Strategy {
     private StrategyWithBody strategyWithBody;
     private StrategyWithStreamBody strategyWithStreamBody;
 
-    StrategyWithAutoStreamBody(RequestWithBodyFactory requestFactory, int requestBufferSize, int responseBufferSize) {
-        this.strategyWithBody = new StrategyWithBody(requestFactory, responseBufferSize);
+    StrategyWithAutoStreamBody(RequestWithBodyFactory requestFactory, int requestBufferSize, int responseBufferSize, Boolean multipart) {
+        this.strategyWithBody = new StrategyWithBody(requestFactory, responseBufferSize, multipart);
         this.strategyWithStreamBody = new StrategyWithStreamBody(requestFactory, requestBufferSize, responseBufferSize);
     }
 

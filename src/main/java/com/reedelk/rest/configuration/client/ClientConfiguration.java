@@ -59,6 +59,9 @@ public class ClientConfiguration implements Implementor {
     @Property("Expect continue")
     private Boolean expectContinue;
 
+    @Property("Ignore self signed certificates")
+    private Boolean allowSelfSigned;
+
     @Property("Authentication")
     @Default("NONE")
     private Authentication authentication;
@@ -173,6 +176,14 @@ public class ClientConfiguration implements Implementor {
 
     public void setExpectContinue(Boolean expectContinue) {
         this.expectContinue = expectContinue;
+    }
+
+    public Boolean getAllowSelfSigned() {
+        return allowSelfSigned;
+    }
+
+    public void setAllowSelfSigned(Boolean allowSelfSigned) {
+        this.allowSelfSigned = allowSelfSigned;
     }
 
     public Authentication getAuthentication() {

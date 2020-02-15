@@ -3,6 +3,7 @@ package com.reedelk.rest.client.body;
 import com.reedelk.runtime.api.commons.ScriptUtils;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.content.Parts;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import org.reactivestreams.Publisher;
@@ -17,6 +18,11 @@ public class DefaultBodyProvider implements BodyProvider {
         this.body = body;
         this.scriptEngine = scriptEngine;
         this.isEvaluateMessagePayloadBody = ScriptUtils.isEvaluateMessagePayload(body);
+    }
+
+    @Override
+    public Parts asParts(Message message, FlowContext flowContext) {
+        return message.payload();
     }
 
     @Override

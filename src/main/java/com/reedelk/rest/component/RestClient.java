@@ -56,6 +56,10 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "configuration", propertyValue = "{'ref': '" + When.BLANK + "'}")
     private String baseURL;
 
+    @Property("Multipart")
+    @When(propertyName = "method", propertyValue = "POST")
+    private Boolean multipart;
+
     @Property("Path")
     @Hint("/resource/{id}")
     @PropertyInfo("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map, e.g: /resource/{id}/{group}.")
@@ -133,6 +137,7 @@ public class RestClient implements ProcessorAsync {
         // Init execution
         execution = ExecutionStrategyBuilder.builder()
                 .advancedConfig(advancedConfiguration)
+                .multipart(multipart)
                 .streaming(streaming)
                 .method(method)
                 .build();
@@ -208,5 +213,9 @@ public class RestClient implements ProcessorAsync {
 
     public void setAdvancedConfiguration(AdvancedConfiguration advancedConfiguration) {
         this.advancedConfiguration = advancedConfiguration;
+    }
+
+    public void setMultipart(Boolean multipart) {
+        this.multipart = multipart;
     }
 }

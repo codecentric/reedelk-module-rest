@@ -9,13 +9,21 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
 import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
-import org.apache.http.nio.reactor.IOReactorException;
+import org.apache.http.nio.conn.NoopIOSessionStrategy;
+import org.apache.http.nio.conn.SchemeIOSessionStrategy;
+import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.*;
@@ -221,16 +229,33 @@ public class HttpClientFactory {
     private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
 
     private PoolingNHttpClientConnectionManager createConnectionManager(ClientConfiguration configuration) {
-        DefaultConnectingIOReactor ioReactor;
         try {
-            ioReactor = new DefaultConnectingIOReactor();
-        } catch (IOReactorException e) {
+            int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);
+            boolean allowSelfSigned = Optional.ofNullable(configuration.getAllowSelfSigned()).orElse(false);
+
+            Registry<SchemeIOSessionStrategy> registry;
+            if (allowSelfSigned) {
+                SSLContextBuilder sslContextBuilder = SSLContexts.custom();
+                sslContextBuilder.loadTrustMaterial(null, (TrustStrategy) (chain, authType) -> true);
+                registry = RegistryBuilder.<SchemeIOSessionStrategy>create()
+                        .register("http", NoopIOSessionStrategy.INSTANCE)
+                        .register("https", new SSLIOSessionStrategy(sslContextBuilder.build(), NoopHostnameVerifier.INSTANCE))
+                        .build();
+            } else {
+                registry = RegistryBuilder.<SchemeIOSessionStrategy>create()
+                        .register("http", NoopIOSessionStrategy.INSTANCE)
+                        .register("https", SSLIOSessionStrategy.getDefaultStrategy())
+                        .build();
+            }
+
+            DefaultConnectingIOReactor ioReactor = new DefaultConnectingIOReactor();
+            PoolingNHttpClientConnectionManager pool = new PoolingNHttpClientConnectionManager(ioReactor, registry);
+            pool.setDefaultMaxPerRoute(maxConnections);
+            pool.setMaxTotal(maxConnections);
+            return pool;
+
+        } catch (Exception e) {
             throw new ESBException(e);
         }
-        int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);
-        PoolingNHttpClientConnectionManager pool = new PoolingNHttpClientConnectionManager(ioReactor);
-        pool.setDefaultMaxPerRoute(maxConnections);
-        pool.setMaxTotal(maxConnections);
-        return pool;
     }
 }

@@ -178,6 +178,18 @@
                   "whenDescriptors": []
                 },
                 {
+                  "displayName": "Ignore self signed certificates",
+                  "propertyName": "allowSelfSigned",
+                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "propertyType": {
+                    "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
+                    "instance": {
+                      "type": "java.lang.Boolean"
+                    }
+                  },
+                  "whenDescriptors": []
+                },
+                {
                   "displayName": "Authentication",
                   "propertyName": "authentication",
                   "defaultValue": "NONE",
@@ -541,6 +553,23 @@
             {
               "propertyName": "configuration",
               "propertyValue": "{\u0027ref\u0027: \u0027###BLANK###\u0027}"
+            }
+          ]
+        },
+        {
+          "displayName": "Multipart",
+          "propertyName": "multipart",
+          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "propertyType": {
+            "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
+            "instance": {
+              "type": "java.lang.Boolean"
+            }
+          },
+          "whenDescriptors": [
+            {
+              "propertyName": "method",
+              "propertyValue": "POST"
             }
           ]
         },
