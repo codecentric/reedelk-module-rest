@@ -5,10 +5,13 @@ import com.reedelk.rest.client.HttpClientFactory;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.commons.ModuleContext;
+import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
+import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -20,11 +23,17 @@ import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 import static com.reedelk.rest.utils.TestTag.INTEGRATION;
 import static com.reedelk.runtime.api.commons.ScriptUtils.EVALUATE_PAYLOAD;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 @Tag(INTEGRATION)
 abstract class RestClientAbstractTest {
 
+    @Mock
+    protected ConverterService converterService;
     @Mock
     protected ScriptEngineService scriptEngine;
     @Mock
@@ -40,7 +49,7 @@ abstract class RestClientAbstractTest {
 
     private static WireMockServer mockServer;
 
-    DynamicByteArray EVALUATE_PAYLOAD_BODY = DynamicByteArray.from(EVALUATE_PAYLOAD, moduleContext);
+    DynamicObject EVALUATE_PAYLOAD_BODY = DynamicObject.from(EVALUATE_PAYLOAD, moduleContext);
 
     private HttpClientFactory clientFactory;
 
@@ -61,6 +70,10 @@ abstract class RestClientAbstractTest {
     void setUp() {
         clientFactory = new HttpClientFactory();
         mockServer.resetAll();
+
+        lenient().doReturn(new byte[0])
+                .when(converterService)
+                .convert(eq(new byte[0]), eq(byte[].class));
     }
 
     @AfterEach
@@ -75,11 +88,12 @@ abstract class RestClientAbstractTest {
         restClient.setPath(path);
         setScriptEngine(restClient);
         setClientFactory(restClient);
+        setConverter(restClient);
         restClient.initialize();
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, ClientConfiguration configuration, String path, DynamicByteArray body) {
+    RestClient clientWith(RestMethod method, ClientConfiguration configuration, String path, DynamicObject body) {
         RestClient restClient = new RestClient();
         restClient.setConfiguration(configuration);
         restClient.setMethod(method);
@@ -87,6 +101,7 @@ abstract class RestClientAbstractTest {
         restClient.setBody(body);
         setScriptEngine(restClient);
         setClientFactory(restClient);
+        setConverter(restClient);
         restClient.initialize();
         return restClient;
     }
@@ -98,11 +113,12 @@ abstract class RestClientAbstractTest {
         restClient.setPath(path);
         setScriptEngine(restClient);
         setClientFactory(restClient);
+        setConverter(restClient);
         restClient.initialize();
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicByteArray body) {
+    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicObject body) {
         RestClient restClient = new RestClient();
         restClient.setBaseURL(baseURL);
         restClient.setMethod(method);
@@ -110,11 +126,12 @@ abstract class RestClientAbstractTest {
         restClient.setBody(body);
         setScriptEngine(restClient);
         setClientFactory(restClient);
+        setConverter(restClient);
         restClient.initialize();
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicByteArray body, DynamicStringMap additionalHeaders) {
+    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicObject body, DynamicStringMap additionalHeaders) {
         RestClient restClient = new RestClient();
         restClient.setHeaders(additionalHeaders);
         restClient.setBaseURL(baseURL);
@@ -123,6 +140,20 @@ abstract class RestClientAbstractTest {
         restClient.setBody(body);
         setScriptEngine(restClient);
         setClientFactory(restClient);
+        setConverter(restClient);
+        restClient.initialize();
+        return restClient;
+    }
+
+    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
+        RestClient restClient = new RestClient();
+        restClient.setBaseURL(baseURL);
+        restClient.setMethod(method);
+        restClient.setPath(path);
+        setScriptEngine(restClient);
+        setClientFactory(restClient);
+        setConverter(restClient);
+        configureRequestAndQueryParams(restClient, pathParameters, queryParameters);
         restClient.initialize();
         return restClient;
     }
@@ -135,6 +166,10 @@ abstract class RestClientAbstractTest {
         setField(restClient, "clientFactory", clientFactory);
     }
 
+    protected void setConverter(RestClient restClient) {
+        setField(restClient, "converterService", converterService);
+    }
+
     private void setField(RestClient client, String fieldName, Object object) {
         try {
             Field field = client.getClass().getDeclaredField(fieldName);
@@ -144,6 +179,31 @@ abstract class RestClientAbstractTest {
             fail(String.format("Could not find  field '%s'", fieldName));
         } catch (IllegalAccessException e) {
             fail(String.format("Could not access field '%s'", fieldName));
+        }
+    }
+
+    private void configureRequestAndQueryParams(RestClient client, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
+        if (pathParameters != null && queryParameters != null) {
+            client.setPathParameters(pathParameters);
+            client.setQueryParameters(queryParameters);
+            doReturn(pathParameters)
+                    .when(scriptEngine)
+                    .evaluate(eq(pathParameters), any(FlowContext.class), any(Message.class));
+            doReturn(queryParameters)
+                    .when(scriptEngine)
+                    .evaluate(eq(queryParameters), any(FlowContext.class), any(Message.class));
+        }
+        if (pathParameters != null && queryParameters == null) {
+            client.setPathParameters(pathParameters);
+            doReturn(pathParameters)
+                    .when(scriptEngine)
+                    .evaluate(eq(pathParameters), any(FlowContext.class), any(Message.class));
+        }
+        if (pathParameters == null && queryParameters != null) {
+            client.setQueryParameters(queryParameters);
+            doReturn(queryParameters)
+                    .when(scriptEngine)
+                    .evaluate(eq(queryParameters), any(FlowContext.class), any(Message.class));
         }
     }
 }

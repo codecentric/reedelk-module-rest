@@ -4,12 +4,14 @@ import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyProvider;
 import com.reedelk.rest.client.header.HeaderProvider;
+import com.reedelk.rest.client.response.BufferSizeAwareResponseConsumer;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIUtils;
+import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
 
 import java.net.URI;
 import java.util.concurrent.Future;
@@ -22,8 +24,6 @@ public class StrategyWithoutBody implements Strategy {
     private final int responseBufferSize;
     private final RequestWithoutBodyFactory requestFactory;
 
-    // TODO: Create and fix response buffer size with the provided.
-    // TODO: Implement connection pool management and set default socket timeout.
     StrategyWithoutBody(RequestWithoutBodyFactory requestFactory, int responseBufferSize) {
         this.requestFactory = requestFactory;
         this.responseBufferSize = responseBufferSize;
@@ -47,7 +47,8 @@ public class StrategyWithoutBody implements Strategy {
         HttpHost httpHost = URIUtils.extractHost(uri);
 
         EmptyStreamRequestProducer requestProducer = new EmptyStreamRequestProducer(httpHost, baseRequest);
+        HttpAsyncResponseConsumer<HttpResponse> responseConsumer = BufferSizeAwareResponseConsumer.createConsumer(responseBufferSize);
 
-        return client.execute(requestProducer, callback);
+        return client.execute(requestProducer, responseConsumer, callback);
     }
 }

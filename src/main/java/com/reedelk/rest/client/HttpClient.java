@@ -20,7 +20,6 @@ public class HttpClient {
     private final CloseableHttpAsyncClient delegate;
     private final HttpClientContextProvider contextProvider;
 
-
     HttpClient(CloseableHttpAsyncClient delegate) {
         this.delegate = requireNonNull(delegate, "delegate http client");
         this.contextProvider = null;
@@ -31,8 +30,7 @@ public class HttpClient {
         this.contextProvider = contextProvider;
     }
 
-    public Future<HttpResponse> execute(HttpAsyncRequestProducer requestProducer, HttpClientResultCallback callback) {
-        HttpAsyncResponseConsumer<HttpResponse> responseConsumer = HttpAsyncMethods.createConsumer();
+    public Future<HttpResponse> execute(HttpAsyncRequestProducer requestProducer, HttpAsyncResponseConsumer<HttpResponse> responseConsumer, HttpClientResultCallback callback) {
         if (contextProvider != null) {
             HttpClientContext context = contextProvider.provide();
             return delegate.execute(requestProducer, responseConsumer, context, callback);

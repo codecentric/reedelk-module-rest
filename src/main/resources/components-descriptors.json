@@ -557,23 +557,6 @@
           ]
         },
         {
-          "displayName": "Multipart",
-          "propertyName": "multipart",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
-          "propertyType": {
-            "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
-            "instance": {
-              "type": "java.lang.Boolean"
-            }
-          },
-          "whenDescriptors": [
-            {
-              "propertyName": "method",
-              "propertyValue": "POST"
-            }
-          ]
-        },
-        {
           "hintValue": "/resource/{id}",
           "displayName": "Path",
           "propertyName": "path",
@@ -596,7 +579,7 @@
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
             "instance": {
-              "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray"
+              "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicObject"
             }
           },
           "whenDescriptors": [

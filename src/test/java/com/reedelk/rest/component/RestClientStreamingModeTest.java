@@ -9,6 +9,7 @@ import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
+import com.reedelk.runtime.api.message.content.TypedPublisher;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicValue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -23,6 +24,7 @@ import java.util.UUID;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 
@@ -46,11 +48,17 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
             component.setStreaming(StreamingMode.NONE);
 
             String requestBody = "{\"Name\":\"John\"}";
-            doReturn(Optional.of(requestBody.getBytes()))
+            byte[] requestBodyAsBytes = requestBody.getBytes();
+
+            doReturn(Optional.of(requestBodyAsBytes))
                     .when(scriptEngine)
                     .evaluate(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
-            Mockito.verify(scriptEngine, never())
+            doReturn(requestBodyAsBytes)
+                    .when(converterService)
+                    .convert(requestBodyAsBytes, byte[].class);
+
+            verify(scriptEngine, never())
                     .evaluateStream(any(DynamicValue.class), any(FlowContext.class), any(Message.class));
 
             givenThat(WireMock.any(urlEqualTo(PATH))
@@ -89,11 +97,17 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
             Flux<byte[]> binaryStream = Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes());
             Message message = MessageBuilder.get().withBinary(binaryStream, MimeType.APPLICATION_JSON).build();
 
-            doReturn(message.content().stream())
+            TypedPublisher<Object> stream = message.content().stream();
+
+            doReturn(stream)
                     .when(scriptEngine)
                     .evaluateStream(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
-            Mockito.verify(scriptEngine, never())
+            doReturn(stream)
+                    .when(converterService)
+                    .convert(stream, byte[].class);
+
+            verify(scriptEngine, never())
                     .evaluate(any(DynamicValue.class), any(FlowContext.class), any(Message.class));
 
             givenThat(WireMock.any(urlEqualTo(PATH))
@@ -131,11 +145,17 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
 
             Message message = MessageBuilder.get().withBinary(byteArrayStream, MimeType.APPLICATION_JSON).build();
 
-            doReturn(message.content().stream())
+            TypedPublisher<Object> stream = message.content().stream();
+
+            doReturn(stream)
                     .when(scriptEngine)
                     .evaluateStream(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
-            Mockito.verify(scriptEngine, never())
+            doReturn(stream)
+                    .when(converterService)
+                    .convert(stream, byte[].class);
+
+            verify(scriptEngine, never())
                     .evaluate(any(DynamicValue.class), any(FlowContext.class), any(Message.class));
 
             givenThat(WireMock.any(urlEqualTo(PATH))
@@ -161,7 +181,6 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
             component.setStreaming(StreamingMode.AUTO);
 
             String requestBody = "{\"Name\":\"John\"}";
-
             byte[] requestBytes = requestBody.getBytes();
 
             Message payload = MessageBuilder.get().withBinary(requestBytes, MimeType.APPLICATION_JSON).build();
@@ -170,7 +189,11 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
                     .when(scriptEngine)
                     .evaluate(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
 
-            Mockito.verify(scriptEngine, never())
+            doReturn(requestBytes)
+                    .when(converterService)
+                    .convert(requestBytes, byte[].class);
+
+            verify(scriptEngine, never())
                     .evaluateStream(any(DynamicValue.class), any(FlowContext.class), any(Message.class));
 
             givenThat(WireMock.any(urlEqualTo(PATH))

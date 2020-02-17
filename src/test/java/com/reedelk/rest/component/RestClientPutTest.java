@@ -22,12 +22,17 @@ class RestClientPutTest extends RestClientAbstractTest {
     void shouldWithBodyExecuteCorrectlyWhenResponse200() {
         // Given
         String requestBody = "{\"Name\":\"John\"}";
+        byte[] requestBodyAsBytes = requestBody.getBytes();
         String expectedResponseBody = "PUT was successful";
         RestClient client = clientWith(PUT, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
 
-        doReturn(Optional.of(requestBody.getBytes()))
+        doReturn(Optional.of(requestBodyAsBytes))
                 .when(scriptEngine)
                 .evaluate(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
+
+        doReturn(requestBodyAsBytes)
+                .when(converterService)
+                .convert(requestBodyAsBytes, byte[].class);
 
         givenThat(put(urlEqualTo(PATH))
                 .withRequestBody(equalToJson(requestBody))

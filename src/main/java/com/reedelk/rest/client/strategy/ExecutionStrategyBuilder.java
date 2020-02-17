@@ -18,7 +18,6 @@ public class ExecutionStrategyBuilder {
     private AdvancedConfiguration advancedConfiguration;
     private StreamingMode streaming;
     private RestMethod method;
-    private Boolean multipart;
 
     private ExecutionStrategyBuilder() {
     }
@@ -39,11 +38,6 @@ public class ExecutionStrategyBuilder {
 
     public ExecutionStrategyBuilder method(RestMethod method) {
         this.method = method;
-        return this;
-    }
-
-    public ExecutionStrategyBuilder multipart(Boolean multipart) {
-        this.multipart = multipart;
         return this;
     }
 
@@ -68,13 +62,13 @@ public class ExecutionStrategyBuilder {
     private Strategy strategyWithBody(RequestWithBodyFactory requestFactory) {
         int responseBufferSize = getResponseBufferSize();
         if (NONE.equals(streaming)) {
-            return new StrategyWithBody(requestFactory, responseBufferSize, multipart);
+            return new StrategyWithBody(requestFactory, responseBufferSize);
         } else if (ALWAYS.equals(streaming)) {
             int requestBufferSize = getRequestBufferSize();
             return new StrategyWithStreamBody(requestFactory, requestBufferSize, responseBufferSize);
         } else if (AUTO.equals(streaming)) {
             int requestBufferSize = getRequestBufferSize();
-            return new StrategyWithAutoStreamBody(requestFactory, requestBufferSize, responseBufferSize, multipart);
+            return new StrategyWithAutoStreamBody(requestFactory, requestBufferSize, responseBufferSize);
         } else {
             throw new IllegalArgumentException(format("Execution strategy not available for streaming mode '%s'", streaming));
         }

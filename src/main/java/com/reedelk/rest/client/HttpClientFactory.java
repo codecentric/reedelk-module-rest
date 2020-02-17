@@ -2,28 +2,17 @@ package com.reedelk.rest.client;
 
 import com.reedelk.rest.component.RestClient;
 import com.reedelk.rest.configuration.client.*;
-import com.reedelk.runtime.api.exception.ESBException;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
-import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
-import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
-import org.apache.http.nio.conn.NoopIOSessionStrategy;
-import org.apache.http.nio.conn.SchemeIOSessionStrategy;
-import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.http.nio.conn.NHttpClientConnectionManager;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.*;
@@ -42,9 +31,8 @@ public class HttpClientFactory {
     private final Map<String, HttpClient> configIdClientMap = new HashMap<>();
     private final Map<String, List<RestClient>> configIdClients = new HashMap<>();
 
-    public synchronized HttpClient create(RestClient listener, ClientConfiguration config) {
-
-        String configId = config.getId();
+    public synchronized HttpClient create(RestClient listener, ClientConfiguration configuration) {
+        String configId = configuration.getId();
         if (configIdClientMap.containsKey(configId)) {
             List<RestClient> listeners;
             if (!configIdClients.containsKey(configId)) {
@@ -66,33 +54,34 @@ public class HttpClientFactory {
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 
         // Connection Pool
-        PoolingNHttpClientConnectionManager poolConnectionManager = createConnectionManager(config);
+        NHttpClientConnectionManager poolConnectionManager =
+                HttpClientConnectionManagerFactory.create(configuration);
 
         // Request config
-        RequestConfig requestConfig = createRequestConfig(config);
+        RequestConfig requestConfig = createRequestConfig(configuration);
 
-        HttpHost authHost = new HttpHost(config.getHost(), config.getPort(), config.getProtocol().name());
+        HttpHost authHost = new HttpHost(configuration.getHost(), configuration.getPort(), configuration.getProtocol().name());
 
         // Basic authentication config
-        Authentication authentication = config.getAuthentication();
+        Authentication authentication = configuration.getAuthentication();
         if (Authentication.BASIC.equals(authentication)) {
             BasicAuthenticationConfiguration basicConfig =
-                    requireNotNull(ClientConfiguration.class, config.getBasicAuthentication(), BASIC_AUTH_MISSING.format());
+                    requireNotNull(ClientConfiguration.class, configuration.getBasicAuthentication(), BASIC_AUTH_MISSING.format());
             configureBasicAuth(authHost, basicConfig, credentialsProvider, context);
         }
 
         // Digest authentication config
         if (Authentication.DIGEST.equals(authentication)) {
             DigestAuthenticationConfiguration digestConfig =
-                    requireNotNull(ClientConfiguration.class, config.getDigestAuthentication(), DIGEST_AUTH_MISSING.format());
+                    requireNotNull(ClientConfiguration.class, configuration.getDigestAuthentication(), DIGEST_AUTH_MISSING.format());
             configureDigestAuth(authHost, digestConfig, credentialsProvider, context);
         }
 
         // Proxy config
-        Proxy proxy = config.getProxy();
+        Proxy proxy = configuration.getProxy();
         if (Proxy.PROXY.equals(proxy)) {
             ProxyConfiguration proxyConfig =
-                    requireNotNull(ClientConfiguration.class, config.getProxyConfiguration(), PROXY_CONFIG_MISSING.format());
+                    requireNotNull(ClientConfiguration.class, configuration.getProxyConfiguration(), PROXY_CONFIG_MISSING.format());
             configureProxy(proxyConfig, builder, credentialsProvider, context);
         }
 
@@ -102,7 +91,7 @@ public class HttpClientFactory {
                 .setDefaultCredentialsProvider(credentialsProvider)
                 .build();
 
-        HttpClientContextProvider contextProvider = new HttpClientContextProvider(authHost, config.getBasicAuthentication(), config.getDigestAuthentication());
+        HttpClientContextProvider contextProvider = new HttpClientContextProvider(authHost, configuration.getBasicAuthentication(), configuration.getDigestAuthentication());
         HttpClient client = new HttpClient(asyncClient, contextProvider);
 
         List<RestClient> listeners;
@@ -124,9 +113,9 @@ public class HttpClientFactory {
         CloseableHttpAsyncClient client = HttpAsyncClientBuilder.create()
                 .setDefaultRequestConfig(defaultRequestConfig)
                 .build();
-        HttpClient c = new HttpClient(client);
-        c.start();
-        return c;
+        HttpClient wrapper = new HttpClient(client);
+        wrapper.start();
+        return wrapper;
     }
 
     public synchronized void shutdown() {
@@ -211,8 +200,8 @@ public class HttpClientFactory {
         return builder.build();
     }
 
+    // See Request Config for documentation on how to set the values correctly.
     private RequestConfig newDefaultRequestConfig() {
-        // See Request Config for documentation on how to set the values correctly.
         return RequestConfig.custom()
                 .setConnectionRequestTimeout(DEFAULT_CONNECTION_REQUEST_TIMEOUT)
                 .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
@@ -221,41 +210,8 @@ public class HttpClientFactory {
     }
 
     private static void addCredentialsFor(CredentialsProvider provider, HttpHost host, String userName, String password) {
-        provider.setCredentials(
-                new AuthScope(host.getHostName(), host.getPort()),
-                new UsernamePasswordCredentials(userName, password));
-    }
-
-    private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
-
-    private PoolingNHttpClientConnectionManager createConnectionManager(ClientConfiguration configuration) {
-        try {
-            int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);
-            boolean allowSelfSigned = Optional.ofNullable(configuration.getAllowSelfSigned()).orElse(false);
-
-            Registry<SchemeIOSessionStrategy> registry;
-            if (allowSelfSigned) {
-                SSLContextBuilder sslContextBuilder = SSLContexts.custom();
-                sslContextBuilder.loadTrustMaterial(null, (TrustStrategy) (chain, authType) -> true);
-                registry = RegistryBuilder.<SchemeIOSessionStrategy>create()
-                        .register("http", NoopIOSessionStrategy.INSTANCE)
-                        .register("https", new SSLIOSessionStrategy(sslContextBuilder.build(), NoopHostnameVerifier.INSTANCE))
-                        .build();
-            } else {
-                registry = RegistryBuilder.<SchemeIOSessionStrategy>create()
-                        .register("http", NoopIOSessionStrategy.INSTANCE)
-                        .register("https", SSLIOSessionStrategy.getDefaultStrategy())
-                        .build();
-            }
-
-            DefaultConnectingIOReactor ioReactor = new DefaultConnectingIOReactor();
-            PoolingNHttpClientConnectionManager pool = new PoolingNHttpClientConnectionManager(ioReactor, registry);
-            pool.setDefaultMaxPerRoute(maxConnections);
-            pool.setMaxTotal(maxConnections);
-            return pool;
-
-        } catch (Exception e) {
-            throw new ESBException(e);
-        }
+        AuthScope authScope = new AuthScope(host.getHostName(), host.getPort());
+        UsernamePasswordCredentials usernamePasswordCredentials = new UsernamePasswordCredentials(userName, password);
+        provider.setCredentials(authScope, usernamePasswordCredentials);
     }
 }

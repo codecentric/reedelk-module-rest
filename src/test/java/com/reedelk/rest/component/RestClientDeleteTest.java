@@ -21,12 +21,18 @@ class RestClientDeleteTest extends RestClientAbstractTest {
     void shouldDeleteWithBodyExecuteCorrectlyWhenResponse200() {
         // Given
         String requestBody = "{\"Name\":\"John\"}";
+        byte[] requestBodyAsBytes = requestBody.getBytes();
         String expectedResponseBody = "DELETE was successful";
         RestClient component = clientWith(DELETE, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
 
         doReturn(Optional.of(requestBody.getBytes()))
                 .when(scriptEngine)
                 .evaluate(eq(EVALUATE_PAYLOAD_BODY), any(FlowContext.class), any(Message.class));
+
+        doReturn(requestBodyAsBytes)
+                .when(converterService)
+                .convert(requestBodyAsBytes, byte[].class);
+
 
         givenThat(delete(urlEqualTo(PATH))
                 .withRequestBody(equalToJson(requestBody))
@@ -38,8 +44,7 @@ class RestClientDeleteTest extends RestClientAbstractTest {
         Message payload = MessageBuilder.get().withJson(requestBody).build();
 
         // Expect
-        AssertHttpResponse
-                .isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+        AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
     }
 
     @Test
@@ -58,8 +63,7 @@ class RestClientDeleteTest extends RestClientAbstractTest {
         Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
-        AssertHttpResponse
-                .isSuccessful(component, emptyPayload, flowContext, expectedResponseBody, TEXT);
+        AssertHttpResponse.isSuccessful(component, emptyPayload, flowContext, expectedResponseBody, TEXT);
     }
 
     @Test
@@ -77,7 +81,6 @@ class RestClientDeleteTest extends RestClientAbstractTest {
         Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
-        AssertHttpResponse
-                .isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);
+        AssertHttpResponse.isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);
     }
 }

@@ -8,6 +8,7 @@ import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -34,13 +35,16 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
 
-        DynamicByteArray dynamicBody = DynamicByteArray.from("my body", moduleContext);
+        DynamicObject dynamicBody = DynamicObject.from("my body", moduleContext);
+        byte[] evaluatedPayload = "my body".getBytes();
 
-
-        doReturn(Optional.of("my body".getBytes()))
+        doReturn(Optional.of(evaluatedPayload))
                 .when(scriptEngine)
                 .evaluate(eq(dynamicBody), any(FlowContext.class), any(Message.class));
 
+        doReturn(evaluatedPayload)
+                .when(converterService)
+                .convert(evaluatedPayload, byte[].class);
 
         givenThat(WireMock.any(urlEqualTo(PATH))
                 .withRequestBody(equalTo("my body"))
@@ -70,12 +74,17 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
         configuration.setId(UUID.randomUUID().toString());
         configuration.setExpectContinue(false);
 
-        DynamicByteArray dynamicBody = DynamicByteArray.from("my body", moduleContext);
+        DynamicObject dynamicBody = DynamicObject.from("my body", moduleContext);
 
-        doReturn(Optional.of("my body".getBytes()))
+        byte[] evaluatedPayload = "my body".getBytes();
+
+        doReturn(Optional.of(evaluatedPayload))
                 .when(scriptEngine)
                 .evaluate(eq(dynamicBody), any(FlowContext.class), any(Message.class));
 
+        doReturn(evaluatedPayload)
+                .when(converterService)
+                .convert(evaluatedPayload, byte[].class);
 
         givenThat(WireMock.any(urlEqualTo(PATH))
                 .withRequestBody(equalTo("my body"))
@@ -106,12 +115,17 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
         configuration.setId(UUID.randomUUID().toString());
         configuration.setExpectContinue(true);
 
-        DynamicByteArray dynamicBody = DynamicByteArray.from("my body", moduleContext);
+        DynamicObject dynamicBody = DynamicObject.from("my body", moduleContext);
 
-        doReturn(Optional.of("my body".getBytes()))
+        byte[] evaluatedPayload = "my body".getBytes();
+
+        doReturn(Optional.of(evaluatedPayload))
                 .when(scriptEngine)
                 .evaluate(eq(dynamicBody), any(FlowContext.class), any(Message.class));
 
+        doReturn(evaluatedPayload)
+                .when(converterService)
+                .convert(evaluatedPayload, byte[].class);
 
         givenThat(WireMock.any(urlEqualTo(PATH))
                 .withRequestBody(equalTo("my body"))

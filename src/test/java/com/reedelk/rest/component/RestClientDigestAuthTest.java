@@ -9,6 +9,7 @@ import com.reedelk.rest.configuration.client.DigestAuthenticationConfiguration;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -19,6 +20,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.commons.RestMethod.GET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.lenient;
 
 class RestClientDigestAuthTest extends RestClientAbstractTest {
 

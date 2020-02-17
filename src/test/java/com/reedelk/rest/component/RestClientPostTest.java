@@ -5,9 +5,12 @@ import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.TypedMono;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Optional;
 
@@ -29,8 +32,13 @@ class RestClientPostTest extends RestClientAbstractTest {
         void shouldSetCorrectContentTypeHeaderWhenPayloadIsJson() {
             // Given
             String requestBody = "{\"Name\":\"John\"}";
+            byte[] requestBodyAsBytes = requestBody.getBytes();
             String expectedResponseBody = "POST was successful";
             RestClient component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
+
+            doReturn(requestBodyAsBytes)
+                    .when(converterService)
+                    .convert(requestBodyAsBytes, byte[].class);
 
             doReturn(Optional.of(requestBody.getBytes()))
                     .when(scriptEngine)
@@ -48,16 +56,20 @@ class RestClientPostTest extends RestClientAbstractTest {
             Message payload = MessageBuilder.get().withJson(requestBody).build();
 
             // Expect
-            AssertHttpResponse
-                    .isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
         }
 
         @Test
         void shouldSetCorrectContentTypeHeaderWhenPayloadIsText() {
             // Given
             String requestBody = "text payload";
+            byte[] requestBodyAsBytes = requestBody.getBytes();
             String expectedResponseBody = "POST was successful";
             RestClient component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
+
+            doReturn(requestBodyAsBytes)
+                    .when(converterService)
+                    .convert(requestBodyAsBytes, byte[].class);
 
             doReturn(Optional.of(requestBody.getBytes()))
                     .when(scriptEngine)
@@ -74,8 +86,7 @@ class RestClientPostTest extends RestClientAbstractTest {
             Message payload = MessageBuilder.get().withText(requestBody).build();
 
             // Expect
-            AssertHttpResponse
-                    .isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
         }
 
         @Test
@@ -84,6 +95,10 @@ class RestClientPostTest extends RestClientAbstractTest {
             byte[] requestBody = "My binary request body".getBytes();
             String expectedResponseBody = "POST was successful";
             RestClient component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
+
+            doReturn(requestBody)
+                    .when(converterService)
+                    .convert(requestBody, byte[].class);
 
             doReturn(Optional.of(requestBody))
                     .when(scriptEngine)
@@ -100,17 +115,17 @@ class RestClientPostTest extends RestClientAbstractTest {
             Message payload = MessageBuilder.get().withBinary(requestBody).build();
 
             // Expect
-            AssertHttpResponse
-                    .isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
         }
 
         @Test
         void shouldNotSetContentTypeHeaderWhenPayloadIsEmpty() {
             // Given
             Message emptyPayload = MessageBuilder.get().empty().build();
-            lenient().doReturn(TypedMono.emptyVoid())
+
+            doReturn(Optional.empty())
                     .when(scriptEngine)
-                    .evaluateStream(EVALUATE_PAYLOAD_BODY, flowContext, emptyPayload);
+                    .evaluate(EVALUATE_PAYLOAD_BODY, flowContext, emptyPayload);
 
             // Expect
             assertEmptyContentTypeAndPayload(EVALUATE_PAYLOAD_BODY, emptyPayload);
@@ -119,8 +134,10 @@ class RestClientPostTest extends RestClientAbstractTest {
         @Test
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsNull() {
             // Given
-            DynamicByteArray body = null;
+            DynamicObject body = null;
             Message emptyPayload = MessageBuilder.get().empty().build();
+
+
 
             // Expect
             assertEmptyContentTypeAndPayload(body, emptyPayload);
@@ -129,8 +146,12 @@ class RestClientPostTest extends RestClientAbstractTest {
         @Test
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsEmptyString() {
             // Given
-            DynamicByteArray body = DynamicByteArray.from(" ", moduleContext);
+            DynamicObject body = DynamicObject.from(" ", moduleContext);
             Message emptyPayload = MessageBuilder.get().empty().build();
+
+            doReturn(Optional.empty())
+                    .when(scriptEngine)
+                    .evaluate(body, flowContext, emptyPayload);
 
             // Expect
             assertEmptyContentTypeAndPayload(body, emptyPayload);
@@ -139,8 +160,12 @@ class RestClientPostTest extends RestClientAbstractTest {
         @Test
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsEmptyScript() {
             // Given
-            DynamicByteArray body = DynamicByteArray.from("#[]", moduleContext);
+            DynamicObject body = DynamicObject.from("#[]", moduleContext);
             Message emptyPayload = MessageBuilder.get().empty().build();
+
+            doReturn(Optional.empty())
+                    .when(scriptEngine)
+                    .evaluate(body, flowContext, emptyPayload);
 
             // Expect
             assertEmptyContentTypeAndPayload(body, emptyPayload);
@@ -149,11 +174,16 @@ class RestClientPostTest extends RestClientAbstractTest {
         @Test
         void shouldNotSetContentTypeHeaderWhenPayloadIsScript() {
             // Given
-            DynamicByteArray body = DynamicByteArray.from("#['hello this is a script']", moduleContext);
+            DynamicObject body = DynamicObject.from("#['hello this is a script']", moduleContext);
             String expectedResponseBody = "POST was successful";
+            byte[] payloadAsBytes = "hello this is a script".getBytes();
             RestClient component = clientWith(POST, BASE_URL, PATH, body);
 
-            doReturn(Optional.of("hello this is a script".getBytes()))
+            doReturn(payloadAsBytes)
+                    .when(converterService)
+                    .convert(payloadAsBytes, byte[].class);
+
+            doReturn(Optional.of(payloadAsBytes))
                     .when(scriptEngine)
                     .evaluate(eq(body), any(FlowContext.class), any(Message.class));
 
@@ -167,13 +197,11 @@ class RestClientPostTest extends RestClientAbstractTest {
                             .withHeader(CONTENT_TYPE, TEXT.toString())));
 
             // Expect
-            AssertHttpResponse
-                    .isSuccessful(component, message, flowContext, expectedResponseBody, TEXT);
-
+            AssertHttpResponse.isSuccessful(component, message, flowContext, expectedResponseBody, TEXT);
             verify(newRequestPattern().withoutHeader(CONTENT_TYPE));
         }
 
-        void assertEmptyContentTypeAndPayload(DynamicByteArray body, Message message) {
+        void assertEmptyContentTypeAndPayload(DynamicObject body, Message message) {
             // Given
             String expectedResponseBody = "It works";
             RestClient component = clientWith(POST, BASE_URL, PATH, body);
@@ -186,8 +214,7 @@ class RestClientPostTest extends RestClientAbstractTest {
                             .withHeader(CONTENT_TYPE, TEXT.toString())));
 
             // Expect
-            AssertHttpResponse
-                    .isSuccessful(component, message, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, message, flowContext, expectedResponseBody, TEXT);
             verify(newRequestPattern().withoutHeader(CONTENT_TYPE));
         }
     }
@@ -207,7 +234,6 @@ class RestClientPostTest extends RestClientAbstractTest {
         Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
-        AssertHttpResponse
-                .isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);
+        AssertHttpResponse.isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);
     }
 }

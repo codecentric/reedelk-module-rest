@@ -2,7 +2,6 @@ package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
@@ -12,9 +11,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.commons.RestMethod.valueOf;
 import static com.reedelk.runtime.api.commons.ImmutableMap.of;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doReturn;
 
 
 class RestClientRequestUriTest extends RestClientAbstractTest {
@@ -65,50 +61,13 @@ class RestClientRequestUriTest extends RestClientAbstractTest {
 
     void assertExpectedPath(String method, String path, String expectedPath, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
         // Given
-        givenThat(WireMock.any(urlEqualTo(expectedPath))
-                .willReturn(aResponse().withStatus(200)));
+        givenThat(WireMock.any(urlEqualTo(expectedPath)).willReturn(aResponse().withStatus(200)));
 
         Message message = MessageBuilder.get().empty().build();
-
-        // When
         RestMethod restMethod = valueOf(method);
-
-        RestClient restClient = new RestClient();
-        restClient.setBaseURL(BASE_URL);
-        restClient.setMethod(restMethod);
-        restClient.setPath(path);
-        setScriptEngine(restClient);
-        setClientFactory(restClient);
-
-        configureRequestAndQueryParams(restClient, pathParameters, queryParameters);
-        restClient.initialize();
+        RestClient restClient = clientWith(restMethod, BASE_URL, path, pathParameters, queryParameters);
 
         // Expect
         AssertHttpResponse.isSuccessful(restClient, message, flowContext);
-    }
-
-    private void configureRequestAndQueryParams(RestClient client, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
-        if (pathParameters != null && queryParameters != null) {
-            client.setPathParameters(pathParameters);
-            client.setQueryParameters(queryParameters);
-            doReturn(pathParameters)
-                    .when(scriptEngine)
-                    .evaluate(eq(pathParameters), any(FlowContext.class), any(Message.class));
-            doReturn(queryParameters)
-                    .when(scriptEngine)
-                    .evaluate(eq(queryParameters), any(FlowContext.class), any(Message.class));
-        }
-        if (pathParameters != null && queryParameters == null) {
-            client.setPathParameters(pathParameters);
-            doReturn(pathParameters)
-                    .when(scriptEngine)
-                    .evaluate(eq(pathParameters), any(FlowContext.class), any(Message.class));
-        }
-        if (pathParameters == null && queryParameters != null) {
-            client.setQueryParameters(queryParameters);
-            doReturn(queryParameters)
-                    .when(scriptEngine)
-                    .evaluate(eq(queryParameters), any(FlowContext.class), any(Message.class));
-        }
     }
 }

@@ -3,12 +3,13 @@ package com.reedelk.rest.client.strategy;
 import com.reedelk.rest.client.HttpClient;
 import com.reedelk.rest.client.HttpClientResultCallback;
 import com.reedelk.rest.client.body.BodyProvider;
+import com.reedelk.rest.client.body.BodyResult;
 import com.reedelk.rest.client.header.HeaderProvider;
+import com.reedelk.rest.client.response.BufferSizeAwareResponseConsumer;
 import com.reedelk.rest.commons.HttpHeader;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.content.Parts;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -16,8 +17,9 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.nio.client.methods.HttpAsyncMethods;
 import org.apache.http.nio.entity.NByteArrayEntity;
+import org.apache.http.nio.protocol.HttpAsyncRequestProducer;
+import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
 
-import java.io.*;
 import java.net.URI;
 import java.util.concurrent.Future;
 
@@ -28,12 +30,10 @@ public class StrategyWithBody implements Strategy {
 
     private final int responseBufferSize;
     private final RequestWithBodyFactory requestFactory;
-    private final Boolean multipart;
 
-    StrategyWithBody(RequestWithBodyFactory requestFactory, int responseBufferSize, Boolean multipart) {
+    StrategyWithBody(RequestWithBodyFactory requestFactory, int responseBufferSize) {
         this.requestFactory = requestFactory;
         this.responseBufferSize = responseBufferSize;
-        this.multipart = multipart;
     }
 
     @Override
@@ -45,100 +45,50 @@ public class StrategyWithBody implements Strategy {
                                         BodyProvider bodyProvider,
                                         HttpClientResultCallback callback) {
 
+        BodyResult bodyResult = bodyProvider.asByteArray(input, flowContext);
+        HttpEntity entity = createHttpEntity(bodyResult);
 
+        HttpEntityEnclosingRequestBase request = requestFactory.create();
+        request.setURI(uri);
+        request.setEntity(entity);
 
+        addHttpHeaders(headerProvider, bodyResult, request);
 
-        HttpEntity entity;
-        if (multipart != null && multipart) {
-            Parts parts = bodyProvider.asParts(input, flowContext);
+        HttpAsyncRequestProducer requestProducer = HttpAsyncMethods.create(request);
+        HttpAsyncResponseConsumer<HttpResponse> responseConsumer = BufferSizeAwareResponseConsumer.createConsumer(responseBufferSize);
+        return client.execute(requestProducer, responseConsumer, callback);
+    }
+
+    private HttpEntity createHttpEntity(BodyResult bodyResult) {
+        if (bodyResult.isMultipart()) {
+            Parts dataAsMultipart = bodyResult.getDataAsMultipart();
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            parts.forEach((partName, part) -> {
+            dataAsMultipart.forEach((partName, part) -> {
+
+                // TODO: Here need to support sending bytes or string and so on....
                 byte[] dataAsBytes = (byte[]) part.getContent().data();
                 String filename = part.getAttributes().get("filename");
                 builder.addBinaryBody(partName, dataAsBytes, ContentType.APPLICATION_OCTET_STREAM, filename);
             });
-            entity = new HttpEntityWrapper(builder.build());
-
+            return new MultipartFormEntityWrapper(builder.build());
         } else {
-            byte[] body = bodyProvider.asByteArray(input, flowContext);
-            entity = new NByteArrayEntity(body);
+            byte[] body = bodyResult.getDataAsBytes();
+            return new NByteArrayEntity(body);
         }
+    }
 
-        HttpEntityEnclosingRequestBase request = requestFactory.create();
-
-        request.setURI(uri);
-
-        request.setEntity(entity);
-
-
+    private void addHttpHeaders(HeaderProvider headerProvider, BodyResult bodyResult, HttpEntityEnclosingRequestBase request) {
         headerProvider.headers().forEach((headerName, headerValue) -> {
             // If multipart, the content type is set by the underlying client.
             if (HttpHeader.CONTENT_TYPE.equalsIgnoreCase(headerName)) {
-                if (multipart == null || !multipart) {
-                    request.addHeader(headerName, headerValue); // we only add it when
+                // If it is not multipart, we add the content type header, otherwise
+                // the content type is set by the apache http entity.
+                if (!bodyResult.isMultipart()) {
+                    request.addHeader(headerName, headerValue);
                 }
             } else {
                 request.addHeader(headerName, headerValue);
             }
         });
-
-        return client.execute(HttpAsyncMethods.create(request), callback);
-    }
-
-    static class HttpEntityWrapper implements HttpEntity {
-
-        private final HttpEntity delegate;
-
-        HttpEntityWrapper(HttpEntity delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public boolean isRepeatable() {
-            return this.delegate.isRepeatable();
-        }
-
-        @Override
-        public boolean isChunked() {
-            return this.delegate.isChunked();
-        }
-
-        @Override
-        public long getContentLength() {
-            return this.delegate.getContentLength();
-        }
-
-        @Override
-        public Header getContentType() {
-            return this.delegate.getContentType();
-        }
-
-        @Override
-        public Header getContentEncoding() {
-            return this.delegate.getContentEncoding();
-        }
-
-        @Override
-        public InputStream getContent() throws IOException, UnsupportedOperationException {
-            final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            writeTo(outStream);
-            outStream.flush();
-            return new ByteArrayInputStream(outStream.toByteArray());
-        }
-
-        @Override
-        public void writeTo(OutputStream outstream) throws IOException {
-            this.delegate.writeTo(outstream);
-        }
-
-        @Override
-        public boolean isStreaming() {
-            return this.delegate.isStreaming();
-        }
-
-        @Override
-        public void consumeContent() throws IOException {
-            this.delegate.consumeContent();
-        }
     }
 }

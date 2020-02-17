@@ -18,11 +18,13 @@ import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.component.ProcessorAsync;
+import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -39,6 +41,8 @@ public class RestClient implements ProcessorAsync {
     private ScriptEngineService scriptEngine;
     @Reference
     private HttpClientFactory clientFactory;
+    @Reference
+    private ConverterService converterService;
 
     @Property("Method")
     @Default("GET")
@@ -56,10 +60,6 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "configuration", propertyValue = "{'ref': '" + When.BLANK + "'}")
     private String baseURL;
 
-    @Property("Multipart")
-    @When(propertyName = "method", propertyValue = "POST")
-    private Boolean multipart;
-
     @Property("Path")
     @Hint("/resource/{id}")
     @PropertyInfo("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map, e.g: /resource/{id}/{group}.")
@@ -72,7 +72,7 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
     @PropertyInfo("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
-    private DynamicByteArray body;
+    private DynamicObject body;
 
     @Property("Streaming")
     @Default("AUTO")
@@ -137,7 +137,6 @@ public class RestClient implements ProcessorAsync {
         // Init execution
         execution = ExecutionStrategyBuilder.builder()
                 .advancedConfig(advancedConfiguration)
-                .multipart(multipart)
                 .streaming(streaming)
                 .method(method)
                 .build();
@@ -145,6 +144,7 @@ public class RestClient implements ProcessorAsync {
         // Init body evaluator
         bodyEvaluator = BodyEvaluator.builder()
                 .scriptEngine(scriptEngine)
+                .converter(converterService)
                 .method(method)
                 .body(body)
                 .build();
@@ -191,7 +191,7 @@ public class RestClient implements ProcessorAsync {
         this.path = path;
     }
 
-    public void setBody(DynamicByteArray body) {
+    public void setBody(DynamicObject body) {
         this.body = body;
     }
 
@@ -213,9 +213,5 @@ public class RestClient implements ProcessorAsync {
 
     public void setAdvancedConfiguration(AdvancedConfiguration advancedConfiguration) {
         this.advancedConfiguration = advancedConfiguration;
-    }
-
-    public void setMultipart(Boolean multipart) {
-        this.multipart = multipart;
     }
 }

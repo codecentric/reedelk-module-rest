@@ -1,13 +1,12 @@
 package com.reedelk.rest.client.header;
 
 import com.reedelk.rest.commons.ContentType;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.commons.ScriptUtils;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +17,11 @@ public class HeadersEvaluator {
 
     private ScriptEngineService scriptEngine;
     private DynamicStringMap userHeaders;
-    private DynamicByteArray body;
+    private DynamicObject body;
 
     private HeadersEvaluator(ScriptEngineService scriptEngine,
                              DynamicStringMap userHeaders,
-                             DynamicByteArray body) {
+                             DynamicObject body) {
         this.scriptEngine = scriptEngine;
         this.userHeaders = userHeaders;
         this.body = body;
@@ -53,7 +52,7 @@ public class HeadersEvaluator {
 
         private ScriptEngineService scriptEngine;
         private DynamicStringMap headers;
-        private DynamicByteArray body;
+        private DynamicObject body;
 
         public Builder scriptEngine(ScriptEngineService scriptEngine) {
             this.scriptEngine = scriptEngine;
@@ -65,7 +64,7 @@ public class HeadersEvaluator {
             return this;
         }
 
-        public Builder body(DynamicByteArray body) {
+        public Builder body(DynamicObject body) {
             this.body = body;
             return this;
         }

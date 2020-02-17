@@ -1,8 +1,10 @@
 package com.reedelk.rest.client.body;
 
+import com.reedelk.rest.client.strategy.ExecutionStrategyBuilder;
 import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.script.ScriptEngineService;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 
 public class BodyEvaluator {
 
@@ -23,11 +25,12 @@ public class BodyEvaluator {
     public static class Builder {
 
         private ScriptEngineService scriptEngine;
+        private ConverterService converter;
         private RestMethod method;
-        private DynamicByteArray body;
+        private DynamicObject body;
 
-        public Builder scriptEngine(ScriptEngineService scriptEngine) {
-            this.scriptEngine = scriptEngine;
+        public Builder body(DynamicObject body) {
+            this.body = body;
             return this;
         }
 
@@ -36,14 +39,19 @@ public class BodyEvaluator {
             return this;
         }
 
-        public Builder body(DynamicByteArray body) {
-            this.body = body;
+        public Builder converter(ConverterService converterService) {
+            this.converter = converterService;
+            return this;
+        }
+
+        public Builder scriptEngine(ScriptEngineService scriptEngine) {
+            this.scriptEngine = scriptEngine;
             return this;
         }
 
         public BodyEvaluator build() {
             BodyProvider provider = method.hasBody() ?
-                    new DefaultBodyProvider(scriptEngine, body) :
+                    new DefaultBodyProvider(scriptEngine, converter, body) :
                     EmptyBodyProvider.INSTANCE;
             return new BodyEvaluator(provider);
         }
