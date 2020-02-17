@@ -58,7 +58,7 @@ public class StrategyWithBody implements Strategy {
         return client.execute(requestProducer, responseConsumer, callback);
     }
 
-    private void addHttpHeaders(HeaderProvider headerProvider, BodyResult bodyResult, HttpEntityEnclosingRequestBase request) {
+    void addHttpHeaders(HeaderProvider headerProvider, BodyResult bodyResult, HttpEntityEnclosingRequestBase request) {
         headerProvider.headers().forEach((headerName, headerValue) -> {
             if (HttpHeader.CONTENT_TYPE.equalsIgnoreCase(headerName)) {
                 // If it is not multipart, we add the content type header,
