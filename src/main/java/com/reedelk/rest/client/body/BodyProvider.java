@@ -12,13 +12,13 @@ public interface BodyProvider {
      * of the payload is known in advance.
      * @return the byte array to be sent to the remote host.
      */
-    BodyResult asByteArray(Message message, FlowContext flowContext);
+    BodyResult get(Message message, FlowContext flowContext);
 
     /**
      * Used by chunked transfer encoding.
      * @return the byte array stream to be sent to the remote host.
      */
-    Publisher<byte[]> asStream(Message message, FlowContext flowContext);
+    Publisher<byte[]> getAsStream(Message message, FlowContext flowContext);
 
     /**
      * Checks whether the content is streamable or not.

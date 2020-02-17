@@ -9,7 +9,10 @@ import com.reedelk.rest.client.response.BufferSizeAwareResponseConsumer;
 import com.reedelk.rest.commons.HttpHeader;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.content.ByteArrayContent;
+import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.StringContent;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -45,7 +48,7 @@ public class StrategyWithBody implements Strategy {
                                         BodyProvider bodyProvider,
                                         HttpClientResultCallback callback) {
 
-        BodyResult bodyResult = bodyProvider.asByteArray(input, flowContext);
+        BodyResult bodyResult = bodyProvider.get(input, flowContext);
         HttpEntity entity = createHttpEntity(bodyResult);
 
         HttpEntityEnclosingRequestBase request = requestFactory.create();
@@ -61,20 +64,40 @@ public class StrategyWithBody implements Strategy {
 
     private HttpEntity createHttpEntity(BodyResult bodyResult) {
         if (bodyResult.isMultipart()) {
-            Parts dataAsMultipart = bodyResult.getDataAsMultipart();
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-            dataAsMultipart.forEach((partName, part) -> {
-
-                // TODO: Here need to support sending bytes or string and so on....
-                byte[] dataAsBytes = (byte[]) part.getContent().data();
-                String filename = part.getAttributes().get("filename");
-                builder.addBinaryBody(partName, dataAsBytes, ContentType.APPLICATION_OCTET_STREAM, filename);
-            });
-            return new MultipartFormEntityWrapper(builder.build());
+            return createMultipartHttpEntity(bodyResult);
         } else {
             byte[] body = bodyResult.getDataAsBytes();
             return new NByteArrayEntity(body);
         }
+    }
+
+    private HttpEntity createMultipartHttpEntity(BodyResult bodyResult) {
+        Parts dataAsMultipart = bodyResult.getDataAsMultipart();
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        dataAsMultipart.forEach((partName, part) -> {
+
+            if (part.getContent() instanceof ByteArrayContent) {
+                byte[] dataAsBytes = (byte[]) part.getContent().data();
+                String filename = part.getAttributes().getOrDefault("filename", null);
+                ContentType contentType = ContentType.DEFAULT_BINARY;
+                if (part.getContent().mimeType() != null) {
+                    MimeType mimeType = part.getContent().mimeType();
+                    contentType = ContentType.create(mimeType.toString());
+                }
+                builder.addBinaryBody(partName, dataAsBytes, contentType, filename);
+            } else if (part.getContent() instanceof StringContent){
+                String dataAsString = (String) part.getContent().data();
+                ContentType contentType = ContentType.DEFAULT_TEXT;
+                if (part.getContent().mimeType() != null) {
+                    MimeType mimeType = part.getContent().mimeType();
+                    contentType = ContentType.create(mimeType.toString());
+                }
+                builder.addTextBody(partName, dataAsString, contentType);
+            } else {
+                throw new IllegalArgumentException("Exception to be thrown");
+            }
+        });
+        return new MultipartFormEntityWrapper(builder.build());
     }
 
     private void addHttpHeaders(HeaderProvider headerProvider, BodyResult bodyResult, HttpEntityEnclosingRequestBase request) {

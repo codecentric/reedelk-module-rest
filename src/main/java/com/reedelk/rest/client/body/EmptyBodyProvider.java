@@ -12,12 +12,12 @@ class EmptyBodyProvider implements BodyProvider {
     }
 
     @Override
-    public BodyResult asByteArray(Message message, FlowContext flowContext) {
+    public BodyResult get(Message message, FlowContext flowContext) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Publisher<byte[]> asStream(Message message, FlowContext flowContext) {
+    public Publisher<byte[]> getAsStream(Message message, FlowContext flowContext) {
         throw new UnsupportedOperationException();
     }
 

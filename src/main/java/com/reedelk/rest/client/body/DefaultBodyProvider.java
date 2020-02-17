@@ -25,7 +25,7 @@ public class DefaultBodyProvider implements BodyProvider {
     }
 
     @Override
-    public BodyResult asByteArray(Message message, FlowContext flowContext) {
+    public BodyResult get(Message message, FlowContext flowContext) {
         Object evaluatedObject = scriptEngine.evaluate(body, flowContext, message).orElse(new byte[0]);
         // The evaluated payload might be multipart or any other value.
         // For any other value we must convert it to byte array otherwise we keep it as Multipart.
@@ -41,7 +41,7 @@ public class DefaultBodyProvider implements BodyProvider {
 
     // TODO: Test me very well.
     @Override
-    public Publisher<byte[]> asStream(Message message, FlowContext flowContext) {
+    public Publisher<byte[]> getAsStream(Message message, FlowContext flowContext) {
         TypedPublisher<Object> objectTypedPublisher = scriptEngine.evaluateStream(body, flowContext, message);
         return converter.convert(objectTypedPublisher, byte[].class);
     }
@@ -50,7 +50,12 @@ public class DefaultBodyProvider implements BodyProvider {
     public boolean streamable(Message message) {
         if (isEvaluateMessagePayloadBody) {
             return message.content().isStream() &&
-                    !message.content().isConsumed();
+                    !message.content().isConsumed() &&
+                    // Multipart cannot be streamed! However in the listener
+                    // the reactor netty API forces us to keep it as a stream and consume
+                    // it later, therefore the content with Parts it is a stream however it
+                    // cannot be consumed as a stream.
+                    !message.content().type().equals(Parts.class);
         }
         return false;
     }

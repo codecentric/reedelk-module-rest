@@ -42,7 +42,7 @@ public class StrategyWithStreamBody implements Strategy {
                                         BodyProvider bodyProvider,
                                         HttpClientResultCallback callback) {
 
-        Publisher<byte[]> body = bodyProvider.asStream(input, flowContext);
+        Publisher<byte[]> body = bodyProvider.getAsStream(input, flowContext);
         BasicHttpEntity entity = new BasicHttpEntity();
 
         HttpEntityEnclosingRequestBase request = requestFactory.create();
