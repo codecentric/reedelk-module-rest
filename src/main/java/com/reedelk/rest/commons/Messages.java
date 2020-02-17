@@ -21,7 +21,9 @@ public class Messages {
         CONFIG_CLIENT_NULL_ERROR("Expected JSON definition with 'configuration' object property OR 'baseURL' property"),
         DIGEST_AUTH_MISSING("Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'"),
         BASIC_AUTH_MISSING("Basic Authentication Configuration must be present in the JSON definition when 'authentication' property is 'BASIC'"),
-        PROXY_CONFIG_MISSING("Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'");
+        PROXY_CONFIG_MISSING("Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'"),
+        MULTIPART_PART_NULL("Part with name %s is null and it will not be added to the HttpEntity"),
+        MULTIPART_PART_CONTENT_UNSUPPORTED("Part with Java Content Type %s is not supported and it will not be added to the HttpEntity");
 
         private String msg;
 
