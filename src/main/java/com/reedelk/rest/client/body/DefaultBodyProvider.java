@@ -39,7 +39,6 @@ public class DefaultBodyProvider implements BodyProvider {
         }
     }
 
-    // TODO: Test me very well.
     @Override
     public Publisher<byte[]> getAsStream(Message message, FlowContext flowContext) {
         TypedPublisher<Object> objectTypedPublisher = scriptEngine.evaluateStream(body, flowContext, message);
