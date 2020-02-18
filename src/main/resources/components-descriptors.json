@@ -1303,5 +1303,15 @@
       ]
     }
   ],
-  "autocompleteContributorDescriptors": []
+  "autocompleteContributorDescriptors": [
+    {
+      "error": false,
+      "message": false,
+      "context": false,
+      "contributions": [
+        "MultipartMessage[VARIABLE:MultipartMessage]",
+        "MultipartMessage.part(\u0027\u0027)[FUNCTION:MultipartPartBuilder:2]"
+      ]
+    }
+  ]
 }
