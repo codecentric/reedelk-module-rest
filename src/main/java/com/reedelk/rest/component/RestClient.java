@@ -23,7 +23,6 @@ import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -33,7 +32,13 @@ import java.net.URI;
 import static java.util.Objects.requireNonNull;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@ESBComponent("REST Client")
+@ModuleComponent(
+        name = "REST Client",
+        description = "Use this component to make a REST API Call. " +
+                "Supported REST methods are: GET, POST, PUT, DELETE, HEAD, OPTIONS. " +
+                "The base REST Client configuration can be shared across multiple REST clients in " +
+                "case there is a common remote resource to make different requests to. The components supports " +
+                "basic an digest authentication with the remote server.")
 @Component(service = RestClient.class, scope = PROTOTYPE)
 public class RestClient implements ProcessorAsync {
 
@@ -44,57 +49,70 @@ public class RestClient implements ProcessorAsync {
     @Reference
     private ConverterService converterService;
 
+    @Example("POST")
+    @InitValue("GET")
+    @DefaultRenameMe("GET")
     @Property("Method")
-    @Default("GET")
+    @PropertyDescription("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
     private RestMethod method;
 
     @Property("Client config")
     private ClientConfiguration configuration;
 
-    @Property("Base URL")
-    @PropertyInfo("The base URL of the HTTP request. " +
-            "It may include a static request path " +
-            "e.g: http://api.example.com/resource1")
     @Hint("https://api.example.com")
+    @Example("http://api.example.com/orders")
     @When(propertyName = "configuration", propertyValue = When.NULL)
     @When(propertyName = "configuration", propertyValue = "{'ref': '" + When.BLANK + "'}")
+    @Property("Base URL")
+    @PropertyDescription("The base URL of the HTTP request. It may include a static request path.")
     private String baseURL;
 
-    @Property("Path")
     @Hint("/resource/{id}")
-    @PropertyInfo("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map, e.g: /resource/{id}/{group}.")
+    @Example("/resource/{id}/{group}")
+    @Property("Path")
+    @PropertyDescription("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map.")
     private String path;
 
-    @Property("Body")
     @Hint("payload")
-    @Default("#[message.payload()]")
+    @DefaultRenameMe("<code>message.payload()</code>")
+    @Example("<code>context.myCustomPayload</code>")
+    @InitValue("#[message.payload()]")
     @When(propertyName = "method", propertyValue = "DELETE")
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
-    @PropertyInfo("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
+    @Property("Body")
+    @PropertyDescription("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
     private DynamicObject body;
 
-    @Property("Streaming")
-    @Default("AUTO")
+    @DefaultRenameMe("AUTO")
+    @Example("ALWAYS")
+    @InitValue("AUTO")
     @When(propertyName = "method", propertyValue = "DELETE")
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
-    @PropertyInfo("Determines the strategy type the body will be sent to the server. " +
+    @Property("Streaming")
+    @PropertyDescription("Determines the strategy type the body will be sent to the server. " +
             "When <i>Stream</i> the request body will be sent chunk by chunk without loading the entire content into memory. " +
             "When <i>None</i> the body will be loaded into memory and then sent to the server. When <i>Auto</i> the component " +
             "will inspect the content of the body to determine the best strategy to send the HTTP request data.")
     private StreamingMode streaming = StreamingMode.AUTO;
 
     @TabGroup("Headers and parameters")
+    @Example("X-Custom-Header > <code>'X-Custom-' + message.payload() + ' value'</code>")
     @Property("Headers")
+    @PropertyDescription("Map of dynamic headers names > values. The values are dynamic.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
     @TabGroup("Headers and parameters")
+    @Example("id > <code>message.payload()</code>")
     @Property("Path params")
+    @PropertyDescription("Map of request path parameters names > values. The values are dynamic.")
     private DynamicStringMap pathParameters = DynamicStringMap.empty();
 
     @TabGroup("Headers and parameters")
+    @Example("id > <code>message.payload()</code>")
     @Property("Query params")
+    @PropertyDescription("Map of request query parameters names > values. The values are dynamic.")
     private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
     @Property("Advanced configuration")

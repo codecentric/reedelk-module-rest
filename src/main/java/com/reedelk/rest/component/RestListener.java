@@ -22,33 +22,44 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 import static com.reedelk.runtime.api.commons.StringUtils.isBlank;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@ESBComponent("REST Listener")
+@ModuleComponent(
+        name = "REST Listener",
+        description = "The REST Listener can be used to create a REST endpoint listening on " +
+                "a given port, post and path. The listening path might contain path segments which " +
+                "are matched whenever an HTTP request comes in. A REST Listener configuration might be shared " +
+                "across different REST Listener whenever there is a need to reuse a common endpoint configuration " +
+                "across different REST resources. The REST Listener is an Inbound component and it can only be placed " +
+                "at the beginning of a flow.")
 @Component(service = RestListener.class, scope = PROTOTYPE)
 public class RestListener extends AbstractInbound {
 
     @Reference
     private ServerProvider provider;
-
     @Reference
     private ScriptEngineService scriptEngine;
 
     @Property("Configuration")
     private ListenerConfiguration configuration;
 
+    @Hint("/resource/{id}")
+    @Example("/resource/{id}")
     @Property("Path")
-    @PropertyInfo("The rest path this listener will be bound to. If present must start with '/'. " +
+    @PropertyDescription("The rest path this listener will be bound to. If present must start with '/'. " +
             "The path might contain regexp, e.g: /{name:.*} which would match against anything it is compared to, " +
             "or parameters /{group}/{id}. Path parameters are bound to a key/value map in the inbound message attributes.")
-    @Hint("/resource/{id}")
     private String path;
 
+    @Example("PUT")
+    @DefaultRenameMe("GET")
+    @InitValue("GET")
     @Property("Method")
-    @Default("GET")
+    @PropertyDescription("The REST Method this listener will be listening from.")
     private RestMethod method;
 
+    @Example("ALWAYS")
     @Property("Streaming")
-    @Default("AUTO")
-    @PropertyInfo("Determines the way the response body is sent to the client. " +
+    @InitValue("AUTO")
+    @PropertyDescription("Determines the way the response body is sent to the client. " +
             "When set to Auto and if the size of the payload is not clear, e.g. it is a stream of data, then it uses <b>Transfer-Encoding: chunked</b> " +
             "when sending data back to the client. Otherwise <b>Content-Length</b> encoding with the size of the payload is used. " +
             "When set to Always <b>Transfer-Encoding: chunked</b> is always used, and when none <b>Content-Length</b> is always used instead.")

@@ -1,8 +1,6 @@
 package com.reedelk.rest.configuration.client;
 
-import com.reedelk.runtime.api.annotation.Default;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.When;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -11,15 +9,22 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ProxyConfiguration.class, scope = PROTOTYPE)
 public class ProxyConfiguration implements Implementor {
 
+    @Example("http://myproxy.com")
     @Property("Host")
+    @PropertyDescription("The proxy host name.")
     private String host;
 
+    @Example("8686")
+    @InitValue("8080")
     @Property("Port")
-    @Default("8080")
+    @PropertyDescription("The proxy port.")
     private Integer port;
 
+    @Example("DIGEST")
+    @InitValue("NONE")
+    @DefaultRenameMe("NONE")
     @Property("Authentication")
-    @Default("NONE")
+    @PropertyDescription("The proxy authentication scheme to use. Possible values are: <b>NONE</b>, <b>BASIC</b>, <b>DIGEST</b>.")
     private ProxyAuthentication authentication;
 
     @Property("Basic authentication")

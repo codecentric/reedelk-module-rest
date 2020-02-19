@@ -1,8 +1,6 @@
 package com.reedelk.rest.configuration.listener;
 
-import com.reedelk.runtime.api.annotation.Default;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.When;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -11,19 +9,23 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = SecurityConfiguration.class, scope = PROTOTYPE)
 public class SecurityConfiguration implements Implementor {
 
+    @Example("CERTIFICATE_AND_PRIVATE_KEY")
+    @InitValue("CERTIFICATE_AND_PRIVATE_KEY")
     @Property("Type")
-    @Default("CERTIFICATE_AND_PRIVATE_KEY")
+    @PropertyDescription("Specifies the server security type. Possible values are: <b>CERTIFICATE_AND_PRIVATE_KEY</b>, <b>KEY_STORE</b>.")
     private ServerSecurityType type;
 
-    @Property("X.509 Certificate and private key")
     @When(propertyName = "type", propertyValue = "CERTIFICATE_AND_PRIVATE_KEY")
+    @Property("X.509 Certificate and private key")
     private CertificateAndPrivateKeyConfiguration certificateAndPrivateKey;
 
     @Property("Key store")
     @When(propertyName = "type", propertyValue = "KEY_STORE")
     private KeyStoreConfiguration keyStore;
 
+    @Example("true")
     @Property("Use trust store")
+    @PropertyDescription("If true the given trust store is used.")
     private Boolean useTrustStore;
 
     @Property("Trust store configuration")

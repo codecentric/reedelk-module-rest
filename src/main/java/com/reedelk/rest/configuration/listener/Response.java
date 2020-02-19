@@ -13,16 +13,16 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = Response.class, scope = PROTOTYPE)
 public class Response implements Implementor {
 
-    @Default("#[message.payload()]")
+    @InitValue("#[message.payload()]")
     @Hint("content body text")
     @Property("Response body")
-    @PropertyInfo("The body of the response might be a static or a dynamic value.")
+    @PropertyDescription("The body of the response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
-    @Default("200")
+    @InitValue("200")
     @Hint("200")
     @Property("Response status")
-    @PropertyInfo("The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myResponseStatus</i>.")
+    @PropertyDescription("The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myResponseStatus</i>.")
     private DynamicInteger status;
 
     @Property("Additional Headers")
