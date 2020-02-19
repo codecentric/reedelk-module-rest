@@ -2,14 +2,16 @@
   "componentDescriptors": [
     {
       "hidden": false,
-      "displayName": "RestClient",
+      "displayName": "REST Client",
+      "description": "Use this component to make a REST API Call. Supported REST methods are: GET, POST, PUT, DELETE, HEAD, OPTIONS. The base REST Client configuration can be shared across multiple REST clients in case there is a common remote resource to make different requests to. The components supports basic an digest authentication with the remote server.",
       "fullyQualifiedName": "com.reedelk.rest.component.RestClient",
       "componentType": "PROCESSOR",
       "componentPropertyDescriptors": [
         {
+          "example": "POST",
           "displayName": "Method",
           "propertyName": "method",
-          "defaultValue": "GET",
+          "initValue": "GET",
           "propertyInfo": "The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -30,7 +32,7 @@
         {
           "displayName": "Client config",
           "propertyName": "configuration",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -39,9 +41,10 @@
               "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ClientConfiguration",
               "objectProperties": [
                 {
+                  "example": "localhost",
                   "displayName": "Host",
                   "propertyName": "host",
-                  "defaultValue": "localhost",
+                  "initValue": "localhost",
                   "propertyInfo": "Sets the remote host the HTTP request will be sent to.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -52,9 +55,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "8484",
                   "displayName": "Port",
                   "propertyName": "port",
-                  "defaultValue": "80",
+                  "initValue": "80",
                   "propertyInfo": "Sets the remote port the HTTP request will be sent to.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -65,9 +69,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "/api/v1",
                   "displayName": "Base path",
                   "propertyName": "basePath",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Sets the base request path for all listeners using this configuration.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -78,9 +83,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "HTTPS",
                   "displayName": "Protocol",
                   "propertyName": "protocol",
-                  "defaultValue": "HTTP",
+                  "initValue": "HTTP",
                   "propertyInfo": "The http protocol to be used in the request. Possible values are: \u003cb\u003eHTTP\u003c/b, \u003cb\u003eHTTPS\u003c/b\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -95,9 +101,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "10000",
                   "displayName": "Request timeout (ms)",
                   "propertyName": "requestTimeout",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Returns the timeout in milliseconds used when requesting a connection from the connection manager. A timeout value of zero is interpreted as an infinite timeout.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -108,9 +115,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "10000",
                   "displayName": "Connect timeout (ms)",
                   "propertyName": "connectTimeout",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Determines the timeout in milliseconds until a connection is established.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -121,9 +129,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "120000",
                   "displayName": "Socket timeout (ms)",
                   "propertyName": "socketTimeout",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Defines the socket timeout in milliseconds, which is the timeout for waiting for data or, put differently, a maximum period inactivity between two consecutive data packets.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -134,10 +143,11 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "30",
                   "hintValue": "20",
                   "displayName": "Max Pool Connections",
                   "propertyName": "maxPoolConnections",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Max connections to be kept in the connection pool for all the requests to the given host.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -148,9 +158,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "true",
                   "displayName": "Keep alive",
                   "propertyName": "keepAlive",
-                  "defaultValue": "true",
+                  "initValue": "true",
                   "propertyInfo": "If true keeps the TCP connection open for multiple HTTP requests/responses.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -161,9 +172,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "true",
                   "displayName": "Follow redirects",
                   "propertyName": "followRedirects",
-                  "defaultValue": "true",
+                  "initValue": "true",
                   "propertyInfo": "If true, HTTP responses with redirects codes 3xx (301, 308) are automatically followed.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -174,9 +186,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "true",
                   "displayName": "Expect continue",
                   "propertyName": "expectContinue",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "If true, sends Expect: 100-continue header in the initial request before sending the body.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -187,9 +200,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "true",
                   "displayName": "Ignore self signed certificates",
                   "propertyName": "allowSelfSigned",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "If true, all requests to a host with a self signed certificate are not verified.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -200,9 +214,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "DIGEST",
                   "displayName": "Authentication",
                   "propertyName": "authentication",
-                  "defaultValue": "NONE",
+                  "initValue": "NONE",
                   "propertyInfo": "Specifies the type of authentication to be performed on the remote server. Possible values are: \u003cb\u003eNONE\u003c/b\u003e, \u003cb\u003eBASIC\u003c/b\u003e, \u003cb\u003eDIGEST\u003c/b\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -220,7 +235,7 @@
                 {
                   "displayName": "Basic authentication",
                   "propertyName": "basicAuthentication",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                     "instance": {
@@ -229,9 +244,10 @@
                       "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.BasicAuthenticationConfiguration",
                       "objectProperties": [
                         {
+                          "example": "user001",
                           "displayName": "Username",
                           "propertyName": "username",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "The username to be used in the remote server basic authentication.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -242,9 +258,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "password001",
                           "displayName": "Password",
                           "propertyName": "password",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "The password to be used in the remote server basic authentication.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePasswordDescriptor",
@@ -255,9 +272,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "true",
                           "displayName": "Preemptive",
                           "propertyName": "preemptive",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "Immediately sends basic authentication header before the server answers with unauthorized response code.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -281,7 +299,7 @@
                 {
                   "displayName": "Digest authentication",
                   "propertyName": "digestAuthentication",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                     "instance": {
@@ -290,9 +308,10 @@
                       "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.DigestAuthenticationConfiguration",
                       "objectProperties": [
                         {
+                          "example": "user001",
                           "displayName": "Username",
                           "propertyName": "username",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "The username to be used in the remote server digest authentication.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -303,9 +322,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "password001",
                           "displayName": "Password",
                           "propertyName": "password",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "The password to be used in the remote server digest authentication.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePasswordDescriptor",
@@ -316,9 +336,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "true",
                           "displayName": "Preemptive",
                           "propertyName": "preemptive",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "Immediately sends digest authentication header before the server answers with unauthorized response code.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -329,9 +350,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "myRealm",
                           "displayName": "Realm",
                           "propertyName": "realm",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "Realm value to be used in the digest authentication.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -347,9 +369,10 @@
                           ]
                         },
                         {
+                          "example": "123",
                           "displayName": "Nonce",
                           "propertyName": "nonce",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "Nonce value to be used in the digest authentication if known.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -376,9 +399,10 @@
                   ]
                 },
                 {
+                  "example": "PROXY",
                   "displayName": "Proxy",
                   "propertyName": "proxy",
-                  "defaultValue": "NONE",
+                  "initValue": "NONE",
                   "propertyInfo": "Enables or disable the use of proxy. Possible values are: \u003cb\u003eNONE\u003c/b\u003e, \u003cb\u003ePROXY\u003c/b\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -395,7 +419,7 @@
                 {
                   "displayName": "Proxy configuration",
                   "propertyName": "proxyConfiguration",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                     "instance": {
@@ -404,9 +428,10 @@
                       "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ProxyConfiguration",
                       "objectProperties": [
                         {
+                          "example": "http://myproxy.com",
                           "displayName": "Host",
                           "propertyName": "host",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "The proxy host name.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -417,9 +442,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "8686",
                           "displayName": "Port",
                           "propertyName": "port",
-                          "defaultValue": "8080",
+                          "initValue": "8080",
                           "propertyInfo": "The proxy port.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -430,9 +456,10 @@
                           "whenDescriptors": []
                         },
                         {
+                          "example": "DIGEST",
                           "displayName": "Authentication",
                           "propertyName": "authentication",
-                          "defaultValue": "NONE",
+                          "initValue": "NONE",
                           "propertyInfo": "The proxy authentication scheme to use. Possible values are: \u003cb\u003eNONE\u003c/b\u003e, \u003cb\u003eBASIC\u003c/b\u003e, \u003cb\u003eDIGEST\u003c/b\u003e.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -450,7 +477,7 @@
                         {
                           "displayName": "Basic authentication",
                           "propertyName": "basicAuthentication",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                             "instance": {
@@ -459,9 +486,10 @@
                               "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ProxyBasicAuthenticationConfiguration",
                               "objectProperties": [
                                 {
+                                  "example": "myProxyUsername",
                                   "displayName": "Username",
                                   "propertyName": "username",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The username to be used in the basic proxy authentication.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -472,9 +500,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "myProxyPassword",
                                   "displayName": "Password",
                                   "propertyName": "password",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The password to be used in the basic proxy authentication.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePasswordDescriptor",
@@ -498,7 +527,7 @@
                         {
                           "displayName": "Digest authentication",
                           "propertyName": "digestAuthentication",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                             "instance": {
@@ -507,9 +536,10 @@
                               "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ProxyDigestAuthenticationConfiguration",
                               "objectProperties": [
                                 {
+                                  "example": "myProxyUsername",
                                   "displayName": "Username",
                                   "propertyName": "username",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The username to be used in the digest proxy authentication.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -520,9 +550,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "myProxyPassword",
                                   "displayName": "Password",
                                   "propertyName": "password",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The password to be used in the digest proxy authentication.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePasswordDescriptor",
@@ -561,10 +592,11 @@
           "whenDescriptors": []
         },
         {
+          "example": "http://api.example.com/orders",
           "hintValue": "https://api.example.com",
           "displayName": "Base URL",
           "propertyName": "baseURL",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The base URL of the HTTP request. It may include a static request path.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -584,10 +616,11 @@
           ]
         },
         {
+          "example": "/resource/{id}/{group}",
           "hintValue": "/resource/{id}",
           "displayName": "Path",
           "propertyName": "path",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The request path might contain parameters placeholders which will be bound to the values defined in the \u003ci\u003eHeaders and parameters\u003c/i\u003e \u003e \u003ci\u003ePath params\u003c/i\u003e map.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -598,10 +631,11 @@
           "whenDescriptors": []
         },
         {
+          "example": "\u003ccode\u003econtext.myCustomPayload\u003c/code\u003e",
           "hintValue": "payload",
           "displayName": "Body",
           "propertyName": "body",
-          "defaultValue": "#[message.payload()]",
+          "initValue": "#[message.payload()]",
           "propertyInfo": "Sets the payload of the HTTP request. It could be a dynamic or a static value.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
@@ -625,9 +659,10 @@
           ]
         },
         {
+          "example": "ALWAYS",
           "displayName": "Streaming",
           "propertyName": "streaming",
-          "defaultValue": "AUTO",
+          "initValue": "AUTO",
           "propertyInfo": "Determines the strategy type the body will be sent to the server. When \u003ci\u003eStream\u003c/i\u003e the request body will be sent chunk by chunk without loading the entire content into memory. When \u003ci\u003eNone\u003c/i\u003e the body will be loaded into memory and then sent to the server. When \u003ci\u003eAuto\u003c/i\u003e the component will inspect the content of the body to determine the best strategy to send the HTTP request data.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -656,9 +691,10 @@
           ]
         },
         {
+          "example": "X-Custom-Header \u003e \u003ccode\u003e\u0027X-Custom-\u0027 + message.payload() + \u0027 value\u0027\u003c/code\u003e",
           "displayName": "Headers",
           "propertyName": "headers",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "Map of dynamic headers names \u003e values. The values are dynamic.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
@@ -671,9 +707,10 @@
           "whenDescriptors": []
         },
         {
+          "example": "id \u003e \u003ccode\u003emessage.payload()\u003c/code\u003e",
           "displayName": "Path params",
           "propertyName": "pathParameters",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "Map of request path parameters names \u003e values. The values are dynamic.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
@@ -686,9 +723,10 @@
           "whenDescriptors": []
         },
         {
+          "example": "id \u003e \u003ccode\u003emessage.payload()\u003c/code\u003e",
           "displayName": "Query params",
           "propertyName": "queryParameters",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "Map of request query parameters names \u003e values. The values are dynamic.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
@@ -703,7 +741,7 @@
         {
           "displayName": "Advanced configuration",
           "propertyName": "advancedConfiguration",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -712,10 +750,11 @@
               "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.AdvancedConfiguration",
               "objectProperties": [
                 {
+                  "example": "16384",
                   "hintValue": "16384",
                   "displayName": "Response buffer size",
                   "propertyName": "responseBufferSize",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "The buffer size to be used while receiving the HTTP response.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -726,10 +765,11 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "16384",
                   "hintValue": "16384",
                   "displayName": "Request buffer size",
                   "propertyName": "requestBufferSize",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "The buffer size to be used while sending the HTTP request.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -749,14 +789,15 @@
     },
     {
       "hidden": false,
-      "displayName": "RestListener",
+      "displayName": "REST Listener",
+      "description": "The REST Listener can be used to create a REST endpoint listening on a given port, post and path. The listening path might contain path segments which are matched whenever an HTTP request comes in. A REST Listener configuration might be shared across different REST Listener whenever there is a need to reuse a common endpoint configuration across different REST resources. The REST Listener is an Inbound component and it can only be placed at the beginning of a flow.",
       "fullyQualifiedName": "com.reedelk.rest.component.RestListener",
       "componentType": "INBOUND",
       "componentPropertyDescriptors": [
         {
           "displayName": "Configuration",
           "propertyName": "configuration",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -765,10 +806,11 @@
               "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.ListenerConfiguration",
               "objectProperties": [
                 {
+                  "example": "localhost",
                   "hintValue": "localhost",
                   "displayName": "Host",
                   "propertyName": "host",
-                  "defaultValue": "localhost",
+                  "initValue": "localhost",
                   "propertyInfo": "The host this REST listener will be bound to.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -779,10 +821,11 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "9292",
                   "hintValue": "8080",
                   "displayName": "Port",
                   "propertyName": "port",
-                  "defaultValue": "8080",
+                  "initValue": "8080",
                   "propertyInfo": "The port this REST listener will be bound to.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -793,9 +836,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "HTTPS",
                   "displayName": "Protocol",
                   "propertyName": "protocol",
-                  "defaultValue": "HTTP",
+                  "initValue": "HTTP",
                   "propertyInfo": "The http protocol to use. Possible values are: \u003cb\u003eHTTP\u003c/b\u003e, \u003cb\u003eHTTPS\u003c/b\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -810,10 +854,11 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "/api/v1",
                   "hintValue": "/api/v1",
                   "displayName": "Base path",
                   "propertyName": "basePath",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "The base path shared by all the listeners using this configuration.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -824,9 +869,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "true",
                   "displayName": "Keep alive",
                   "propertyName": "keepAlive",
-                  "defaultValue": "true",
+                  "initValue": "true",
                   "propertyInfo": "Enables socket keep alive for this listener.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -837,9 +883,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "true",
                   "displayName": "Compress response",
                   "propertyName": "compress",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "If true the response is compressed before sending it to the client.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -850,9 +897,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "30000",
                   "displayName": "Read timeout millis",
                   "propertyName": "readTimeoutMillis",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Sets the socket read timeout for this listener in milliseconds.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -863,9 +911,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "30000",
                   "displayName": "Connection timeout millis",
                   "propertyName": "connectionTimeoutMillis",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "Sets the socket connection timeout for this listener in milliseconds.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -876,9 +925,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "5",
                   "displayName": "Socket backlog",
                   "propertyName": "socketBacklog",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "The number of pending connections the listener queue will hold.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -889,9 +939,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "8192",
                   "displayName": "Max chunk size",
                   "propertyName": "maxChunkSize",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "The maximum length of the content of each chunk.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -902,9 +953,10 @@
                   "whenDescriptors": []
                 },
                 {
+                  "example": "8192",
                   "displayName": "Max headers length",
                   "propertyName": "maxLengthOfAllHeaders",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyInfo": "The maximum length of all headers.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -917,7 +969,7 @@
                 {
                   "displayName": "Security configuration",
                   "propertyName": "securityConfiguration",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                     "instance": {
@@ -926,9 +978,10 @@
                       "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.SecurityConfiguration",
                       "objectProperties": [
                         {
+                          "example": "CERTIFICATE_AND_PRIVATE_KEY",
                           "displayName": "Type",
                           "propertyName": "type",
-                          "defaultValue": "CERTIFICATE_AND_PRIVATE_KEY",
+                          "initValue": "CERTIFICATE_AND_PRIVATE_KEY",
                           "propertyInfo": "Specifies the server security type. Possible values are: \u003cb\u003eCERTIFICATE_AND_PRIVATE_KEY\u003c/b\u003e, \u003cb\u003eKEY_STORE\u003c/b\u003e.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -945,7 +998,7 @@
                         {
                           "displayName": "X.509 Certificate and private key",
                           "propertyName": "certificateAndPrivateKey",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                             "instance": {
@@ -954,10 +1007,11 @@
                               "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.CertificateAndPrivateKeyConfiguration",
                               "objectProperties": [
                                 {
+                                  "example": "/var/certificates/cacert.crt",
                                   "hintValue": "/var/certificates/cacert.crt",
                                   "displayName": "Certificate",
                                   "propertyName": "certificateFile",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The path on the filesystem to the certificate file.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -968,10 +1022,11 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "/var/certificates/private.key",
                                   "hintValue": "/var/certificates/private.key",
                                   "displayName": "Private key",
                                   "propertyName": "privateKeyFile",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The path on the filesystem to the private key.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -995,7 +1050,7 @@
                         {
                           "displayName": "Key store",
                           "propertyName": "keyStore",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                             "instance": {
@@ -1004,9 +1059,10 @@
                               "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.KeyStoreConfiguration",
                               "objectProperties": [
                                 {
+                                  "example": "/var/certificates/myKeyStore.jks",
                                   "displayName": "Path",
                                   "propertyName": "path",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The path on the filesystem of the key store.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1017,9 +1073,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "myKeyStorePassword",
                                   "displayName": "Password",
                                   "propertyName": "password",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The keystore password.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePasswordDescriptor",
@@ -1030,9 +1087,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "JKS",
                                   "displayName": "Type",
                                   "propertyName": "type",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The keystore type.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1043,9 +1101,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "SunX509",
                                   "displayName": "Algorithm",
                                   "propertyName": "algorithm",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The keystore algorithm.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1067,9 +1126,10 @@
                           ]
                         },
                         {
+                          "example": "true",
                           "displayName": "Use trust store",
                           "propertyName": "useTrustStore",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyInfo": "If true the given trust store is used.",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1082,7 +1142,7 @@
                         {
                           "displayName": "Trust store configuration",
                           "propertyName": "trustStoreConfiguration",
-                          "defaultValue": "###USE_DEFAULT_VALUE###",
+                          "initValue": "###USE_DEFAULT_VALUE###",
                           "propertyType": {
                             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
                             "instance": {
@@ -1091,9 +1151,10 @@
                               "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.TrustStoreConfiguration",
                               "objectProperties": [
                                 {
+                                  "example": "/var/certificates/myTrustStore.jks",
                                   "displayName": "Path",
                                   "propertyName": "path",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The path on the filesystem of the trust store.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1104,9 +1165,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "myTrustStorePassword",
                                   "displayName": "Password",
                                   "propertyName": "password",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The trust store password.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePasswordDescriptor",
@@ -1117,9 +1179,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "JKS",
                                   "displayName": "Type",
                                   "propertyName": "type",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The trust store type.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1130,9 +1193,10 @@
                                   "whenDescriptors": []
                                 },
                                 {
+                                  "example": "SunX509",
                                   "displayName": "Algorithm",
                                   "propertyName": "algorithm",
-                                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                                  "initValue": "###USE_DEFAULT_VALUE###",
                                   "propertyInfo": "The trust store algorithm.",
                                   "propertyType": {
                                     "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1171,10 +1235,11 @@
           "whenDescriptors": []
         },
         {
+          "example": "/resource/{id}",
           "hintValue": "/resource/{id}",
           "displayName": "Path",
           "propertyName": "path",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyInfo": "The rest path this listener will be bound to. If present must start with \u0027/\u0027. The path might contain regexp, e.g: /{name:.*} which would match against anything it is compared to, or parameters /{group}/{id}. Path parameters are bound to a key/value map in the inbound message attributes.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypePrimitiveDescriptor",
@@ -1185,9 +1250,10 @@
           "whenDescriptors": []
         },
         {
+          "example": "PUT",
           "displayName": "Method",
           "propertyName": "method",
-          "defaultValue": "GET",
+          "initValue": "GET",
           "propertyInfo": "The REST Method this listener will be listening from.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -1206,9 +1272,10 @@
           "whenDescriptors": []
         },
         {
+          "example": "ALWAYS",
           "displayName": "Streaming",
           "propertyName": "streaming",
-          "defaultValue": "AUTO",
+          "initValue": "AUTO",
           "propertyInfo": "Determines the way the response body is sent to the client. When set to Auto and if the size of the payload is not clear, e.g. it is a stream of data, then it uses \u003cb\u003eTransfer-Encoding: chunked\u003c/b\u003e when sending data back to the client. Otherwise \u003cb\u003eContent-Length\u003c/b\u003e encoding with the size of the payload is used. When set to Always \u003cb\u003eTransfer-Encoding: chunked\u003c/b\u003e is always used, and when none \u003cb\u003eContent-Length\u003c/b\u003e is always used instead.",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeEnumDescriptor",
@@ -1226,7 +1293,7 @@
         {
           "displayName": "Response",
           "propertyName": "response",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -1238,7 +1305,7 @@
                   "hintValue": "content body text",
                   "displayName": "Response body",
                   "propertyName": "body",
-                  "defaultValue": "#[message.payload()]",
+                  "initValue": "#[message.payload()]",
                   "propertyInfo": "The body of the response might be a static or a dynamic value.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
@@ -1252,7 +1319,7 @@
                   "hintValue": "200",
                   "displayName": "Response status",
                   "propertyName": "status",
-                  "defaultValue": "200",
+                  "initValue": "200",
                   "propertyInfo": "The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: \u003ci\u003econtext.myResponseStatus\u003c/i\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
@@ -1265,7 +1332,7 @@
                 {
                   "displayName": "Additional Headers",
                   "propertyName": "headers",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
                     "instance": {
@@ -1284,7 +1351,7 @@
         {
           "displayName": "Error response",
           "propertyName": "errorResponse",
-          "defaultValue": "###USE_DEFAULT_VALUE###",
+          "initValue": "###USE_DEFAULT_VALUE###",
           "propertyType": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
             "instance": {
@@ -1296,7 +1363,7 @@
                   "hintValue": "error body text",
                   "displayName": "Response body",
                   "propertyName": "body",
-                  "defaultValue": "#[error]",
+                  "initValue": "#[error]",
                   "propertyInfo": "The body of the error response might be a static or a dynamic value.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
@@ -1316,7 +1383,7 @@
                   "hintValue": "500",
                   "displayName": "Response status",
                   "propertyName": "status",
-                  "defaultValue": "500",
+                  "initValue": "500",
                   "propertyInfo": "The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: \u003ci\u003econtext.myErrorResponseStatus\u003c/i\u003e.",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicValueDescriptor",
@@ -1335,7 +1402,7 @@
                 {
                   "displayName": "Additional Headers",
                   "propertyName": "headers",
-                  "defaultValue": "###USE_DEFAULT_VALUE###",
+                  "initValue": "###USE_DEFAULT_VALUE###",
                   "propertyType": {
                     "classname": "com.reedelk.module.descriptor.model.TypeDynamicMapDescriptor",
                     "instance": {
