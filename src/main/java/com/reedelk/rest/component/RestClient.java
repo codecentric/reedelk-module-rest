@@ -51,7 +51,7 @@ public class RestClient implements ProcessorAsync {
 
     @Example("POST")
     @InitValue("GET")
-    @DefaultRenameMe("GET")
+    @DefaultValue("GET")
     @Property("Method")
     @PropertyDescription("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
     private RestMethod method;
@@ -74,7 +74,7 @@ public class RestClient implements ProcessorAsync {
     private String path;
 
     @Hint("payload")
-    @DefaultRenameMe("<code>message.payload()</code>")
+    @DefaultValue("<code>message.payload()</code>")
     @Example("<code>context.myCustomPayload</code>")
     @InitValue("#[message.payload()]")
     @When(propertyName = "method", propertyValue = "DELETE")
@@ -84,7 +84,7 @@ public class RestClient implements ProcessorAsync {
     @PropertyDescription("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
     private DynamicObject body;
 
-    @DefaultRenameMe("AUTO")
+    @DefaultValue("AUTO")
     @Example("ALWAYS")
     @InitValue("AUTO")
     @When(propertyName = "method", propertyValue = "DELETE")

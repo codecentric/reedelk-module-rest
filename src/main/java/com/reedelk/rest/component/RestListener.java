@@ -50,7 +50,7 @@ public class RestListener extends AbstractInbound {
     private String path;
 
     @Example("PUT")
-    @DefaultRenameMe("GET")
+    @DefaultValue("GET")
     @InitValue("GET")
     @Property("Method")
     @PropertyDescription("The REST Method this listener will be listening from.")

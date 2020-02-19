@@ -12,14 +12,14 @@ public class AdvancedConfiguration implements Implementor {
 
     @Hint("16384") // 16 * 1024
     @Example("16384")
-    @DefaultRenameMe("16384")
+    @DefaultValue("16384")
     @Property("Response buffer size")
     @PropertyDescription("The buffer size to be used while receiving the HTTP response.")
     private Integer responseBufferSize;
 
     @Hint("16384") // 16 * 1024
     @Example("16384")
-    @DefaultRenameMe("16384")
+    @DefaultValue("16384")
     @Property("Request buffer size")
     @PropertyDescription("The buffer size to be used while sending the HTTP request.")
     private Integer requestBufferSize;

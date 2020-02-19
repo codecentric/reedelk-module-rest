@@ -22,7 +22,7 @@ public class ProxyConfiguration implements Implementor {
 
     @Example("DIGEST")
     @InitValue("NONE")
-    @DefaultRenameMe("NONE")
+    @DefaultValue("NONE")
     @Property("Authentication")
     @PropertyDescription("The proxy authentication scheme to use. Possible values are: <b>NONE</b>, <b>BASIC</b>, <b>DIGEST</b>.")
     private ProxyAuthentication authentication;

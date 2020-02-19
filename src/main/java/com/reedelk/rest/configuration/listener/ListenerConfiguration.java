@@ -27,7 +27,7 @@ public class ListenerConfiguration implements Implementor {
 
     @Example("HTTPS")
     @InitValue("HTTP")
-    @DefaultRenameMe("HTTP")
+    @DefaultValue("HTTP")
     @Property("Protocol")
     @PropertyDescription("The http protocol to use. Possible values are: <b>HTTP</b>, <b>HTTPS</b>.")
     private HttpProtocol protocol = HttpProtocol.HTTP;
@@ -45,7 +45,7 @@ public class ListenerConfiguration implements Implementor {
     private Boolean keepAlive;
 
     @Example("true")
-    @DefaultRenameMe("false")
+    @DefaultValue("false")
     @Property("Compress response")
     @PropertyDescription("If true the response is compressed before sending it to the client.")
     private Boolean compress;

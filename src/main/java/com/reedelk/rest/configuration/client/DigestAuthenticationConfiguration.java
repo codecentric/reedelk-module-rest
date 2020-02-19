@@ -21,7 +21,7 @@ public class DigestAuthenticationConfiguration implements Implementor {
     private String password;
 
     @Example("true")
-    @DefaultRenameMe("false")
+    @DefaultValue("false")
     @Property("Preemptive")
     @PropertyDescription("Immediately sends digest authentication header before the server answers with unauthorized response code.")
     private Boolean preemptive;

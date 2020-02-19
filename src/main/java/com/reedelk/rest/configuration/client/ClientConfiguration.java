@@ -35,27 +35,27 @@ public class ClientConfiguration implements Implementor {
 
     @Example("HTTPS")
     @InitValue("HTTP")
-    @DefaultRenameMe("HTTP")
+    @DefaultValue("HTTP")
     @Property("Protocol")
     @PropertyDescription("The http protocol to be used in the request. Possible values are: <b>HTTP</b, <b>HTTPS</b>.")
     private HttpProtocol protocol;
 
     // Default request config
     @Example("10000")
-    @DefaultRenameMe("6000")
+    @DefaultValue("6000")
     @Property("Request timeout (ms)")
     @PropertyDescription("Returns the timeout in milliseconds used when requesting a connection " +
             "from the connection manager. A timeout value of zero is interpreted as an infinite timeout.")
     private Integer requestTimeout;
 
     @Example("10000")
-    @DefaultRenameMe("6000")
+    @DefaultValue("6000")
     @Property("Connect timeout (ms)")
     @PropertyDescription("Determines the timeout in milliseconds until a connection is established.")
     private Integer connectTimeout;
 
     @Example("120000")
-    @DefaultRenameMe("60000")
+    @DefaultValue("60000")
     @Property("Socket timeout (ms)")
     @PropertyDescription("Defines the socket timeout in milliseconds, " +
             "which is the timeout for waiting for data or, put differently, " +
@@ -64,7 +64,7 @@ public class ClientConfiguration implements Implementor {
 
     @Hint("20")
     @Example("30")
-    @DefaultRenameMe("10")
+    @DefaultValue("10")
     @Property("Max Pool Connections")
     @PropertyDescription("Max connections to be kept in the connection pool for all the requests to the given host.")
     private Integer maxPoolConnections;
@@ -87,13 +87,13 @@ public class ClientConfiguration implements Implementor {
     private Boolean expectContinue;
 
     @Example("true")
-    @DefaultRenameMe("false")
+    @DefaultValue("false")
     @Property("Ignore self signed certificates")
     @PropertyDescription("If true, all requests to a host with a self signed certificate are not verified.")
     private Boolean allowSelfSigned;
 
     @Example("DIGEST")
-    @DefaultRenameMe("NONE")
+    @DefaultValue("NONE")
     @InitValue("NONE")
     @Property("Authentication")
     @PropertyDescription("Specifies the type of authentication to be performed on the remote server. Possible values are: <b>NONE</b>, <b>BASIC</b>, <b>DIGEST</b>.")
@@ -109,7 +109,7 @@ public class ClientConfiguration implements Implementor {
 
     @InitValue("NONE")
     @Example("PROXY")
-    @DefaultRenameMe("NONE")
+    @DefaultValue("NONE")
     @Property("Proxy")
     @PropertyDescription("Enables or disable the use of proxy. Possible values are: <b>NONE</b>, <b>PROXY</b>.")
     private Proxy proxy;
