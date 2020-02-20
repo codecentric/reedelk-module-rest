@@ -29,6 +29,7 @@ public class ErrorResponse implements Implementor {
 
     @AutoCompleteContributor(error = true, message = false)
     @Property("Additional Headers")
+    @PropertyDescription("Additional headers to be set in the HTTP error response.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
     public DynamicByteArray getBody() {

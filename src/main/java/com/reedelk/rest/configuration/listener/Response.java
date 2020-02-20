@@ -26,6 +26,7 @@ public class Response implements Implementor {
     private DynamicInteger status;
 
     @Property("Additional Headers")
+    @PropertyDescription("Additional headers to be set in the HTTP response.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
     public DynamicByteArray getBody() {
