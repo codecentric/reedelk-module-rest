@@ -1312,6 +1312,7 @@
         {
           "name": "response",
           "initValue": "###USE_DEFAULT_VALUE###",
+          "description": "Advanced definition for the response including response body, status code and headers.",
           "displayName": "Response",
           "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",
@@ -1371,6 +1372,7 @@
         {
           "name": "errorResponse",
           "initValue": "###USE_DEFAULT_VALUE###",
+          "description": "Advanced definition for the error response including error response body, status code and headers.",
           "displayName": "Error response",
           "type": {
             "classname": "com.reedelk.module.descriptor.model.TypeObjectDescriptor",

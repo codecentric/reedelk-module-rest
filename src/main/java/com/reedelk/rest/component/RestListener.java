@@ -60,9 +60,11 @@ public class RestListener extends AbstractInbound {
     private StreamingMode streaming = StreamingMode.AUTO;
 
     @Property("Response")
+    @Description("Advanced definition for the response including response body, status code and headers.")
     private Response response;
 
     @Property("Error response")
+    @Description("Advanced definition for the error response including error response body, status code and headers.")
     private ErrorResponse errorResponse;
 
     @Reference
