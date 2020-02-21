@@ -2,7 +2,6 @@ package com.reedelk.rest.client.body;
 
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
-import com.reedelk.runtime.api.message.content.Parts;
 import org.reactivestreams.Publisher;
 
 public interface BodyProvider {

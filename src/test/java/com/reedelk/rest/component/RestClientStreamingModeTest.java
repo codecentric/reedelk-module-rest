@@ -22,9 +22,8 @@ import java.util.UUID;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
 
 class RestClientStreamingModeTest extends RestClientAbstractTest {
 

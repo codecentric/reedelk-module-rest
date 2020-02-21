@@ -1,6 +1,5 @@
 package com.reedelk.rest.client.body;
 
-import com.reedelk.rest.client.strategy.ExecutionStrategyBuilder;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.script.ScriptEngineService;
