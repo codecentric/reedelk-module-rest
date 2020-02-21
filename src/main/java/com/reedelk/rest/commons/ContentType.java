@@ -5,7 +5,6 @@ import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.message.content.TypedContent;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class ContentType {
 

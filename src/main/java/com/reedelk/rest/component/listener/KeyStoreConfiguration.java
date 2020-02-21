@@ -1,9 +1,9 @@
 package com.reedelk.rest.component.listener;
 
+import com.reedelk.runtime.api.annotation.Description;
 import com.reedelk.runtime.api.annotation.Example;
 import com.reedelk.runtime.api.annotation.Password;
 import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.Description;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 

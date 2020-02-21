@@ -1,7 +1,7 @@
 package com.reedelk.rest.client;
 
-import com.reedelk.rest.component.RestClientConfiguration;
 import com.reedelk.rest.component.RestClient;
+import com.reedelk.rest.component.RestClientConfiguration;
 import com.reedelk.rest.component.client.*;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
