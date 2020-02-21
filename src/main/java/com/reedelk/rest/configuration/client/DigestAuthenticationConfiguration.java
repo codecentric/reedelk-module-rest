@@ -9,33 +9,33 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = DigestAuthenticationConfiguration.class, scope = PROTOTYPE)
 public class DigestAuthenticationConfiguration implements Implementor {
 
-    @Example("user001")
     @Property("Username")
-    @PropertyDescription("The username to be used in the remote server digest authentication.")
+    @Example("user001")
+    @Description("The username to be used in the remote server digest authentication.")
     private String username;
 
-    @Example("password001")
-    @Password
     @Property("Password")
-    @PropertyDescription("The password to be used in the remote server digest authentication.")
+    @Password
+    @Example("password001")
+    @Description("The password to be used in the remote server digest authentication.")
     private String password;
 
+    @Property("Preemptive")
     @Example("true")
     @DefaultValue("false")
-    @Property("Preemptive")
-    @PropertyDescription("Immediately sends digest authentication header before the server answers with unauthorized response code.")
+    @Description("Immediately sends digest authentication header before the server answers with unauthorized response code.")
     private Boolean preemptive;
 
+    @Property("Realm")
     @Example("myRealm")
     @When(propertyName = "preemptive", propertyValue = "true")
-    @Property("Realm")
-    @PropertyDescription("Realm value to be used in the digest authentication.")
+    @Description("Realm value to be used in the digest authentication.")
     private String realm;
 
+    @Property("Nonce")
     @Example("123")
     @When(propertyName = "preemptive", propertyValue = "true")
-    @Property("Nonce")
-    @PropertyDescription("Nonce value to be used in the digest authentication if known.")
+    @Description("Nonce value to be used in the digest authentication if known.")
     private String nonce;
 
     public String getUsername() {

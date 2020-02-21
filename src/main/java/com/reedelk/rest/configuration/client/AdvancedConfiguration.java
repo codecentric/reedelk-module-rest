@@ -10,18 +10,18 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = AdvancedConfiguration.class, scope = PROTOTYPE)
 public class AdvancedConfiguration implements Implementor {
 
+    @Property("Response buffer size")
     @Hint("16384") // 16 * 1024
     @Example("16384")
     @DefaultValue("16384")
-    @Property("Response buffer size")
-    @PropertyDescription("The buffer size to be used while receiving the HTTP response.")
+    @Description("The buffer size to be used while receiving the HTTP response.")
     private Integer responseBufferSize;
 
+    @Property("Request buffer size")
     @Hint("16384") // 16 * 1024
     @Example("16384")
     @DefaultValue("16384")
-    @Property("Request buffer size")
-    @PropertyDescription("The buffer size to be used while sending the HTTP request.")
+    @Description("The buffer size to be used while sending the HTTP request.")
     private Integer requestBufferSize;
 
     public Integer getResponseBufferSize() {

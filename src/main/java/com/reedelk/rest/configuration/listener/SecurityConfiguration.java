@@ -9,23 +9,23 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = SecurityConfiguration.class, scope = PROTOTYPE)
 public class SecurityConfiguration implements Implementor {
 
+    @Property("Type")
     @Example("CERTIFICATE_AND_PRIVATE_KEY")
     @InitValue("CERTIFICATE_AND_PRIVATE_KEY")
-    @Property("Type")
-    @PropertyDescription("Specifies the server security type. Possible values are: <b>CERTIFICATE_AND_PRIVATE_KEY</b>, <b>KEY_STORE</b>.")
+    @Description("Specifies the server security type. Possible values are: <b>CERTIFICATE_AND_PRIVATE_KEY</b>, <b>KEY_STORE</b>.")
     private ServerSecurityType type;
 
-    @When(propertyName = "type", propertyValue = "CERTIFICATE_AND_PRIVATE_KEY")
     @Property("X.509 Certificate and private key")
+    @When(propertyName = "type", propertyValue = "CERTIFICATE_AND_PRIVATE_KEY")
     private CertificateAndPrivateKeyConfiguration certificateAndPrivateKey;
 
     @Property("Key store")
     @When(propertyName = "type", propertyValue = "KEY_STORE")
     private KeyStoreConfiguration keyStore;
 
-    @Example("true")
     @Property("Use trust store")
-    @PropertyDescription("If true the given trust store is used.")
+    @Example("true")
+    @Description("If true the given trust store is used.")
     private Boolean useTrustStore;
 
     @Property("Trust store configuration")

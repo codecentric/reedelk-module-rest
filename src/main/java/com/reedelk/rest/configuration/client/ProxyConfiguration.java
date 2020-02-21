@@ -9,22 +9,22 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ProxyConfiguration.class, scope = PROTOTYPE)
 public class ProxyConfiguration implements Implementor {
 
-    @Example("http://myproxy.com")
     @Property("Host")
-    @PropertyDescription("The proxy host name.")
+    @Example("http://myproxy.com")
+    @Description("The proxy host name.")
     private String host;
 
+    @Property("Port")
     @Example("8686")
     @InitValue("8080")
-    @Property("Port")
-    @PropertyDescription("The proxy port.")
+    @Description("The proxy port.")
     private Integer port;
 
+    @Property("Authentication")
     @Example("DIGEST")
     @InitValue("NONE")
     @DefaultValue("NONE")
-    @Property("Authentication")
-    @PropertyDescription("The proxy authentication scheme to use. Possible values are: <b>NONE</b>, <b>BASIC</b>, <b>DIGEST</b>.")
+    @Description("The proxy authentication scheme to use. Possible values are: <b>NONE</b>, <b>BASIC</b>, <b>DIGEST</b>.")
     private ProxyAuthentication authentication;
 
     @Property("Basic authentication")

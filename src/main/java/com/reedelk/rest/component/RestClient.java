@@ -32,9 +32,8 @@ import java.net.URI;
 import static java.util.Objects.requireNonNull;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@ModuleComponent(
-        name = "REST Client",
-        description = "Use this component to make a REST API Call. " +
+@ModuleComponent("REST Client")
+@Description("Use this component to make a REST API Call. " +
                 "Supported REST methods are: GET, POST, PUT, DELETE, HEAD, OPTIONS. " +
                 "The base REST Client configuration can be shared across multiple REST clients in " +
                 "case there is a common remote resource to make different requests to. The components supports " +
@@ -53,7 +52,7 @@ public class RestClient implements ProcessorAsync {
     @InitValue("GET")
     @DefaultValue("GET")
     @Property("Method")
-    @PropertyDescription("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
+    @Description("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
     private RestMethod method;
 
     @Property("Client config")
@@ -64,13 +63,13 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "configuration", propertyValue = When.NULL)
     @When(propertyName = "configuration", propertyValue = "{'ref': '" + When.BLANK + "'}")
     @Property("Base URL")
-    @PropertyDescription("The base URL of the HTTP request. It may include a static request path.")
+    @Description("The base URL of the HTTP request. It may include a static request path.")
     private String baseURL;
 
     @Hint("/resource/{id}")
     @Example("/resource/{id}/{group}")
     @Property("Path")
-    @PropertyDescription("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map.")
+    @Description("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map.")
     private String path;
 
     @Hint("payload")
@@ -81,7 +80,7 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
     @Property("Body")
-    @PropertyDescription("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
+    @Description("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
     private DynamicObject body;
 
     @DefaultValue("AUTO")
@@ -91,7 +90,7 @@ public class RestClient implements ProcessorAsync {
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
     @Property("Streaming")
-    @PropertyDescription("Determines the strategy type the body will be sent to the server. " +
+    @Description("Determines the strategy type the body will be sent to the server. " +
             "When <i>Stream</i> the request body will be sent chunk by chunk without loading the entire content into memory. " +
             "When <i>None</i> the body will be loaded into memory and then sent to the server. When <i>Auto</i> the component " +
             "will inspect the content of the body to determine the best strategy to send the HTTP request data.")
@@ -100,19 +99,19 @@ public class RestClient implements ProcessorAsync {
     @TabGroup("Headers and parameters")
     @Example("X-Custom-Header > <code>'X-Custom-' + message.payload() + ' value'</code>")
     @Property("Headers")
-    @PropertyDescription("Map of dynamic headers names > values. The values are dynamic.")
+    @Description("Map of dynamic headers names > values. The values are dynamic.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
     @TabGroup("Headers and parameters")
     @Example("id > <code>message.payload()</code>")
     @Property("Path params")
-    @PropertyDescription("Map of request path parameters names > values. The values are dynamic.")
+    @Description("Map of request path parameters names > values. The values are dynamic.")
     private DynamicStringMap pathParameters = DynamicStringMap.empty();
 
     @TabGroup("Headers and parameters")
     @Example("id > <code>message.payload()</code>")
     @Property("Query params")
-    @PropertyDescription("Map of request query parameters names > values. The values are dynamic.")
+    @Description("Map of request query parameters names > values. The values are dynamic.")
     private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
     @Property("Advanced configuration")

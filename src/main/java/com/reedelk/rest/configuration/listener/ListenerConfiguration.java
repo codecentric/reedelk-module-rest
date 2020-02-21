@@ -11,68 +11,68 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ListenerConfiguration.class, scope = PROTOTYPE)
 public class ListenerConfiguration implements Implementor {
 
+    @Property("Host")
     @Hint("localhost")
     @Example("localhost")
     @InitValue("localhost")
-    @Property("Host")
-    @PropertyDescription("The host this REST listener will be bound to.")
+    @Description("The host this REST listener will be bound to.")
     private String host;
 
+    @Property("Port")
     @Hint("8080")
     @Example("9292")
     @InitValue("8080")
-    @Property("Port")
-    @PropertyDescription("The port this REST listener will be bound to.")
+    @Description("The port this REST listener will be bound to.")
     private Integer port;
 
+    @Property("Protocol")
     @Example("HTTPS")
     @InitValue("HTTP")
     @DefaultValue("HTTP")
-    @Property("Protocol")
-    @PropertyDescription("The http protocol to use. Possible values are: <b>HTTP</b>, <b>HTTPS</b>.")
+    @Description("The http protocol to use. Possible values are: <b>HTTP</b>, <b>HTTPS</b>.")
     private HttpProtocol protocol = HttpProtocol.HTTP;
 
+    @Property("Base path")
     @Hint("/api/v1")
     @Example("/api/v1")
-    @Property("Base path")
-    @PropertyDescription("The base path shared by all the listeners using this configuration.")
+    @Description("The base path shared by all the listeners using this configuration.")
     private String basePath;
 
-    @InitValue("true")
-    @Example("true")
     @Property("Keep alive")
-    @PropertyDescription("Enables socket keep alive for this listener.")
+    @Example("true")
+    @InitValue("true")
+    @Description("Enables socket keep alive for this listener.")
     private Boolean keepAlive;
 
+    @Property("Compress response")
     @Example("true")
     @DefaultValue("false")
-    @Property("Compress response")
-    @PropertyDescription("If true the response is compressed before sending it to the client.")
+    @Description("If true the response is compressed before sending it to the client.")
     private Boolean compress;
 
-    @Example("30000")
     @Property("Read timeout millis")
-    @PropertyDescription("Sets the socket read timeout for this listener in milliseconds.")
+    @Example("30000")
+    @Description("Sets the socket read timeout for this listener in milliseconds.")
     private Integer readTimeoutMillis;
 
-    @Example("30000")
     @Property("Connection timeout millis")
-    @PropertyDescription("Sets the socket connection timeout for this listener in milliseconds.")
+    @Example("30000")
+    @Description("Sets the socket connection timeout for this listener in milliseconds.")
     private Integer connectionTimeoutMillis;
 
-    @Example("5")
     @Property("Socket backlog")
-    @PropertyDescription("The number of pending connections the listener queue will hold.")
+    @Example("5")
+    @Description("The number of pending connections the listener queue will hold.")
     private Integer socketBacklog;
 
-    @Example("8192")
     @Property("Max chunk size")
-    @PropertyDescription("The maximum length of the content of each chunk.")
+    @Example("8192")
+    @Description("The maximum length of the content of each chunk.")
     private Integer maxChunkSize;
 
-    @Example("8192")
     @Property("Max headers length")
-    @PropertyDescription("The maximum length of all headers.")
+    @Example("8192")
+    @Description("The maximum length of all headers.")
     private Integer maxLengthOfAllHeaders;
 
     @Property("Security configuration")

@@ -13,23 +13,23 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ErrorResponse.class, scope = PROTOTYPE)
 public class ErrorResponse implements Implementor {
 
+    @Property("Response body")
     @Hint("error body text")
     @InitValue("#[error]")
     @AutoCompleteContributor(error = true, message = false)
-    @Property("Response body")
-    @PropertyDescription("The body of the error response might be a static or a dynamic value.")
+    @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
+    @Property("Response status")
     @Hint("500")
     @InitValue("500")
     @AutoCompleteContributor(error = true, message = false)
-    @Property("Response status")
-    @PropertyDescription("The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myErrorResponseStatus</i>.")
+    @Description("The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myErrorResponseStatus</i>.")
     private DynamicInteger status;
 
-    @AutoCompleteContributor(error = true, message = false)
     @Property("Additional Headers")
-    @PropertyDescription("Additional headers to be set in the HTTP error response.")
+    @AutoCompleteContributor(error = true, message = false)
+    @Description("Additional headers to be set in the HTTP error response.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
     public DynamicByteArray getBody() {

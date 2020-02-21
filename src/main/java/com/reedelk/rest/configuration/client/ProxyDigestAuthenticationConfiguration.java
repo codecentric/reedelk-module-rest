@@ -3,7 +3,7 @@ package com.reedelk.rest.configuration.client;
 import com.reedelk.runtime.api.annotation.Example;
 import com.reedelk.runtime.api.annotation.Password;
 import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.PropertyDescription;
+import com.reedelk.runtime.api.annotation.Description;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -12,15 +12,15 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ProxyDigestAuthenticationConfiguration.class, scope = PROTOTYPE)
 public class ProxyDigestAuthenticationConfiguration implements Implementor {
 
-    @Example("myProxyUsername")
     @Property("Username")
-    @PropertyDescription("The username to be used in the digest proxy authentication.")
+    @Example("myProxyUsername")
+    @Description("The username to be used in the digest proxy authentication.")
     private String username;
 
-    @Example("myProxyPassword")
-    @Password
     @Property("Password")
-    @PropertyDescription("The password to be used in the digest proxy authentication.")
+    @Password
+    @Example("myProxyPassword")
+    @Description("The password to be used in the digest proxy authentication.")
     private String password;
 
     public String getUsername() {
