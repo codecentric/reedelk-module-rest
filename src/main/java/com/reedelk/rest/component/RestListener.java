@@ -1,10 +1,9 @@
 package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.StreamingMode;
-import com.reedelk.rest.configuration.listener.ErrorResponse;
-import com.reedelk.rest.configuration.listener.ListenerConfiguration;
-import com.reedelk.rest.configuration.listener.Response;
+import com.reedelk.rest.commons.StreamingMode;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.Server;
 import com.reedelk.rest.server.ServerProvider;
@@ -33,7 +32,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class RestListener extends AbstractInbound {
 
     @Property("Configuration")
-    private ListenerConfiguration configuration;
+    private RestListenerConfiguration configuration;
 
     @Property("Path")
     @Hint("/resource/{id}")
@@ -105,7 +104,7 @@ public class RestListener extends AbstractInbound {
         });
     }
 
-    public void setConfiguration(ListenerConfiguration configuration) {
+    public void setConfiguration(RestListenerConfiguration configuration) {
         this.configuration = configuration;
     }
 

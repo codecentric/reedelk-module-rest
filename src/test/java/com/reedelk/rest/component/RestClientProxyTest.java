@@ -3,7 +3,7 @@ package com.reedelk.rest.component;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.client.*;
+import com.reedelk.rest.component.client.*;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -34,7 +34,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
         proxyConfiguration.setHost(PROXY_HOST);
         proxyConfiguration.setPort(PROXY_PORT);
 
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost("my-test-host.com");
         configuration.setPort(7891);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -57,7 +57,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
     @Test
     void shouldThrowExceptionWhenProxyButNoConfigIsDefined() {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -73,7 +73,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("ClientConfiguration (com.reedelk.rest.configuration.client.ClientConfiguration) has a configuration error: Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'");
+        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'");
     }
 
     @DisplayName("Proxy Digest Authentication tests")
@@ -96,7 +96,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
             proxyConfiguration.setAuthentication(ProxyAuthentication.DIGEST);
             proxyConfiguration.setDigestAuthentication(proxyAuthConfiguration);
 
-            ClientConfiguration configuration = new ClientConfiguration();
+            RestClientConfiguration configuration = new RestClientConfiguration();
             configuration.setHost("my-test-host.com");
             configuration.setPort(7891);
             configuration.setProtocol(HttpProtocol.HTTP);
@@ -143,7 +143,7 @@ class RestClientProxyTest extends RestClientAbstractTest {
             proxyConfiguration.setAuthentication(ProxyAuthentication.BASIC);
             proxyConfiguration.setBasicAuthentication(proxyAuthConfiguration);
 
-            ClientConfiguration configuration = new ClientConfiguration();
+            RestClientConfiguration configuration = new RestClientConfiguration();
             configuration.setHost("my-test-host.com");
             configuration.setPort(7891);
             configuration.setProtocol(HttpProtocol.HTTP);

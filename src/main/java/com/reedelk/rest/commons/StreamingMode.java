@@ -1,4 +1,4 @@
-package com.reedelk.rest.configuration;
+package com.reedelk.rest.commons;
 
 import com.reedelk.runtime.api.annotation.DisplayName;
 

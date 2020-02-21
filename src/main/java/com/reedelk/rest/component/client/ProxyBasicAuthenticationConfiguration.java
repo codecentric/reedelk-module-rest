@@ -1,4 +1,4 @@
-package com.reedelk.rest.configuration.client;
+package com.reedelk.rest.component.client;
 
 import com.reedelk.runtime.api.annotation.Example;
 import com.reedelk.runtime.api.annotation.Password;
@@ -9,18 +9,18 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = ProxyDigestAuthenticationConfiguration.class, scope = PROTOTYPE)
-public class ProxyDigestAuthenticationConfiguration implements Implementor {
+@Component(service = ProxyBasicAuthenticationConfiguration.class, scope = PROTOTYPE)
+public class ProxyBasicAuthenticationConfiguration implements Implementor {
 
     @Property("Username")
     @Example("myProxyUsername")
-    @Description("The username to be used in the digest proxy authentication.")
+    @Description("The username to be used in the basic proxy authentication.")
     private String username;
 
     @Property("Password")
     @Password
     @Example("myProxyPassword")
-    @Description("The password to be used in the digest proxy authentication.")
+    @Description("The password to be used in the basic proxy authentication.")
     private String password;
 
     public String getUsername() {
@@ -38,5 +38,4 @@ public class ProxyDigestAuthenticationConfiguration implements Implementor {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

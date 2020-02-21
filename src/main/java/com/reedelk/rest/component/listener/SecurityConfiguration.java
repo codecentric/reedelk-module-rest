@@ -1,4 +1,4 @@
-package com.reedelk.rest.configuration.listener;
+package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;

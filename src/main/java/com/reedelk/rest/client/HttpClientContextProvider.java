@@ -1,7 +1,7 @@
 package com.reedelk.rest.client;
 
-import com.reedelk.rest.configuration.client.BasicAuthenticationConfiguration;
-import com.reedelk.rest.configuration.client.DigestAuthenticationConfiguration;
+import com.reedelk.rest.component.client.BasicAuthenticationConfiguration;
+import com.reedelk.rest.component.client.DigestAuthenticationConfiguration;
 import org.apache.http.HttpHost;
 import org.apache.http.client.AuthCache;
 import org.apache.http.client.protocol.HttpClientContext;

@@ -1,8 +1,7 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.configuration.listener.ErrorResponse;
-import com.reedelk.rest.configuration.listener.ListenerConfiguration;
-import com.reedelk.rest.configuration.listener.Response;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.Message;
@@ -120,7 +119,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenBasePathOnlyIsDefined() {
         // Given
-        ListenerConfiguration configWithBasePath = new ListenerConfiguration();
+        RestListenerConfiguration configWithBasePath = new RestListenerConfiguration();
         configWithBasePath.setHost(DEFAULT_HOST);
         configWithBasePath.setPort(DEFAULT_PORT);
         configWithBasePath.setBasePath("/api/internal");
@@ -138,7 +137,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenBasePathAndPathAreBothDefined() {
         // Given
-        ListenerConfiguration configWithBasePath = new ListenerConfiguration();
+        RestListenerConfiguration configWithBasePath = new RestListenerConfiguration();
         configWithBasePath.setHost(DEFAULT_HOST);
         configWithBasePath.setPort(DEFAULT_PORT);
         configWithBasePath.setBasePath("/api/internal");
@@ -426,7 +425,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldCorrectlyMapHttpRequestToInboundMessageAttributes() throws IOException {
         // Given
-        ListenerConfiguration configWithBasePath = new ListenerConfiguration();
+        RestListenerConfiguration configWithBasePath = new RestListenerConfiguration();
         configWithBasePath.setHost(DEFAULT_HOST);
         configWithBasePath.setPort(DEFAULT_PORT);
         configWithBasePath.setBasePath("/api/internal");

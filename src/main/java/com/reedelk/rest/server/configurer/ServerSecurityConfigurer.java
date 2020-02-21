@@ -1,7 +1,8 @@
 package com.reedelk.rest.server.configurer;
 
 import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.configuration.listener.*;
+import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.listener.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.exception.ESBException;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -20,7 +21,7 @@ import static java.util.Objects.requireNonNull;
 
 public class ServerSecurityConfigurer {
 
-    public static TcpServer configure(Class<? extends Implementor> configurationClazz, TcpServer bootstrap, ListenerConfiguration configuration) {
+    public static TcpServer configure(Class<? extends Implementor> configurationClazz, TcpServer bootstrap, RestListenerConfiguration configuration) {
         // Security is configured if and only if the protocol is HTTPS
         if (!HttpProtocol.HTTPS.equals(configuration.getProtocol())) return bootstrap;
         if (configuration.getSecurityConfiguration() == null) return bootstrap;

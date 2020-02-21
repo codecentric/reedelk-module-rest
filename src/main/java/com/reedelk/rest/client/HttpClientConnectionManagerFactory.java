@@ -1,6 +1,6 @@
 package com.reedelk.rest.client;
 
-import com.reedelk.rest.configuration.client.ClientConfiguration;
+import com.reedelk.rest.component.RestClientConfiguration;
 import com.reedelk.runtime.api.exception.ESBException;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -23,7 +23,7 @@ public class HttpClientConnectionManagerFactory {
 
     private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
 
-    public static NHttpClientConnectionManager create(ClientConfiguration configuration) {
+    public static NHttpClientConnectionManager create(RestClientConfiguration configuration) {
             boolean isAllowSelfSigned = Optional.ofNullable(configuration.getAllowSelfSigned()).orElse(false);
             Registry<SchemeIOSessionStrategy> registry = createRegistry(isAllowSelfSigned);
             int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);

@@ -39,7 +39,7 @@
             "instance": {
               "shared": "YES",
               "collapsible": "NO",
-              "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ClientConfiguration",
+              "typeFullyQualifiedName": "com.reedelk.rest.component.RestClientConfiguration",
               "objectProperties": [
                 {
                   "name": "host",
@@ -249,7 +249,7 @@
                     "instance": {
                       "shared": "NO",
                       "collapsible": "NO",
-                      "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.BasicAuthenticationConfiguration",
+                      "typeFullyQualifiedName": "com.reedelk.rest.component.client.BasicAuthenticationConfiguration",
                       "objectProperties": [
                         {
                           "name": "username",
@@ -314,7 +314,7 @@
                     "instance": {
                       "shared": "NO",
                       "collapsible": "NO",
-                      "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.DigestAuthenticationConfiguration",
+                      "typeFullyQualifiedName": "com.reedelk.rest.component.client.DigestAuthenticationConfiguration",
                       "objectProperties": [
                         {
                           "name": "username",
@@ -436,7 +436,7 @@
                     "instance": {
                       "shared": "NO",
                       "collapsible": "NO",
-                      "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ProxyConfiguration",
+                      "typeFullyQualifiedName": "com.reedelk.rest.component.client.ProxyConfiguration",
                       "objectProperties": [
                         {
                           "name": "host",
@@ -495,7 +495,7 @@
                             "instance": {
                               "shared": "NO",
                               "collapsible": "NO",
-                              "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ProxyBasicAuthenticationConfiguration",
+                              "typeFullyQualifiedName": "com.reedelk.rest.component.client.ProxyBasicAuthenticationConfiguration",
                               "objectProperties": [
                                 {
                                   "name": "username",
@@ -545,7 +545,7 @@
                             "instance": {
                               "shared": "NO",
                               "collapsible": "NO",
-                              "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.ProxyDigestAuthenticationConfiguration",
+                              "typeFullyQualifiedName": "com.reedelk.rest.component.client.ProxyDigestAuthenticationConfiguration",
                               "objectProperties": [
                                 {
                                   "name": "username",
@@ -761,7 +761,7 @@
             "instance": {
               "shared": "NO",
               "collapsible": "YES",
-              "typeFullyQualifiedName": "com.reedelk.rest.configuration.client.AdvancedConfiguration",
+              "typeFullyQualifiedName": "com.reedelk.rest.component.client.AdvancedConfiguration",
               "objectProperties": [
                 {
                   "name": "responseBufferSize",
@@ -819,7 +819,7 @@
             "instance": {
               "shared": "YES",
               "collapsible": "NO",
-              "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.ListenerConfiguration",
+              "typeFullyQualifiedName": "com.reedelk.rest.component.RestListenerConfiguration",
               "objectProperties": [
                 {
                   "name": "host",
@@ -993,7 +993,7 @@
                     "instance": {
                       "shared": "NO",
                       "collapsible": "NO",
-                      "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.SecurityConfiguration",
+                      "typeFullyQualifiedName": "com.reedelk.rest.component.listener.SecurityConfiguration",
                       "objectProperties": [
                         {
                           "name": "type",
@@ -1022,7 +1022,7 @@
                             "instance": {
                               "shared": "NO",
                               "collapsible": "NO",
-                              "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.CertificateAndPrivateKeyConfiguration",
+                              "typeFullyQualifiedName": "com.reedelk.rest.component.listener.CertificateAndPrivateKeyConfiguration",
                               "objectProperties": [
                                 {
                                   "name": "certificateFile",
@@ -1074,7 +1074,7 @@
                             "instance": {
                               "shared": "NO",
                               "collapsible": "NO",
-                              "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.KeyStoreConfiguration",
+                              "typeFullyQualifiedName": "com.reedelk.rest.component.listener.KeyStoreConfiguration",
                               "objectProperties": [
                                 {
                                   "name": "path",
@@ -1166,7 +1166,7 @@
                             "instance": {
                               "shared": "NO",
                               "collapsible": "NO",
-                              "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.TrustStoreConfiguration",
+                              "typeFullyQualifiedName": "com.reedelk.rest.component.listener.TrustStoreConfiguration",
                               "objectProperties": [
                                 {
                                   "name": "path",
@@ -1319,7 +1319,7 @@
             "instance": {
               "shared": "NO",
               "collapsible": "YES",
-              "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.Response",
+              "typeFullyQualifiedName": "com.reedelk.rest.component.listener.Response",
               "objectProperties": [
                 {
                   "name": "body",
@@ -1379,7 +1379,7 @@
             "instance": {
               "shared": "NO",
               "collapsible": "YES",
-              "typeFullyQualifiedName": "com.reedelk.rest.configuration.listener.ErrorResponse",
+              "typeFullyQualifiedName": "com.reedelk.rest.component.listener.ErrorResponse",
               "objectProperties": [
                 {
                   "name": "body",

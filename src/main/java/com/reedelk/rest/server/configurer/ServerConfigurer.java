@@ -1,7 +1,7 @@
 package com.reedelk.rest.server.configurer;
 
 import com.reedelk.rest.commons.Defaults;
-import com.reedelk.rest.configuration.listener.ListenerConfiguration;
+import com.reedelk.rest.component.RestListenerConfiguration;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -14,13 +14,13 @@ import static io.netty.channel.ChannelOption.*;
 
 public class ServerConfigurer {
 
-    public static void configure(ServerBootstrap bootstrap, ListenerConfiguration configuration) {
+    public static void configure(ServerBootstrap bootstrap, RestListenerConfiguration configuration) {
         setChannelOption(bootstrap, SO_BACKLOG, configuration.getSocketBacklog());
         setChannelOption(bootstrap, CONNECT_TIMEOUT_MILLIS, configuration.getConnectionTimeoutMillis());
         setChannelChildOption(bootstrap, SO_KEEPALIVE, configuration.getKeepAlive());
     }
 
-    public static Consumer<Connection> onConnection(ListenerConfiguration configuration) {
+    public static Consumer<Connection> onConnection(RestListenerConfiguration configuration) {
         return connection -> {
             if (configuration.getReadTimeoutMillis() != null) {
                 connection.addHandlerLast("readTimeout", new ReadTimeoutHandler(configuration.getReadTimeoutMillis()));
@@ -28,7 +28,7 @@ public class ServerConfigurer {
         };
     }
 
-    public static HttpServer configure(HttpServer server, ListenerConfiguration configuration) {
+    public static HttpServer configure(HttpServer server, RestListenerConfiguration configuration) {
         server = server.host(Defaults.RestListener.host(configuration.getHost()));
         server = server.port(Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
         server = server.compress(Defaults.RestListener.compress(configuration.getCompress()));

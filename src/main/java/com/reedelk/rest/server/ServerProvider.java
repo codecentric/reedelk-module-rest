@@ -2,7 +2,7 @@ package com.reedelk.rest.server;
 
 import com.reedelk.rest.commons.Defaults;
 import com.reedelk.rest.commons.HostNamePortKey;
-import com.reedelk.rest.configuration.listener.ListenerConfiguration;
+import com.reedelk.rest.component.RestListenerConfiguration;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class ServerProvider {
 
     private Map<HostNamePortKey, Server> serverMap = new ConcurrentHashMap<>();
 
-    public Optional<Server> getOrCreate(ListenerConfiguration configuration) {
+    public Optional<Server> getOrCreate(RestListenerConfiguration configuration) {
         HostNamePortKey key = new HostNamePortKey(
                 Defaults.RestListener.host(configuration.getHost()),
                 Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
@@ -30,7 +30,7 @@ public class ServerProvider {
         return Optional.of(server);
     }
 
-    public Optional<Server> get(ListenerConfiguration configuration) {
+    public Optional<Server> get(RestListenerConfiguration configuration) {
         if (configuration == null) return Optional.empty();
         HostNamePortKey key = new HostNamePortKey(
                 Defaults.RestListener.host(configuration.getHost()),
@@ -57,7 +57,7 @@ public class ServerProvider {
      * If they don't, it means that there are multiple configurations
      * defined on the same host and port but with different base paths.
      */
-    private void checkBasePathIsConsistent(ListenerConfiguration configuration, Server server) {
+    private void checkBasePathIsConsistent(RestListenerConfiguration configuration, Server server) {
         if (!Objects.equals(configuration.getBasePath(), server.getBasePath())) {
             throw new IllegalStateException("There are two server configurations " +
                     "on the same host and port with different base paths");

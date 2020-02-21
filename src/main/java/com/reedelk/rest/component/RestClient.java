@@ -12,9 +12,8 @@ import com.reedelk.rest.client.strategy.Strategy;
 import com.reedelk.rest.client.uri.UriEvaluator;
 import com.reedelk.rest.client.uri.UriProvider;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.StreamingMode;
-import com.reedelk.rest.configuration.client.AdvancedConfiguration;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
+import com.reedelk.rest.commons.StreamingMode;
+import com.reedelk.rest.component.client.AdvancedConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.component.ProcessorAsync;
@@ -49,7 +48,7 @@ public class RestClient implements ProcessorAsync {
     private RestMethod method;
 
     @Property("Client config")
-    private ClientConfiguration configuration;
+    private RestClientConfiguration configuration;
 
     @Property("Base URL")
     @Hint("https://api.example.com")
@@ -196,7 +195,7 @@ public class RestClient implements ProcessorAsync {
         this.method = method;
     }
 
-    public void setConfiguration(ClientConfiguration configuration) {
+    public void setConfiguration(RestClientConfiguration configuration) {
         this.configuration = configuration;
     }
 

@@ -3,8 +3,7 @@ package com.reedelk.rest.component;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.StreamingMode;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
+import com.reedelk.rest.commons.StreamingMode;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
 import reactor.core.publisher.Flux;
 
 import java.util.Optional;
@@ -38,7 +36,7 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithCorrectContentLengthHeader(String method) {
             // Given
-            ClientConfiguration configuration = new ClientConfiguration();
+            RestClientConfiguration configuration = new RestClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
@@ -82,7 +80,7 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithChunkedContent(String method) {
             // Given
-            ClientConfiguration configuration = new ClientConfiguration();
+            RestClientConfiguration configuration = new RestClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
@@ -129,7 +127,7 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithChunkedContent(String method) {
             // Given
-            ClientConfiguration configuration = new ClientConfiguration();
+            RestClientConfiguration configuration = new RestClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
@@ -171,7 +169,7 @@ class RestClientStreamingModeTest extends RestClientAbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithContentLengthHeader(String method) {
             // Given
-            ClientConfiguration configuration = new ClientConfiguration();
+            RestClientConfiguration configuration = new RestClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);

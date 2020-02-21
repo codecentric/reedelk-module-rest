@@ -1,6 +1,7 @@
-package com.reedelk.rest.configuration.client;
+package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.HttpProtocol;
+import com.reedelk.rest.component.client.*;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
@@ -8,8 +9,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Shared
-@Component(service = ClientConfiguration.class, scope = PROTOTYPE)
-public class ClientConfiguration implements Implementor {
+@Component(service = RestClientConfiguration.class, scope = PROTOTYPE)
+public class RestClientConfiguration implements Implementor {
 
     @Property("id")
     @Hidden

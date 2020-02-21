@@ -3,11 +3,9 @@ package com.reedelk.rest.component;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -29,7 +27,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
     void shouldNotAddExpectContinueByDefault(String method) {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -67,7 +65,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
     void shouldNotAddExpectContinueWhenFalse(String method) {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -108,7 +106,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
     void shouldAddExpectContinueWhenTrue(String method) {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -149,7 +147,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET","HEAD","OPTIONS"})
     void shouldNotAddExpectContinueWhenTrueToNotEntityEnclosedMethods(String method) {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);

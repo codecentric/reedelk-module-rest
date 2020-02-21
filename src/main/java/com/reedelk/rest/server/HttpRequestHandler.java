@@ -1,9 +1,9 @@
 package com.reedelk.rest.server;
 
 import com.reedelk.rest.ServerTooBusyException;
-import com.reedelk.rest.configuration.StreamingMode;
-import com.reedelk.rest.configuration.listener.ErrorResponse;
-import com.reedelk.rest.configuration.listener.Response;
+import com.reedelk.rest.commons.StreamingMode;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.server.body.BodyProvider;
 import com.reedelk.rest.server.body.BodyProviderStreamAlways;
 import com.reedelk.rest.server.body.BodyProviderStreamAuto;

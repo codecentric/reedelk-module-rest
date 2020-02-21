@@ -1,7 +1,6 @@
 package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.listener.ListenerConfiguration;
 import com.reedelk.rest.server.ServerProvider;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.flow.FlowContext;
@@ -53,7 +52,7 @@ abstract class RestListenerAbstractTest {
     protected Object payload;
 
     Message inboundMessage;
-    ListenerConfiguration defaultConfiguration;
+    RestListenerConfiguration defaultConfiguration;
 
     private RestListener listener;
 
@@ -68,7 +67,7 @@ abstract class RestListenerAbstractTest {
         setField(listener, "provider", serverProvider);
         setField(listener, "scriptEngine", scriptEngine);
 
-        defaultConfiguration = new ListenerConfiguration();
+        defaultConfiguration = new RestListenerConfiguration();
         defaultConfiguration.setHost(DEFAULT_HOST);
         defaultConfiguration.setPort(DEFAULT_PORT);
     }
@@ -80,7 +79,7 @@ abstract class RestListenerAbstractTest {
         }
     }
 
-    RestListener listenerWith(RestMethod method, ListenerConfiguration configuration) {
+    RestListener listenerWith(RestMethod method, RestListenerConfiguration configuration) {
         listener.setConfiguration(configuration);
         listener.setMethod(method);
         return listener;

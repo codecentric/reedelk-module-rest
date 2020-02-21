@@ -1,7 +1,7 @@
 package com.reedelk.rest.server.mapper;
 
-import com.reedelk.rest.configuration.listener.ErrorResponse;
-import com.reedelk.rest.configuration.listener.Response;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.content.MimeType;

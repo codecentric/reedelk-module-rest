@@ -3,13 +3,11 @@ package com.reedelk.rest.component;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.client.Authentication;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
-import com.reedelk.rest.configuration.client.DigestAuthenticationConfiguration;
+import com.reedelk.rest.component.client.Authentication;
+import com.reedelk.rest.component.client.DigestAuthenticationConfiguration;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -20,7 +18,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.commons.RestMethod.GET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.lenient;
 
 class RestClientDigestAuthTest extends RestClientAbstractTest {
 
@@ -34,7 +31,7 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
         digestAuth.setPassword(password);
         digestAuth.setUsername(username);
 
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -79,7 +76,7 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
         digestAuth.setRealm("test.realm@host.com");
         digestAuth.setNonce("noncetest");
 
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -103,7 +100,7 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
     @Test
     void shouldThrowExceptionWhenDigestAuthenticationButNoConfigIsDefined() {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -119,6 +116,6 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("ClientConfiguration (com.reedelk.rest.configuration.client.ClientConfiguration) has a configuration error: Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'");
+        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'");
     }
 }

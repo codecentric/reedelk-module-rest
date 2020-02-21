@@ -3,14 +3,12 @@ package com.reedelk.rest.component;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.reedelk.rest.client.HttpClientFactory;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,7 +79,7 @@ abstract class RestClientAbstractTest {
         clientFactory.shutdown();
     }
 
-    RestClient clientWith(RestMethod method, ClientConfiguration configuration, String path) {
+    RestClient clientWith(RestMethod method, RestClientConfiguration configuration, String path) {
         RestClient restClient = new RestClient();
         restClient.setConfiguration(configuration);
         restClient.setMethod(method);
@@ -93,7 +91,7 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, ClientConfiguration configuration, String path, DynamicObject body) {
+    RestClient clientWith(RestMethod method, RestClientConfiguration configuration, String path, DynamicObject body) {
         RestClient restClient = new RestClient();
         restClient.setConfiguration(configuration);
         restClient.setMethod(method);

@@ -2,7 +2,6 @@ package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +19,7 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldFollowRedirectsByDefault() {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -50,7 +49,7 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldFollowRedirectsTrue() {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -81,7 +80,7 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldNotFollowRedirects() {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);

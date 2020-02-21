@@ -1,8 +1,8 @@
 package com.reedelk.rest.client.strategy;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.StreamingMode;
-import com.reedelk.rest.configuration.client.AdvancedConfiguration;
+import com.reedelk.rest.commons.StreamingMode;
+import com.reedelk.rest.component.client.AdvancedConfiguration;
 import org.apache.http.client.methods.*;
 
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import static com.reedelk.rest.commons.Defaults.RestClient.REQUEST_BUFFER_SIZE;
 import static com.reedelk.rest.commons.Defaults.RestClient.RESPONSE_BUFFER_SIZE;
 import static com.reedelk.rest.commons.RestMethod.*;
-import static com.reedelk.rest.configuration.StreamingMode.*;
+import static com.reedelk.rest.commons.StreamingMode.*;
 import static java.lang.String.format;
 
 public class ExecutionStrategyBuilder {

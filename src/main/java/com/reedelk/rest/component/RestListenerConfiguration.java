@@ -1,6 +1,7 @@
-package com.reedelk.rest.configuration.listener;
+package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.HttpProtocol;
+import com.reedelk.rest.component.listener.SecurityConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
@@ -8,8 +9,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Shared
-@Component(service = ListenerConfiguration.class, scope = PROTOTYPE)
-public class ListenerConfiguration implements Implementor {
+@Component(service = RestListenerConfiguration.class, scope = PROTOTYPE)
+public class RestListenerConfiguration implements Implementor {
 
     @Property("Host")
     @Hint("localhost")

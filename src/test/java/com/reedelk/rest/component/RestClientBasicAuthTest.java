@@ -3,9 +3,8 @@ package com.reedelk.rest.component;
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.configuration.client.Authentication;
-import com.reedelk.rest.configuration.client.BasicAuthenticationConfiguration;
-import com.reedelk.rest.configuration.client.ClientConfiguration;
+import com.reedelk.rest.component.client.Authentication;
+import com.reedelk.rest.component.client.BasicAuthenticationConfiguration;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -32,7 +31,7 @@ class RestClientBasicAuthTest extends RestClientAbstractTest {
         basicAuth.setPassword(password);
         basicAuth.setUsername(username);
 
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -70,7 +69,7 @@ class RestClientBasicAuthTest extends RestClientAbstractTest {
         basicAuth.setUsername(username);
         basicAuth.setPreemptive(true);
 
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -93,7 +92,7 @@ class RestClientBasicAuthTest extends RestClientAbstractTest {
     @Test
     void shouldThrowExceptionWhenBasicAuthenticationButNoConfigIsDefined() {
         // Given
-        ClientConfiguration configuration = new ClientConfiguration();
+        RestClientConfiguration configuration = new RestClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -109,6 +108,6 @@ class RestClientBasicAuthTest extends RestClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("ClientConfiguration (com.reedelk.rest.configuration.client.ClientConfiguration) has a configuration error: Basic Authentication Configuration must be present in the JSON definition when 'authentication' property is 'BASIC'");
+        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Basic Authentication Configuration must be present in the JSON definition when 'authentication' property is 'BASIC'");
     }
 }
