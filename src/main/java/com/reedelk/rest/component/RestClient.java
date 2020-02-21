@@ -41,81 +41,81 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = RestClient.class, scope = PROTOTYPE)
 public class RestClient implements ProcessorAsync {
 
-    @Reference
-    private ScriptEngineService scriptEngine;
-    @Reference
-    private HttpClientFactory clientFactory;
-    @Reference
-    private ConverterService converterService;
-
+    @Property("Method")
     @Example("POST")
     @InitValue("GET")
     @DefaultValue("GET")
-    @Property("Method")
     @Description("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
     private RestMethod method;
 
     @Property("Client config")
     private ClientConfiguration configuration;
 
+    @Property("Base URL")
     @Hint("https://api.example.com")
     @Example("http://api.example.com/orders")
     @When(propertyName = "configuration", propertyValue = When.NULL)
     @When(propertyName = "configuration", propertyValue = "{'ref': '" + When.BLANK + "'}")
-    @Property("Base URL")
     @Description("The base URL of the HTTP request. It may include a static request path.")
     private String baseURL;
 
+    @Property("Path")
     @Hint("/resource/{id}")
     @Example("/resource/{id}/{group}")
-    @Property("Path")
     @Description("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map.")
     private String path;
 
+    @Property("Body")
     @Hint("payload")
+    @InitValue("#[message.payload()]")
     @DefaultValue("<code>message.payload()</code>")
     @Example("<code>context.myCustomPayload</code>")
-    @InitValue("#[message.payload()]")
     @When(propertyName = "method", propertyValue = "DELETE")
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
-    @Property("Body")
     @Description("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
     private DynamicObject body;
 
-    @DefaultValue("AUTO")
+    @Property("Streaming")
     @Example("ALWAYS")
     @InitValue("AUTO")
+    @DefaultValue("AUTO")
     @When(propertyName = "method", propertyValue = "DELETE")
     @When(propertyName = "method", propertyValue = "POST")
     @When(propertyName = "method", propertyValue = "PUT")
-    @Property("Streaming")
     @Description("Determines the strategy type the body will be sent to the server. " +
             "When <i>Stream</i> the request body will be sent chunk by chunk without loading the entire content into memory. " +
             "When <i>None</i> the body will be loaded into memory and then sent to the server. When <i>Auto</i> the component " +
             "will inspect the content of the body to determine the best strategy to send the HTTP request data.")
     private StreamingMode streaming = StreamingMode.AUTO;
 
+    @Property("Headers")
     @TabGroup("Headers and parameters")
     @Example("X-Custom-Header > <code>'X-Custom-' + message.payload() + ' value'</code>")
-    @Property("Headers")
     @Description("Map of dynamic headers names > values. The values are dynamic.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
+    @Property("Path params")
     @TabGroup("Headers and parameters")
     @Example("id > <code>message.payload()</code>")
-    @Property("Path params")
     @Description("Map of request path parameters names > values. The values are dynamic.")
     private DynamicStringMap pathParameters = DynamicStringMap.empty();
 
+    @Property("Query params")
     @TabGroup("Headers and parameters")
     @Example("id > <code>message.payload()</code>")
-    @Property("Query params")
     @Description("Map of request query parameters names > values. The values are dynamic.")
     private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
     @Property("Advanced configuration")
     private AdvancedConfiguration advancedConfiguration;
+
+    @Reference
+    private ScriptEngineService scriptEngine;
+    @Reference
+    private HttpClientFactory clientFactory;
+    @Reference
+    private ConverterService converterService;
 
     private HttpClient client;
     private Strategy execution;
