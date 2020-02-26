@@ -2,6 +2,8 @@ package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.api.exception.Error;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;
@@ -16,19 +18,22 @@ public class ErrorResponse implements Implementor {
     @Property("Response body")
     @Hint("error body text")
     @InitValue("#[error]")
-    @AutoCompleteContributor(error = true, message = false)
+    @AutocompleteVariable(name = "error", type = Error.TYPE)
+    @AutocompleteVariable(name = "context", type = FlowContext.TYPE)
     @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
     @Property("Response status")
     @Hint("500")
     @InitValue("500")
-    @AutoCompleteContributor(error = true, message = false)
+    @AutocompleteVariable(name = "error", type = Error.TYPE)
+    @AutocompleteVariable(name = "context", type = FlowContext.TYPE)
     @Description("The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myErrorResponseStatus</i>.")
     private DynamicInteger status;
 
     @Property("Additional Headers")
-    @AutoCompleteContributor(error = true, message = false)
+    @AutocompleteVariable(name = "error", type = Error.TYPE)
+    @AutocompleteVariable(name = "context", type = FlowContext.TYPE)
     @Description("Additional headers to be set in the HTTP error response.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 

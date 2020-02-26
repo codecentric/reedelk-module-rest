@@ -1,10 +1,9 @@
-var MultipartMessage = {};
+var MultipartBuilder = {};
 
-(function(multipartMessageBuilderFactory) {
+(function(builder) {
 
-    this.part = function(partName) {
-        return multipartMessageBuilderFactory.part(partName);
+    this.create = function(partName) {
+        return builder.create(partName);
     };
 
-
-}).call(MultipartMessage, multipartMessageBuilderFactory);
+}).call(MultipartBuilder, builder);

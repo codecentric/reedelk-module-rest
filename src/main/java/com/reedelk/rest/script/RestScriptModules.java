@@ -1,6 +1,5 @@
 package com.reedelk.rest.script;
 
-import com.reedelk.runtime.api.annotation.AutoCompleteContributor;
 import com.reedelk.runtime.api.script.ScriptSource;
 
 import java.util.Collection;
@@ -10,10 +9,7 @@ import java.util.Map;
 
 import static java.util.Collections.unmodifiableList;
 
-@AutoCompleteContributor(contributions = {
-        "MultipartMessage[VARIABLE:MultipartMessage]",
-        "MultipartMessage.part('')[FUNCTION:MultipartPartBuilder:2]"
-})
+
 public class RestScriptModules implements ScriptSource {
 
     private final long moduleId;
@@ -22,16 +18,17 @@ public class RestScriptModules implements ScriptSource {
         this.moduleId = moduleId;
     }
 
+
     @Override
     public Map<String, Object> bindings() {
         Map<String, Object> bindings = new HashMap<>();
-        bindings.put("multipartMessageBuilderFactory", new MultipartMessageBuilderFactory());
+        bindings.put("builder", new MultipartBuilder());
         return bindings;
     }
 
     @Override
     public Collection<String> scriptModuleNames() {
-        return unmodifiableList(Collections.singletonList("MultipartMessage"));
+        return unmodifiableList(Collections.singletonList("MultipartBuilder"));
     }
 
     @Override

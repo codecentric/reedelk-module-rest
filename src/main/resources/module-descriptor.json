@@ -1,4 +1,5 @@
 {
+  "name": "module-rest",
   "components": [
     {
       "hidden": false,
@@ -28,6 +29,7 @@
               "type": "java.lang.Enum"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -53,6 +55,7 @@
                       "type": "java.lang.String"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -67,6 +70,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -81,6 +85,7 @@
                       "type": "java.lang.String"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -100,6 +105,7 @@
                       "type": "java.lang.Enum"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -115,6 +121,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -130,6 +137,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -145,6 +153,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -161,6 +170,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -175,6 +185,7 @@
                       "type": "java.lang.Boolean"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -189,6 +200,7 @@
                       "type": "java.lang.Boolean"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -203,6 +215,7 @@
                       "type": "java.lang.Boolean"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -218,6 +231,7 @@
                       "type": "java.lang.Boolean"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -238,6 +252,7 @@
                       "type": "java.lang.Enum"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -263,6 +278,7 @@
                               "type": "java.lang.String"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -277,6 +293,7 @@
                               "type": "com.reedelk.runtime.api.annotation.Password"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -292,12 +309,14 @@
                               "type": "java.lang.Boolean"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         }
                       ],
                       "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": [
                     {
                       "propertyName": "authentication",
@@ -328,6 +347,7 @@
                               "type": "java.lang.String"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -342,6 +362,7 @@
                               "type": "com.reedelk.runtime.api.annotation.Password"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -357,6 +378,7 @@
                               "type": "java.lang.Boolean"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -371,6 +393,7 @@
                               "type": "java.lang.String"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "preemptive",
@@ -390,6 +413,7 @@
                               "type": "java.lang.String"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "preemptive",
@@ -401,6 +425,7 @@
                       "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": [
                     {
                       "propertyName": "authentication",
@@ -425,6 +450,7 @@
                       "type": "java.lang.Enum"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -450,6 +476,7 @@
                               "type": "java.lang.String"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -464,6 +491,7 @@
                               "type": "java.lang.Integer"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -484,6 +512,7 @@
                               "type": "java.lang.Enum"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -509,6 +538,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -523,12 +553,14 @@
                                       "type": "com.reedelk.runtime.api.annotation.Password"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 }
                               ],
                               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "authentication",
@@ -559,6 +591,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -573,12 +606,14 @@
                                       "type": "com.reedelk.runtime.api.annotation.Password"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 }
                               ],
                               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "authentication",
@@ -590,6 +625,7 @@
                       "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": [
                     {
                       "propertyName": "proxy",
@@ -601,6 +637,7 @@
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -616,6 +653,7 @@
               "type": "java.lang.String"
             }
           },
+          "autocompleteVariables": [],
           "whens": [
             {
               "propertyName": "configuration",
@@ -640,6 +678,7 @@
               "type": "java.lang.String"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -656,6 +695,7 @@
               "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": [
             {
               "propertyName": "method",
@@ -689,6 +729,7 @@
               "type": "java.lang.Enum"
             }
           },
+          "autocompleteVariables": [],
           "whens": [
             {
               "propertyName": "method",
@@ -718,6 +759,7 @@
               "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -734,6 +776,7 @@
               "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -750,6 +793,7 @@
               "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -777,6 +821,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -793,12 +838,14 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 }
               ],
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         }
       ]
@@ -834,6 +881,7 @@
                       "type": "java.lang.String"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -849,6 +897,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -868,6 +917,7 @@
                       "type": "java.lang.Enum"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -883,6 +933,7 @@
                       "type": "java.lang.String"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -897,6 +948,7 @@
                       "type": "java.lang.Boolean"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -912,6 +964,7 @@
                       "type": "java.lang.Boolean"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -926,6 +979,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -940,6 +994,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -954,6 +1009,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -968,6 +1024,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -982,6 +1039,7 @@
                       "type": "java.lang.Integer"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -1011,6 +1069,7 @@
                               "type": "java.lang.Enum"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -1037,6 +1096,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1052,12 +1112,14 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 }
                               ],
                               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "type",
@@ -1088,6 +1150,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1102,6 +1165,7 @@
                                       "type": "com.reedelk.runtime.api.annotation.Password"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1116,6 +1180,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1130,12 +1195,14 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 }
                               ],
                               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "type",
@@ -1155,6 +1222,7 @@
                               "type": "java.lang.Boolean"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": []
                         },
                         {
@@ -1180,6 +1248,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1194,6 +1263,7 @@
                                       "type": "com.reedelk.runtime.api.annotation.Password"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1208,6 +1278,7 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 },
                                 {
@@ -1222,12 +1293,14 @@
                                       "type": "java.lang.String"
                                     }
                                   },
+                                  "autocompleteVariables": [],
                                   "whens": []
                                 }
                               ],
                               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                             }
                           },
+                          "autocompleteVariables": [],
                           "whens": [
                             {
                               "propertyName": "useTrustStore",
@@ -1239,6 +1312,7 @@
                       "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": [
                     {
                       "propertyName": "protocol",
@@ -1250,6 +1324,7 @@
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -1265,6 +1340,7 @@
               "type": "java.lang.String"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -1288,6 +1364,7 @@
               "type": "java.lang.Enum"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -1307,6 +1384,7 @@
               "type": "java.lang.Enum"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -1333,6 +1411,7 @@
                       "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -1347,6 +1426,7 @@
                       "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -1361,12 +1441,14 @@
                       "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
                     }
                   },
+                  "autocompleteVariables": [],
                   "whens": []
                 }
               ],
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         },
         {
@@ -1393,12 +1475,7 @@
                       "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray"
                     }
                   },
-                  "autocompleteContributor": {
-                    "error": true,
-                    "message": false,
-                    "context": true,
-                    "contributions": []
-                  },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -1413,12 +1490,7 @@
                       "type": "com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger"
                     }
                   },
-                  "autocompleteContributor": {
-                    "error": true,
-                    "message": false,
-                    "context": true,
-                    "contributions": []
-                  },
+                  "autocompleteVariables": [],
                   "whens": []
                 },
                 {
@@ -1433,32 +1505,99 @@
                       "type": "com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap"
                     }
                   },
-                  "autocompleteContributor": {
-                    "error": true,
-                    "message": false,
-                    "context": true,
-                    "contributions": []
-                  },
+                  "autocompleteVariables": [],
                   "whens": []
                 }
               ],
               "type": "com.reedelk.module.descriptor.model.TypeObjectDescriptor$TypeObject"
             }
           },
+          "autocompleteVariables": [],
           "whens": []
         }
       ]
     }
   ],
-  "autocompleteContributors": [
+  "autocompleteItems": [
     {
-      "error": false,
-      "message": false,
-      "context": false,
-      "contributions": [
-        "MultipartMessage[VARIABLE:MultipartMessage]",
-        "MultipartMessage.part(\u0027\u0027)[FUNCTION:MultipartPartBuilder:2]"
-      ]
+      "type": "MultipartBuilder",
+      "token": "MultipartBuilder",
+      "description": "Multipart message builder",
+      "replaceValue": "MultipartBuilder",
+      "cursorOffset": 0,
+      "itemType": "VARIABLE"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "create",
+      "returnType": "MultipartBuilder",
+      "description": "Creates a new parts builder",
+      "replaceValue": "create(\u0027\u0027)",
+      "cursorOffset": 2,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "add",
+      "returnType": "MultipartBuilder",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "add(\u0027\u0027)",
+      "cursorOffset": 2,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "attribute",
+      "returnType": "MultipartBuilder",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "attribute(\u0027\u0027,\u0027\u0027)",
+      "cursorOffset": 4,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "binary",
+      "returnType": "MultipartBuilder",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "binary()",
+      "cursorOffset": 1,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "text",
+      "returnType": "MultipartBuilder",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "text(\u0027\u0027)",
+      "cursorOffset": 1,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "binaryWithMimeType",
+      "returnType": "MultipartBuilder",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "binaryWithMimeType(,\u0027application/octet-stream\u0027)",
+      "cursorOffset": 3,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "textWithMimeType",
+      "returnType": "MultipartBuilder",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "textWithMimeType(\u0027\u0027,\u0027text/plain\u0027)",
+      "cursorOffset": 5,
+      "itemType": "FUNCTION"
+    },
+    {
+      "type": "MultipartBuilder",
+      "token": "build",
+      "returnType": "Parts",
+      "description": "Adds a new part with the given name",
+      "replaceValue": "build()",
+      "cursorOffset": 1,
+      "itemType": "FUNCTION"
     }
   ]
 }
