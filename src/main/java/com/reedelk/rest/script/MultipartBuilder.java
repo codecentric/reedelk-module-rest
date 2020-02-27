@@ -2,14 +2,14 @@ package com.reedelk.rest.script;
 
 import com.reedelk.runtime.api.annotation.AutocompleteItem;
 import com.reedelk.runtime.api.annotation.AutocompleteType;
-import com.reedelk.runtime.api.autocomplete.AutocompleteItemType;
 import com.reedelk.runtime.api.message.content.*;
 
+import static com.reedelk.runtime.api.autocomplete.AutocompleteItemType.VARIABLE;
 import static com.reedelk.runtime.api.commons.Preconditions.checkState;
 
 
 @AutocompleteType
-@AutocompleteItem(token = "MultipartBuilder", itemType = AutocompleteItemType.VARIABLE, replaceValue = "MultipartBuilder", description = "Multipart message builder")
+@AutocompleteItem(token = "MultipartBuilder", itemType = VARIABLE, returnType = MultipartBuilder.class, replaceValue = "MultipartBuilder", description = "Multipart message builder")
 public class MultipartBuilder {
 
     private final Parts parts;
@@ -57,7 +57,7 @@ public class MultipartBuilder {
     }
 
     // TODO: Adjust cursor ofsset
-    @AutocompleteItem(replaceValue = "binaryWithMimeType(,'application/octet-stream')", cursorOffset = 3, description = "Adds a new part with the given name")
+    @AutocompleteItem(replaceValue = "binaryWithMimeType(,'" + MimeType.MIME_TYPE_APPLICATION_BINARY + "')", cursorOffset = 13, description = "Adds a new part with the given name")
     public MultipartBuilder binaryWithMimeType(byte[] data, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
         ByteArrayContent content = new ByteArrayContent(data, mimeTypeObject);
