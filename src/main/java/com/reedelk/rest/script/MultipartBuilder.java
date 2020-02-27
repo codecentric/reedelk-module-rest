@@ -8,8 +8,7 @@ import static com.reedelk.runtime.api.autocomplete.AutocompleteItemType.VARIABLE
 import static com.reedelk.runtime.api.commons.Preconditions.checkState;
 
 
-@AutocompleteType
-@AutocompleteItem(token = "MultipartBuilder", itemType = VARIABLE, returnType = MultipartBuilder.class, replaceValue = "MultipartBuilder", description = "Multipart message builder")
+@AutocompleteType(global = true, description = "Multipart message builder")
 public class MultipartBuilder {
 
     private final Parts parts;
