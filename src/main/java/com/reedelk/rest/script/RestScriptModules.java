@@ -22,7 +22,7 @@ public class RestScriptModules implements ScriptSource {
     @Override
     public Map<String, Object> bindings() {
         Map<String, Object> bindings = new HashMap<>();
-        bindings.put("builder", new MultipartBuilder());
+        bindings.put("MultipartBuilder", new MultipartBuilder());
         return bindings;
     }
 
