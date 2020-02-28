@@ -15,7 +15,7 @@ public class MultipartPartBuilder {
         current = Part.builder().name(partName);
     }
 
-    @AutocompleteItem(replaceValue = "attribute('','')", cursorOffset = 4, description = "Adds a new part with the given name")
+    @AutocompleteItem(replaceValue = "attribute('','')", cursorOffset = 5, description = "Adds a new part with the given name")
     public MultipartPartBuilder attribute(String key, String value) {
         current.attribute(key, value);
         return this;
