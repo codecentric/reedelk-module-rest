@@ -28,7 +28,7 @@ public class MultipartPartBuilder {
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "text('')", cursorOffset = 1, description = "Adds a new part with the given name")
+    @AutocompleteItem(replaceValue = "text('')", cursorOffset = 2, description = "Adds a new part with the given name")
     public MultipartPartBuilder text(String text) {
         StringContent content = new StringContent(text, MimeType.TEXT);
         current.content(content);
@@ -51,7 +51,7 @@ public class MultipartPartBuilder {
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "part('')", description = "Adds the current")
+    @AutocompleteItem(replaceValue = "part('')", cursorOffset = 2, description = "Adds the current")
     public MultipartPartBuilder part(String partName) {
         parent.add(current.build());
         return parent.part(partName);
