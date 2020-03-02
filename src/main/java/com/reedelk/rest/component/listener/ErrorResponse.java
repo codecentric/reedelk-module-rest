@@ -28,7 +28,8 @@ public class ErrorResponse implements Implementor {
     @InitValue("500")
     @AutocompleteVariable(name = "error", type = Error.class)
     @AutocompleteVariable(name = "context", type = FlowContext.class)
-    @Description("The status code of the error response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myErrorResponseStatus</i>.")
+    @Description("The status code of the error response might be a static or a dynamic value, " +
+            "e.g. could be a variable defined in the flow context: <code>context.myErrorResponseStatus</code>.")
     private DynamicInteger status;
 
     @Property("Additional Headers")
