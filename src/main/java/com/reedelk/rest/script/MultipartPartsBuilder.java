@@ -14,12 +14,12 @@ public class MultipartPartsBuilder {
         parts = new Parts();
     }
 
-    @AutocompleteItem(replaceValue = "part('')", cursorOffset = 2, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "part('')", cursorOffset = 2, description = "Adds a new part with the given name")
     public MultipartPartBuilder part(String partName) {
         return new MultipartPartBuilder(this, partName);
     }
 
-    @AutocompleteItem(replaceValue = "build()", cursorOffset = 1, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "build()", cursorOffset = 1, description = "Adds a new part with the given name")
     public Parts build() {
         return parts;
     }

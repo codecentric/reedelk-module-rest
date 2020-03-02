@@ -15,27 +15,27 @@ public class MultipartPartBuilder {
         current = Part.builder().name(partName);
     }
 
-    @AutocompleteItem(replaceValue = "attribute('','')", cursorOffset = 5, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "attribute('','')", cursorOffset = 5, description = "Adds a new part with the given name")
     public MultipartPartBuilder attribute(String key, String value) {
         current.attribute(key, value);
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "binary()", cursorOffset = 1, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "binary()", cursorOffset = 1, description = "Adds a new part with the given name")
     public MultipartPartBuilder binary(byte[] data) {
         ByteArrayContent content = new ByteArrayContent(data, MimeType.APPLICATION_BINARY);
         current.content(content);
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "text('')", cursorOffset = 2, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "text('')", cursorOffset = 2, description = "Adds a new part with the given name")
     public MultipartPartBuilder text(String text) {
         StringContent content = new StringContent(text, MimeType.TEXT);
         current.content(content);
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "binaryWithMimeType(,'" + MimeType.MIME_TYPE_APPLICATION_BINARY + "')", cursorOffset = 28, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "binaryWithMimeType(,'" + MimeType.MIME_TYPE_APPLICATION_BINARY + "')", cursorOffset = 28, description = "Adds a new part with the given name")
     public MultipartPartBuilder binaryWithMimeType(byte[] data, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
         ByteArrayContent content = new ByteArrayContent(data, mimeTypeObject);
@@ -43,7 +43,7 @@ public class MultipartPartBuilder {
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "textWithMimeType('','text/plain')", cursorOffset = 15, description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "textWithMimeType('','text/plain')", cursorOffset = 15, description = "Adds a new part with the given name")
     public MultipartPartBuilder textWithMimeType(String text, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
         StringContent content = new StringContent(text, mimeTypeObject);
@@ -51,13 +51,13 @@ public class MultipartPartBuilder {
         return this;
     }
 
-    @AutocompleteItem(replaceValue = "part('')", cursorOffset = 2, description = "Adds the current")
+    @AutocompleteItem(signature = "part('')", cursorOffset = 2, description = "Adds the current")
     public MultipartPartBuilder part(String partName) {
         parent.add(current.build());
         return parent.part(partName);
     }
 
-    @AutocompleteItem(replaceValue = "build()", description = "Adds a new part with the given name")
+    @AutocompleteItem(signature = "build()", description = "Adds a new part with the given name")
     public Parts build() {
         return parent.add(current.build()).build();
     }
