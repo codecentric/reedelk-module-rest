@@ -39,7 +39,8 @@ public class RestListener extends AbstractInbound {
     @Example("/resource/{id}")
     @Description("The rest path this listener will be bound to. If present must start with '/'. " +
             "The path might contain regexp, e.g: /{name:.*} which would match against anything it is compared to, " +
-            "or parameters /{group}/{id}. Path parameters are bound to a key/value map in the inbound message attributes.")
+            "or parameters /{group}/{id}. Path parameters are bound to a map in the out message attributes. " +
+            "The following script expression can be used to retrieve request path parameters: <code>message.attributes().pathParams</code>.")
     private String path;
 
     @Property("Method")
