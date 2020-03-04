@@ -28,6 +28,7 @@ public class MultipartPartBuilder {
     }
 
     @AutocompleteItem(
+            cursorOffset = 1,
             signature = "binary(data: byte[])",
             example = "MultipartBuilder.part('binaryContent').binary(message.payload())",
             description = "Sets binary data to the current part object. Default mime type is 'application/octet-stream'.")
