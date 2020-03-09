@@ -1,6 +1,7 @@
 package com.reedelk.rest.client;
 
 import com.reedelk.rest.client.response.HttpResponseMessageMapper;
+import com.reedelk.rest.commons.HttpHeadersAsMap;
 import com.reedelk.rest.commons.IsSuccessfulStatus;
 import com.reedelk.runtime.api.commons.StackTraceUtils;
 import com.reedelk.runtime.api.component.OnResult;
@@ -14,6 +15,8 @@ import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
+import java.util.List;
+import java.util.TreeMap;
 
 import static com.reedelk.rest.commons.Messages.RestClient.REQUEST_CANCELLED;
 import static com.reedelk.rest.commons.Messages.RestClient.REQUEST_FAILED;
@@ -42,10 +45,15 @@ public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
             } else {
                 // If the response is not successful (e.g >= 200 && < 300) we throw an exception.
                 HttpEntity finalEntity = HttpResponseMessageMapper.applyDecompressStrategyFrom(response.getEntity());
+                TreeMap<String, List<String>> headers = HttpHeadersAsMap.of(response.getAllHeaders());
                 byte[] bytes = EntityUtils.toByteArray(finalEntity);
 
-                HttpClientResponseException exception =
-                        new HttpClientResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase(), bytes);
+                HttpClientResponseException exception = new HttpClientResponseException(
+                        statusLine.getStatusCode(),
+                        statusLine.getReasonPhrase(),
+                        headers,
+                        bytes);
+
                 callback.onError(flowContext, exception);
             }
 
