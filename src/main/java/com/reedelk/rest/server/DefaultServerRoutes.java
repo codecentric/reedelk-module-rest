@@ -8,7 +8,9 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
 
@@ -19,12 +21,9 @@ public class DefaultServerRoutes implements HttpServerRoutes {
     private final CopyOnWriteArrayList<HttpRouteHandler> handlers = new CopyOnWriteArrayList<>();
 
     @Override
-    public HttpRouteHandler route(
-            HttpPredicate condition,
-            BiFunction<? super HttpServerRequest, ? super HttpServerResponse, ? extends Publisher<Void>> handler) {
+    public HttpRouteHandler route(HttpPredicate condition, HttpRequestHandler handler) {
         requireNonNull(condition, "condition");
         requireNonNull(handler, "handler");
-
 
         if (isDefined(condition.method, condition.uri)) {
             throw new RouteAlreadyDefinedException(condition.method.name(), condition.uri);
@@ -44,15 +43,9 @@ public class DefaultServerRoutes implements HttpServerRoutes {
                 .ifPresent(handlers::remove);
     }
 
-
-    private boolean isDefined(HttpMethod method, String path) {
-        return handlers.stream()
-                .anyMatch(handler -> handler.matchesExactly(method, path));
-    }
-
     @Override
-    public boolean isEmpty() {
-        return handlers.isEmpty();
+    public List<HttpRouteHandler> handlers() {
+        return Collections.unmodifiableList(handlers);
     }
 
     @Override
@@ -72,6 +65,11 @@ public class DefaultServerRoutes implements HttpServerRoutes {
         }
 
         return response.sendNotFound();
+    }
+
+    private boolean isDefined(HttpMethod method, String path) {
+        return handlers.stream()
+                .anyMatch(handler -> handler.matchesExactly(method, path));
     }
 
 

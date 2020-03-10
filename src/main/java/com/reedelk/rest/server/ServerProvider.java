@@ -3,6 +3,7 @@ package com.reedelk.rest.server;
 import com.reedelk.rest.commons.Defaults;
 import com.reedelk.rest.commons.HostNamePortKey;
 import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.openapi.OpenAPIServerDecorator;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
@@ -22,7 +23,7 @@ public class ServerProvider {
                 Defaults.RestListener.host(configuration.getHost()),
                 Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
         if (!serverMap.containsKey(key)) {
-            Server server = new Server(configuration);
+            Server server = new OpenAPIServerDecorator(new DefaultServer(configuration));
             serverMap.put(key, server);
         }
         Server server = serverMap.get(key);

@@ -19,7 +19,7 @@ public class MediaTypeObject implements Serializable {
     @Override
     public JSONObject serialize() {
         JSONObject mediaType = JsonObjectFactory.newJSONObject();
-        mediaType.put("schema", schema.serialize());
+        if (schema != null) mediaType.put("schema", schema.serialize());
         return mediaType;
     }
 }

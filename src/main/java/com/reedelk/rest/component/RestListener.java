@@ -4,6 +4,7 @@ import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.commons.StreamingMode;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
+import com.reedelk.rest.server.DefaultHttpRequestHandler;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.Server;
 import com.reedelk.rest.server.ServerProvider;
@@ -77,7 +78,7 @@ public class RestListener extends AbstractInbound {
         requireNotNull(RestListener.class, method, "RestListener method must be defined");
         requireTrue(RestListener.class, isBlank(path) || path.startsWith("/") ,"RestListener path must start with '/'");
 
-        HttpRequestHandler httpRequestHandler = HttpRequestHandler.builder()
+        HttpRequestHandler requestHandler = DefaultHttpRequestHandler.builder()
                         .inboundEventListener(RestListener.this)
                         .errorResponse(errorResponse)
                         .scriptEngine(scriptEngine)
@@ -88,7 +89,7 @@ public class RestListener extends AbstractInbound {
 
         Server server = provider.getOrCreate(configuration)
                 .orElseThrow(() -> new ConfigurationException(LISTENER_CONFIG_MISSING.format()));
-        server.addRoute(method, path, httpRequestHandler);
+        server.addRoute(method, path, requestHandler);
     }
 
     @Override
@@ -97,8 +98,8 @@ public class RestListener extends AbstractInbound {
             server.removeRoute(method, path);
             try {
                 provider.release(server);
-            } catch (Exception e) {
-                throw new ESBException(e);
+            } catch (Exception exception) {
+                throw new ESBException(exception);
             }
         });
     }

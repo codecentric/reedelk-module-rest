@@ -94,6 +94,7 @@ public class PathItemObject implements Serializable {
         pathItem.put("$ref", $ref);
         pathItem.put("summary", summary);
         pathItem.put("description", description);
+
         if (get != null) {
             pathItem.put("get", get.serialize());
         }
