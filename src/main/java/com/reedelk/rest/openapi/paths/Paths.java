@@ -12,7 +12,11 @@ public class Paths implements Serializable {
     private Map<String, PathItemObject> paths = new TreeMap<>();
 
     public void add(String path, PathItemObject pathItemObject) {
-        paths.put(path, pathItemObject);
+        if (path == null) {
+            paths.put("/", pathItemObject);
+        } else {
+            paths.put(path, pathItemObject);
+        }
     }
 
     @Override
@@ -24,7 +28,9 @@ public class Paths implements Serializable {
     }
 
     public boolean contains(String path) {
-        return paths.containsKey(path);
+        return path == null ?
+                paths.containsKey("/") :
+                paths.containsKey(path);
     }
 
     public PathItemObject get(String path) {
