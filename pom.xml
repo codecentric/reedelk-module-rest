@@ -23,6 +23,8 @@
         <wiremock.version>2.24.1</wiremock.version>
         <assertj.version>3.11.1</assertj.version>
         <junit.version>5.5.2</junit.version>
+        <json.version>20190722</json.version>
+        <jsonassert.version>1.5.0</jsonassert.version>
         <mockito.version>2.23.0</mockito.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -48,6 +50,12 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>${http.mime.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -86,6 +94,12 @@
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock-jre8</artifactId>
             <version>${wiremock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>${jsonassert.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

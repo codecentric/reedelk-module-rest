@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Simple API overview",
+    "version": "v2",
+    "description": "Simple API overview description"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "description": "List API versions",
+        "operationId": "listVersionsv2",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "properties": {
+          "petType": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "petType"
+        ],
+        "discriminator": {
+          "propertyName": "petType"
+        }
+      }
+    }
+  }
+}
