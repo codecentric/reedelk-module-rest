@@ -40,15 +40,15 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = RestClient.class, scope = PROTOTYPE)
 public class RestClient implements ProcessorAsync {
 
+    @Property("Client config")
+    private RestClientConfiguration configuration;
+
     @Property("Method")
     @Example("POST")
     @InitValue("GET")
     @DefaultValue("GET")
     @Description("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
     private RestMethod method;
-
-    @Property("Client config")
-    private RestClientConfiguration configuration;
 
     @Property("Base URL")
     @Hint("https://api.example.com")
