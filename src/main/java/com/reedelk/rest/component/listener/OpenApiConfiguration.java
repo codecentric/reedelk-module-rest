@@ -17,7 +17,7 @@ public class OpenApiConfiguration implements Implementor {
     private Boolean exclude;
 
     @Property("Responses")
-    private Map<String,ResponseConfiguration> responses;
+    private Map<String, OpenApiResponse> responses;
 
     public Boolean getExclude() {
         return exclude;
@@ -27,11 +27,11 @@ public class OpenApiConfiguration implements Implementor {
         this.exclude = exclude;
     }
 
-    public Map<String, ResponseConfiguration> getResponses() {
+    public Map<String, OpenApiResponse> getResponses() {
         return responses;
     }
 
-    public void setResponses(Map<String, ResponseConfiguration> responses) {
+    public void setResponses(Map<String, OpenApiResponse> responses) {
         this.responses = responses;
     }
 }

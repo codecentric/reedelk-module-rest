@@ -5,8 +5,8 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = ResponseConfiguration.class, scope = PROTOTYPE)
-public class ResponseConfiguration implements Implementor {
+@Component(service = OpenApiResponse.class, scope = PROTOTYPE)
+public class OpenApiResponse implements Implementor {
 
     public String example;
     public String schema;
