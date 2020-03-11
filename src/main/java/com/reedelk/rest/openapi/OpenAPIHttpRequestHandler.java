@@ -24,7 +24,7 @@ public class OpenAPIHttpRequestHandler implements HttpRequestHandler {
         JSONObject serialize = openAPI.serialize();
         String apiAsJson = serialize.toString(2);
         response.addHeader(HttpHeader.CONTENT_TYPE, MimeType.APPLICATION_JSON.toString());
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(apiAsJson.getBytes()));
     }
 

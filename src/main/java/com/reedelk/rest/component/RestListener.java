@@ -3,6 +3,7 @@ package com.reedelk.rest.component;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.commons.StreamingMode;
 import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.OpenApiConfiguration;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.server.DefaultHttpRequestHandler;
 import com.reedelk.rest.server.HttpRequestHandler;
@@ -66,6 +67,9 @@ public class RestListener extends AbstractInbound {
     @Property("Error response")
     private ErrorResponse errorResponse;
 
+    @Property("OpenAPI")
+    private OpenApiConfiguration openApiConfiguration;
+
     @Reference
     private ServerProvider provider;
     @Reference
@@ -126,5 +130,9 @@ public class RestListener extends AbstractInbound {
 
     public void setStreaming(StreamingMode streaming) {
         this.streaming = streaming;
+    }
+
+    public void setOpenApiConfiguration(OpenApiConfiguration openApiConfiguration) {
+        this.openApiConfiguration = openApiConfiguration;
     }
 }
