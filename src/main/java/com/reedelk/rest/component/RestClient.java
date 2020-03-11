@@ -43,13 +43,6 @@ public class RestClient implements ProcessorAsync {
     @Property("Client config")
     private RestClientConfiguration configuration;
 
-    @Property("Method")
-    @Example("POST")
-    @InitValue("GET")
-    @DefaultValue("GET")
-    @Description("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
-    private RestMethod method;
-
     @Property("Base URL")
     @Hint("https://api.example.com")
     @Example("http://api.example.com/orders")
@@ -63,6 +56,13 @@ public class RestClient implements ProcessorAsync {
     @Example("/resource/{id}/{group}")
     @Description("The request path might contain parameters placeholders which will be bound to the values defined in the <i>Headers and parameters</i> > <i>Path params</i> map.")
     private String path;
+
+    @Property("Method")
+    @Example("POST")
+    @InitValue("GET")
+    @DefaultValue("GET")
+    @Description("The REST method to be used to make the request. Possible values are: GET, POST, PUT, DELETE, HEAD, OPTIONS.")
+    private RestMethod method;
 
     @Property("Body")
     @Hint("payload")
