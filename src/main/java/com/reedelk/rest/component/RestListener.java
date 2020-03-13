@@ -67,7 +67,7 @@ public class RestListener extends AbstractInbound {
     @Property("Error response")
     private ErrorResponse errorResponse;
 
-    @Property("OpenAPI")
+    @Property("Open API configuration")
     private OpenApiConfiguration openApiConfiguration;
 
     @Reference
