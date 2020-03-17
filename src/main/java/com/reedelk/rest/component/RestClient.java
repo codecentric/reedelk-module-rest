@@ -89,18 +89,24 @@ public class RestClient implements ProcessorAsync {
     private StreamingMode streaming = StreamingMode.AUTO;
 
     @Property("Headers")
+    @KeyName("Header Name")
+    @ValueName("Header Value")
     @TabGroup("Headers and parameters")
     @Example("X-Custom-Header > <code>'X-Custom-' + message.payload() + ' value'</code>")
     @Description("Map of dynamic headers names > values. The values are dynamic.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
     @Property("Path params")
+    @KeyName("Path Param Name")
+    @ValueName("Path Param Value")
     @TabGroup("Headers and parameters")
     @Example("id > <code>message.payload()</code>")
     @Description("Map of request path parameters names > values. The values are dynamic.")
     private DynamicStringMap pathParameters = DynamicStringMap.empty();
 
     @Property("Query params")
+    @KeyName("Query Param Name")
+    @ValueName("Query Param Value")
     @TabGroup("Headers and parameters")
     @Example("id > <code>message.payload()</code>")
     @Description("Map of request query parameters names > values. The values are dynamic.")

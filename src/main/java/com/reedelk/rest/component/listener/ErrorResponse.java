@@ -33,6 +33,8 @@ public class ErrorResponse implements Implementor {
     private DynamicInteger status;
 
     @Property("Additional Headers")
+    @KeyName("Header Name")
+    @ValueName("Header Value")
     @AutocompleteVariable(name = "error", type = Error.class)
     @AutocompleteVariable(name = "context", type = FlowContext.class)
     @Description("Additional headers to be set in the HTTP error response.")

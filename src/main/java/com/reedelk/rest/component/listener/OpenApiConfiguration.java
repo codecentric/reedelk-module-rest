@@ -1,7 +1,9 @@
 package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.Collapsible;
+import com.reedelk.runtime.api.annotation.KeyName;
 import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.annotation.ValueName;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -17,6 +19,8 @@ public class OpenApiConfiguration implements Implementor {
     private Boolean exclude;
 
     @Property("Responses")
+    @KeyName("Status Code")
+    @ValueName("Edit Response")
     private Map<String, OpenApiResponse> responses;
 
     public Boolean getExclude() {
