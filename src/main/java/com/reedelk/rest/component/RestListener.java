@@ -64,10 +64,10 @@ public class RestListener extends AbstractInbound {
     @Property("Response")
     private Response response;
 
-    @Property("Error response")
+    @Property("Error Response")
     private ErrorResponse errorResponse;
 
-    @Property("Open API configuration")
+    @Property("Open API Configuration")
     private OpenApiConfiguration openApiConfiguration;
 
     @Reference

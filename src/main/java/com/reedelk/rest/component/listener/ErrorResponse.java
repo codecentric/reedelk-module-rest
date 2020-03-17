@@ -15,7 +15,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ErrorResponse.class, scope = PROTOTYPE)
 public class ErrorResponse implements Implementor {
 
-    @Property("Response body")
+    @Property("Body")
     @Hint("error body text")
     @InitValue("#[error]")
     @AutocompleteVariable(name = "error", type = Error.class)
@@ -23,7 +23,7 @@ public class ErrorResponse implements Implementor {
     @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
-    @Property("Response status")
+    @Property("Status")
     @Hint("500")
     @InitValue("500")
     @AutocompleteVariable(name = "error", type = Error.class)
