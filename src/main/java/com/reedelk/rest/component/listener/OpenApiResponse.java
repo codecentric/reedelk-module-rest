@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 
@@ -22,8 +23,9 @@ public class OpenApiResponse implements Implementor {
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
 
-    @MimeTypeCombo
     @Property("Media Type")
+    @MimeTypeCombo
+    @InitValue(MimeType.MIME_TYPE_APPLICATION_JSON)
     public String mediaType;
 
     public ResourceText getExample() {
