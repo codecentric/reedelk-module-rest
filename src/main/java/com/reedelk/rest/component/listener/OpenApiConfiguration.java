@@ -19,10 +19,20 @@ public class OpenApiConfiguration implements Implementor {
     @Property("Exclude")
     private Boolean exclude;
 
-    @Property("Responses")
-    @KeyName("Status Code")
-    @ValueName("Edit Response")
-    private Map<String, OpenApiResponse> responses = new HashMap<>();
+    @Property("Summary")
+    private String summary;
+
+    @Property("Description")
+    private String description;
+
+    @Property("Operation ID")
+    private String operationId;
+
+    @Property("Request")
+    private OpenApiRequest request;
+
+    @Property("Response")
+    private OpenApiResponse response;
 
     public Boolean getExclude() {
         return exclude;
@@ -32,11 +42,43 @@ public class OpenApiConfiguration implements Implementor {
         this.exclude = exclude;
     }
 
-    public Map<String, OpenApiResponse> getResponses() {
-        return responses;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setResponses(Map<String, OpenApiResponse> responses) {
-        this.responses = responses;
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
+    }
+
+    public OpenApiRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(OpenApiRequest request) {
+        this.request = request;
+    }
+
+    public OpenApiResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(OpenApiResponse response) {
+        this.response = response;
     }
 }

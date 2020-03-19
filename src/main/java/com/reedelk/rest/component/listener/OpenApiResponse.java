@@ -6,49 +6,36 @@ import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
+@Collapsible
 @Component(service = OpenApiResponse.class, scope = PROTOTYPE)
 public class OpenApiResponse implements Implementor {
 
-    @Property("Example")
-    @Hint("assets/data_model.json")
-    @Example("assets/data_model.json")
-    @Description("The path and name of the file to be read from the project's resources folder.")
-    private ResourceText example;
+    @Property("Description")
+    private String description;
 
-    @Property("Schema")
-    @Hint("assets/data_model.json")
-    @Example("assets/data_model.json")
-    @Description("The path and name of the file to be read from the project's resources folder.")
-    private ResourceText schema;
+    @Property("Responses")
+    @KeyName("Status Code")
+    @ValueName("Edit Response")
+    private Map<String, OpenApiResponseDefinition> responses = new HashMap<>();
 
-    @Property("Media Type")
-    @MimeTypeCombo
-    @InitValue(MimeType.MIME_TYPE_APPLICATION_JSON)
-    public String mediaType;
-
-    public ResourceText getExample() {
-        return example;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExample(ResourceText example) {
-        this.example = example;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public ResourceText getSchema() {
-        return schema;
+    public Map<String, OpenApiResponseDefinition> getResponses() {
+        return responses;
     }
 
-    public void setSchema(ResourceText schema) {
-        this.schema = schema;
-    }
-
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
+    public void setResponses(Map<String, OpenApiResponseDefinition> responses) {
+        this.responses = responses;
     }
 }

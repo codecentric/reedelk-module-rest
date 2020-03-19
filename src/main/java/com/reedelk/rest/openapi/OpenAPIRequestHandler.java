@@ -3,7 +3,7 @@ package com.reedelk.rest.openapi;
 import com.reedelk.rest.commons.HttpHeader;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.listener.OpenApiConfiguration;
-import com.reedelk.rest.component.listener.OpenApiResponse;
+import com.reedelk.rest.component.listener.OpenApiResponseDefinition;
 import com.reedelk.rest.openapi.paths.*;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.runtime.api.message.content.MimeType;
@@ -54,7 +54,7 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
 
             PathItemObject pathItemObject = pathItemObjectFrom(path);
 
-            Map<String, OpenApiResponse> responses = openApiConfiguration.getResponses();
+            Map<String, OpenApiResponseDefinition> responses = openApiConfiguration.getResponse().getResponses();
 
             responses.forEach((statusCode, openApiResponse) -> {
 
