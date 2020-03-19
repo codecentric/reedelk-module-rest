@@ -93,13 +93,13 @@ public class RestListener extends AbstractInbound {
 
         Server server = provider.getOrCreate(configuration)
                 .orElseThrow(() -> new ConfigurationException(LISTENER_CONFIG_MISSING.format()));
-        server.addRoute(method, path, requestHandler);
+        server.addRoute(path, method, openApiConfiguration, requestHandler);
     }
 
     @Override
     public void onShutdown() {
         provider.get(configuration).ifPresent(server -> {
-            server.removeRoute(method, path);
+            server.removeRoute(path, method);
             try {
                 provider.release(server);
             } catch (Exception exception) {

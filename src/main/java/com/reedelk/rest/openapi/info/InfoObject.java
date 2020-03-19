@@ -10,6 +10,11 @@ public class InfoObject implements Serializable {
     private String version;
     private String description;
 
+    public InfoObject() {
+        this.title = "API";
+        this.version = "v1";
+    }
+
     public String getTitle() {
         return title;
     }

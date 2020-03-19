@@ -10,24 +10,16 @@ public class OpenAPI implements Serializable {
 
     private static final String OPENAPI = "3.0.2";
 
-    private Paths paths;
-    private InfoObject info;
+    private final Paths paths = new Paths();
+    private final InfoObject info = new InfoObject();
     private Components components;
 
     public Paths getPaths() {
         return paths;
     }
 
-    public void setPaths(Paths paths) {
-        this.paths = paths;
-    }
-
     public InfoObject getInfo() {
         return info;
-    }
-
-    public void setInfo(InfoObject info) {
-        this.info = info;
     }
 
     public Components getComponents() {
@@ -42,8 +34,8 @@ public class OpenAPI implements Serializable {
     public JSONObject serialize() {
         JSONObject obj = JsonObjectFactory.newJSONObject();
         obj.put("openapi", OPENAPI);
-        if (info != null) obj.put("info", info.serialize());
-        if (paths != null) obj.put("paths", paths.serialize());
+        obj.put("info", info.serialize());
+        obj.put("paths", paths.serialize());
         if (components != null) obj.put("components", components.serialize());
         return obj;
     }

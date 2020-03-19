@@ -8,6 +8,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public enum JSONS {
 
+    EmptyOpenAPI {
+        @Override
+        public String path() {
+            return "/com.reedelk.rest.openapi/empty.openapi.json";
+        }
+    },
+
     SampleOpenAPI {
         @Override
         public String path() {

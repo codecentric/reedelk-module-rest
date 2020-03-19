@@ -1,6 +1,7 @@
 package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.component.listener.OpenApiConfiguration;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.HttpRouteHandler;
 import com.reedelk.rest.server.Server;
@@ -12,36 +13,37 @@ public class OpenAPIServerDecorator implements Server {
     private static final String openAPIDocument = "openapi.json";
 
     private final Server delegate;
-    private OpenAPIHttpRequestHandler handler;
+    private OpenAPIRequestHandler handler;
 
     public OpenAPIServerDecorator(Server delegate) {
         this.delegate = delegate;
-        handler = new OpenAPIHttpRequestHandler();
-        // TODO: Create default route for openapi.json.
-        delegate.addRoute(RestMethod.GET, "/" + openAPIDocument, handler);
+        handler = new OpenAPIRequestHandler();
+
+        OpenApiConfiguration configuration = new OpenApiConfiguration();
+        configuration.setExclude(true);
+        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, configuration, handler);
     }
 
     @Override
-    public void addRoute(RestMethod method, String path, HttpRequestHandler httpHandler) {
-        // TODO: When we add route we need to
-        handler.add(path, method);
-        delegate.addRoute(method, path, httpHandler);
+    public void addRoute(String path, RestMethod method, OpenApiConfiguration openApiConfiguration, HttpRequestHandler httpHandler) {
+        handler.add(path, method, openApiConfiguration);
+        delegate.addRoute(path, method, openApiConfiguration, httpHandler);
     }
 
     @Override
-    public void removeRoute(RestMethod method, String path) {
-        // TODO: Update openapi.json
-        delegate.removeRoute(method, path);
+    public void removeRoute(String path, RestMethod method) {
+        handler.remove(path, method);
+        delegate.removeRoute(path, method);
     }
 
     @Override
     public String getBasePath() {
-        // TODO: Openapi.json should be on this base path.
         return delegate.getBasePath();
     }
 
     @Override
     public boolean hasEmptyRoutes() {
+        // TODO: Hmmmm revise this....
         List<HttpRouteHandler> handlers = delegate.handlers();
         return handlers.size() == 0 || handlers.size() == 1;
     }

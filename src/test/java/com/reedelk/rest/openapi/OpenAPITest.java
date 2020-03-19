@@ -15,8 +15,8 @@ class OpenAPITest {
     void shouldCorrectlyCreateDocument() {
         // Given
         OpenAPI openapi = new OpenAPI();
-        openapi.setPaths(createPaths());
-        openapi.setInfo(createInfoObject());
+        openapi.getPaths().add("/", createPathItemObject());
+        createInfoObject(openapi.getInfo());
         openapi.setComponents(createComponents());
 
         JSONObject serialize = openapi.serialize();
@@ -50,12 +50,6 @@ class OpenAPITest {
                 "      }");
         components.add("Pet", schemaObject);
         return components;
-    }
-
-    private Paths createPaths() {
-        Paths paths = new Paths();
-        paths.add("/", createPathItemObject());
-        return paths;
     }
 
     private PathItemObject createPathItemObject() {
@@ -97,8 +91,7 @@ class OpenAPITest {
         return referenceObject;
     }
 
-    private InfoObject createInfoObject() {
-        InfoObject infoObject = new InfoObject();
+    private InfoObject createInfoObject(InfoObject infoObject) {
         infoObject.setTitle("Simple API overview");
         infoObject.setDescription("Simple API overview description");
         infoObject.setVersion("v2");
