@@ -1,14 +1,9 @@
 package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.Collapsible;
-import com.reedelk.runtime.api.annotation.KeyName;
 import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.ValueName;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
@@ -33,6 +28,9 @@ public class OpenApiConfiguration implements Implementor {
 
     @Property("Response")
     private OpenApiResponse response;
+
+    @Property("Parameters")
+    private OpenApiParameters parameters;
 
     public Boolean getExclude() {
         return exclude;
@@ -80,5 +78,13 @@ public class OpenApiConfiguration implements Implementor {
 
     public void setResponse(OpenApiResponse response) {
         this.response = response;
+    }
+
+    public OpenApiParameters getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(OpenApiParameters parameters) {
+        this.parameters = parameters;
     }
 }
