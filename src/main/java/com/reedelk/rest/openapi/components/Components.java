@@ -9,10 +9,14 @@ import java.util.Map;
 
 public class Components implements Serializable {
 
-    private Map<String,SchemaObject> schemas = new HashMap<>();
+    private Map<String, SchemaObject> schemas = new HashMap<>();
 
     public void add(String key, SchemaObject schema) {
         this.schemas.put(key, schema);
+    }
+
+    public Map<String, SchemaObject> getSchemas() {
+        return schemas;
     }
 
     @Override

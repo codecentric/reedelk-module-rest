@@ -24,7 +24,7 @@ public class ConfiguratorResponse extends AbstractConfigurator {
                         mediaTypeObject.setExample(StreamUtils.FromString.consume(resourceText.data())));
 
                 Optional.ofNullable(openApiResponse.getSchema()).ifPresent(resourceText -> {
-                    String schemaRef = getSchemaRefFrom(api, resourceText);
+                    String schemaRef = schemaRefFrom(api, resourceText);
                     ReferenceObject referenceObject = new ReferenceObject();
                     referenceObject.set$ref(schemaRef);
                     mediaTypeObject.setSchema(referenceObject);

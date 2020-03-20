@@ -29,7 +29,7 @@ public class ConfiguratorRequest extends AbstractConfigurator {
                         mediaTypeObject.setExample(StreamUtils.FromString.consume(resourceText.data())));
 
                 Optional.ofNullable(openApiRequestDefinition.getSchema()).ifPresent(resourceText -> {
-                    String schemaRef = getSchemaRefFrom(api, resourceText);
+                    String schemaRef = schemaRefFrom(api, resourceText);
                     ReferenceObject referenceObject = new ReferenceObject();
                     referenceObject.set$ref(schemaRef);
                     mediaTypeObject.setSchema(referenceObject);
