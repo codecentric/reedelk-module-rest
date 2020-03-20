@@ -1,5 +1,6 @@
 package com.reedelk.rest.openapi.configurator;
 
+import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.listener.OpenApiConfiguration;
 import com.reedelk.rest.openapi.OpenAPI;
 import com.reedelk.rest.openapi.paths.MediaTypeObject;
@@ -13,7 +14,10 @@ import java.util.Optional;
 public class ConfiguratorRequest extends AbstractConfigurator {
 
     @Override
-    public void configure(OpenAPI api, OpenApiConfiguration configuration, OperationObject operationObject) {
+    public void configure(OpenAPI api, RestMethod method, OpenApiConfiguration configuration, OperationObject operationObject) {
+        if (RestMethod.GET.equals(method)) {
+            return;
+        }
 
         Optional.ofNullable(configuration.getRequest()).ifPresent(request -> {
 

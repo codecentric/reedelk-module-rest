@@ -19,16 +19,16 @@ public class OpenApiResponse implements Implementor {
     private String description;
 
     @TabGroup("Responses and Headers")
-    @Property("Headers")
-    @KeyName("Header Name")
-    @ValueName("Header Value")
-    private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
-
-    @TabGroup("Responses and Headers")
     @Property("Responses")
     @KeyName("Status Code")
     @ValueName("Edit Response")
     private Map<String, OpenApiResponseDefinition> responses = new HashMap<>();
+
+    @TabGroup("Responses and Headers")
+    @Property("Headers")
+    @KeyName("Header Name")
+    @ValueName("Header Value")
+    private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
 
     public String getDescription() {
         return description;

@@ -6,12 +6,6 @@ public class SchemaObject {
     private String schema;
     private String schemaResourcePath;
 
-    public SchemaObject(String name, String schemaResourcePath, String schema) {
-        this.name = name;
-        this.schema = schema;
-        this.schemaResourcePath = schemaResourcePath;
-    }
-
     public String getName() {
         return name;
     }

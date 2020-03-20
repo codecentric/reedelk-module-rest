@@ -1,5 +1,6 @@
 package com.reedelk.rest.openapi.configurator;
 
+import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.listener.OpenApiConfiguration;
 import com.reedelk.rest.openapi.OpenAPI;
 import com.reedelk.rest.openapi.paths.OperationObject;
@@ -16,14 +17,14 @@ public class OpenApiConfigurator {
                     new ConfiguratorResponse(),
                     new ConfiguratorRequest()));
 
-    public static OperationObject configure(OpenAPI openAPI, OpenApiConfiguration openApiConfiguration) {
+    public static OperationObject configure(OpenAPI openAPI, RestMethod method, OpenApiConfiguration openApiConfiguration) {
         OperationObject operationObject = new OperationObject();
         operationObject.setOperationId(openApiConfiguration.getOperationId());
         operationObject.setDescription(openApiConfiguration.getDescription());
         operationObject.setSummary(openApiConfiguration.getSummary());
 
         CONFIGURATORS.forEach(configurator ->
-                configurator.configure(openAPI, openApiConfiguration, operationObject));
+                configurator.configure(openAPI, method, openApiConfiguration, operationObject));
 
         return operationObject;
     }
