@@ -1,6 +1,7 @@
 package com.reedelk.rest.openapi.paths;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.openapi.Serializable;
 import org.json.JSONObject;
 

@@ -18,6 +18,13 @@ public class OpenApiResponse implements Implementor {
     @Property("Description")
     private String description;
 
+    @TabGroup("Responses and Headers")
+    @Property("Headers")
+    @KeyName("Header Name")
+    @ValueName("Header Value")
+    private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
+
+    @TabGroup("Responses and Headers")
     @Property("Responses")
     @KeyName("Status Code")
     @ValueName("Edit Response")
@@ -37,5 +44,13 @@ public class OpenApiResponse implements Implementor {
 
     public void setResponses(Map<String, OpenApiResponseDefinition> responses) {
         this.responses = responses;
+    }
+
+    public Map<String, OpenApiHeaderDefinition> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, OpenApiHeaderDefinition> headers) {
+        this.headers = headers;
     }
 }
