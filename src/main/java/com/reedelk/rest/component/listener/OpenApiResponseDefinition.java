@@ -11,6 +11,9 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = OpenApiResponseDefinition.class, scope = PROTOTYPE)
 public class OpenApiResponseDefinition implements Implementor {
 
+    @Property("Description")
+    private String description;
+
     @Property("Example")
     @Hint("assets/data_model.json")
     @Example("assets/data_model.json")
@@ -50,5 +53,13 @@ public class OpenApiResponseDefinition implements Implementor {
 
     public void setMediaType(String mediaType) {
         this.mediaType = mediaType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

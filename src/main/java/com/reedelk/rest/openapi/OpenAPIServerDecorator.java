@@ -13,26 +13,26 @@ public class OpenAPIServerDecorator implements Server {
     private static final String openAPIDocument = "openapi.json";
 
     private final Server delegate;
-    private OpenAPIRequestHandler handler;
+    private OpenAPIRequestHandler openAPIRequestHandler;
 
     public OpenAPIServerDecorator(Server delegate) {
         this.delegate = delegate;
-        handler = new OpenAPIRequestHandler();
+        openAPIRequestHandler = new OpenAPIRequestHandler();
 
         OpenApiConfiguration configuration = new OpenApiConfiguration();
         configuration.setExclude(true);
-        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, configuration, handler);
+        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, configuration, openAPIRequestHandler);
     }
 
     @Override
     public void addRoute(String path, RestMethod method, OpenApiConfiguration openApiConfiguration, HttpRequestHandler httpHandler) {
-        handler.add(path, method, openApiConfiguration);
+        openAPIRequestHandler.add(path, method, openApiConfiguration);
         delegate.addRoute(path, method, openApiConfiguration, httpHandler);
     }
 
     @Override
     public void removeRoute(String path, RestMethod method) {
-        handler.remove(path, method);
+        openAPIRequestHandler.remove(path, method);
         delegate.removeRoute(path, method);
     }
 

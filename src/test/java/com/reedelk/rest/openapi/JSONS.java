@@ -11,14 +11,21 @@ public enum JSONS {
     EmptyOpenAPI {
         @Override
         public String path() {
-            return "/com.reedelk.rest.openapi/empty.openapi.json";
+            return "/com/reedelk/rest/openapi/empty.openapi.json";
+        }
+    },
+
+    MultipleResponsesForPath {
+        @Override
+        public String path() {
+            return "/com/reedelk/rest/openapi/multiple_responses_statuses_for_path_and_method.openapi.json";
         }
     },
 
     SampleOpenAPI {
         @Override
         public String path() {
-            return "/com.reedelk.rest.openapi/sample.openapi.json";
+            return "/com/reedelk/rest/openapi/sample.openapi.json";
         }
     };
 
