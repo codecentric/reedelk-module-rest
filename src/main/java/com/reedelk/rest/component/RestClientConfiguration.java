@@ -18,18 +18,21 @@ public class RestClientConfiguration implements Implementor {
 
     // Base URL config
     @Property("Host")
+    @Hint("localhost")
     @Example("localhost")
     @InitValue("localhost")
     @Description("Sets the remote host the HTTP request will be sent to.")
     private String host;
 
     @Property("Port")
+    @Hint("8484")
     @Example("8484")
     @InitValue("80")
     @Description("Sets the remote port the HTTP request will be sent to.")
     private Integer port;
 
     @Property("Base path")
+    @Hint("/api/v1")
     @Example("/api/v1")
     @Description("Sets the base request path for all listeners using this configuration.")
     private String basePath;
@@ -43,6 +46,7 @@ public class RestClientConfiguration implements Implementor {
 
     // Default request config
     @Property("Request timeout (ms)")
+    @Hint("10000")
     @Example("10000")
     @DefaultValue("6000")
     @Description("Returns the timeout in milliseconds used when requesting a connection " +
@@ -50,12 +54,14 @@ public class RestClientConfiguration implements Implementor {
     private Integer requestTimeout;
 
     @Property("Connect timeout (ms)")
+    @Hint("10000")
     @Example("10000")
     @DefaultValue("6000")
     @Description("Determines the timeout in milliseconds until a connection is established.")
     private Integer connectTimeout;
 
     @Property("Socket timeout (ms)")
+    @Hint("120000")
     @Example("120000")
     @DefaultValue("60000")
     @Description("Defines the socket timeout in milliseconds, " +

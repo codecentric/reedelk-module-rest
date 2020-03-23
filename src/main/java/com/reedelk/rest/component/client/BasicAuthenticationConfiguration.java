@@ -10,6 +10,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class BasicAuthenticationConfiguration implements Implementor {
 
     @Property("Username")
+    @Hint("myUsername")
     @Example("user001")
     @Description("The username to be used in the remote server basic authentication.")
     private String username;

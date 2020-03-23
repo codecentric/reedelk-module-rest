@@ -10,11 +10,13 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class ProxyConfiguration implements Implementor {
 
     @Property("Host")
+    @Hint("http://myproxy.com")
     @Example("http://myproxy.com")
     @Description("The proxy host name.")
     private String host;
 
     @Property("Port")
+    @Hint("8686")
     @Example("8686")
     @InitValue("8080")
     @Description("The proxy port.")
