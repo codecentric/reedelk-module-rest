@@ -1,9 +1,6 @@
 package com.reedelk.rest.component.listener;
 
-import com.reedelk.runtime.api.annotation.Collapsible;
-import com.reedelk.runtime.api.annotation.KeyName;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.ValueName;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -23,6 +20,7 @@ public class OpenApiRequest implements Implementor {
     private String description;
 
     @Property("Requests")
+    @TabGroup("Requests")
     @KeyName("Mime Type")
     @ValueName("Request")
     private Map<String, OpenApiRequestDefinition> requests = new HashMap<>();

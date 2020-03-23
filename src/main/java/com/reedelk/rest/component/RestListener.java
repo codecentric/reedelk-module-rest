@@ -61,12 +61,15 @@ public class RestListener extends AbstractInbound {
             "When set to Always <b>Transfer-Encoding: chunked</b> is always used, and when none <b>Content-Length</b> is always used instead.")
     private StreamingMode streaming = StreamingMode.AUTO;
 
+    @Group("Response")
     @Property("Response")
     private Response response;
 
+    @Group("Error Response")
     @Property("Error Response")
     private ErrorResponse errorResponse;
 
+    @Group("Open API")
     @Property("Open API Configuration")
     private OpenApiConfiguration openApiConfiguration;
 

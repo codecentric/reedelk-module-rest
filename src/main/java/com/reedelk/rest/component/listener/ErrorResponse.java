@@ -33,6 +33,7 @@ public class ErrorResponse implements Implementor {
     private DynamicInteger status;
 
     @Property("Additional Headers")
+    @TabGroup("Additional Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
     @AutocompleteVariable(name = "error", type = Error.class)

@@ -112,6 +112,7 @@ public class RestClient implements ProcessorAsync {
     @Description("Map of request query parameters names > values. The values are dynamic.")
     private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
+    @Group("Advanced")
     @Property("Advanced configuration")
     private AdvancedConfiguration advancedConfiguration;
 
