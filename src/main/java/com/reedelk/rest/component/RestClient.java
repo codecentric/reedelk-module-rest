@@ -113,7 +113,7 @@ public class RestClient implements ProcessorAsync {
     private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
     @Group("Advanced")
-    @Property("Advanced configuration")
+    @Property("Advanced")
     private AdvancedConfiguration advancedConfiguration;
 
     @Reference
