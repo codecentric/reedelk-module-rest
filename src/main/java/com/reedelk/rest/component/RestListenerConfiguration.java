@@ -52,26 +52,31 @@ public class RestListenerConfiguration implements Implementor {
     private Boolean compress;
 
     @Property("Read timeout millis")
+    @Hint("60000")
     @Example("30000")
     @Description("Sets the socket read timeout for this listener in milliseconds.")
     private Integer readTimeoutMillis;
 
     @Property("Connection timeout millis")
+    @Hint("30000")
     @Example("30000")
     @Description("Sets the socket connection timeout for this listener in milliseconds.")
     private Integer connectionTimeoutMillis;
 
     @Property("Socket backlog")
+    @Hint("10")
     @Example("5")
     @Description("The number of pending connections the listener queue will hold.")
     private Integer socketBacklog;
 
     @Property("Max chunk size")
+    @Hint("8192")
     @Example("8192")
     @Description("The maximum length of the content of each chunk.")
     private Integer maxChunkSize;
 
     @Property("Max headers length")
+    @Hint("8192")
     @Example("8192")
     @Description("The maximum length of all headers.")
     private Integer maxLengthOfAllHeaders;

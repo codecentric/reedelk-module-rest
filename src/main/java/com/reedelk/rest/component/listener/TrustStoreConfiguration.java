@@ -1,9 +1,6 @@
 package com.reedelk.rest.component.listener;
 
-import com.reedelk.runtime.api.annotation.Description;
-import com.reedelk.runtime.api.annotation.Example;
-import com.reedelk.runtime.api.annotation.Password;
-import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -13,6 +10,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class TrustStoreConfiguration implements Implementor {
 
     @Property("Path")
+    @Hint("/var/certificates/myTrustStore.jks")
     @Example("/var/certificates/myTrustStore.jks")
     @Description("The path on the filesystem of the trust store.")
     private String path;
@@ -24,11 +22,13 @@ public class TrustStoreConfiguration implements Implementor {
     private String password;
 
     @Property("Type")
+    @Hint("JKS")
     @Example("JKS")
     @Description("The trust store type.")
     private String type;
 
     @Property("Algorithm")
+    @Hint("SunX509")
     @Example("SunX509")
     @Description("The trust store algorithm.")
     private String algorithm;
