@@ -61,6 +61,9 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
 
     private void addOperationFrom(String path, RestMethod method, OpenApiConfiguration openApiConfiguration) {
         PathItemObject pathItemObject = pathItemObjectFrom(path);
+        pathItemObject.setDescription(openApiConfiguration.getResponse().getDescription());
+        pathItemObject.setSummary(openApiConfiguration.getResponse().getSummary());
+
         OperationObject operationObject = OpenApiConfigurator.configure(openAPI, method, openApiConfiguration);
         addOperationObject(method, pathItemObject, operationObject);
     }

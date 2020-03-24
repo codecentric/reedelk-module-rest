@@ -18,6 +18,9 @@ public class OpenApiResponse implements Implementor {
     @Property("Description")
     private String description;
 
+    @Property("Summary")
+    private String summary;
+
     @TabGroup("Responses and Headers")
     @Property("Responses")
     @KeyName("Status Code")
@@ -52,5 +55,13 @@ public class OpenApiResponse implements Implementor {
 
     public void setHeaders(Map<String, OpenApiHeaderDefinition> headers) {
         this.headers = headers;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }
