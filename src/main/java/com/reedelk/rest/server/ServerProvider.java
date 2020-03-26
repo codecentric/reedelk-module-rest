@@ -3,7 +3,6 @@ package com.reedelk.rest.server;
 import com.reedelk.rest.commons.Defaults;
 import com.reedelk.rest.commons.HostNamePortKey;
 import com.reedelk.rest.component.RestListenerConfiguration;
-import com.reedelk.rest.component.listener.OpenApiBaseConfiguration;
 import com.reedelk.rest.openapi.OpenAPIServerDecorator;
 import org.osgi.service.component.annotations.Component;
 
@@ -11,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 import static java.util.Optional.*;
 import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
@@ -77,8 +75,7 @@ public class ServerProvider {
     }
 
     private boolean isOpenApiDisabled(RestListenerConfiguration configuration) {
-        return ofNullable(configuration.getOpenApiConfiguration())
-                .flatMap(openApiBaseConfiguration -> ofNullable(openApiBaseConfiguration.getDisabled()))
+        return ofNullable(configuration.getOpenApiDisabled())
                 .orElse(false);
     }
 }

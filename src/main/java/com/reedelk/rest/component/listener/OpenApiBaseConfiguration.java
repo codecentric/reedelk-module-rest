@@ -7,6 +7,7 @@ import com.reedelk.runtime.api.annotation.ValueName;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -14,9 +15,6 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Collapsible
 @Component(service = OpenApiBaseConfiguration.class, scope = PROTOTYPE)
 public class OpenApiBaseConfiguration implements Implementor {
-
-    @Property("Disabled")
-    private Boolean disabled;
 
     @Property("Title")
     private String title;
@@ -30,15 +28,7 @@ public class OpenApiBaseConfiguration implements Implementor {
     @Property("Server")
     @KeyName("Server URL")
     @ValueName("Server Definition")
-    private Map<String, OpenApiServerDefinition> servers;
-
-    public Boolean getDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
-    }
+    private Map<String, OpenApiServerDefinition> servers = new HashMap<>();
 
     public String getTitle() {
         return title;

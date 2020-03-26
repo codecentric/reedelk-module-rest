@@ -86,8 +86,12 @@ public class RestListenerConfiguration implements Implementor {
     @When(propertyName = "protocol", propertyValue = "HTTPS")
     private SecurityConfiguration securityConfiguration;
 
-    @Property("Open API")
-    @Description("Open API Description")
+    @Property("Open API Disabled")
+    private Boolean openApiDisabled;
+
+    @Property("Open API Configuration")
+    @When(propertyName = "openApiDisabled", propertyValue = When.NULL)
+    @When(propertyName = "openApiDisabled", propertyValue = "false")
     private OpenApiBaseConfiguration openApiConfiguration;
 
     public String getHost() {
@@ -192,5 +196,13 @@ public class RestListenerConfiguration implements Implementor {
 
     public void setOpenApiConfiguration(OpenApiBaseConfiguration openApiConfiguration) {
         this.openApiConfiguration = openApiConfiguration;
+    }
+
+    public Boolean getOpenApiDisabled() {
+        return openApiDisabled;
+    }
+
+    public void setOpenApiDisabled(Boolean openApiDisabled) {
+        this.openApiDisabled = openApiDisabled;
     }
 }

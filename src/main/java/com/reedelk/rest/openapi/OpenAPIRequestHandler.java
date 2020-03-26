@@ -54,8 +54,6 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
             serverObject.setUrl(defaultServerURL(configuration));
             List<ServerObject> servers = openAPI.getServers();
             servers.add(serverObject);
-        } else {
-            // Add Servers
         }
     }
 
