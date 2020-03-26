@@ -45,10 +45,18 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
             info.setVersion(openApiBaseConfiguration.getVersion());
         });
 
-        List<ServerObject> servers = openAPI.getServers();
-        ServerObject serverObject = new ServerObject();
-        serverObject.setUrl(getURL(configuration));
-        servers.add(serverObject);
+        Boolean configHasServers = Optional.ofNullable(openApiConfiguration)
+                .map(openApiBaseConfiguration -> openApiBaseConfiguration.getServers().isEmpty())
+                .orElse(false);
+
+        if (!configHasServers) {
+            ServerObject serverObject = new ServerObject();
+            serverObject.setUrl(defaultServerURL(configuration));
+            List<ServerObject> servers = openAPI.getServers();
+            servers.add(serverObject);
+        } else {
+            // Add Servers
+        }
     }
 
     @Override
@@ -131,14 +139,14 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         return pathItemObject;
     }
 
-    private String getURL(RestListenerConfiguration configuration) {
+    private String defaultServerURL(RestListenerConfiguration configuration) {
         HttpProtocol protocol = configuration.getProtocol();
         String host = Defaults.RestListener.host(configuration.getHost());
         int port = Defaults.RestListener.port(configuration.getPort(), protocol);
         try {
             return new URL(protocol.name(), host, port, configuration.getBasePath()).toString();
-        } catch (MalformedURLException e) {
-            throw new ESBException(e);
+        } catch (MalformedURLException exception) {
+            throw new ESBException(exception);
         }
     }
 }

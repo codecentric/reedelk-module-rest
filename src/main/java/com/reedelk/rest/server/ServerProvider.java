@@ -3,6 +3,7 @@ package com.reedelk.rest.server;
 import com.reedelk.rest.commons.Defaults;
 import com.reedelk.rest.commons.HostNamePortKey;
 import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.listener.OpenApiBaseConfiguration;
 import com.reedelk.rest.openapi.OpenAPIServerDecorator;
 import org.osgi.service.component.annotations.Component;
 
@@ -10,7 +11,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
+import static java.util.Optional.*;
 import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
 
 @Component(service = ServerProvider.class, scope = SINGLETON)
@@ -23,20 +26,28 @@ public class ServerProvider {
                 Defaults.RestListener.host(configuration.getHost()),
                 Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
         if (!serverMap.containsKey(key)) {
-            Server server = new OpenAPIServerDecorator(configuration, new DefaultServer(configuration));
+
+            boolean openApiDisabled = isOpenApiDisabled(configuration);
+
+            Server server = new DefaultServer(configuration);
+            if (!openApiDisabled) {
+                // If the open api is NOT disabled we apply the OpenAPI decorator
+                // which applies for each route the OpenAPI definition.
+                server = new OpenAPIServerDecorator(configuration, server);
+            }
             serverMap.put(key, server);
         }
         Server server = serverMap.get(key);
         checkBasePathIsConsistent(configuration, server);
-        return Optional.of(server);
+        return of(server);
     }
 
     public Optional<Server> get(RestListenerConfiguration configuration) {
-        if (configuration == null) return Optional.empty();
+        if (configuration == null) return empty();
         HostNamePortKey key = new HostNamePortKey(
                 Defaults.RestListener.host(configuration.getHost()),
                 Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
-        return Optional.ofNullable(serverMap.get(key));
+        return ofNullable(serverMap.get(key));
     }
 
     public void release(Server server) {
@@ -63,5 +74,11 @@ public class ServerProvider {
             throw new IllegalStateException("There are two server configurations " +
                     "on the same host and port with different base paths");
         }
+    }
+
+    private boolean isOpenApiDisabled(RestListenerConfiguration configuration) {
+        return ofNullable(configuration.getOpenApiConfiguration())
+                .flatMap(openApiBaseConfiguration -> ofNullable(openApiBaseConfiguration.getDisabled()))
+                .orElse(false);
     }
 }

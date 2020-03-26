@@ -15,6 +15,9 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = OpenApiBaseConfiguration.class, scope = PROTOTYPE)
 public class OpenApiBaseConfiguration implements Implementor {
 
+    @Property("Disabled")
+    private Boolean disabled;
+
     @Property("Title")
     private String title;
 
@@ -28,6 +31,14 @@ public class OpenApiBaseConfiguration implements Implementor {
     @KeyName("Server URL")
     @ValueName("Server Definition")
     private Map<String, OpenApiServerDefinition> servers;
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
 
     public String getTitle() {
         return title;
