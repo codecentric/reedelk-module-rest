@@ -1,12 +1,20 @@
 package com.reedelk.rest.openapi;
 
+import com.reedelk.rest.commons.Defaults;
+import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.listener.OpenApiBaseConfiguration;
 import com.reedelk.rest.component.listener.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.OpenApiResponse;
 import com.reedelk.rest.openapi.configurator.OpenApiConfigurator;
+import com.reedelk.rest.openapi.info.InfoObject;
 import com.reedelk.rest.openapi.paths.OperationObject;
 import com.reedelk.rest.openapi.paths.PathItemObject;
 import com.reedelk.rest.openapi.paths.Paths;
+import com.reedelk.rest.openapi.server.ServerObject;
 import com.reedelk.rest.server.HttpRequestHandler;
+import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.content.MimeType;
 import org.json.JSONObject;
 import org.reactivestreams.Publisher;
@@ -14,6 +22,9 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 import static com.reedelk.rest.commons.HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN;
@@ -23,8 +34,21 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
 
     protected OpenAPI openAPI;
 
-    protected OpenAPIRequestHandler() {
+    protected OpenAPIRequestHandler(RestListenerConfiguration configuration) {
         openAPI = new OpenAPI();
+
+        OpenApiBaseConfiguration openApiConfiguration = configuration.getOpenApiConfiguration();
+        Optional.ofNullable(openApiConfiguration).ifPresent(openApiBaseConfiguration -> {
+            InfoObject info = openAPI.getInfo();
+            info.setTitle(openApiBaseConfiguration.getTitle());
+            info.setDescription(openApiBaseConfiguration.getDescription());
+            info.setVersion(openApiBaseConfiguration.getVersion());
+        });
+
+        List<ServerObject> servers = openAPI.getServers();
+        ServerObject serverObject = new ServerObject();
+        serverObject.setUrl(getURL(configuration));
+        servers.add(serverObject);
     }
 
     @Override
@@ -56,19 +80,21 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
 
     public void remove(String path, RestMethod method) {
         PathItemObject pathItemObject = pathItemObjectFrom(path);
-        removeOperationObject(pathItemObject, method);
+        setOperationObject(method, pathItemObject, null);
     }
 
     private void addOperationFrom(String path, RestMethod method, OpenApiConfiguration openApiConfiguration) {
+        OpenApiResponse response = openApiConfiguration.getResponse();
+
         PathItemObject pathItemObject = pathItemObjectFrom(path);
-        pathItemObject.setDescription(openApiConfiguration.getResponse().getDescription());
-        pathItemObject.setSummary(openApiConfiguration.getResponse().getSummary());
+        pathItemObject.setDescription(response.getDescription());
+        pathItemObject.setSummary(response.getSummary());
 
         OperationObject operationObject = OpenApiConfigurator.configure(openAPI, method, openApiConfiguration);
-        addOperationObject(method, pathItemObject, operationObject);
+        setOperationObject(method, pathItemObject, operationObject);
     }
 
-    private void addOperationObject(RestMethod method, PathItemObject pathItemObject, OperationObject operationObject) {
+    private void setOperationObject(RestMethod method, PathItemObject pathItemObject, OperationObject operationObject) {
         if (RestMethod.GET.equals(method)) {
             pathItemObject.setGet(operationObject);
         } else if (RestMethod.POST.equals(method)) {
@@ -86,27 +112,9 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         }
     }
 
-    private void removeOperationObject(PathItemObject pathItemObject, RestMethod method) {
-        if (RestMethod.GET.equals(method)) {
-            pathItemObject.setGet(null);
-        } else if (RestMethod.POST.equals(method)) {
-            pathItemObject.setPost(null);
-        } else if (RestMethod.PUT.equals(method)) {
-            pathItemObject.setPut(null);
-        } else if (RestMethod.DELETE.equals(method)) {
-            pathItemObject.setDelete(null);
-        } else if (RestMethod.HEAD.equals(method)) {
-            pathItemObject.setHead(null);
-        } else if (RestMethod.OPTIONS.equals(method)) {
-            pathItemObject.setOptions(null);
-        } else {
-            throw new IllegalArgumentException(method.name());
-        }
-    }
-
     private void addOperationFrom(String path, RestMethod method) {
         OperationObject operationObject = new OperationObject();
-        addOperationObject(method, pathItemObjectFrom(path), operationObject);
+        setOperationObject(method, pathItemObjectFrom(path), operationObject);
     }
 
     private PathItemObject pathItemObjectFrom(String path) {
@@ -121,5 +129,16 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
             paths.add(path, pathItemObject);
         }
         return pathItemObject;
+    }
+
+    private String getURL(RestListenerConfiguration configuration) {
+        HttpProtocol protocol = configuration.getProtocol();
+        String host = Defaults.RestListener.host(configuration.getHost());
+        int port = Defaults.RestListener.port(configuration.getPort(), protocol);
+        try {
+            return new URL(protocol.name(), host, port, configuration.getBasePath()).toString();
+        } catch (MalformedURLException e) {
+            throw new ESBException(e);
+        }
     }
 }

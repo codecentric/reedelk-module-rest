@@ -1,6 +1,7 @@
 package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.component.RestListenerConfiguration;
 import com.reedelk.rest.component.listener.OpenApiConfiguration;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.HttpRouteHandler;
@@ -15,13 +16,13 @@ public class OpenAPIServerDecorator implements Server {
     private final Server delegate;
     private OpenAPIRequestHandler openAPIRequestHandler;
 
-    public OpenAPIServerDecorator(Server delegate) {
+    public OpenAPIServerDecorator(RestListenerConfiguration configuration, Server delegate) {
         this.delegate = delegate;
-        openAPIRequestHandler = new OpenAPIRequestHandler();
+        this.openAPIRequestHandler = new OpenAPIRequestHandler(configuration);
 
-        OpenApiConfiguration configuration = new OpenApiConfiguration();
-        configuration.setExclude(true);
-        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, configuration, openAPIRequestHandler);
+        OpenApiConfiguration openApiConfiguration = new OpenApiConfiguration();
+        openApiConfiguration.setExclude(true);
+        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, openApiConfiguration, openAPIRequestHandler);
     }
 
     @Override

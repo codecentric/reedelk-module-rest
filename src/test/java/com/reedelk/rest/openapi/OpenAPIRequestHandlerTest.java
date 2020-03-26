@@ -89,6 +89,7 @@ class OpenAPIRequestHandlerTest {
     static class TestableOpenAPIRequestHandler extends OpenAPIRequestHandler {
 
         protected TestableOpenAPIRequestHandler(OpenAPI openAPI) {
+            super(null); // TODO: Fixme
             this.openAPI = openAPI;
         }
     }

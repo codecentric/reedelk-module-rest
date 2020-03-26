@@ -23,7 +23,7 @@ public class ServerProvider {
                 Defaults.RestListener.host(configuration.getHost()),
                 Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
         if (!serverMap.containsKey(key)) {
-            Server server = new OpenAPIServerDecorator(new DefaultServer(configuration));
+            Server server = new OpenAPIServerDecorator(configuration, new DefaultServer(configuration));
             serverMap.put(key, server);
         }
         Server server = serverMap.get(key);

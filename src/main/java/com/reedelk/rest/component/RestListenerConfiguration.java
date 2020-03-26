@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.HttpProtocol;
+import com.reedelk.rest.component.listener.OpenApiBaseConfiguration;
 import com.reedelk.rest.component.listener.SecurityConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
@@ -84,6 +85,10 @@ public class RestListenerConfiguration implements Implementor {
     @Property("Security configuration")
     @When(propertyName = "protocol", propertyValue = "HTTPS")
     private SecurityConfiguration securityConfiguration;
+
+    @Property("Open API")
+    @Description("Open API Description")
+    private OpenApiBaseConfiguration openApiConfiguration;
 
     public String getHost() {
         return host;
@@ -179,5 +184,13 @@ public class RestListenerConfiguration implements Implementor {
 
     public void setBasePath(String basePath) {
         this.basePath = basePath;
+    }
+
+    public OpenApiBaseConfiguration getOpenApiConfiguration() {
+        return openApiConfiguration;
+    }
+
+    public void setOpenApiConfiguration(OpenApiBaseConfiguration openApiConfiguration) {
+        this.openApiConfiguration = openApiConfiguration;
     }
 }
