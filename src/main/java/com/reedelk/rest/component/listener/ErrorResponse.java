@@ -32,8 +32,7 @@ public class ErrorResponse implements Implementor {
             "e.g. could be a variable defined in the flow context: <code>context.myErrorResponseStatus</code>.")
     private DynamicInteger status;
 
-    @Property("Additional Headers")
-    @TabGroup("Additional Headers")
+    @Property("Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
     @AutocompleteVariable(name = "error", type = Error.class)

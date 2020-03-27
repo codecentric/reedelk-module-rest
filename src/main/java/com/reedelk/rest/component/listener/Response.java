@@ -25,8 +25,7 @@ public class Response implements Implementor {
     @Description("The status code of the response might be a static or a dynamic value, e.g. could be a variable defined in the flow context: <i>context.myResponseStatus</i>.")
     private DynamicInteger status;
 
-    @Property("Additional Headers")
-    @TabGroup("Additional Headers")
+    @Property("Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
     @Description("Additional headers to be set in the HTTP response.")

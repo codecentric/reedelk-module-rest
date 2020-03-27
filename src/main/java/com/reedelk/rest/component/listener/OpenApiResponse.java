@@ -7,6 +7,7 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -21,13 +22,14 @@ public class OpenApiResponse implements Implementor {
     @Property("Summary")
     private String summary;
 
-    @TabGroup("Responses and Headers")
+    @Property("Tags")
+    private List<String> tags;
+
     @Property("Responses")
     @KeyName("Status Code")
     @ValueName("Edit Response")
     private Map<String, OpenApiResponseDefinition> responses = new HashMap<>();
 
-    @TabGroup("Responses and Headers")
     @Property("Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
@@ -63,5 +65,13 @@ public class OpenApiResponse implements Implementor {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

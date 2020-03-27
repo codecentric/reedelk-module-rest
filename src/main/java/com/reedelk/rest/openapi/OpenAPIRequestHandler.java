@@ -46,7 +46,7 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         });
 
         Boolean configHasServers = Optional.ofNullable(openApiConfiguration)
-                .map(openApiBaseConfiguration -> openApiBaseConfiguration.getServers().isEmpty())
+                .map(openApiBaseConfiguration -> !openApiBaseConfiguration.getServers().isEmpty())
                 .orElse(false);
 
         if (!configHasServers) {

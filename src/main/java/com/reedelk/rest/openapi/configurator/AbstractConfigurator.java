@@ -42,6 +42,7 @@ abstract class AbstractConfigurator implements Configurator {
                     JSONObject object = new JSONObject(jsonSchema);
                     if(object.has("name")) {
                         name = object.getString("name");
+                        object.remove("name");
                     } else {
                         // Extract name from
                         name = new File(path).getName();
@@ -49,12 +50,13 @@ abstract class AbstractConfigurator implements Configurator {
 
                     SchemaObject schemaObject = new SchemaObject();
                     schemaObject.setName(name);
-                    schemaObject.setSchema(jsonSchema);
+                    schemaObject.setSchema(object.toString());
                     schemaObject.setSchemaResourcePath(path);
+                    schemaObject.setRef("#/components/schemas/" + name);
                     allComponents.add(name, schemaObject);
                     return schemaObject;
                 });
 
-        return first.getRef();
+        return first.get$ref();
     }
 }

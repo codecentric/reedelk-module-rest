@@ -5,6 +5,7 @@ import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -19,8 +20,10 @@ public class OpenApiRequest implements Implementor {
     @Property("Description")
     private String description;
 
+    @Property("Tags")
+    private List<String> tags;
+
     @Property("Requests")
-    @TabGroup("Requests")
     @KeyName("Mime Type")
     @ValueName("Request")
     private Map<String, OpenApiRequestDefinition> requests = new HashMap<>();
@@ -47,5 +50,13 @@ public class OpenApiRequest implements Implementor {
 
     public void setRequests(Map<String, OpenApiRequestDefinition> requests) {
         this.requests = requests;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

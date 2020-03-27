@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class OperationObject implements Serializable {
 
@@ -14,6 +15,7 @@ public class OperationObject implements Serializable {
     private String operationId;
     private ResponsesObject responses;
     private RequestBodyObject requestBody;
+    private List<String> tags;
     private List<ParameterObject> parameters;
 
     public String getSummary() {
@@ -64,12 +66,25 @@ public class OperationObject implements Serializable {
         this.parameters = parameters;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     @Override
     public JSONObject serialize() {
         JSONObject operation = JsonObjectFactory.newJSONObject();
         operation.put("summary", summary);
         operation.put("description", description);
         operation.put("operationId", operationId);
+        if (tags != null) {
+            JSONArray tagsArray = new JSONArray();
+            tags.forEach(tagsArray::put);
+            operation.put("tags", tagsArray);
+        }
         if (parameters != null) {
             JSONArray paramsArray = new JSONArray();
             parameters.forEach(parameterObject -> {

@@ -1,9 +1,6 @@
 package com.reedelk.rest.component.listener;
 
-import com.reedelk.runtime.api.annotation.Collapsible;
-import com.reedelk.runtime.api.annotation.KeyName;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.ValueName;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -25,7 +22,8 @@ public class OpenApiBaseConfiguration implements Implementor {
     @Property("Version")
     private String version;
 
-    @Property("Server")
+    @Property("Servers")
+    @TabGroup("Servers")
     @KeyName("Server URL")
     @ValueName("Server Definition")
     private Map<String, OpenApiServerDefinition> servers = new HashMap<>();

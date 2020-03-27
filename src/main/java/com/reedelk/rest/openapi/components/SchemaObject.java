@@ -2,6 +2,7 @@ package com.reedelk.rest.openapi.components;
 
 public class SchemaObject {
 
+    private String $ref;
     private String name;
     private String schema;
     private String schemaResourcePath;
@@ -30,7 +31,11 @@ public class SchemaObject {
         this.schemaResourcePath = schemaResourcePath;
     }
 
-    public String getRef() {
-        return null;
+    public void setRef(String $ref) {
+        this.$ref = $ref;
+    }
+
+    public String get$ref() {
+        return $ref;
     }
 }

@@ -93,7 +93,7 @@ public class RestClientConfiguration implements Implementor {
     @Description("If true, sends Expect: 100-continue header in the initial request before sending the body.")
     private Boolean expectContinue;
 
-    @Property("Ignore self signed certificates")
+    @Property("Ignore Certificates")
     @Example("true")
     @DefaultValue("false")
     @Description("If true, all requests to a host with a self signed certificate are not verified.")
