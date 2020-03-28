@@ -8,7 +8,7 @@ public class Defaults {
     private Defaults() {
     }
 
-    public class RestClient {
+    public static class RestClient {
 
         private RestClient() {
         }

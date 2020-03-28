@@ -13,20 +13,6 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = RestListenerConfiguration.class, scope = PROTOTYPE)
 public class RestListenerConfiguration implements Implementor {
 
-    @Property("Host")
-    @Hint("localhost")
-    @Example("localhost")
-    @InitValue("localhost")
-    @Description("The host this REST listener will be bound to.")
-    private String host;
-
-    @Property("Port")
-    @Hint("8080")
-    @Example("9292")
-    @InitValue("8080")
-    @Description("The port this REST listener will be bound to.")
-    private Integer port;
-
     @Property("Protocol")
     @Example("HTTPS")
     @InitValue("HTTP")
@@ -34,23 +20,27 @@ public class RestListenerConfiguration implements Implementor {
     @Description("The http protocol to use. Possible values are: <b>HTTP</b>, <b>HTTPS</b>.")
     private HttpProtocol protocol = HttpProtocol.HTTP;
 
+    @Property("Host")
+    @Hint("localhost")
+    @Example("localhost")
+    @InitValue("localhost")
+    @DefaultValue("localhost")
+    @Description("The host this REST listener will be bound to.")
+    private String host;
+
+    @Property("Port")
+    @Hint("8080")
+    @Example("9292")
+    @InitValue("8080")
+    @DefaultValue("8080")
+    @Description("The port this REST listener will be bound to.")
+    private Integer port;
+
     @Property("Base path")
     @Hint("/api/v1")
     @Example("/api/v1")
     @Description("The base path shared by all the listeners using this configuration.")
     private String basePath;
-
-    @Property("Keep alive")
-    @Example("true")
-    @InitValue("true")
-    @Description("Enables socket keep alive for this listener.")
-    private Boolean keepAlive;
-
-    @Property("Compress response")
-    @Example("true")
-    @DefaultValue("false")
-    @Description("If true the response is compressed before sending it to the client.")
-    private Boolean compress;
 
     @Property("Read timeout millis")
     @Hint("60000")
@@ -73,21 +63,36 @@ public class RestListenerConfiguration implements Implementor {
     @Property("Max chunk size")
     @Hint("8192")
     @Example("8192")
+    @DefaultValue("8192")
     @Description("The maximum length of the content of each chunk.")
     private Integer maxChunkSize;
 
     @Property("Max headers length")
     @Hint("8192")
     @Example("8192")
+    @DefaultValue("8192")
     @Description("The maximum length of all headers.")
     private Integer maxLengthOfAllHeaders;
+
+    @Property("Keep alive")
+    @Example("true")
+    @InitValue("true")
+    @DefaultValue("true")
+    @Description("Enables socket keep alive for this listener.")
+    private Boolean keepAlive;
+
+    @Property("Compress response")
+    @Example("true")
+    @DefaultValue("false")
+    @Description("If true the response is compressed before sending it to the client.")
+    private Boolean compress;
+
+    @Property("Open API Disabled")
+    private Boolean openApiDisabled;
 
     @Property("Security configuration")
     @When(propertyName = "protocol", propertyValue = "HTTPS")
     private SecurityConfiguration securityConfiguration;
-
-    @Property("Open API Disabled")
-    private Boolean openApiDisabled;
 
     @Property("Open API Configuration")
     @When(propertyName = "openApiDisabled", propertyValue = When.NULL)
