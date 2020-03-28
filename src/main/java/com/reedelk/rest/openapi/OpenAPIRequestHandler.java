@@ -40,9 +40,9 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         OpenApiBaseConfiguration openApiConfiguration = configuration.getOpenApiConfiguration();
         Optional.ofNullable(openApiConfiguration).ifPresent(openApiBaseConfiguration -> {
             InfoObject info = openAPI.getInfo();
-            info.setTitle(openApiBaseConfiguration.getTitle());
-            info.setDescription(openApiBaseConfiguration.getDescription());
-            info.setVersion(openApiBaseConfiguration.getVersion());
+            info.setTitle(openApiBaseConfiguration.getInfo().getTitle());
+            info.setDescription(openApiBaseConfiguration.getInfo().getDescription());
+            info.setVersion(openApiBaseConfiguration.getInfo().getVersion());
         });
 
         Boolean configHasServers = Optional.ofNullable(openApiConfiguration)
@@ -94,7 +94,6 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
 
         PathItemObject pathItemObject = pathItemObjectFrom(path);
         pathItemObject.setDescription(response.getDescription());
-        pathItemObject.setSummary(response.getSummary());
 
         OperationObject operationObject = OpenApiConfigurator.configure(openAPI, method, openApiConfiguration);
         setOperationObject(method, pathItemObject, operationObject);

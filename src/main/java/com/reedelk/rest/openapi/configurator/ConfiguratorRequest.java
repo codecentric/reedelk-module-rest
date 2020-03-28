@@ -25,7 +25,6 @@ public class ConfiguratorRequest extends AbstractConfigurator {
             requestBodyObject.setDescription(request.getDescription());
             requestBodyObject.setRequired(request.getRequired());
             operationObject.setRequestBody(requestBodyObject);
-            operationObject.setTags(request.getTags());
 
             request.getRequests().forEach((mediaType, openApiRequestDefinition) -> {
 

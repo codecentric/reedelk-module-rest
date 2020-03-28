@@ -17,7 +17,6 @@ public class ConfiguratorResponse extends AbstractConfigurator {
 
             ResponsesObject responsesObject = new ResponsesObject();
             operationObject.setResponses(responsesObject);
-            operationObject.setTags(response.getTags());
 
             response.getResponses().forEach((statusCode, openApiResponse) -> {
                 MediaTypeObject mediaTypeObject = new MediaTypeObject();

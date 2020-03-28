@@ -19,6 +19,7 @@ public class ConfiguratorParameters implements Configurator {
             List<ParameterObject> parameterObjectList = new ArrayList<>();
             operationObject.setParameters(parameterObjectList);
 
+            /**
             openApiParameters.getParameters().forEach((parameterName, paramDefinition) -> {
                 ParameterObject parameterObject = new ParameterObject();
                 parameterObject.setName(parameterName);
@@ -27,7 +28,7 @@ public class ConfiguratorParameters implements Configurator {
                 parameterObject.setDescription(paramDefinition.getDescription());
                 parameterObject.setIn(Optional.ofNullable(paramDefinition.getIn()).orElse(ParameterLocation.PATH).value());
                 parameterObjectList.add(parameterObject);
-            });
+            });*/
         });
     }
 }

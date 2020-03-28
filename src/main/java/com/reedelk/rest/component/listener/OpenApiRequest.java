@@ -5,7 +5,6 @@ import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -15,9 +14,13 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class OpenApiRequest implements Implementor {
 
     @Property("Required")
+    @DefaultValue("false")
+    @Description("Determines if the request body is required in the request.")
     private Boolean required;
 
     @Property("Description")
+    @Hint("User to add to the system")
+    @Description("A brief description of the request body. This could contain examples of use.")
     private String description;
 
     @Property("Requests")
@@ -25,11 +28,6 @@ public class OpenApiRequest implements Implementor {
     @KeyName("Mime Type")
     @ValueName("Request")
     private Map<String, OpenApiRequestDefinition> requests = new HashMap<>();
-
-    @Property("Tags")
-    @Hint("Tag name")
-    @TabGroup("Tags and Requests")
-    private List<String> tags;
 
     public Boolean getRequired() {
         return required;
@@ -55,11 +53,4 @@ public class OpenApiRequest implements Implementor {
         this.requests = requests;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
 }

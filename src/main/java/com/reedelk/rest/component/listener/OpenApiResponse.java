@@ -2,25 +2,22 @@ package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
+// TODO: Required
 @Collapsible
 @Component(service = OpenApiResponse.class, scope = PROTOTYPE)
 public class OpenApiResponse implements Implementor {
 
     @Property("Description")
+    @Hint("A pet to be returned")
+    @Description("A short description of the response.")
     private String description;
-
-    @Property("Summary")
-    private String summary;
 
     @Property("Responses")
     @TabGroup("Tags, Responses and Headers")
@@ -34,10 +31,6 @@ public class OpenApiResponse implements Implementor {
     @ValueName("Header Value")
     private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
 
-    @Property("Tags")
-    @Hint("Tag name")
-    @TabGroup("Tags, Responses and Headers")
-    private List<String> tags;
 
     public String getDescription() {
         return description;
@@ -63,19 +56,4 @@ public class OpenApiResponse implements Implementor {
         this.headers = headers;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
 }

@@ -2,6 +2,7 @@ package com.reedelk.rest.client.strategy;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
 
 import java.io.*;
 
@@ -62,6 +63,6 @@ public class MultipartFormEntityWrapper implements HttpEntity {
 
     @Override
     public void consumeContent() throws IOException {
-        this.delegate.consumeContent();
+        delegate.consumeContent();
     }
 }
