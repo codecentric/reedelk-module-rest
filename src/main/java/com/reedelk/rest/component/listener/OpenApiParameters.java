@@ -13,6 +13,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class OpenApiParameters implements Implementor {
 
     @Property("Parameters")
+    @TabGroup("Parameters Definitions")
     @KeyName("Parameter Name")
     @ValueName("Parameter Definition")
     private Map<String, OpenApiParameterDefinition> parameters;

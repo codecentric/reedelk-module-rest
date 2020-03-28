@@ -22,10 +22,6 @@ public class OpenApiResponse implements Implementor {
     @Property("Summary")
     private String summary;
 
-    @Property("Tags")
-    @TabGroup("Tags, Responses and Headers")
-    private List<String> tags;
-
     @Property("Responses")
     @TabGroup("Tags, Responses and Headers")
     @KeyName("Status Code")
@@ -37,6 +33,11 @@ public class OpenApiResponse implements Implementor {
     @KeyName("Header Name")
     @ValueName("Header Value")
     private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
+
+    @Property("Tags")
+    @Hint("Tag name")
+    @TabGroup("Tags, Responses and Headers")
+    private List<String> tags;
 
     public String getDescription() {
         return description;

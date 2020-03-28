@@ -1,6 +1,8 @@
 package com.reedelk.rest.component.listener;
 
+import com.reedelk.runtime.api.annotation.Hint;
 import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.annotation.TabGroup;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
@@ -13,9 +15,13 @@ public class OpenApiServerVariableDefinition implements Implementor {
 
     @Property("Description")
     private String description;
+
     @Property("Default")
     private String defaultValue;
+
     @Property("Enum Values")
+    @Hint("Variable enum value")
+    @TabGroup("Enum Values")
     private List<String> enumValues;
 
     public String getDescription() {

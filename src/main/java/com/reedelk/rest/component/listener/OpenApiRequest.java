@@ -20,15 +20,16 @@ public class OpenApiRequest implements Implementor {
     @Property("Description")
     private String description;
 
-    @Property("Tags")
-    @TabGroup("Tags and Requests")
-    private List<String> tags;
-
     @Property("Requests")
     @TabGroup("Tags and Requests")
     @KeyName("Mime Type")
     @ValueName("Request")
     private Map<String, OpenApiRequestDefinition> requests = new HashMap<>();
+
+    @Property("Tags")
+    @Hint("Tag name")
+    @TabGroup("Tags and Requests")
+    private List<String> tags;
 
     public Boolean getRequired() {
         return required;
