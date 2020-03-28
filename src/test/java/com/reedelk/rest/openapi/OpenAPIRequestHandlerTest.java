@@ -1,9 +1,9 @@
 package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.OpenApiConfiguration;
-import com.reedelk.rest.component.listener.OpenApiResponse;
-import com.reedelk.rest.component.listener.OpenApiResponseDefinition;
+import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiResponse;
+import com.reedelk.rest.component.listener.openapi.OpenApiResponseDefinition;
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;

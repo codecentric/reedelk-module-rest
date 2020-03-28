@@ -1,7 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.component.listener.OpenApiBaseConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiBaseConfiguration;
 import com.reedelk.rest.component.listener.SecurityConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
@@ -97,7 +97,7 @@ public class RestListenerConfiguration implements Implementor {
     @Property("Open API Configuration")
     @When(propertyName = "openApiDisabled", propertyValue = When.NULL)
     @When(propertyName = "openApiDisabled", propertyValue = "false")
-    private OpenApiBaseConfiguration openApiConfiguration;
+    private OpenApiBaseConfiguration openApi;
 
     public String getHost() {
         return host;
@@ -195,12 +195,12 @@ public class RestListenerConfiguration implements Implementor {
         this.basePath = basePath;
     }
 
-    public OpenApiBaseConfiguration getOpenApiConfiguration() {
-        return openApiConfiguration;
+    public OpenApiBaseConfiguration getOpenApi() {
+        return openApi;
     }
 
-    public void setOpenApiConfiguration(OpenApiBaseConfiguration openApiConfiguration) {
-        this.openApiConfiguration = openApiConfiguration;
+    public void setOpenApi(OpenApiBaseConfiguration openApi) {
+        this.openApi = openApi;
     }
 
     public Boolean getOpenApiDisabled() {

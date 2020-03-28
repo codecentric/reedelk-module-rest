@@ -1,4 +1,4 @@
-package com.reedelk.rest.component.listener;
+package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.runtime.api.annotation.KeyName;
 import com.reedelk.runtime.api.annotation.Property;

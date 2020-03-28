@@ -1,7 +1,7 @@
 package com.reedelk.rest.server;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
 
 import java.util.List;
 

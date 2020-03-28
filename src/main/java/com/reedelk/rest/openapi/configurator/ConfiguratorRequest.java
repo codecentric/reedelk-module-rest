@@ -1,7 +1,7 @@
 package com.reedelk.rest.openapi.configurator;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
 import com.reedelk.rest.openapi.OpenAPI;
 import com.reedelk.rest.openapi.paths.MediaTypeObject;
 import com.reedelk.rest.openapi.paths.OperationObject;

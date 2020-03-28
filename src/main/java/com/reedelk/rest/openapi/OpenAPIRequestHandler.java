@@ -4,9 +4,9 @@ import com.reedelk.rest.commons.Defaults;
 import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
-import com.reedelk.rest.component.listener.OpenApiBaseConfiguration;
-import com.reedelk.rest.component.listener.OpenApiConfiguration;
-import com.reedelk.rest.component.listener.OpenApiResponse;
+import com.reedelk.rest.component.listener.openapi.OpenApiBaseConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiResponse;
 import com.reedelk.rest.openapi.configurator.OpenApiConfigurator;
 import com.reedelk.rest.openapi.info.InfoObject;
 import com.reedelk.rest.openapi.paths.OperationObject;
@@ -37,7 +37,7 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
     protected OpenAPIRequestHandler(RestListenerConfiguration configuration) {
         openAPI = new OpenAPI();
 
-        OpenApiBaseConfiguration openApiConfiguration = configuration.getOpenApiConfiguration();
+        OpenApiBaseConfiguration openApiConfiguration = configuration.getOpenApi();
         Optional.ofNullable(openApiConfiguration).ifPresent(openApiBaseConfiguration -> {
             InfoObject info = openAPI.getInfo();
             info.setTitle(openApiBaseConfiguration.getInfo().getTitle());

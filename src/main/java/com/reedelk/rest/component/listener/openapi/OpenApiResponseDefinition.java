@@ -1,17 +1,18 @@
-package com.reedelk.rest.component.listener;
+package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.runtime.api.annotation.Description;
-import com.reedelk.runtime.api.annotation.Example;
-import com.reedelk.runtime.api.annotation.Hint;
-import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiRequestDefinition.class, scope = PROTOTYPE)
-public class OpenApiRequestDefinition implements Implementor {
+@Component(service = OpenApiResponseDefinition.class, scope = PROTOTYPE)
+public class OpenApiResponseDefinition implements Implementor {
+
+    @Property("Description")
+    private String description;
 
     @Property("Example")
     @Hint("assets/data_model.json")
@@ -24,6 +25,11 @@ public class OpenApiRequestDefinition implements Implementor {
     @Example("assets/data_model.json")
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
+
+    @Property("Media Type")
+    @MimeTypeCombo
+    @InitValue(MimeType.MIME_TYPE_APPLICATION_JSON)
+    public String mediaType;
 
     public ResourceText getExample() {
         return example;
@@ -41,4 +47,19 @@ public class OpenApiRequestDefinition implements Implementor {
         this.schema = schema;
     }
 
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

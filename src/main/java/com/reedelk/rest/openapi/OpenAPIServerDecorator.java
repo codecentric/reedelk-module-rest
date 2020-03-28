@@ -2,7 +2,7 @@ package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
-import com.reedelk.rest.component.listener.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.HttpRouteHandler;
 import com.reedelk.rest.server.Server;
