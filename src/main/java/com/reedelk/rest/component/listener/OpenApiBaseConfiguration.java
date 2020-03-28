@@ -13,13 +13,29 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = OpenApiBaseConfiguration.class, scope = PROTOTYPE)
 public class OpenApiBaseConfiguration implements Implementor {
 
-    @Property("Title")
+    @Property("Title") // TODO: Required
+    @Hint("My API")
+    @InitValue("My API")
+    @DefaultValue("My API")
+    @Description("The title of the API.")
     private String title;
 
     @Property("Description")
+    @Hint("My API description")
+    @Description("A short description of the API.")
     private String description;
 
+    @Property("Terms")
+    @Hint("http://example.domain.com/terms.html")
+    @Description("A URL to the Terms of Service for the API. MUST be in the format of a URL.")
+    private String termsOfService;
+
     @Property("Version")
+    @Hint("v1")
+    @Example("v1")
+    @InitValue("v1")
+    @DefaultValue("v1")
+    @Description("The version of the OpenAPI document.")
     private String version;
 
     @Property("Servers")
