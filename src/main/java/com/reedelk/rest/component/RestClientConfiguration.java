@@ -16,6 +16,13 @@ public class RestClientConfiguration implements Implementor {
     @Hidden
     private String id;
 
+    @Property("Protocol")
+    @Example("HTTPS")
+    @InitValue("HTTP")
+    @DefaultValue("HTTP")
+    @Description("The http protocol to be used in the request. Possible values are: <b>HTTP</b, <b>HTTPS</b>.")
+    private HttpProtocol protocol;
+
     // Base URL config
     @Property("Host")
     @Hint("localhost")
@@ -36,13 +43,6 @@ public class RestClientConfiguration implements Implementor {
     @Example("/api/v1")
     @Description("Sets the base request path for all listeners using this configuration.")
     private String basePath;
-
-    @Property("Protocol")
-    @Example("HTTPS")
-    @InitValue("HTTP")
-    @DefaultValue("HTTP")
-    @Description("The http protocol to be used in the request. Possible values are: <b>HTTP</b, <b>HTTPS</b>.")
-    private HttpProtocol protocol;
 
     // Default request config
     @Property("Request timeout (ms)")
@@ -76,11 +76,11 @@ public class RestClientConfiguration implements Implementor {
     @Description("Max connections to be kept in the connection pool for all the requests to the given host.")
     private Integer maxPoolConnections;
 
-    @Property("Keep alive")
+    @Property("Trust Certificates")
     @Example("true")
-    @InitValue("true")
-    @Description("If true keeps the TCP connection open for multiple HTTP requests/responses.")
-    private Boolean keepAlive;
+    @DefaultValue("false")
+    @Description("If true, all requests to a host with a self signed certificate are not verified.")
+    private Boolean trustCertificates;
 
     @Property("Follow redirects")
     @Example("true")
@@ -93,11 +93,11 @@ public class RestClientConfiguration implements Implementor {
     @Description("If true, sends Expect: 100-continue header in the initial request before sending the body.")
     private Boolean expectContinue;
 
-    @Property("Ignore Certificates")
+    @Property("Keep alive")
     @Example("true")
-    @DefaultValue("false")
-    @Description("If true, all requests to a host with a self signed certificate are not verified.")
-    private Boolean allowSelfSigned;
+    @InitValue("true")
+    @Description("If true keeps the TCP connection open for multiple HTTP requests/responses.")
+    private Boolean keepAlive;
 
     @Property("Authentication")
     @Example("DIGEST")
@@ -221,12 +221,12 @@ public class RestClientConfiguration implements Implementor {
         this.expectContinue = expectContinue;
     }
 
-    public Boolean getAllowSelfSigned() {
-        return allowSelfSigned;
+    public Boolean getTrustCertificates() {
+        return trustCertificates;
     }
 
-    public void setAllowSelfSigned(Boolean allowSelfSigned) {
-        this.allowSelfSigned = allowSelfSigned;
+    public void setTrustCertificates(Boolean trustCertificates) {
+        this.trustCertificates = trustCertificates;
     }
 
     public Authentication getAuthentication() {

@@ -24,8 +24,8 @@ public class HttpClientConnectionManagerFactory {
     private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
 
     public static NHttpClientConnectionManager create(RestClientConfiguration configuration) {
-            boolean isAllowSelfSigned = Optional.ofNullable(configuration.getAllowSelfSigned()).orElse(false);
-            Registry<SchemeIOSessionStrategy> registry = createRegistry(isAllowSelfSigned);
+            boolean isTrustCertificates = Optional.ofNullable(configuration.getTrustCertificates()).orElse(false);
+            Registry<SchemeIOSessionStrategy> registry = createRegistry(isTrustCertificates);
             int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);
 
         try {
@@ -39,10 +39,10 @@ public class HttpClientConnectionManagerFactory {
         }
     }
 
-    // Allow self signed: don't verify hostname and always trust any certificate.
-    private static Registry<SchemeIOSessionStrategy> createRegistry(boolean isAllowSelfSigned) {
+    // Allow all certificates: don't verify hostname and always trust any certificate.
+    private static Registry<SchemeIOSessionStrategy> createRegistry(boolean isTrustCertificates) {
         try {
-            if (isAllowSelfSigned) {
+            if (isTrustCertificates) {
                 SSLContextBuilder sslContextBuilder = SSLContexts.custom();
                 sslContextBuilder.loadTrustMaterial(null, TRUST_ALWAYS_STRATEGY);
                 return RegistryBuilder.<SchemeIOSessionStrategy>create()

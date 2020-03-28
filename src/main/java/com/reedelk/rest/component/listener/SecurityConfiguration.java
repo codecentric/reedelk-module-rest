@@ -6,6 +6,7 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
+@Collapsible
 @Component(service = SecurityConfiguration.class, scope = PROTOTYPE)
 public class SecurityConfiguration implements Implementor {
 
