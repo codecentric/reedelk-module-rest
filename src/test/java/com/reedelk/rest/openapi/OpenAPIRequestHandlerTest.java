@@ -1,9 +1,9 @@
 package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
-import com.reedelk.rest.component.listener.openapi.OpenApiResponse;
-import com.reedelk.rest.component.listener.openapi.OpenApiResponseDefinition;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
+import com.reedelk.rest.component.listener.openapi.ResponseObject;
+import com.reedelk.rest.component.listener.openapi.MediaTypeObject;
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
@@ -35,7 +35,7 @@ class OpenAPIRequestHandlerTest {
     @Test
     void shouldExcludeResourcePathFromOpenApi() {
         // Given
-        OpenApiConfiguration configuration = new OpenApiConfiguration();
+        OperationObject configuration = new OperationObject();
         configuration.setExclude(true);
 
         // When
@@ -57,22 +57,22 @@ class OpenAPIRequestHandlerTest {
         doReturn(Mono.just("{ \"item\": \"Item 1\" }")).when(response200Example).data();
         doReturn(Mono.just("{ \"error\": \"Error message\" }")).when(response400Example).data();
 
-        OpenApiResponseDefinition response200 = new OpenApiResponseDefinition();
+        MediaTypeObject response200 = new MediaTypeObject();
         response200.setDescription("200 Response");
         response200.setExample(response200Example);
         response200.setMediaType(APPLICATION_JSON.toString());
 
-        OpenApiResponseDefinition response400 = new OpenApiResponseDefinition();
+        MediaTypeObject response400 = new MediaTypeObject();
         response400.setExample(response400Example);
         response400.setMediaType(APPLICATION_JSON.toString());
 
-        Map<String, OpenApiResponseDefinition> responses =
+        Map<String, MediaTypeObject> responses =
                 ImmutableMap.of("200", response200, "400", response400);
 
-        OpenApiResponse response = new OpenApiResponse();
-        response.setResponses(responses);
+        ResponseObject response = new ResponseObject();
+        response.setContent(responses);
 
-        OpenApiConfiguration configuration = new OpenApiConfiguration();
+        OperationObject configuration = new OperationObject();
         configuration.setResponse(response);
 
         // When

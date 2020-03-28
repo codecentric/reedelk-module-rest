@@ -11,8 +11,11 @@ import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiServerDefinition.class, scope = PROTOTYPE)
-public class OpenApiServerDefinition implements Implementor {
+@Component(service = ServerObject.class, scope = PROTOTYPE)
+public class ServerObject implements Implementor {
+
+    @Property("URL")
+    private String url;
 
     @Property("Description")
     private String description;
@@ -21,7 +24,7 @@ public class OpenApiServerDefinition implements Implementor {
     @TabGroup("URL Variables")
     @KeyName("Variable Name")
     @ValueName("Variable Definition")
-    private Map<String, OpenApiServerVariableDefinition> variables;
+    private Map<String, ServerVariableObject> variables;
 
     public String getDescription() {
         return description;
@@ -31,11 +34,19 @@ public class OpenApiServerDefinition implements Implementor {
         this.description = description;
     }
 
-    public Map<String, OpenApiServerVariableDefinition> getVariables() {
+    public Map<String, ServerVariableObject> getVariables() {
         return variables;
     }
 
-    public void setVariables(Map<String, OpenApiServerVariableDefinition> variables) {
+    public void setVariables(Map<String, ServerVariableObject> variables) {
         this.variables = variables;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

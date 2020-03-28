@@ -1,9 +1,8 @@
 package com.reedelk.rest.openapi.configurator;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.openapi.OpenAPI;
-import com.reedelk.rest.openapi.paths.OperationObject;
 import com.reedelk.rest.openapi.paths.ParameterObject;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Optional;
 public class ConfiguratorParameters implements Configurator {
 
     @Override
-    public void configure(OpenAPI api, RestMethod method, OpenApiConfiguration configuration, OperationObject operationObject) {
+    public void configure(OpenAPI api, RestMethod method, OperationObject configuration, com.reedelk.rest.openapi.paths.OperationObject operationObject) {
         Optional.ofNullable(configuration.getParameters()).ifPresent(openApiParameters -> {
             List<ParameterObject> parameterObjectList = new ArrayList<>();
             operationObject.setParameters(parameterObjectList);

@@ -11,8 +11,8 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 // TODO: Required
 @Collapsible
-@Component(service = OpenApiResponse.class, scope = PROTOTYPE)
-public class OpenApiResponse implements Implementor {
+@Component(service = ResponseObject.class, scope = PROTOTYPE)
+public class ResponseObject implements Implementor {
 
     @Property("Description")
     @Hint("A pet to be returned")
@@ -23,13 +23,13 @@ public class OpenApiResponse implements Implementor {
     @TabGroup("Tags, Responses and Headers")
     @KeyName("Status Code")
     @ValueName("Edit Response")
-    private Map<String, OpenApiResponseDefinition> responses = new HashMap<>();
+    private Map<String, MediaTypeObject> content = new HashMap<>();
 
     @Property("Headers")
     @TabGroup("Tags, Responses and Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
-    private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
+    private Map<String, HeaderObject> headers = new HashMap<>();
 
 
     public String getDescription() {
@@ -40,19 +40,19 @@ public class OpenApiResponse implements Implementor {
         this.description = description;
     }
 
-    public Map<String, OpenApiResponseDefinition> getResponses() {
-        return responses;
+    public Map<String, MediaTypeObject> getContent() {
+        return content;
     }
 
-    public void setResponses(Map<String, OpenApiResponseDefinition> responses) {
-        this.responses = responses;
+    public void setContent(Map<String, MediaTypeObject> content) {
+        this.content = content;
     }
 
-    public Map<String, OpenApiHeaderDefinition> getHeaders() {
+    public Map<String, HeaderObject> getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, OpenApiHeaderDefinition> headers) {
+    public void setHeaders(Map<String, HeaderObject> headers) {
         this.headers = headers;
     }
 

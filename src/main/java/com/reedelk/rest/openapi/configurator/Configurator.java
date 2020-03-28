@@ -1,9 +1,8 @@
 package com.reedelk.rest.openapi.configurator;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.openapi.OpenAPI;
-import com.reedelk.rest.openapi.paths.OperationObject;
 
 /**
  * An interface which configures OpenAPI object from given OpenApi configuration object.
@@ -11,5 +10,5 @@ import com.reedelk.rest.openapi.paths.OperationObject;
  */
 public interface Configurator {
 
-    void configure(OpenAPI api, RestMethod method, OpenApiConfiguration configuration, OperationObject operationObject);
+    void configure(OpenAPI api, RestMethod method, OperationObject configuration, com.reedelk.rest.openapi.paths.OperationObject operationObject);
 }

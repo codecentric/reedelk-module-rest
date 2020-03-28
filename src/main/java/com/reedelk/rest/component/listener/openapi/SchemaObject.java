@@ -10,8 +10,8 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiSchemaDefinition.class, scope = PROTOTYPE)
-public class OpenApiSchemaDefinition implements Implementor {
+@Component(service = SchemaObject.class, scope = PROTOTYPE)
+public class SchemaObject implements Implementor {
 
     @Property("Schema")
     @Hint("assets/data_model.json")

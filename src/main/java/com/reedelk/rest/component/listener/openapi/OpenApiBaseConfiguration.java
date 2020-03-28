@@ -14,27 +14,27 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class OpenApiBaseConfiguration implements Implementor {
 
     @Property("Info")
-    private OpenApiInfoDefinition info;
+    private InfoObject info;
 
     @Property("Servers")
     @TabGroup("Servers")
     @KeyName("Server URL")
     @ValueName("Server Definition")
-    private Map<String, OpenApiServerDefinition> servers = new HashMap<>();
+    private Map<String, ServerObject> servers = new HashMap<>();
 
-    public OpenApiInfoDefinition getInfo() {
+    public InfoObject getInfo() {
         return info;
     }
 
-    public void setInfo(OpenApiInfoDefinition info) {
+    public void setInfo(InfoObject info) {
         this.info = info;
     }
 
-    public Map<String, OpenApiServerDefinition> getServers() {
+    public Map<String, ServerObject> getServers() {
         return servers;
     }
 
-    public void setServers(Map<String, OpenApiServerDefinition> servers) {
+    public void setServers(Map<String, ServerObject> servers) {
         this.servers = servers;
     }
 }

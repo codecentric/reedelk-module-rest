@@ -2,7 +2,7 @@ package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.HttpRouteHandler;
 import com.reedelk.rest.server.Server;
@@ -20,15 +20,15 @@ public class OpenAPIServerDecorator implements Server {
         this.delegate = delegate;
         this.openAPIRequestHandler = new OpenAPIRequestHandler(configuration);
 
-        OpenApiConfiguration openApiConfiguration = new OpenApiConfiguration();
-        openApiConfiguration.setExclude(true);
-        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, openApiConfiguration, openAPIRequestHandler);
+        OperationObject operationObject = new OperationObject();
+        operationObject.setExclude(true);
+        delegate.addRoute("/" + openAPIDocument, RestMethod.GET, operationObject, openAPIRequestHandler);
     }
 
     @Override
-    public void addRoute(String path, RestMethod method, OpenApiConfiguration openApiConfiguration, HttpRequestHandler httpHandler) {
-        openAPIRequestHandler.add(path, method, openApiConfiguration);
-        delegate.addRoute(path, method, openApiConfiguration, httpHandler);
+    public void addRoute(String path, RestMethod method, OperationObject operationObject, HttpRequestHandler httpHandler) {
+        openAPIRequestHandler.add(path, method, operationObject);
+        delegate.addRoute(path, method, operationObject, httpHandler);
     }
 
     @Override

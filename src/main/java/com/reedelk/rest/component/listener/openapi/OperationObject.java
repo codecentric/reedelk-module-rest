@@ -9,8 +9,8 @@ import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiConfiguration.class, scope = PROTOTYPE)
-public class OpenApiConfiguration implements Implementor {
+@Component(service = OperationObject.class, scope = PROTOTYPE)
+public class OperationObject implements Implementor {
 
     @Property("Summary")
     @Hint("Updates a pet")
@@ -51,12 +51,12 @@ public class OpenApiConfiguration implements Implementor {
     @Property("Request")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private OpenApiRequest request;
+    private RequestBodyObject requestBody;
 
     @Property("Response")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private OpenApiResponse response;
+    private ResponseObject response;
 
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
@@ -64,7 +64,7 @@ public class OpenApiConfiguration implements Implementor {
     @ValueName("Parameter Definition")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private Map<String, OpenApiParameterDefinition> parameters;
+    private Map<String, ParameterObject> parameters;
 
     @Property("Tags")
     @Hint("Tag name")
@@ -105,19 +105,19 @@ public class OpenApiConfiguration implements Implementor {
         this.operationId = operationId;
     }
 
-    public OpenApiRequest getRequest() {
-        return request;
+    public RequestBodyObject getRequestBody() {
+        return requestBody;
     }
 
-    public void setRequest(OpenApiRequest request) {
-        this.request = request;
+    public void setRequestBody(RequestBodyObject requestBody) {
+        this.requestBody = requestBody;
     }
 
-    public OpenApiResponse getResponse() {
+    public ResponseObject getResponse() {
         return response;
     }
 
-    public void setResponse(OpenApiResponse response) {
+    public void setResponse(ResponseObject response) {
         this.response = response;
     }
 
@@ -129,11 +129,11 @@ public class OpenApiConfiguration implements Implementor {
         this.deprecated = deprecated;
     }
 
-    public Map<String, OpenApiParameterDefinition> getParameters() {
+    public Map<String, ParameterObject> getParameters() {
         return parameters;
     }
 
-    public void setParameters(Map<String, OpenApiParameterDefinition> parameters) {
+    public void setParameters(Map<String, ParameterObject> parameters) {
         this.parameters = parameters;
     }
 

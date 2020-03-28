@@ -7,8 +7,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
-@Component(service = OpenApiContactDefinition.class, scope = PROTOTYPE)
-public class OpenApiContactDefinition implements Implementor {
+@Component(service = ContactObject.class, scope = PROTOTYPE)
+public class ContactObject implements Implementor {
 
     @Property("Name")
     @Hint("API Support")

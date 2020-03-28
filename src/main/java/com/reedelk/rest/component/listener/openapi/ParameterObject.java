@@ -7,8 +7,11 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiParameterDefinition.class, scope = PROTOTYPE)
-public class OpenApiParameterDefinition implements Implementor {
+@Component(service = ParameterObject.class, scope = PROTOTYPE)
+public class ParameterObject implements Implementor {
+
+    @Property("Name")
+    private String name;
 
     @Property("Description")
     @Hint("My parameter description")

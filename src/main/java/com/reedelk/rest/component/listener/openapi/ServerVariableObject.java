@@ -10,8 +10,8 @@ import java.util.List;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiServerVariableDefinition.class, scope = PROTOTYPE)
-public class OpenApiServerVariableDefinition implements Implementor {
+@Component(service = ServerVariableObject.class, scope = PROTOTYPE)
+public class ServerVariableObject implements Implementor {
 
     @Property("Description")
     private String description;

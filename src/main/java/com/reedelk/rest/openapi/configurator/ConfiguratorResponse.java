@@ -1,7 +1,7 @@
 package com.reedelk.rest.openapi.configurator;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.openapi.OpenAPI;
 import com.reedelk.rest.openapi.paths.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
@@ -12,13 +12,13 @@ import java.util.Optional;
 public class ConfiguratorResponse extends AbstractConfigurator {
 
     @Override
-    public void configure(OpenAPI api, RestMethod method, OpenApiConfiguration configuration, OperationObject operationObject) {
+    public void configure(OpenAPI api, RestMethod method, OperationObject configuration, com.reedelk.rest.openapi.paths.OperationObject operationObject) {
         Optional.ofNullable(configuration.getResponse()).ifPresent(response -> {
 
             ResponsesObject responsesObject = new ResponsesObject();
             operationObject.setResponses(responsesObject);
 
-            response.getResponses().forEach((statusCode, openApiResponse) -> {
+            response.getContent().forEach((statusCode, openApiResponse) -> {
                 MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
                 Optional.ofNullable(openApiResponse.getExample()).ifPresent(resourceText ->

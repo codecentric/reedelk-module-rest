@@ -3,7 +3,7 @@ package com.reedelk.rest.server;
 
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.server.configurer.ServerConfigurer;
 import com.reedelk.rest.server.configurer.ServerSecurityConfigurer;
 import com.reedelk.runtime.api.commons.StringUtils;
@@ -46,7 +46,7 @@ public class DefaultServer implements Server {
     }
 
     @Override
-    public void addRoute(String path, RestMethod method, OpenApiConfiguration openApiConfiguration, HttpRequestHandler httpHandler) {
+    public void addRoute(String path, RestMethod method, OperationObject operationObject, HttpRequestHandler httpHandler) {
         requireNonNull(httpHandler, "httpHandler");
         requireNonNull(method, "method");
 

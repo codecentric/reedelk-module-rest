@@ -5,11 +5,10 @@ import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
 import com.reedelk.rest.component.listener.openapi.OpenApiBaseConfiguration;
-import com.reedelk.rest.component.listener.openapi.OpenApiConfiguration;
-import com.reedelk.rest.component.listener.openapi.OpenApiResponse;
+import com.reedelk.rest.component.listener.openapi.OperationObject;
+import com.reedelk.rest.component.listener.openapi.ResponseObject;
 import com.reedelk.rest.openapi.configurator.OpenApiConfigurator;
 import com.reedelk.rest.openapi.info.InfoObject;
-import com.reedelk.rest.openapi.paths.OperationObject;
 import com.reedelk.rest.openapi.paths.PathItemObject;
 import com.reedelk.rest.openapi.paths.Paths;
 import com.reedelk.rest.openapi.server.ServerObject;
@@ -66,21 +65,21 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         return response.sendByteArray(Mono.just(apiAsJson.getBytes()));
     }
 
-    public void add(String path, RestMethod method, OpenApiConfiguration openApiConfiguration) {
+    public void add(String path, RestMethod method, OperationObject operationObject) {
 
-        Boolean excludeApiPath = Optional.ofNullable(openApiConfiguration)
+        Boolean excludeApiPath = Optional.ofNullable(operationObject)
                 .flatMap(config -> Optional.ofNullable(config.getExclude()))
                 .orElse(false);
 
         // This is the default behaviour. If the open api configuration is not present,
         // we just add the path to the open api specification.
-        if (openApiConfiguration == null) {
+        if (operationObject == null) {
             addOperationFrom(path, method);
 
             // If the 'exclude' property is false, we don't add the path, otherwise
             // we add the path to the open API specification.
         } else if (!excludeApiPath) {
-            addOperationFrom(path, method, openApiConfiguration);
+            addOperationFrom(path, method, operationObject);
         }
     }
 
@@ -89,17 +88,17 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         setOperationObject(method, pathItemObject, null);
     }
 
-    private void addOperationFrom(String path, RestMethod method, OpenApiConfiguration openApiConfiguration) {
-        OpenApiResponse response = openApiConfiguration.getResponse();
+    private void addOperationFrom(String path, RestMethod method, OperationObject openApiConfiguration) {
+        ResponseObject response = openApiConfiguration.getResponse();
 
         PathItemObject pathItemObject = pathItemObjectFrom(path);
         pathItemObject.setDescription(response.getDescription());
 
-        OperationObject operationObject = OpenApiConfigurator.configure(openAPI, method, openApiConfiguration);
+        com.reedelk.rest.openapi.paths.OperationObject operationObject = OpenApiConfigurator.configure(openAPI, method, openApiConfiguration);
         setOperationObject(method, pathItemObject, operationObject);
     }
 
-    private void setOperationObject(RestMethod method, PathItemObject pathItemObject, OperationObject operationObject) {
+    private void setOperationObject(RestMethod method, PathItemObject pathItemObject, com.reedelk.rest.openapi.paths.OperationObject operationObject) {
         if (RestMethod.GET.equals(method)) {
             pathItemObject.setGet(operationObject);
         } else if (RestMethod.POST.equals(method)) {
@@ -118,7 +117,7 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
     }
 
     private void addOperationFrom(String path, RestMethod method) {
-        OperationObject operationObject = new OperationObject();
+        com.reedelk.rest.openapi.paths.OperationObject operationObject = new com.reedelk.rest.openapi.paths.OperationObject();
         setOperationObject(method, pathItemObjectFrom(path), operationObject);
     }
 

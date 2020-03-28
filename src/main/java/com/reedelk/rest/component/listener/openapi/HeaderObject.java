@@ -6,8 +6,8 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Component(service = OpenApiHeaderDefinition.class, scope = PROTOTYPE)
-public class OpenApiHeaderDefinition implements Implementor {
+@Component(service = HeaderObject.class, scope = PROTOTYPE)
+public class HeaderObject implements Implementor {
 
     @Property("Description")
     private String description;

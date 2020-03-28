@@ -7,8 +7,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
-@Component(service = OpenApiLicenseDefinition.class, scope = PROTOTYPE)
-public class OpenApiLicenseDefinition implements Implementor {
+@Component(service = LicenseObject.class, scope = PROTOTYPE)
+public class LicenseObject implements Implementor {
 
     @Property("Name")
     @Hint("Apache 2.0")

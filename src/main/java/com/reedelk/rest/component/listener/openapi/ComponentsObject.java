@@ -10,17 +10,17 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
-@Component(service = OpenApiComponentsDefinition.class, scope = PROTOTYPE)
-public class OpenApiComponentsDefinition implements Implementor {
+@Component(service = ComponentsObject.class, scope = PROTOTYPE)
+public class ComponentsObject implements Implementor {
 
     @Property("Schemas")
-    private Map<String, OpenApiSchemaDefinition> schemas;
+    private Map<String, SchemaObject> schemas;
 
-    public Map<String, OpenApiSchemaDefinition> getSchemas() {
+    public Map<String, SchemaObject> getSchemas() {
         return schemas;
     }
 
-    public void setSchemas(Map<String, OpenApiSchemaDefinition> schemas) {
+    public void setSchemas(Map<String, SchemaObject> schemas) {
         this.schemas = schemas;
     }
 }

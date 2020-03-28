@@ -10,8 +10,8 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
-@Component(service = OpenApiRequest.class, scope = PROTOTYPE)
-public class OpenApiRequest implements Implementor {
+@Component(service = RequestBodyObject.class, scope = PROTOTYPE)
+public class RequestBodyObject implements Implementor {
 
     @Property("Required")
     @DefaultValue("false")
@@ -27,7 +27,8 @@ public class OpenApiRequest implements Implementor {
     @TabGroup("Tags and Requests")
     @KeyName("Mime Type")
     @ValueName("Request")
-    private Map<String, OpenApiRequestDefinition> requests = new HashMap<>();
+    private Map<String, MediaTypeObject> content = new HashMap<>();
+
 
     public Boolean getRequired() {
         return required;
@@ -45,12 +46,11 @@ public class OpenApiRequest implements Implementor {
         this.description = description;
     }
 
-    public Map<String, OpenApiRequestDefinition> getRequests() {
-        return requests;
+    public Map<String, MediaTypeObject> getContent() {
+        return content;
     }
 
-    public void setRequests(Map<String, OpenApiRequestDefinition> requests) {
-        this.requests = requests;
+    public void setContent(Map<String, MediaTypeObject> content) {
+        this.content = content;
     }
-
 }

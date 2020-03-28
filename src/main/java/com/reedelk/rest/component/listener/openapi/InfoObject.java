@@ -7,8 +7,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
-@Component(service = OpenApiInfoDefinition.class, scope = PROTOTYPE)
-public class OpenApiInfoDefinition implements Implementor {
+@Component(service = InfoObject.class, scope = PROTOTYPE)
+public class InfoObject implements Implementor {
 
     @Property("Title") // TODO: Required
     @Hint("My API")
@@ -36,10 +36,10 @@ public class OpenApiInfoDefinition implements Implementor {
     private String version;
 
     @Property("Contact")
-    private OpenApiContactDefinition contact;
+    private ContactObject contact;
 
     @Property("License")
-    private OpenApiLicenseDefinition license;
+    private LicenseObject license;
 
     public String getTitle() {
         return title;
@@ -65,19 +65,19 @@ public class OpenApiInfoDefinition implements Implementor {
         this.termsOfService = termsOfService;
     }
 
-    public OpenApiContactDefinition getContact() {
+    public ContactObject getContact() {
         return contact;
     }
 
-    public void setContact(OpenApiContactDefinition contact) {
+    public void setContact(ContactObject contact) {
         this.contact = contact;
     }
 
-    public OpenApiLicenseDefinition getLicense() {
+    public LicenseObject getLicense() {
         return license;
     }
 
-    public void setLicense(OpenApiLicenseDefinition license) {
+    public void setLicense(LicenseObject license) {
         this.license = license;
     }
 
