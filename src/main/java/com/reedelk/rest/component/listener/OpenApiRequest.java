@@ -21,9 +21,11 @@ public class OpenApiRequest implements Implementor {
     private String description;
 
     @Property("Tags")
+    @TabGroup("Tags and Requests")
     private List<String> tags;
 
     @Property("Requests")
+    @TabGroup("Tags and Requests")
     @KeyName("Mime Type")
     @ValueName("Request")
     private Map<String, OpenApiRequestDefinition> requests = new HashMap<>();

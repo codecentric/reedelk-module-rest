@@ -23,14 +23,17 @@ public class OpenApiResponse implements Implementor {
     private String summary;
 
     @Property("Tags")
+    @TabGroup("Tags, Responses and Headers")
     private List<String> tags;
 
     @Property("Responses")
+    @TabGroup("Tags, Responses and Headers")
     @KeyName("Status Code")
     @ValueName("Edit Response")
     private Map<String, OpenApiResponseDefinition> responses = new HashMap<>();
 
     @Property("Headers")
+    @TabGroup("Tags, Responses and Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
     private Map<String, OpenApiHeaderDefinition> headers = new HashMap<>();
