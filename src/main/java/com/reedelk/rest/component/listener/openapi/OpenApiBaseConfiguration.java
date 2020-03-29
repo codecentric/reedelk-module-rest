@@ -4,8 +4,8 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
@@ -18,9 +18,9 @@ public class OpenApiBaseConfiguration implements Implementor {
 
     @Property("Servers")
     @TabGroup("Servers")
-    @KeyName("Server URL")
-    @ValueName("Server Definition")
-    private Map<String, ServerObject> servers = new HashMap<>();
+    @ListDisplayProperty("url")
+    @DialogTitle("Server Configuration")
+    private List<ServerObject> servers = new ArrayList<>();
 
     public InfoObject getInfo() {
         return info;
@@ -30,11 +30,11 @@ public class OpenApiBaseConfiguration implements Implementor {
         this.info = info;
     }
 
-    public Map<String, ServerObject> getServers() {
+    public List<ServerObject> getServers() {
         return servers;
     }
 
-    public void setServers(Map<String, ServerObject> servers) {
+    public void setServers(List<ServerObject> servers) {
         this.servers = servers;
     }
 }
