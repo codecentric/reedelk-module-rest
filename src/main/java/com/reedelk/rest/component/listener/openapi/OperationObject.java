@@ -61,13 +61,15 @@ public class OperationObject implements Implementor {
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
     @KeyName("Parameter Name")
-    @ValueName("Parameter Definition")
+    @ValueName("Edit Parameter")
+    @DialogTitle("Parameter Definition")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
     private Map<String, ParameterObject> parameters;
 
     @Property("Tags")
     @Hint("Tag name")
+    @DialogTitle("Tag")
     @TabGroup("Parameters Definitions and Tags")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
