@@ -20,15 +20,17 @@ public class ResponseObject implements Implementor {
     private String description;
 
     @Property("Responses")
-    @TabGroup("Tags, Responses and Headers")
     @KeyName("Status Code")
-    @ValueName("Edit Response")
+    @ValueName("Edit Content")
+    @DialogTitle("Response Content")
+    @TabGroup("Tags, Responses and Headers")
     private Map<String, MediaTypeObject> content = new HashMap<>();
 
     @Property("Headers")
-    @TabGroup("Tags, Responses and Headers")
     @KeyName("Header Name")
-    @ValueName("Header Value")
+    @ValueName("Edit Header")
+    @DialogTitle("Response Headers")
+    @TabGroup("Tags, Responses and Headers")
     private Map<String, HeaderObject> headers = new HashMap<>();
 
 

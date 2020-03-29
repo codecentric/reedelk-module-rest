@@ -24,9 +24,10 @@ public class RequestBodyObject implements Implementor {
     private String description;
 
     @Property("Requests")
-    @TabGroup("Tags and Requests")
     @KeyName("Mime Type")
-    @ValueName("Request")
+    @ValueName("Edit Request")
+    @TabGroup("Tags and Requests")
+    @DialogTitle("Request Content")
     private Map<String, MediaTypeObject> content = new HashMap<>();
 
 
