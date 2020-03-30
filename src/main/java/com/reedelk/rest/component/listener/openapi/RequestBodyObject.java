@@ -22,7 +22,7 @@ public class RequestBodyObject implements Implementor, OpenApiSerializable {
     private Boolean required;
 
     @Property("Description")
-    @Hint("User to add to the system")
+    @Hint("My request body")
     @Description("A brief description of the request body. This could contain examples of use.")
     private String description;
 

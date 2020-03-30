@@ -17,6 +17,17 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = OperationObject.class, scope = PROTOTYPE)
 public class OperationObject implements Implementor, OpenApiSerializable {
 
+    @Property("Exclude")
+    @Description("Excludes this endpoint from being published in the OpenAPI document.")
+    private Boolean exclude;
+
+    @Property("Deprecated")
+    @DefaultValue("false")
+    @When(propertyName = "exclude", propertyValue = "false")
+    @When(propertyName = "exclude", propertyValue = When.NULL)
+    @Description("Declares this operation to be deprecated. Consumers SHOULD refrain from usage of the declared operation.")
+    private Boolean deprecated;
+    
     @Property("Summary")
     @Hint("Updates a pet")
     @Example("Updates a pet")
@@ -41,17 +52,6 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     @Description("Unique string used to identify the operation. The id MUST be unique among all operations described in the API. " +
             "Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.")
     private String operationId;
-
-    @Property("Exclude")
-    @Description("Excludes this endpoint from being published in the OpenAPI document.")
-    private Boolean exclude;
-
-    @Property("Deprecated")
-    @DefaultValue("false")
-    @When(propertyName = "exclude", propertyValue = "false")
-    @When(propertyName = "exclude", propertyValue = When.NULL)
-    @Description("Declares this operation to be deprecated. Consumers SHOULD refrain from usage of the declared operation.")
-    private Boolean deprecated;
 
     @Property("Request")
     @When(propertyName = "exclude", propertyValue = "false")

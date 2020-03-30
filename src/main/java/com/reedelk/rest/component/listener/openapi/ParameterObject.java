@@ -14,14 +14,21 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class ParameterObject implements Implementor, OpenApiSerializable {
 
     @Property("Name")
+    @Hint("myParam")
+    @Example("myParam")
+    @Description("The name of the parameter. Parameter names are case sensitive. " +
+            "If in is 'Path', the name field MUST correspond to a template expression occurring within the path field in the Paths Object. " +
+            "For all other cases, the name corresponds to the parameter name used by the in property.")
     private String name;
 
     @Property("Description")
     @Hint("My parameter description")
+    @Example("My parameter description")
     @Description("A brief description of the parameter. This could contain examples of use.")
     private String description;
 
     @Property("In")
+    @Example("HEADER")
     @DefaultValue("QUERY")
     @Description("The location of the parameter. Possible values are 'query', 'header', 'path' or 'cookie'.")
     private ParameterLocation in;
