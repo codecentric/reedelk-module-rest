@@ -59,13 +59,10 @@ public class RequestBodyObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        JSONObject requestBody = JsonObjectFactory.newJSONObject();
-        requestBody.put("required", required);
-        requestBody.put("description", description);
-        if (!content.isEmpty()) {
-            content.forEach((mediaType, mediaTypeObject) ->
-                    requestBody.put(mediaType, mediaTypeObject.serialize()));
-        }
-        return requestBody;
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
+        set(serialized, "description", description);
+        set(serialized, "content", content);
+        set(serialized, "required", required);
+        return serialized;
     }
 }

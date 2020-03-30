@@ -83,22 +83,13 @@ public class ParameterObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        JSONObject object = JsonObjectFactory.newJSONObject();
-        if (in != null) {
-            object.put("in", in);
-        }
-        if (name != null) {
-            object.put("name", name);
-        }
-        if (description != null) {
-            object.put("description", deprecated);
-        }
-        if (required != null) {
-            object.put("required", required);
-        }
-        if (deprecated != null) {
-            object.put("deprecated", deprecated);
-        }
-        return object;
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
+        set(serialized, "name", name);
+        set(serialized, "in", in.name().toLowerCase());
+        set(serialized, "description", description);
+        set(serialized, "required", required); // TODO: Apply logic from spec
+        set(serialized, "deprecated", deprecated);
+        set(serialized, "allowEmptyValue", allowEmptyValue);
+        return serialized;
     }
 }

@@ -14,6 +14,12 @@ public interface OpenApiSerializable {
 
     JSONObject serialize();
 
+    default void set(JSONObject object, String propertyName, Boolean aBoolean) {
+        if (aBoolean != null) {
+            object.put(propertyName, aBoolean);
+        }
+    }
+
     default void set(JSONObject object, String propertyName, OpenApiSerializable serializable) {
         if (serializable != null) {
             object.put(propertyName, serializable.serialize());

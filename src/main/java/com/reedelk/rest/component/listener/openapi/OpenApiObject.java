@@ -66,8 +66,8 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
             // the default value would be a Server Object with a url value of /.
             servers = Collections.singletonList(new ServerObject());
         }
-
         set(serialized, "servers", servers);
+
         set(serialized, "paths", paths); // REQUIRED
         return serialized;
     }

@@ -4,21 +4,11 @@ import com.reedelk.runtime.api.annotation.DisplayName;
 
 public enum ParameterLocation {
     @DisplayName("Query")
-    QUERY("query"),
+    QUERY,
     @DisplayName("Header")
-    HEADER("header"),
+    HEADER,
     @DisplayName("Path")
-    PATH("path"),
+    PATH,
     @DisplayName("Cookie")
-    COOKIE("cookie");
-
-    private final String value;
-
-    ParameterLocation(String value) {
-        this.value = value;
-    }
-
-    public String value() {
-        return value;
-    }
+    COOKIE;
 }

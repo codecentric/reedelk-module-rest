@@ -35,7 +35,6 @@ public class ResponseObject implements Implementor, OpenApiSerializable {
     @TabGroup("Tags, Responses and Headers")
     private Map<String, HeaderObject> headers = new HashMap<>();
 
-
     public String getDescription() {
         return description;
     }
