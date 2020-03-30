@@ -1,12 +1,10 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import static java.util.Arrays.asList;
 
-class ServerVariableObjectTest {
+class ServerVariableObjectTest extends AbstractOpenApiSerializableTest {
 
     @Test
     void shouldCorrectlySerializeServerVariableWithAllProperties() {
@@ -16,12 +14,8 @@ class ServerVariableObjectTest {
         serverVariable.setDescription("Environment variable");
         serverVariable.setDefaultValue("dev");
 
-        // When
-        String serialized = serverVariable.serialize().toString(2);
-
-        // Then
-        String expected = JSONS.ServerVariableObject.WithAllProperties.string();
-        JSONAssert.assertEquals(expected, serialized, JSONCompareMode.STRICT);
+        // Expect
+        assertSerializedCorrectly(serverVariable, OpenApiJsons.ServerVariableObject.WithAllProperties);
     }
 
     @Test
@@ -30,10 +24,6 @@ class ServerVariableObjectTest {
         ServerVariableObject serverVariable = new ServerVariableObject();
 
         // When
-        String serialized = serverVariable.serialize().toString(2);
-
-        // Then
-        String expected = JSONS.ServerVariableObject.WithDefaultProperties.string();
-        JSONAssert.assertEquals(expected, serialized, JSONCompareMode.STRICT);
+        assertSerializedCorrectly(serverVariable, OpenApiJsons.ServerVariableObject.WithDefaultProperties);
     }
 }

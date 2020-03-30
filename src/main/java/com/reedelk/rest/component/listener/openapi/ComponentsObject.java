@@ -4,6 +4,7 @@ import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.Collapsible;
 import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.annotation.TabGroup;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
@@ -17,6 +18,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class ComponentsObject implements Implementor, OpenApiSerializable {
 
     @Property("Schemas")
+    @TabGroup("Schemas")
     private Map<String, SchemaObject> schemas;
 
     public Map<String, SchemaObject> getSchemas() {

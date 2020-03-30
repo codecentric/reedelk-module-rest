@@ -1,10 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
-class InfoObjectTest {
+class InfoObjectTest extends AbstractOpenApiSerializableTest {
 
     @Test
     void shouldCorrectlySerializeInfoWithAllProperties() {
@@ -26,12 +24,8 @@ class InfoObjectTest {
         info.setContact(contact);
         info.setLicense(license);
 
-        // When
-        String serialized = info.serialize().toString(2);
-
-        // Then
-        String expected = JSONS.InfoObject.WithAllProperties.string();
-        JSONAssert.assertEquals(expected, serialized, JSONCompareMode.STRICT);
+        // Expect
+        assertSerializedCorrectly(info, OpenApiJsons.InfoObject.WithAllProperties);
     }
 
     @Test
@@ -39,11 +33,7 @@ class InfoObjectTest {
         // Given
         InfoObject info = new InfoObject();
 
-        // When
-        String serialized = info.serialize().toString(2);
-
-        // Then
-        String expected = JSONS.InfoObject.WithDefaultProperties.string();
-        JSONAssert.assertEquals(expected, serialized, JSONCompareMode.STRICT);
+        // Expect
+        assertSerializedCorrectly(info, OpenApiJsons.InfoObject.WithDefaultProperties);
     }
 }

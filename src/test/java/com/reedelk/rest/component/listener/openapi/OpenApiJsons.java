@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class JSONS {
+public class OpenApiJsons {
 
     public enum InfoObject implements Provider {
 
@@ -93,12 +93,22 @@ public class JSONS {
         },
     }
 
+    public enum OpenApi implements Provider {
+
+        WithDefaultServer() {
+            @Override
+            public String path() {
+                return "open_api_object_with_default_server.json";
+            }
+        };
+    }
+
     interface Provider {
 
         String path();
 
         default URL url() {
-            return JSONS.class.getResource(path());
+            return OpenApiJsons.class.getResource(path());
         }
 
         default String string() {

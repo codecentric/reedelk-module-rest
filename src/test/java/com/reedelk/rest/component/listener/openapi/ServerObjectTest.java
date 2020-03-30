@@ -2,14 +2,12 @@ package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.Map;
 
 import static java.util.Arrays.asList;
 
-class ServerObjectTest {
+class ServerObjectTest extends AbstractOpenApiSerializableTest {
 
     @Test
     void shouldCorrectlySerializeServerWithAllProperties() {
@@ -33,12 +31,8 @@ class ServerObjectTest {
                 "domain", domainVariable);
         server.setVariables(variables);
 
-        // When
-        String serialized = server.serialize().toString(2);
-
-        // Then
-        String expected = JSONS.ServerObject.WithAllProperties.string();
-        JSONAssert.assertEquals(expected, serialized, JSONCompareMode.STRICT);
+        // Expect
+        assertSerializedCorrectly(server, OpenApiJsons.ServerObject.WithAllProperties);
     }
 
     @Test
@@ -46,11 +40,7 @@ class ServerObjectTest {
         // Given
         ServerObject server = new ServerObject();
 
-        // When
-        String serialized = server.serialize().toString(2);
-
-        // Then
-        String expected = JSONS.ServerObject.WithDefaultProperties.string();
-        JSONAssert.assertEquals(expected, serialized, JSONCompareMode.STRICT);
+        // Expect
+        assertSerializedCorrectly(server, OpenApiJsons.ServerObject.WithDefaultProperties);
     }
 }

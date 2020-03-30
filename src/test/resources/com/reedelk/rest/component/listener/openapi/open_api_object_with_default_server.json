@@ -1,8 +1,9 @@
 {
-  "openapi": "3.0.2",
+  "openapi": "3.0.3",
   "info": {
     "title": "API",
     "version": "v1"
   },
+  "servers": [{"url": "/"}],
   "paths": {}
 }
