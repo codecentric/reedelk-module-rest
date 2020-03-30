@@ -39,7 +39,24 @@ public class JSONS {
             public String path() {
                 return "license_object_with_default_properties.json";
             }
+        }
+    }
+
+    public enum ContactObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "contact_object_with_all_properties.json";
+            }
         },
+
+        WithDefaultProperties() {
+            @Override
+            public String path() {
+                return "contact_object_with_default_properties.json";
+            }
+        }
     }
 
 
