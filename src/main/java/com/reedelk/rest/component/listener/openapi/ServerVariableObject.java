@@ -2,9 +2,7 @@ package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.OpenApiSerializable;
-import com.reedelk.runtime.api.annotation.Hint;
-import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.annotation.TabGroup;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -21,14 +19,22 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class ServerVariableObject implements Implementor, OpenApiSerializable {
 
     @Property("Description")
+    @Hint("Hosts variable")
+    @Example("Hosts variable")
+    @Description("An optional description for the server variable.")
     private String description;
 
     @Property("Default")
+    @DefaultValue("default")
+    @Hint("development")
+    @Example("development")
+    @Description("The default value to use for substitution, and to send, if an alternate value is not supplied. " +
+            "Unlike the Schema Object's default, this value MUST be provided by the consumer.")
     private String defaultValue;
 
-    @Property("Enum Values")
-    @Hint("Variable enum value")
-    @TabGroup("Enum Values")
+    @TabGroup("Variable Enum Options")
+    @Property("Variable Enum Options")
+    @Description("An enumeration of string values to be used if the substitution options are from a limited set.")
     private List<String> enumValues;
 
     public String getDescription() {
