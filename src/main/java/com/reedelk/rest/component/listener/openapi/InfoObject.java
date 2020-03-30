@@ -36,7 +36,7 @@ public class InfoObject implements Implementor, OpenApiSerializable {
     @Example("v1")
     @InitValue("v1")
     @DefaultValue("v1")
-    @Description("The version of the OpenAPI document.")
+    @Description("The version of the API.")
     private String version;
 
     @Property("Contact")
