@@ -1,6 +1,6 @@
 {
-  "/mypath": {
-    "post": {
+  "/": {
+    "delete": {
       "responses": {
         "default": {
           "description": "My Response"

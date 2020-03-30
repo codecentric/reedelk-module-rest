@@ -1,7 +1,6 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +10,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.Map;
 
+import static com.reedelk.runtime.api.commons.ImmutableMap.of;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -31,10 +31,20 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
     void shouldCorrectlySerializePathsWithDefaultOperationObjectForPath() {
         // Given
         PathsObject paths = new PathsObject();
-        paths.add("/mypath", RestMethod.POST); // make sure that for the given path
+        paths.add("/mypath", RestMethod.POST);
 
         // Expect
         assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithDefaultOperation);
+    }
+
+    @Test
+    void shouldCorrectlySerializePathsWithOperationObjectForNullPath() {
+        // Given
+        PathsObject paths = new PathsObject();
+        paths.add(null, RestMethod.DELETE);
+
+        // Expect
+        assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithOperationWithNullPath);
     }
 
     @Test
@@ -44,11 +54,9 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
         doReturn(Mono.just("{ \"name\": \"Mark\" }")).when(successResponse1Example).data();
 
         MediaTypeObject successResponse1 = new MediaTypeObject();
-        successResponse1.setDescription("Success response 1");
         successResponse1.setExample(successResponse1Example);
 
-        Map<String, MediaTypeObject> responses200Contents =
-                ImmutableMap.of("application/json", successResponse1);
+        Map<String, MediaTypeObject> responses200Contents = of("application/json", successResponse1);
 
         ResponseObject response200 = new ResponseObject();
         response200.setDescription("200 Response");
@@ -61,15 +69,13 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
         operationObject.setDescription("My response description");
         operationObject.setOperationId("myOperationId");
         operationObject.setSummary("My summary");
-        operationObject.setResponses(ImmutableMap.of(
-                "200", response200,
-                "401", response401));
+        operationObject.setResponses(of("200", response200, "401", response401));
         operationObject.setTags(Arrays.asList("tag1", "tag2"));
 
         PathsObject paths = new PathsObject();
         paths.add("/mypath", RestMethod.GET, operationObject);
 
         // Expect
-        assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithDefaultOperation);
+        assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithOperation);
     }
 }

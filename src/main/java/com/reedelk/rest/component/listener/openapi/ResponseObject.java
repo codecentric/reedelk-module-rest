@@ -19,7 +19,7 @@ public class ResponseObject implements Implementor, OpenApiSerializable {
     @Property("Description")
     @Hint("Successful Response")
     @Description("A short description of the response.")
-    private String description = "Successful Response";
+    private String description = "My Response";
 
     @Property("Content")
     @KeyName("Media Type")

@@ -117,6 +117,20 @@ public class OpenApiJsons {
             public String path() {
                 return "paths_object_with_default_operation.json";
             }
+        },
+
+        WithOperation() {
+            @Override
+            public String path() {
+                return "paths_object_with_operation.json";
+            }
+        },
+
+        WithOperationWithNullPath() {
+            @Override
+            public String path() {
+                return "paths_object_with_operation_null_path.json";
+            }
         }
     }
 
