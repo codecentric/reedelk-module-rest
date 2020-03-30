@@ -1,7 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.Collapsible;
 import com.reedelk.runtime.api.annotation.Property;
 import com.reedelk.runtime.api.component.Implementor;
@@ -14,7 +14,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = ComponentsObject.class, scope = PROTOTYPE)
-public class ComponentsObject implements Implementor, Serializable {
+public class ComponentsObject implements Implementor, OpenApiSerializable {
 
     @Property("Schemas")
     private Map<String, SchemaObject> schemas;

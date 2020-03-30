@@ -2,7 +2,7 @@ package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.component.listener.ParameterLocation;
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -11,7 +11,7 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ParameterObject.class, scope = PROTOTYPE)
-public class ParameterObject implements Implementor, Serializable {
+public class ParameterObject implements Implementor, OpenApiSerializable {
 
     @Property("Name")
     private String name;

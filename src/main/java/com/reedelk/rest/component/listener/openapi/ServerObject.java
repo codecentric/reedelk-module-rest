@@ -1,7 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.KeyName;
 import com.reedelk.runtime.api.annotation.Property;
 import com.reedelk.runtime.api.annotation.TabGroup;
@@ -15,7 +15,7 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ServerObject.class, scope = PROTOTYPE)
-public class ServerObject implements Implementor, Serializable {
+public class ServerObject implements Implementor, OpenApiSerializable {
 
     @Property("URL")
     private String url;

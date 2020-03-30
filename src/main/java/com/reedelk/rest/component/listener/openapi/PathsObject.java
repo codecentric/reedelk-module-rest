@@ -1,13 +1,13 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-public class PathsObject implements Serializable {
+public class PathsObject implements OpenApiSerializable {
 
     private Map<String, OperationObject> paths = new TreeMap<>();
 

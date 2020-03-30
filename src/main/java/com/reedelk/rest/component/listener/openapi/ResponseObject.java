@@ -1,7 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 // TODO: Required
 @Collapsible
 @Component(service = ResponseObject.class, scope = PROTOTYPE)
-public class ResponseObject implements Implementor, Serializable {
+public class ResponseObject implements Implementor, OpenApiSerializable {
 
     @Property("Description")
     @Hint("A pet to be returned")

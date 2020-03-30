@@ -1,14 +1,17 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = LicenseObject.class, scope = PROTOTYPE)
-public class LicenseObject implements Implementor {
+public class LicenseObject implements Implementor, OpenApiSerializable {
 
     @Property("Name")
     @Hint("Apache 2.0")
@@ -36,5 +39,13 @@ public class LicenseObject implements Implementor {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
+        set(serialized, "name", name);
+        set(serialized, "url", url);
+        return serialized;
     }
 }

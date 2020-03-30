@@ -1,10 +1,9 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
@@ -15,7 +14,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = PROTOTYPE)
-public class OpenApiObject implements Implementor, Serializable {
+public class OpenApiObject implements Implementor, OpenApiSerializable {
 
     private static final String OPENAPI = "3.0.2";
     
@@ -59,13 +58,13 @@ public class OpenApiObject implements Implementor, Serializable {
         JSONObject obj = JsonObjectFactory.newJSONObject();
         obj.put("openapi", OPENAPI);
         obj.put("info", info.serialize());
-        JSONArray serversArray = new JSONArray();
-        for (ServerObject server : servers) {
-            serversArray.put(server.serialize());
-        }
-        obj.put("servers", serversArray);
+       // JSONArray serversArray = new JSONArray();
+        //for (ServerObject server : servers) {
+          //  serversArray.put(server.serialize());
+        //}
+       // obj.put("servers", serversArray);
 
-        obj.put("paths", paths.serialize());
+        //obj.put("paths", paths.serialize());
 
         // TODO: Add components.
         return obj;

@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.openapi.Serializable;
+import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.Hint;
 import com.reedelk.runtime.api.annotation.Property;
 import com.reedelk.runtime.api.annotation.TabGroup;
@@ -13,7 +13,7 @@ import java.util.List;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ServerVariableObject.class, scope = PROTOTYPE)
-public class ServerVariableObject implements Implementor, Serializable {
+public class ServerVariableObject implements Implementor, OpenApiSerializable {
 
     @Property("Description")
     private String description;
