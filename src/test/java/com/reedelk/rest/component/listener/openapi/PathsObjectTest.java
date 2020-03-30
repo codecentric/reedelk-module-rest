@@ -15,7 +15,7 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
     }
 
     @Test
-    void shouldCorrectlySerializePathsWithDefaultOperationObject() {
+    void shouldCorrectlySerializePathsWithDefaultOperationObjectForPath() {
         // Given
         PathsObject paths = new PathsObject();
         paths.add("/mypath", RestMethod.POST);

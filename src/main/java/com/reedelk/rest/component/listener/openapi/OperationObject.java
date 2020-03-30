@@ -7,6 +7,8 @@ import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +59,12 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     private RequestBodyObject requestBody;
 
     @Property("Responses")
+    @KeyName("Status Code")
+    @ValueName("Response")
+    @TabGroup("Parameters Definitions and Tags")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private ResponsesObject responses = new ResponsesObject();
+    private Map<String, ResponseObject> responses = new HashMap<>();
 
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
@@ -68,7 +73,7 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     @DialogTitle("Parameter Definition")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private Map<String, ParameterObject> parameters;
+    private Map<String, ParameterObject> parameters = new HashMap<>();
 
     @Property("Tags")
     @Hint("Tag name")
@@ -76,7 +81,7 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     @TabGroup("Parameters Definitions and Tags")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 
     public Boolean getExclude() {
         return exclude;
@@ -118,11 +123,11 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         this.requestBody = requestBody;
     }
 
-    public ResponsesObject getResponses() {
+    public Map<String, ResponseObject> getResponses() {
         return responses;
     }
 
-    public void setResponses(ResponsesObject responses) {
+    public void setResponses(Map<String, ResponseObject> responses) {
         this.responses = responses;
     }
 
@@ -158,6 +163,9 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         set(serialized, "description", description);
         set(serialized, "operationId", operationId);
         set(serialized, "parameters", parameters);
+        if (responses.isEmpty()) {
+            responses.put("200", new ResponseObject());
+        }
         set(serialized, "responses", responses);
         return serialized;
     }

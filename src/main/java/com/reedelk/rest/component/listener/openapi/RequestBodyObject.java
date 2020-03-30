@@ -26,13 +26,12 @@ public class RequestBodyObject implements Implementor, OpenApiSerializable {
     @Description("A brief description of the request body. This could contain examples of use.")
     private String description;
 
-    @Property("Requests")
+    @Property("Request")
     @KeyName("Mime Type")
     @ValueName("Edit Request")
     @TabGroup("Tags and Requests")
     @DialogTitle("Request Content")
     private Map<String, MediaTypeObject> content = new HashMap<>();
-
 
     public Boolean getRequired() {
         return required;

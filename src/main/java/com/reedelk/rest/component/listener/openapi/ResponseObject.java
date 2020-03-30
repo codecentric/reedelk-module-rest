@@ -13,16 +13,16 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
-@Component(service = ResponsesObject.class, scope = PROTOTYPE)
-public class ResponsesObject implements Implementor, OpenApiSerializable {
+@Component(service = ResponseObject.class, scope = PROTOTYPE)
+public class ResponseObject implements Implementor, OpenApiSerializable {
 
     @Property("Description")
-    @Hint("A pet to be returned")
+    @Hint("Successful Response")
     @Description("A short description of the response.")
-    private String description;
+    private String description = "Successful Response";
 
-    @Property("Responses")
-    @KeyName("Status Code")
+    @Property("Content")
+    @KeyName("Media Type")
     @ValueName("Edit Content")
     @DialogTitle("Response Content")
     @TabGroup("Tags, Responses and Headers")
@@ -63,13 +63,9 @@ public class ResponsesObject implements Implementor, OpenApiSerializable {
     @Override
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        if (!content.isEmpty()) {
-        } else {
-            // Default response
-            JSONObject successfulResponse = JsonObjectFactory.newJSONObject();
-            set(successfulResponse, "description", "Successful Response");
-            set(serialized, "200", successfulResponse);
-        }
+        set(serialized, "description", description);
+        set(serialized, "content", content);
+        set(serialized, "headers", headers);
         return serialized;
     }
 }

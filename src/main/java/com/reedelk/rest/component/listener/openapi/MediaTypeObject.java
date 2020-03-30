@@ -2,9 +2,12 @@ package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.OpenApiSerializable;
-import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.annotation.Description;
+import com.reedelk.runtime.api.annotation.Example;
+import com.reedelk.runtime.api.annotation.Hint;
+import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.commons.StreamUtils.FromString;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
@@ -29,11 +32,6 @@ public class MediaTypeObject implements Implementor, OpenApiSerializable {
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
 
-    @Property("Media Type")
-    @MimeTypeCombo
-    @InitValue(MimeType.MIME_TYPE_APPLICATION_JSON)
-    public String mediaType;
-
     public ResourceText getExample() {
         return example;
     }
@@ -50,14 +48,6 @@ public class MediaTypeObject implements Implementor, OpenApiSerializable {
         this.schema = schema;
     }
 
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -68,10 +58,10 @@ public class MediaTypeObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        JSONObject mediaType = JsonObjectFactory.newJSONObject();
-        if (description != null) mediaType.put("description", description);
-        if (schema != null) mediaType.put("schema", schema.data());
-        if (example != null) mediaType.put("example", example);
-        return mediaType;
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
+        set(serialized, "description", description);
+        set(serialized, "schema", FromString.consume(schema.data()));
+        set(serialized, "example", FromString.consume(example.data()));
+        return serialized;
     }
 }
