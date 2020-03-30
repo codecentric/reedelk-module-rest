@@ -103,6 +103,16 @@ public class OpenApiJsons {
         };
     }
 
+    public enum PathsObject implements Provider {
+
+        WithDefaultPaths() {
+            @Override
+            public String path() {
+                return "paths_object_with_default.json";
+            }
+        }
+    }
+
     interface Provider {
 
         String path();

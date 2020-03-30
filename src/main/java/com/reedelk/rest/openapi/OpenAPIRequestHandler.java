@@ -48,12 +48,14 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         // This is the default behaviour. If the open api configuration is not present,
         // we just add the path to the open api specification.
         if (operationObject == null) {
-            addOperationFrom(path, method, operationObject);
+            PathsObject paths = openAPI.getPaths();
+            paths.add(path, method);
 
             // If the 'exclude' property is false, we don't add the path, otherwise
             // we add the path to the open API specification.
         } else if (!excludeApiPath) {
-            addOperationFrom(path, method, operationObject);
+            PathsObject paths = openAPI.getPaths();
+            paths.add(path, method, operationObject);
         }
     }
 
@@ -66,10 +68,7 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
         return serialize.toString(2);
     }
 
-    private void addOperationFrom(String path, RestMethod method, OperationObject operationObject) {
-        PathsObject paths = openAPI.getPaths();
-        paths.add(path, operationObject);
-    }
+
 
 
     private String defaultServerURL(RestListenerConfiguration configuration) {

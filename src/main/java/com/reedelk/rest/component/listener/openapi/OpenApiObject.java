@@ -57,8 +57,8 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
     @Override
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        set(serialized, "openapi", OPENAPI);
-        set(serialized, "info", info);
+        set(serialized, "openapi", OPENAPI); // REQUIRED
+        set(serialized, "info", info); // REQUIRED
 
         if (servers == null || servers.isEmpty()) {
             // From OpenAPI spec 3.0.3:
@@ -68,7 +68,7 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
         }
 
         set(serialized, "servers", servers);
-        set(serialized, "paths", paths);
+        set(serialized, "paths", paths); // REQUIRED
         return serialized;
     }
 }
