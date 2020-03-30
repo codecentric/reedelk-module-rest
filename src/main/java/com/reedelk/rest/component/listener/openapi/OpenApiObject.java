@@ -4,11 +4,11 @@ import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -57,21 +57,18 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
     @Override
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        serialized.put("openapi", OPENAPI);
-        serialized.put("info", info.serialize());
-
+        set(serialized, "openapi", OPENAPI);
+        set(serialized, "info", info);
 
         if (servers == null || servers.isEmpty()) {
-            JSONArray serversArray = new JSONArray();
-            serversArray.put(new ServerObject().serialize());
             // From OpenAPI spec 3.0.3:
             // If the servers property is not provided, or is an empty array,
             // the default value would be a Server Object with a url value of /.
-            serialized.put("servers", serversArray);
+            servers = Collections.singletonList(new ServerObject());
         }
 
-        serialized.put("paths", new JSONObject());
-
+        set(serialized, "servers", servers);
+        set(serialized, "paths", paths);
         return serialized;
     }
 }

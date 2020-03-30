@@ -66,7 +66,7 @@ public class ServerVariableObject implements Implementor, OpenApiSerializable {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "default", ofNullable(defaultValue).orElse("default")); // REQUIRED
         set(serialized, "description", description);
-        set(serialized, "enum", enumValues);
+        setList(serialized, "enum", enumValues);
         return serialized;
     }
 }

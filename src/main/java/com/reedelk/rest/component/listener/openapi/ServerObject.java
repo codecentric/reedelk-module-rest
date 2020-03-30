@@ -64,11 +64,7 @@ public class ServerObject implements Implementor, OpenApiSerializable {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "url", url);
         set(serialized, "description", description);
-        if (variables != null && !variables.isEmpty()) {
-            JSONObject serializedVariables = JsonObjectFactory.newJSONObject();
-            variables.forEach((key, serverVariable) -> set(serializedVariables, key, serverVariable));
-            set(serialized, "variables", serializedVariables);
-        }
+        set(serialized, "variables", variables);
         return serialized;
     }
 }

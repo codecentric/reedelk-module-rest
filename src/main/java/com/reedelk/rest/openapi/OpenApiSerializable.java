@@ -1,8 +1,11 @@
 package com.reedelk.rest.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OpenApiSerializable {
 
@@ -20,7 +23,23 @@ public interface OpenApiSerializable {
         }
     }
 
-    default void set(JSONObject object, String propertyName, List<String> items) {
+    default void set(JSONObject object, String propertyName, List<? extends OpenApiSerializable> serializableList) {
+        if (serializableList != null && !serializableList.isEmpty()) {
+            JSONArray array = new JSONArray();
+            serializableList.forEach(serializable -> array.put(serializable.serialize()));
+            object.put(propertyName, array);
+        }
+    }
+
+    default void set(JSONObject object, String propertyName, Map<String, ? extends OpenApiSerializable> serializableMap) {
+        if (serializableMap != null && !serializableMap.isEmpty()) {
+            JSONObject serializedMapObject = JsonObjectFactory.newJSONObject();
+            serializableMap.forEach((key, mapObject) -> set(serializedMapObject, key, mapObject));
+            set(object, propertyName, serializedMapObject);
+        }
+    }
+
+    default void setList(JSONObject object, String propertyName, List<String> items) {
         if (items != null && !items.isEmpty()) {
             object.put(propertyName, items);
         }
