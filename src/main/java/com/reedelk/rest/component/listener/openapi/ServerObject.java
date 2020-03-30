@@ -18,7 +18,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class ServerObject implements Implementor, OpenApiSerializable {
 
     @Property("URL")
-    private String url;
+    private String url = "/"; // Default server URL: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schema
 
     @Property("Description")
     private String description;
@@ -55,9 +55,14 @@ public class ServerObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        JSONObject server = JsonObjectFactory.newJSONObject();
-        server.put("url", url);
-        server.put("description", description);
-        return server;
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
+        set(serialized, "url", url);
+        set(serialized, "description", description);
+        if (variables != null && !variables.isEmpty()) {
+            JSONObject serializedVariables = JsonObjectFactory.newJSONObject();
+            variables.forEach((key, serverVariable) -> set(serializedVariables, key, serverVariable));
+            set(serialized, "variables", serializedVariables);
+        }
+        return serialized;
     }
 }
