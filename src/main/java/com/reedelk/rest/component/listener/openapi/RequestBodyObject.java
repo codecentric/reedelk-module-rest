@@ -1,7 +1,10 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.HashMap;
@@ -11,7 +14,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = RequestBodyObject.class, scope = PROTOTYPE)
-public class RequestBodyObject implements Implementor {
+public class RequestBodyObject implements Implementor, Serializable {
 
     @Property("Required")
     @DefaultValue("false")
@@ -53,5 +56,17 @@ public class RequestBodyObject implements Implementor {
 
     public void setContent(Map<String, MediaTypeObject> content) {
         this.content = content;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject requestBody = JsonObjectFactory.newJSONObject();
+        requestBody.put("required", required);
+        requestBody.put("description", description);
+        if (!content.isEmpty()) {
+            content.forEach((mediaType, mediaTypeObject) ->
+                    requestBody.put(mediaType, mediaTypeObject.serialize()));
+        }
+        return requestBody;
     }
 }

@@ -1,9 +1,10 @@
 package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.component.listener.openapi.MediaTypeObject;
+import com.reedelk.rest.component.listener.openapi.OpenApiObject;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.component.listener.openapi.ResponseObject;
-import com.reedelk.rest.component.listener.openapi.MediaTypeObject;
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
 class OpenAPIRequestHandlerTest {
 
     private TestableOpenAPIRequestHandler handler;
-    private OpenAPI openAPI = new OpenAPI();
+    private OpenApiObject openAPI = new OpenApiObject();
 
     @BeforeEach
     void setUp() {
@@ -88,7 +89,7 @@ class OpenAPIRequestHandlerTest {
 
     static class TestableOpenAPIRequestHandler extends OpenAPIRequestHandler {
 
-        protected TestableOpenAPIRequestHandler(OpenAPI openAPI) {
+        protected TestableOpenAPIRequestHandler(OpenApiObject openAPI) {
             super(null); // TODO: Fixme
             this.openAPI = openAPI;
         }

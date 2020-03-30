@@ -1,18 +1,17 @@
-package com.reedelk.rest.openapi.paths;
+package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.openapi.Serializable;
 import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Paths implements Serializable {
+public class PathsObject implements Serializable {
 
-    private Map<String, PathItemObject> paths = new TreeMap<>();
+    private Map<String, OperationObject> paths = new TreeMap<>();
 
-    public void add(String path, PathItemObject pathItemObject) {
+    public void add(String path, OperationObject pathItemObject) {
         if (path == null) {
             paths.put("/", pathItemObject);
         } else {
@@ -23,8 +22,7 @@ public class Paths implements Serializable {
     @Override
     public JSONObject serialize() {
         JSONObject pathsObject = JsonObjectFactory.newJSONObject();
-        paths.forEach((path, pathItemObject) ->
-                pathsObject.put(path, pathItemObject.serialize()));
+        paths.forEach((path, pathItemObject) -> pathsObject.put(path, pathItemObject.serialize()));
         return pathsObject;
     }
 
@@ -34,7 +32,7 @@ public class Paths implements Serializable {
                 paths.containsKey(path);
     }
 
-    public PathItemObject get(String path) {
+    public OperationObject get(String path) {
         return paths.get(path);
     }
 }

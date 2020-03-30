@@ -1,16 +1,7 @@
 package com.reedelk.rest.openapi;
 
-import com.reedelk.rest.openapi.components.Components;
-import com.reedelk.rest.openapi.components.SchemaObject;
-import com.reedelk.rest.openapi.info.InfoObject;
-import com.reedelk.rest.openapi.paths.*;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-
 class OpenAPITest {
-
+/**
     @Test
     void shouldCorrectlyCreateDocument() {
         // Given
@@ -96,5 +87,5 @@ class OpenAPITest {
         infoObject.setDescription("Simple API overview description");
         infoObject.setVersion("v2");
         return infoObject;
-    }
+    }*/
 }

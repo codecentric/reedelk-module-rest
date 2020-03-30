@@ -1,7 +1,11 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
@@ -10,7 +14,7 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = OperationObject.class, scope = PROTOTYPE)
-public class OperationObject implements Implementor {
+public class OperationObject implements Implementor, Serializable {
 
     @Property("Summary")
     @Hint("Updates a pet")
@@ -145,5 +149,33 @@ public class OperationObject implements Implementor {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject operation = JsonObjectFactory.newJSONObject();
+        operation.put("summary", summary);
+        operation.put("description", description);
+        operation.put("operationId", operationId);
+        if (tags != null) {
+            JSONArray tagsArray = new JSONArray();
+            tags.forEach(tagsArray::put);
+            operation.put("tags", tagsArray);
+        }
+        if (parameters != null) {
+            JSONArray paramsArray = new JSONArray();
+            //parameters.forEach(parameterObject -> {
+              //  JSONObject item = parameterObject.serialize();
+//                paramsArray.put(item);
+  //          });
+            operation.put("parameters", parameters);
+        }
+        if (requestBody != null) {
+            operation.put("requestBody", requestBody.serialize());
+        }
+       // if (responses != null) {
+         //   operation.put("responses", responses.serialize());
+        //}
+        return operation;
     }
 }

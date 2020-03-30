@@ -1,16 +1,18 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = InfoObject.class, scope = PROTOTYPE)
-public class InfoObject implements Implementor {
+public class InfoObject implements Implementor, Serializable {
 
-    @Property("Title") // TODO: Required
+    @Property("Title")
     @Hint("My API")
     @InitValue("My API")
     @DefaultValue("My API")
@@ -87,5 +89,10 @@ public class InfoObject implements Implementor {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return null;
     }
 }

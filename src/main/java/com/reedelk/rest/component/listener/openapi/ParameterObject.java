@@ -1,14 +1,17 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.component.listener.ParameterLocation;
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ParameterObject.class, scope = PROTOTYPE)
-public class ParameterObject implements Implementor {
+public class ParameterObject implements Implementor, Serializable {
 
     @Property("Name")
     private String name;
@@ -76,5 +79,26 @@ public class ParameterObject implements Implementor {
 
     public void setAllowEmptyValue(Boolean allowEmptyValue) {
         this.allowEmptyValue = allowEmptyValue;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject object = JsonObjectFactory.newJSONObject();
+        if (in != null) {
+            object.put("in", in);
+        }
+        if (name != null) {
+            object.put("name", name);
+        }
+        if (description != null) {
+            object.put("description", deprecated);
+        }
+        if (required != null) {
+            object.put("required", required);
+        }
+        if (deprecated != null) {
+            object.put("deprecated", deprecated);
+        }
+        return object;
     }
 }

@@ -1,15 +1,18 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.resource.ResourceText;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = MediaTypeObject.class, scope = PROTOTYPE)
-public class MediaTypeObject implements Implementor {
+public class MediaTypeObject implements Implementor, Serializable {
 
     @Property("Description")
     private String description;
@@ -61,5 +64,14 @@ public class MediaTypeObject implements Implementor {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject mediaType = JsonObjectFactory.newJSONObject();
+        if (description != null) mediaType.put("description", description);
+        if (schema != null) mediaType.put("schema", schema.data());
+        if (example != null) mediaType.put("example", example);
+        return mediaType;
     }
 }

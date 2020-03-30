@@ -1,10 +1,13 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.KeyName;
 import com.reedelk.runtime.api.annotation.Property;
 import com.reedelk.runtime.api.annotation.TabGroup;
 import com.reedelk.runtime.api.annotation.ValueName;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
@@ -12,7 +15,7 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ServerObject.class, scope = PROTOTYPE)
-public class ServerObject implements Implementor {
+public class ServerObject implements Implementor, Serializable {
 
     @Property("URL")
     private String url;
@@ -48,5 +51,13 @@ public class ServerObject implements Implementor {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        JSONObject server = JsonObjectFactory.newJSONObject();
+        server.put("url", url);
+        server.put("description", description);
+        return server;
     }
 }

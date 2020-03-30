@@ -1,17 +1,19 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.Description;
 import com.reedelk.runtime.api.annotation.Example;
 import com.reedelk.runtime.api.annotation.Hint;
 import com.reedelk.runtime.api.annotation.Property;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = SchemaObject.class, scope = PROTOTYPE)
-public class SchemaObject implements Implementor {
+public class SchemaObject implements Implementor, Serializable {
 
     @Property("Schema")
     @Hint("assets/data_model.json")
@@ -25,5 +27,10 @@ public class SchemaObject implements Implementor {
 
     public void setSchema(ResourceText schema) {
         this.schema = schema;
+    }
+
+    @Override
+    public JSONObject serialize() {
+        return null;
     }
 }

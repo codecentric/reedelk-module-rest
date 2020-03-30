@@ -1,7 +1,10 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.Serializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.HashMap;
@@ -12,7 +15,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 // TODO: Required
 @Collapsible
 @Component(service = ResponseObject.class, scope = PROTOTYPE)
-public class ResponseObject implements Implementor {
+public class ResponseObject implements Implementor, Serializable {
 
     @Property("Description")
     @Hint("A pet to be returned")
@@ -58,4 +61,24 @@ public class ResponseObject implements Implementor {
         this.headers = headers;
     }
 
+    @Override
+    public JSONObject serialize() {
+        /**
+        JSONObject responses = JsonObjectFactory.newJSONObject();
+        if (!statusCodeAndResponse.isEmpty()) {
+            statusCodeAndResponse.forEach((statusCode, responseObject) ->
+                    responses.put(statusCode, responseObject.serialize()));
+        }
+        return responses;*/
+        JSONObject responseObject = JsonObjectFactory.newJSONObject();
+        responseObject.put("description", description);
+        JSONObject all = JsonObjectFactory.newJSONObject();
+        responseObject.put("content", all);
+
+        if (!content.isEmpty()) {
+            content.forEach((contentType, mediaTypeObject) ->
+                    all.put(contentType, mediaTypeObject.serialize()));
+        }
+        return responseObject;
+    }
 }
