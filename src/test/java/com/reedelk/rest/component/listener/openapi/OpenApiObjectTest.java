@@ -11,7 +11,7 @@ class OpenApiObjectTest extends AbstractOpenApiSerializableTest {
      * be a Server Object with a url value of /.
      */
     @Test
-    void shouldCorrectlySerializeOpenApiWithDefaultServer() {
+    void shouldCorrectlySerializeOpenApiWithDefaultInfoAndServersAndPaths() {
         // Given
         OpenApiObject openApi = new OpenApiObject();
 
