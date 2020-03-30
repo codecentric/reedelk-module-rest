@@ -164,7 +164,7 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         set(serialized, "operationId", operationId);
         set(serialized, "parameters", parameters);
         if (responses.isEmpty()) {
-            responses.put("200", new ResponseObject());
+            responses.put("default", new ResponseObject()); // make sure at least
         }
         set(serialized, "responses", responses);
         return serialized;

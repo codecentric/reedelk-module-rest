@@ -2,7 +2,7 @@
   "/mypath": {
     "post": {
       "responses": {
-        "200": {
+        "default": {
           "description": "Successful Response"
         }
       }

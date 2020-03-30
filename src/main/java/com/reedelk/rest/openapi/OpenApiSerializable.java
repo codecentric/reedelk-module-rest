@@ -1,11 +1,14 @@
 package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.reedelk.runtime.api.commons.StreamUtils.FromString;
 
 public interface OpenApiSerializable {
 
@@ -48,6 +51,12 @@ public interface OpenApiSerializable {
     default void set(JSONObject object, String propertyName, String value) {
         if (value != null) {
             object.put(propertyName, value);
+        }
+    }
+
+    default void set(JSONObject object, String propertyName, ResourceText resource) {
+        if (resource != null) {
+            object.put(propertyName, FromString.consume(resource.data()));
         }
     }
 }

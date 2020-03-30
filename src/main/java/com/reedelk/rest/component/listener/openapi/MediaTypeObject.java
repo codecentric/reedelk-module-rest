@@ -6,7 +6,6 @@ import com.reedelk.runtime.api.annotation.Description;
 import com.reedelk.runtime.api.annotation.Example;
 import com.reedelk.runtime.api.annotation.Hint;
 import com.reedelk.runtime.api.annotation.Property;
-import com.reedelk.runtime.api.commons.StreamUtils.FromString;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
@@ -16,9 +15,6 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = MediaTypeObject.class, scope = PROTOTYPE)
 public class MediaTypeObject implements Implementor, OpenApiSerializable {
-
-    @Property("Description")
-    private String description;
 
     @Property("Example")
     @Hint("assets/data_model.json")
@@ -48,20 +44,11 @@ public class MediaTypeObject implements Implementor, OpenApiSerializable {
         this.schema = schema;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Override
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        set(serialized, "description", description);
-        set(serialized, "schema", FromString.consume(schema.data()));
-        set(serialized, "example", FromString.consume(example.data()));
+        set(serialized, "schema", schema);
+        set(serialized, "example", example);
         return serialized;
     }
 }
