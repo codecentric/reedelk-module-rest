@@ -7,6 +7,7 @@ import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
+import static java.util.Optional.ofNullable;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
@@ -44,7 +45,7 @@ public class LicenseObject implements Implementor, OpenApiSerializable {
     @Override
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        set(serialized, "name", name);
+        set(serialized, "name", ofNullable(name).orElse("API License"));
         set(serialized, "url", url);
         return serialized;
     }

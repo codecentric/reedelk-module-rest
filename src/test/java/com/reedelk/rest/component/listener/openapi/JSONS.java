@@ -13,16 +13,33 @@ public class JSONS {
         WithAllProperties() {
             @Override
             public String path() {
-                return "/com/reedelk/rest/component/listener/openapi/info_object_with_all_properties.json";
+                return "info_object_with_all_properties.json";
             }
         },
 
         WithDefaultProperties() {
             @Override
             public String path() {
-                return "/com/reedelk/rest/component/listener/openapi/info_object_with_default_properties.json";
+                return "info_object_with_default_properties.json";
             }
         }
+    }
+
+    public enum LicenseObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "license_object_with_all_properties.json";
+            }
+        },
+
+        WithDefaultProperties() {
+            @Override
+            public String path() {
+                return "license_object_with_default_properties.json";
+            }
+        },
     }
 
 
