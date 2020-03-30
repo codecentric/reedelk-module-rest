@@ -3,7 +3,7 @@
     "post": {
       "responses": {
         "200": {
-          "description": "Successful response"
+          "description": "Successful Response"
         }
       }
     }

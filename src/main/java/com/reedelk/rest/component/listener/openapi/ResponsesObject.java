@@ -12,10 +12,9 @@ import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-// TODO: Required
 @Collapsible
-@Component(service = ResponseObject.class, scope = PROTOTYPE)
-public class ResponseObject implements Implementor, OpenApiSerializable {
+@Component(service = ResponsesObject.class, scope = PROTOTYPE)
+public class ResponsesObject implements Implementor, OpenApiSerializable {
 
     @Property("Description")
     @Hint("A pet to be returned")
@@ -63,22 +62,14 @@ public class ResponseObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        /**
-        JSONObject responses = JsonObjectFactory.newJSONObject();
-        if (!statusCodeAndResponse.isEmpty()) {
-            statusCodeAndResponse.forEach((statusCode, responseObject) ->
-                    responses.put(statusCode, responseObject.serialize()));
-        }
-        return responses;*/
-        JSONObject responseObject = JsonObjectFactory.newJSONObject();
-        responseObject.put("description", description);
-        JSONObject all = JsonObjectFactory.newJSONObject();
-        responseObject.put("content", all);
-
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
         if (!content.isEmpty()) {
-            content.forEach((contentType, mediaTypeObject) ->
-                    all.put(contentType, mediaTypeObject.serialize()));
+        } else {
+            // Default response
+            JSONObject successfulResponse = JsonObjectFactory.newJSONObject();
+            set(successfulResponse, "description", "Successful Response");
+            set(serialized, "200", successfulResponse);
         }
-        return responseObject;
+        return serialized;
     }
 }

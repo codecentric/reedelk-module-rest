@@ -4,7 +4,6 @@ import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
@@ -57,10 +56,10 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     @When(propertyName = "exclude", propertyValue = When.NULL)
     private RequestBodyObject requestBody;
 
-    @Property("Response")
+    @Property("Responses")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private ResponseObject response = new ResponseObject();
+    private ResponsesObject responses = new ResponsesObject();
 
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
@@ -119,12 +118,12 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         this.requestBody = requestBody;
     }
 
-    public ResponseObject getResponse() {
-        return response;
+    public ResponsesObject getResponses() {
+        return responses;
     }
 
-    public void setResponse(ResponseObject response) {
-        this.response = response;
+    public void setResponses(ResponsesObject responses) {
+        this.responses = responses;
     }
 
     public Boolean getDeprecated() {
@@ -153,29 +152,13 @@ public class OperationObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        JSONObject operation = JsonObjectFactory.newJSONObject();
-        operation.put("summary", summary);
-        operation.put("description", description);
-        operation.put("operationId", operationId);
-        if (tags != null) {
-            JSONArray tagsArray = new JSONArray();
-            tags.forEach(tagsArray::put);
-            operation.put("tags", tagsArray);
-        }
-        if (parameters != null) {
-            JSONArray paramsArray = new JSONArray();
-            //parameters.forEach(parameterObject -> {
-              //  JSONObject item = parameterObject.serialize();
-//                paramsArray.put(item);
-  //          });
-            operation.put("parameters", parameters);
-        }
-        if (requestBody != null) {
-            operation.put("requestBody", requestBody.serialize());
-        }
-        if (response != null) {
-            operation.put("response", response.serialize());
-        }
-        return operation;
+        JSONObject serialized = JsonObjectFactory.newJSONObject();
+        setList(serialized, "tags", tags);
+        set(serialized, "summary", summary);
+        set(serialized, "description", description);
+        set(serialized, "operationId", operationId);
+        set(serialized, "parameters", parameters);
+        set(serialized, "responses", responses);
+        return serialized;
     }
 }
