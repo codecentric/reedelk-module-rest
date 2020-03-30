@@ -76,6 +76,23 @@ public class JSONS {
         },
     }
 
+    public enum ServerVariableObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "server_variable_object_with_all_properties.json";
+            }
+        },
+
+        WithDefaultProperties() {
+            @Override
+            public String path() {
+                return "server_variable_object_with_default_properties.json";
+            }
+        },
+    }
+
     interface Provider {
 
         String path();
