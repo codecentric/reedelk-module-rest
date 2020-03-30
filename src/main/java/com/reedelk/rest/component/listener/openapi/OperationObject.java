@@ -60,7 +60,7 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     @Property("Response")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private ResponseObject response;
+    private ResponseObject response = new ResponseObject();
 
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
@@ -173,9 +173,9 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         if (requestBody != null) {
             operation.put("requestBody", requestBody.serialize());
         }
-       // if (responses != null) {
-         //   operation.put("responses", responses.serialize());
-        //}
+        if (response != null) {
+            operation.put("response", response.serialize());
+        }
         return operation;
     }
 }

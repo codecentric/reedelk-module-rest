@@ -1,0 +1,11 @@
+{
+  "/mypath": {
+    "post": {
+      "responses": {
+        "200": {
+          "description": "Successful response"
+        }
+      }
+    }
+  }
+}

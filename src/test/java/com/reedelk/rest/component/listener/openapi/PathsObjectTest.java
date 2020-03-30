@@ -1,5 +1,6 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.commons.RestMethod;
 import org.junit.jupiter.api.Test;
 
 class PathsObjectTest extends AbstractOpenApiSerializableTest {
@@ -11,5 +12,15 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
 
         // Expect
         assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithDefaultPaths);
+    }
+
+    @Test
+    void shouldCorrectlySerializePathsWithDefaultOperationObject() {
+        // Given
+        PathsObject paths = new PathsObject();
+        paths.add("/mypath", RestMethod.POST);
+
+        // Expect
+        assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithDefaultOperation);
     }
 }

@@ -95,10 +95,10 @@ public class OpenApiJsons {
 
     public enum OpenApi implements Provider {
 
-        WithDefaultServer() {
+        WithDefaultInfoAndServersAndPaths() {
             @Override
             public String path() {
-                return "open_api_object_with_default_server.json";
+                return "open_api_object_with_default_info_and_servers_and_paths.json";
             }
         };
     }
@@ -109,6 +109,13 @@ public class OpenApiJsons {
             @Override
             public String path() {
                 return "paths_object_with_default.json";
+            }
+        },
+
+        WithDefaultOperation() {
+            @Override
+            public String path() {
+                return "paths_object_with_default_operation.json";
             }
         }
     }
