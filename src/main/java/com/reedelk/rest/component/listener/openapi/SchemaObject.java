@@ -1,10 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.openapi.OpenApiSerializable;
-import com.reedelk.runtime.api.annotation.Description;
-import com.reedelk.runtime.api.annotation.Example;
-import com.reedelk.runtime.api.annotation.Hint;
-import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -19,6 +16,7 @@ public class SchemaObject implements Implementor, OpenApiSerializable {
     @Property("Schema")
     @Hint("assets/data_model.json")
     @Example("assets/data_model.json")
+    @HintBrowseFile("Select Schema File ...")
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
 

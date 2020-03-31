@@ -53,6 +53,7 @@ public class ParameterObject implements Implementor, OpenApiSerializable {
     private PredefinedSchema predefinedSchema;
 
     @Property("Custom Schema")
+    @HintBrowseFile("Select Schema File ...")
     @When(propertyName = "predefinedSchema", propertyValue = "NONE")
     @When(propertyName = "predefinedSchema", propertyValue = When.NULL)
     private ResourceText schema;
