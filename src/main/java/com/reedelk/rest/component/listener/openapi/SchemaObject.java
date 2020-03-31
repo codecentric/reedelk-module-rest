@@ -32,6 +32,10 @@ public class SchemaObject extends AbstractOpenApiSerializable implements Impleme
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         String jsonSchema = StreamUtils.FromString.consume(schema.data());
-        return new JSONObject(jsonSchema);
+        JSONObject schemaAsJsonObject = new JSONObject(jsonSchema);
+        if (schemaAsJsonObject.has("name")) {
+            schemaAsJsonObject.remove("name"); // we must remove the name property.
+        }
+        return schemaAsJsonObject;
     }
 }

@@ -21,9 +21,11 @@ import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
 public class OpenAPIRequestHandler implements HttpRequestHandler {
 
     protected OpenApiObject openAPI;
+    protected OpenApiSerializableContext context;
 
     protected OpenAPIRequestHandler(RestListenerConfiguration configuration) {
         openAPI = configuration.getOpenApi();
+        context = new OpenApiSerializableContext(openAPI.getComponents());
     }
 
     @Override
@@ -60,7 +62,6 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
     }
 
     String serializeOpenApi() {
-        OpenApiSerializableContext context = new OpenApiSerializableContext();
         JSONObject serialize = openAPI.serialize(context);
         return serialize.toString(2);
     }

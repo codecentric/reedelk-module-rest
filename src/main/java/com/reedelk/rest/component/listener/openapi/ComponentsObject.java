@@ -8,6 +8,7 @@ import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
@@ -20,7 +21,7 @@ public class ComponentsObject extends AbstractOpenApiSerializable implements Imp
     @KeyName("Schema Name")
     @ValueName("Schema Definition")
     @TabGroup("Schemas")
-    private Map<String, SchemaObject> schemas;
+    private Map<String, SchemaObject> schemas = new HashMap<>();
 
     public Map<String, SchemaObject> getSchemas() {
         return schemas;
@@ -30,11 +31,10 @@ public class ComponentsObject extends AbstractOpenApiSerializable implements Imp
         this.schemas = schemas;
     }
 
-    // TODO: If the schema is in the context, then we just add it to the context.
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "schemas", schemas, context);
-        return new JSONObject(schemas);
+        return serialized;
     }
 }

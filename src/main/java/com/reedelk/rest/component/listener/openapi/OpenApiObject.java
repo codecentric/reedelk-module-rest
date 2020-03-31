@@ -25,7 +25,7 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
     private InfoObject info = new InfoObject();
 
     @Property("Components")
-    private ComponentsObject components;
+    private ComponentsObject components = new ComponentsObject();
 
     @Property("Servers")
     @TabGroup("Servers")
@@ -55,6 +55,14 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
         return paths;
     }
 
+    public ComponentsObject getComponents() {
+        return components;
+    }
+
+    public void setComponents(ComponentsObject components) {
+        this.components = components;
+    }
+
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
@@ -69,6 +77,7 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
         }
         set(serialized, "servers", servers, context);
         set(serialized, "paths", paths, context); // REQUIRED
+        set(serialized, "components", components, context);
         return serialized;
     }
 }

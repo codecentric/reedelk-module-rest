@@ -4,7 +4,6 @@ import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
@@ -48,9 +47,10 @@ public class MediaTypeObject extends AbstractOpenApiSerializable implements Impl
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        String jsonSchema = StreamUtils.FromString.consume(schema.data());
-        JSONObject schema = new JSONObject(jsonSchema);
-        set(serialized, "schema", schema);
+        String schemaReference = context.schemaReferenceOf(schema);
+        JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
+        schemaReferenceObject.put("$ref", schemaReference);
+        set(serialized, "schema", schemaReferenceObject);
         set(serialized, "example", example);
         return serialized;
     }
