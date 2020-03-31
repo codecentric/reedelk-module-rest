@@ -19,7 +19,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = OpenApiObject.class, scope = PROTOTYPE)
 public class OpenApiObject extends AbstractOpenApiSerializable implements Implementor {
 
-    private static final String OPENAPI = "3.0.3";
+    private static final String OPEN_API_VERSION = "3.0.3";
     
     // Info Object is required by spec
     @Property("Info")
@@ -72,7 +72,7 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        set(serialized, "openapi", OPENAPI); // REQUIRED
+        set(serialized, "openapi", OPEN_API_VERSION); // REQUIRED
         set(serialized, "info", info, context); // REQUIRED
 
         if (servers == null || servers.isEmpty()) {
