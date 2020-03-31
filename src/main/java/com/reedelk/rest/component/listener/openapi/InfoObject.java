@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = InfoObject.class, scope = PROTOTYPE)
-public class InfoObject implements Implementor, OpenApiSerializable {
+public class InfoObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Title")
     @Hint("My API")
@@ -94,13 +95,13 @@ public class InfoObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "title", ofNullable(title).orElse("API")); // REQUIRED
         set(serialized, "description", description);
         set(serialized, "termsOfService", termsOfService);
-        set(serialized, "contact", contact);
-        set(serialized, "license", license);
+        set(serialized, "contact", contact, context);
+        set(serialized, "license", license, context);
         set(serialized, "version", ofNullable(version).orElse("v1")); // REQUIRED
         return serialized;
     }

@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ServerObject.class, scope = PROTOTYPE)
-public class ServerObject implements Implementor, OpenApiSerializable {
+public class ServerObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("URL")
     @Hint("https://development.gigantic-server.com/v1")
@@ -60,11 +61,11 @@ public class ServerObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "url", url);
         set(serialized, "description", description);
-        set(serialized, "variables", variables);
+        set(serialized, "variables", variables, context);
         return serialized;
     }
 }

@@ -1,14 +1,11 @@
 package com.reedelk.rest.openapi;
 
-import com.reedelk.rest.commons.Defaults;
-import com.reedelk.rest.commons.HttpProtocol;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
 import com.reedelk.rest.component.listener.openapi.OpenApiObject;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.component.listener.openapi.PathsObject;
 import com.reedelk.rest.server.HttpRequestHandler;
-import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.content.MimeType;
 import org.json.JSONObject;
 import org.reactivestreams.Publisher;
@@ -16,8 +13,6 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Optional;
 
 import static com.reedelk.rest.commons.HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN;
@@ -60,25 +55,13 @@ public class OpenAPIRequestHandler implements HttpRequestHandler {
     }
 
     public void remove(String path, RestMethod method) {
-
+        PathsObject paths = openAPI.getPaths();
+        paths.remove(path, method);
     }
 
     String serializeOpenApi() {
-        JSONObject serialize = openAPI.serialize();
+        OpenApiSerializableContext context = new OpenApiSerializableContext();
+        JSONObject serialize = openAPI.serialize(context);
         return serialize.toString(2);
-    }
-
-
-
-
-    private String defaultServerURL(RestListenerConfiguration configuration) {
-        HttpProtocol protocol = configuration.getProtocol();
-        String host = Defaults.RestListener.host(configuration.getHost());
-        int port = Defaults.RestListener.port(configuration.getPort(), protocol);
-        try {
-            return new URL(protocol.name(), host, port, configuration.getBasePath()).toString();
-        } catch (MalformedURLException exception) {
-            throw new ESBException(exception);
-        }
     }
 }

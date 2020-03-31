@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -14,7 +15,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = RequestBodyObject.class, scope = PROTOTYPE)
-public class RequestBodyObject implements Implementor, OpenApiSerializable {
+public class RequestBodyObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Required")
     @DefaultValue("false")
@@ -58,10 +59,10 @@ public class RequestBodyObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "description", description);
-        set(serialized, "content", content);
+        set(serialized, "content", content, context);
         set(serialized, "required", required);
         return serialized;
     }

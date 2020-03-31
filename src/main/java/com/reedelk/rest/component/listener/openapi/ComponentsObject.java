@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = ComponentsObject.class, scope = PROTOTYPE)
-public class ComponentsObject implements Implementor, OpenApiSerializable {
+public class ComponentsObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Schemas")
     @KeyName("Schema Name")
@@ -31,10 +32,9 @@ public class ComponentsObject implements Implementor, OpenApiSerializable {
 
     // TODO: If the schema is in the context, then we just add it to the context.
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-
-        set(serialized, "schemas", schemas);
+        set(serialized, "schemas", schemas, context);
         return new JSONObject(schemas);
     }
 }

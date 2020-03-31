@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -14,7 +15,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = ResponseObject.class, scope = PROTOTYPE)
-public class ResponseObject implements Implementor, OpenApiSerializable {
+public class ResponseObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Description")
     @Hint("Successful Response")
@@ -60,11 +61,11 @@ public class ResponseObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "description", description);
-        set(serialized, "content", content);
-        set(serialized, "headers", headers);
+        set(serialized, "content", content, context);
+        set(serialized, "headers", headers, context);
         return serialized;
     }
 }

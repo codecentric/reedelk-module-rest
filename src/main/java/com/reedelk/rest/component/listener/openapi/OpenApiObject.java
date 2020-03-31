@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -15,7 +16,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = PROTOTYPE)
-public class OpenApiObject implements Implementor, OpenApiSerializable {
+public class OpenApiObject extends AbstractOpenApiSerializable implements Implementor {
 
     private static final String OPENAPI = "3.0.3";
     
@@ -55,10 +56,10 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "openapi", OPENAPI); // REQUIRED
-        set(serialized, "info", info); // REQUIRED
+        set(serialized, "info", info, context); // REQUIRED
 
         if (servers == null || servers.isEmpty()) {
             // From OpenAPI spec 3.0.3:
@@ -66,8 +67,8 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
             // the default value would be a Server Object with a url value of /.
             servers = Collections.singletonList(new ServerObject());
         }
-        set(serialized, "servers", servers);
-        set(serialized, "paths", paths); // REQUIRED
+        set(serialized, "servers", servers, context);
+        set(serialized, "paths", paths, context); // REQUIRED
         return serialized;
     }
 }

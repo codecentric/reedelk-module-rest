@@ -1,6 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
@@ -11,7 +12,7 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = SchemaObject.class, scope = PROTOTYPE)
-public class SchemaObject implements Implementor, OpenApiSerializable {
+public class SchemaObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Schema")
     @Hint("assets/data_model.json")
@@ -29,7 +30,7 @@ public class SchemaObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         String jsonSchema = StreamUtils.FromString.consume(schema.data());
         return new JSONObject(jsonSchema);
     }

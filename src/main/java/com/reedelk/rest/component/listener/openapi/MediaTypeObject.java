@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
@@ -12,7 +13,7 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = MediaTypeObject.class, scope = PROTOTYPE)
-public class MediaTypeObject implements Implementor, OpenApiSerializable {
+public class MediaTypeObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Example")
     @Hint("assets/data_model.json")
@@ -45,7 +46,7 @@ public class MediaTypeObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         String jsonSchema = StreamUtils.FromString.consume(schema.data());
         JSONObject schema = new JSONObject(jsonSchema);

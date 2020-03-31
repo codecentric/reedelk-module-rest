@@ -1,7 +1,9 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
@@ -12,7 +14,7 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = HeaderObject.class, scope = PROTOTYPE)
-public class HeaderObject implements Implementor, OpenApiSerializable {
+public class HeaderObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Description")
     @Hint("My header description")
@@ -159,7 +161,7 @@ public class HeaderObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "description", description);
         set(serialized, "style", style.name());

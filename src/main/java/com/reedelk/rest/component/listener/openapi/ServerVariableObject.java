@@ -1,22 +1,20 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
-import java.util.Optional;
 
-import static com.reedelk.runtime.api.commons.StringUtils.*;
-import static java.util.Optional.*;
+import static java.util.Optional.ofNullable;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ServerVariableObject.class, scope = PROTOTYPE)
-public class ServerVariableObject implements Implementor, OpenApiSerializable {
+public class ServerVariableObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Description")
     @Hint("Hosts variable")
@@ -62,7 +60,7 @@ public class ServerVariableObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "default", ofNullable(defaultValue).orElse("default")); // REQUIRED
         set(serialized, "description", description);

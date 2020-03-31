@@ -1,7 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.openapi.OpenApiSerializable;
+import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;
@@ -15,7 +16,7 @@ import java.util.Map;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = OperationObject.class, scope = PROTOTYPE)
-public class OperationObject implements Implementor, OpenApiSerializable {
+public class OperationObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Exclude")
     @Description("Excludes this endpoint from being published in the OpenAPI document.")
@@ -156,17 +157,17 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     }
 
     @Override
-    public JSONObject serialize() {
+    public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         setList(serialized, "tags", tags);
         set(serialized, "summary", summary);
         set(serialized, "description", description);
         set(serialized, "operationId", operationId);
-        set(serialized, "parameters", parameters);
+        set(serialized, "parameters", parameters, context);
         if (responses.isEmpty()) {
             responses.put("default", new ResponseObject()); // make sure at least
         }
-        set(serialized, "responses", responses);
+        set(serialized, "responses", responses, context);
         return serialized;
     }
 }
