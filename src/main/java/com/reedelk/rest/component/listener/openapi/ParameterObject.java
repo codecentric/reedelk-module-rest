@@ -197,7 +197,12 @@ public class ParameterObject extends AbstractOpenApiSerializable implements Impl
 
         if (PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Custom schema
-            set(serialized, "schema", new JSONObject(StreamUtils.FromString.consume(schema.data())));
+            Optional.ofNullable(schema).ifPresent(resourceText -> {
+                String schemaReference = context.schemaReferenceOf(schema);
+                JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
+                schemaReferenceObject.put("$ref", schemaReference);
+                set(serialized, "schema", schemaReferenceObject);
+            });
         } else {
             // Predefined schema
             set(serialized, "schema", new JSONObject(predefinedSchema.schema()));

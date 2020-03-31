@@ -2,14 +2,14 @@ package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
-import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
+
+import java.util.Optional;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
@@ -168,7 +168,12 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
 
         if (PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Custom schema
-            set(serialized, "schema", new JSONObject(StreamUtils.FromString.consume(schema.data())));
+            Optional.ofNullable(schema).ifPresent(resourceText -> {
+                String schemaReference = context.schemaReferenceOf(schema);
+                JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
+                schemaReferenceObject.put("$ref", schemaReference);
+                set(serialized, "schema", schemaReferenceObject);
+            });
         } else {
             // Predefined schema
             set(serialized, "schema", new JSONObject(predefinedSchema.schema()));

@@ -9,6 +9,8 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.Optional;
+
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = MediaTypeObject.class, scope = PROTOTYPE)
@@ -47,12 +49,12 @@ public class MediaTypeObject extends AbstractOpenApiSerializable implements Impl
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        String schemaReference = context.schemaReferenceOf(schema);
-        if (schemaReference != null) {
+        Optional.ofNullable(schema).ifPresent(resourceText -> {
+            String schemaReference = context.schemaReferenceOf(schema);
             JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
             schemaReferenceObject.put("$ref", schemaReference);
             set(serialized, "schema", schemaReferenceObject);
-        }
+        });
         set(serialized, "example", example);
         return serialized;
     }

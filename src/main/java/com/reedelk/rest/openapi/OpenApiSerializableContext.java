@@ -18,7 +18,6 @@ public class OpenApiSerializableContext {
     }
 
     public String schemaReferenceOf(ResourceText schema) {
-        if (schema == null) return null; // TODO: Fixme!
         return findSchemaMatching(schema)
                 .map(schemaId -> "#/components/schemas/" + schemaId)
                 .orElseGet(() -> {
