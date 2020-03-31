@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Collapsible
@@ -34,6 +35,7 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
     private List<ServerObject> servers = new ArrayList<>();
 
     private PathsObject paths = new PathsObject();
+    private String basePath;
 
     public InfoObject getInfo() {
         return info;
@@ -63,6 +65,10 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
         this.components = components;
     }
 
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
@@ -73,7 +79,9 @@ public class OpenApiObject extends AbstractOpenApiSerializable implements Implem
             // From OpenAPI spec 3.0.3:
             // If the servers property is not provided, or is an empty array,
             // the default value would be a Server Object with a url value of /.
-            servers = Collections.singletonList(new ServerObject());
+            ServerObject serverObject = new ServerObject();
+            serverObject.setUrl(ofNullable(basePath).orElse("/"));
+            servers = Collections.singletonList(serverObject);
         }
         set(serialized, "servers", servers, context);
         set(serialized, "paths", paths, context); // REQUIRED

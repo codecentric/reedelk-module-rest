@@ -25,6 +25,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
     protected OpenApiRequestHandler(RestListenerConfiguration configuration) {
         openAPI = configuration.getOpenApi();
+        openAPI.setBasePath(configuration.getBasePath());
         context = new OpenApiSerializableContext(openAPI.getComponents());
     }
 

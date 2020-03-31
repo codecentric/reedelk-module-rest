@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-class UriTemplateStructure {
+public class UriTemplateStructure {
 
     private static final String DEFAULT_REGEXP = "([^/]*)";
 
@@ -23,7 +23,7 @@ class UriTemplateStructure {
         this.pattern = pattern;
     }
 
-    List<String> getVariableNames() {
+    public List<String> getVariableNames() {
         return variableNames;
     }
 
@@ -31,7 +31,7 @@ class UriTemplateStructure {
         return pattern;
     }
 
-    static UriTemplateStructure from(String template) {
+    public static UriTemplateStructure from(String template) {
         int depth = 0;
         List<String> variableNames = new LinkedList<>();
         StringBuilder pattern = new StringBuilder();

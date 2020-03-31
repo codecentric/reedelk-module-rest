@@ -4,9 +4,11 @@ import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
+import com.reedelk.rest.server.uri.UriTemplateStructure;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -29,6 +31,9 @@ public class PathsObject extends AbstractOpenApiSerializable {
 
     public void add(String path, RestMethod restMethod, OperationObject pathItemObject) {
         Map<RestMethod, OperationObject> operationsByPath = operationsByPathOf(path);
+
+        addDefaultParameters(path, pathItemObject);
+
         operationsByPath.put(restMethod, pathItemObject);
     }
 
@@ -36,7 +41,31 @@ public class PathsObject extends AbstractOpenApiSerializable {
         Map<RestMethod, OperationObject> operationsByPath = operationsByPathOf(path);
         // Create a default operation object
         OperationObject defaultOperation = new OperationObject();
+
+        addDefaultParameters(path, defaultOperation);
+
         operationsByPath.put(restMethod, defaultOperation);
+    }
+
+    private void addDefaultParameters(String path, OperationObject givenOperation) {
+        // Add default parameters
+        UriTemplateStructure templateStructure = UriTemplateStructure.from(path);
+        List<String> requestPathParams = templateStructure.getVariableNames();
+        List<ParameterObject> parameters = givenOperation.getParameters();
+
+        // We only set default parameters for param names not overridden by the user.
+        requestPathParams.forEach(requestParam -> {
+            boolean hasBeenUserDefined = parameters.stream().anyMatch(parameterObject ->
+                    requestParam.equals(parameterObject.getName()));
+            if (!hasBeenUserDefined) {
+                ParameterObject parameterObject = new ParameterObject();
+                parameterObject.setName(requestParam);
+                parameterObject.setRequired(true);
+                parameterObject.setIn(ParameterLocation.path);
+                parameterObject.setStyle(ParameterStyle.simple);
+                parameters.add(parameterObject);
+            }
+        });
     }
 
     public void remove(String path, RestMethod restMethod) {
