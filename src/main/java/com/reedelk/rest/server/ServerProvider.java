@@ -3,7 +3,7 @@ package com.reedelk.rest.server;
 import com.reedelk.rest.commons.Defaults;
 import com.reedelk.rest.commons.HostNamePortKey;
 import com.reedelk.rest.component.RestListenerConfiguration;
-import com.reedelk.rest.openapi.OpenAPIServerDecorator1;
+import com.reedelk.rest.openapi.OpenApiServerDecorator;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.Map;
@@ -31,7 +31,7 @@ public class ServerProvider {
             if (!openApiDisabled) {
                 // If the open api is NOT disabled we apply the OpenAPI decorator
                 // which applies for each route the OpenAPI definition.
-                server = new OpenAPIServerDecorator1(configuration, server);
+                server = new OpenApiServerDecorator(configuration, server);
             }
             serverMap.put(key, server);
         }
