@@ -18,12 +18,12 @@ import java.util.Optional;
 import static com.reedelk.rest.commons.HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
 
-public class OpenAPIRequestHandler implements HttpRequestHandler {
+public class OpenAPIRequestHandler1 implements HttpRequestHandler {
 
     protected OpenApiObject openAPI;
     protected OpenApiSerializableContext context;
 
-    protected OpenAPIRequestHandler(RestListenerConfiguration configuration) {
+    protected OpenAPIRequestHandler1(RestListenerConfiguration configuration) {
         openAPI = configuration.getOpenApi();
         context = new OpenApiSerializableContext(openAPI.getComponents());
     }

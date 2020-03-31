@@ -11,28 +11,28 @@ import java.util.List;
 
 import static com.reedelk.rest.commons.RestMethod.GET;
 
-public class OpenAPIServerDecorator implements Server {
+public class OpenAPIServerDecorator1 implements Server {
 
     private static final String openAPIDocument = "/openapi.json";
 
     private final Server delegate;
-    private OpenAPIRequestHandler openAPIRequestHandler;
+    private OpenAPIRequestHandler1 openAPIRequestHandler1;
 
-    public OpenAPIServerDecorator(RestListenerConfiguration configuration, Server delegate) {
+    public OpenAPIServerDecorator1(RestListenerConfiguration configuration, Server delegate) {
         this.delegate = delegate;
-        this.openAPIRequestHandler = new OpenAPIRequestHandler(configuration);
+        this.openAPIRequestHandler1 = new OpenAPIRequestHandler1(configuration);
         addOpenApiDocumentRoute();
     }
 
     @Override
     public void addRoute(String path, RestMethod method, OperationObject operationObject, HttpRequestHandler httpHandler) {
-        openAPIRequestHandler.add(path, method, operationObject);
+        openAPIRequestHandler1.add(path, method, operationObject);
         delegate.addRoute(path, method, operationObject, httpHandler);
     }
 
     @Override
     public void removeRoute(String path, RestMethod method) {
-        openAPIRequestHandler.remove(path, method);
+        openAPIRequestHandler1.remove(path, method);
         delegate.removeRoute(path, method);
     }
 
@@ -60,6 +60,6 @@ public class OpenAPIServerDecorator implements Server {
 
     private void addOpenApiDocumentRoute() {
         OperationObject operationObject = new OperationObject();
-        delegate.addRoute(openAPIDocument, GET, operationObject, openAPIRequestHandler);
+        delegate.addRoute(openAPIDocument, GET, operationObject, openAPIRequestHandler1);
     }
 }
