@@ -33,19 +33,22 @@ public class ParameterObject implements Implementor, OpenApiSerializable {
     private String description;
 
     @Property("In")
-    @Example("HEADER")
-    @DefaultValue("QUERY")
+    @Example("header")
+    @InitValue("query")
+    @DefaultValue("query")
     @Description("The location of the parameter. Possible values are 'query', 'header', 'path' or 'cookie'.")
     private ParameterLocation in;
 
     @Property("Style")
-    @Example("FORM")
-    @DefaultValue("SIMPLE")
+    @Example("form")
+    @InitValue("simple")
+    @DefaultValue("simple")
     @Description("Describes how the parameter value will be serialized depending on the type of the parameter value. " +
             "Default values (based on value of in): for query - form; for path - simple; for header - simple; for cookie - form.")
     private ParameterStyle style;
 
     @Property("Schema")
+    @InitValue("STRING")
     @DefaultValue("STRING")
     private PredefinedSchema predefinedSchema;
 
