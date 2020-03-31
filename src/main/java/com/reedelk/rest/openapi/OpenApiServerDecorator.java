@@ -2,6 +2,8 @@ package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.server.HttpRequestHandler;
 import com.reedelk.rest.server.HttpRouteHandler;
@@ -25,9 +27,9 @@ public class OpenApiServerDecorator implements Server {
     }
 
     @Override
-    public void addRoute(String path, RestMethod method, OperationObject operationObject, HttpRequestHandler httpHandler) {
-        openApiRequestHandler.add(path, method, operationObject);
-        delegate.addRoute(path, method, operationObject, httpHandler);
+    public void addRoute(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject, HttpRequestHandler httpHandler) {
+        openApiRequestHandler.add(path, method, response, errorResponse, operationObject);
+        delegate.addRoute(path, method, response, errorResponse, operationObject, httpHandler);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class OpenApiServerDecorator implements Server {
 
     @Override
     public boolean hasEmptyRoutes() {
-        // TODO: Hmmmm revise this....
+        // TODO: This is not correct ?!?
         List<HttpRouteHandler> handlers = delegate.handlers();
         return handlers.size() == 0 || handlers.size() == 1;
     }
@@ -59,7 +61,7 @@ public class OpenApiServerDecorator implements Server {
     }
 
     private void addOpenApiDocumentRoute() {
-        OperationObject operationObject = new OperationObject();
-        delegate.addRoute(openAPIDocument, GET, operationObject, openApiRequestHandler);
+        // Response, error response and operation object are not used by the delegate.
+        delegate.addRoute(openAPIDocument, GET, null, null, null, openApiRequestHandler);
     }
 }

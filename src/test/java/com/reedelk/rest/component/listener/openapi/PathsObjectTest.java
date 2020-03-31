@@ -1,6 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +19,6 @@ import static org.mockito.Mockito.mock;
 @ExtendWith(MockitoExtension.class)
 class PathsObjectTest extends AbstractOpenApiSerializableTest {
 
-
     @Test
     void shouldCorrectlySerializePathsWithDefault() {
         // Given
@@ -31,7 +32,9 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
     void shouldCorrectlySerializePathsWithDefaultOperationObjectForPath() {
         // Given
         PathsObject paths = new PathsObject();
-        paths.add("/mypath", RestMethod.POST);
+        Response response = new Response();
+        ErrorResponse errorResponse = new ErrorResponse();
+        paths.add("/mypath", RestMethod.POST, response, errorResponse);
 
         // Expect
         assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithDefaultOperation);
@@ -41,7 +44,9 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
     void shouldCorrectlySerializePathsWithOperationObjectForNullPath() {
         // Given
         PathsObject paths = new PathsObject();
-        paths.add(null, RestMethod.DELETE);
+        Response response = new Response();
+        ErrorResponse errorResponse = new ErrorResponse();
+        paths.add(null, RestMethod.DELETE, response, errorResponse);
 
         // Expect
         assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithOperationWithNullPath);
@@ -73,7 +78,9 @@ class PathsObjectTest extends AbstractOpenApiSerializableTest {
         operationObject.setTags(Arrays.asList("tag1", "tag2"));
 
         PathsObject paths = new PathsObject();
-        paths.add("/mypath", RestMethod.GET, operationObject);
+        Response response = new Response();
+        ErrorResponse errorResponse = new ErrorResponse();
+        paths.add("/mypath", RestMethod.GET, response, errorResponse, operationObject);
 
         // Expect
         assertSerializedCorrectly(paths, OpenApiJsons.PathsObject.WithOperation);

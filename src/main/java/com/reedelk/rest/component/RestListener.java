@@ -96,7 +96,7 @@ public class RestListener extends AbstractInbound {
 
         Server server = provider.getOrCreate(configuration)
                 .orElseThrow(() -> new ConfigurationException(LISTENER_CONFIG_MISSING.format()));
-        server.addRoute(path, method, openApi, requestHandler);
+        server.addRoute(path, method, response, errorResponse, openApi, requestHandler);
     }
 
     @Override

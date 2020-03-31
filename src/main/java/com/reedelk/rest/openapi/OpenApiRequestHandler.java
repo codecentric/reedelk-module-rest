@@ -2,6 +2,8 @@ package com.reedelk.rest.openapi;
 
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OpenApiObject;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.component.listener.openapi.PathsObject;
@@ -37,7 +39,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         return response.sendByteArray(Mono.just(openApiAsJson.getBytes()));
     }
 
-    public void add(String path, RestMethod method, OperationObject operationObject) {
+    public void add(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject) {
 
         Boolean excludeApiPath = Optional.ofNullable(operationObject)
                 .flatMap(config -> Optional.ofNullable(config.getExclude()))
@@ -47,13 +49,13 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         // we just add the path to the open api specification.
         if (operationObject == null) {
             PathsObject paths = openAPI.getPaths();
-            paths.add(path, method);
+            paths.add(path, method, response, errorResponse);
 
             // If the 'exclude' property is false, we don't add the path, otherwise
             // we add the path to the open API specification.
         } else if (!excludeApiPath) {
             PathsObject paths = openAPI.getPaths();
-            paths.add(path, method, operationObject);
+            paths.add(path, method, response, errorResponse, operationObject);
         }
     }
 

@@ -28,7 +28,7 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
     @DefaultValue("simple")
     @Description("Describes how the parameter value will be serialized depending on the type of the parameter value. " +
             "Default values (based on value of in): for query - form; for path - simple; for header - simple; for cookie - form.")
-    private ParameterStyle style = ParameterStyle.form;
+    private ParameterStyle style = ParameterStyle.simple;
 
     @Property("Schema")
     @InitValue("STRING")
