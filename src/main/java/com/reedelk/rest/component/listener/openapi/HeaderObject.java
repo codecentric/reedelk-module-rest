@@ -3,6 +3,7 @@ package com.reedelk.rest.component.listener.openapi;
 import com.reedelk.rest.commons.JsonObjectFactory;
 import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
@@ -25,12 +26,12 @@ public class HeaderObject implements Implementor, OpenApiSerializable {
     @DefaultValue("simple")
     @Description("Describes how the parameter value will be serialized depending on the type of the parameter value. " +
             "Default values (based on value of in): for query - form; for path - simple; for header - simple; for cookie - form.")
-    private ParameterStyle style;
+    private ParameterStyle style = ParameterStyle.form;
 
     @Property("Schema")
     @InitValue("STRING")
     @DefaultValue("STRING")
-    private PredefinedSchema predefinedSchema;
+    private PredefinedSchema predefinedSchema = PredefinedSchema.STRING;
 
     @Property("Custom Schema")
     @HintBrowseFile("Select Schema File ...")
@@ -161,6 +162,21 @@ public class HeaderObject implements Implementor, OpenApiSerializable {
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "description", description);
+        set(serialized, "style", style.name());
+
+        if (PredefinedSchema.NONE.equals(predefinedSchema)) {
+            // Custom schema
+            set(serialized, "schema", new JSONObject(StreamUtils.FromString.consume(schema.data())));
+        } else {
+            // Predefined schema
+            set(serialized, "schema", new JSONObject(predefinedSchema.schema()));
+        }
+        set(serialized, "example", example);
+        set(serialized, "explode", explode);
+        set(serialized, "deprecated", deprecated);
+        set(serialized, "required", required); // TODO: Apply logic from spec
+        set(serialized, "allowEmptyValue", allowEmptyValue);
+        set(serialized, "allowReserved", allowReserved);
         return serialized;
     }
 }
