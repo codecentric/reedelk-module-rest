@@ -18,6 +18,7 @@ public class OpenApiSerializableContext {
     }
 
     public String schemaReferenceOf(ResourceText schema) {
+        if (schema == null) return null; // TODO: Fixme!
         return findSchemaMatching(schema)
                 .map(schemaId -> "#/components/schemas/" + schemaId)
                 .orElseGet(() -> {
@@ -46,6 +47,8 @@ public class OpenApiSerializableContext {
     }
 
     private Optional<String> findSchemaMatching(ResourceText target) {
+        if (target == null) return Optional.empty();
+
         Map<String, SchemaObject> schemas = componentsObject.getSchemas();
         for (Map.Entry<String, SchemaObject> entry : schemas.entrySet()) {
             String currentSchemaId = entry.getKey();

@@ -48,9 +48,11 @@ public class MediaTypeObject extends AbstractOpenApiSerializable implements Impl
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         String schemaReference = context.schemaReferenceOf(schema);
-        JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
-        schemaReferenceObject.put("$ref", schemaReference);
-        set(serialized, "schema", schemaReferenceObject);
+        if (schemaReference != null) {
+            JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
+            schemaReferenceObject.put("$ref", schemaReference);
+            set(serialized, "schema", schemaReferenceObject);
+        }
         set(serialized, "example", example);
         return serialized;
     }
