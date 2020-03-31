@@ -29,28 +29,29 @@ public class OperationObject implements Implementor, OpenApiSerializable {
     private Boolean deprecated;
     
     @Property("Summary")
-    @Hint("Updates a pet")
-    @Example("Updates a pet")
+    @Hint("Updates orders")
+    @Example("Updates an order")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
     @Description("A short summary of what the operation does.")
     private String summary;
 
     @Property("Description")
-    @Hint("Updates a pet in the store with form data")
-    @Example("Updates a pet in the store with form data")
+    @Hint("Updates an order in the store with JSON data")
+    @Example("Updates an order in the store with JSON data")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
     @Description("A verbose explanation of the operation behavior.")
     private String description;
 
     @Property("Operation ID")
-    @Hint("updatePetWithForm")
-    @Example("updatePetWithForm")
+    @Hint("updateOrder")
+    @Example("updateOrder")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
     @Description("Unique string used to identify the operation. The id MUST be unique among all operations described in the API. " +
-            "Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.")
+            "Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, " +
+            "it is RECOMMENDED to follow common programming naming conventions.")
     private String operationId;
 
     @Property("Request")
@@ -68,12 +69,11 @@ public class OperationObject implements Implementor, OpenApiSerializable {
 
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
-    @KeyName("Parameter Name")
-    @ValueName("Edit Parameter")
-    @DialogTitle("Parameter Definition")
+    @ListDisplayProperty("name")
+    @DialogTitle("Parameter Configuration")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
-    private Map<String, ParameterObject> parameters = new HashMap<>();
+    private List<ParameterObject> parameters = new ArrayList<>();
 
     @Property("Tags")
     @Hint("Tag name")
@@ -139,11 +139,11 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         this.deprecated = deprecated;
     }
 
-    public Map<String, ParameterObject> getParameters() {
+    public List<ParameterObject> getParameters() {
         return parameters;
     }
 
-    public void setParameters(Map<String, ParameterObject> parameters) {
+    public void setParameters(List<ParameterObject> parameters) {
         this.parameters = parameters;
     }
 
@@ -163,12 +163,10 @@ public class OperationObject implements Implementor, OpenApiSerializable {
         set(serialized, "description", description);
         set(serialized, "operationId", operationId);
         set(serialized, "parameters", parameters);
-
         if (responses.isEmpty()) {
             responses.put("default", new ResponseObject()); // make sure at least
         }
         set(serialized, "responses", responses);
-
         return serialized;
     }
 }

@@ -1,14 +1,15 @@
-package com.reedelk.rest.component.listener;
+package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.runtime.api.annotation.DisplayName;
 
 public enum ParameterLocation {
+
     @DisplayName("Query")
-    QUERY,
+    query,
     @DisplayName("Header")
-    HEADER,
+    header,
     @DisplayName("Path")
-    PATH,
+    path,
     @DisplayName("Cookie")
-    COOKIE;
+    cookie;
 }

@@ -5,6 +5,7 @@ import com.reedelk.runtime.api.annotation.Description;
 import com.reedelk.runtime.api.annotation.Example;
 import com.reedelk.runtime.api.annotation.Hint;
 import com.reedelk.runtime.api.annotation.Property;
+import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ public class SchemaObject implements Implementor, OpenApiSerializable {
 
     @Override
     public JSONObject serialize() {
-        return null;
+        String jsonSchema = StreamUtils.FromString.consume(schema.data());
+        return new JSONObject(jsonSchema);
     }
 }

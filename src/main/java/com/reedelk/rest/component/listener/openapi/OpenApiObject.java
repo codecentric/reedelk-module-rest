@@ -67,7 +67,6 @@ public class OpenApiObject implements Implementor, OpenApiSerializable {
             servers = Collections.singletonList(new ServerObject());
         }
         set(serialized, "servers", servers);
-
         set(serialized, "paths", paths); // REQUIRED
         return serialized;
     }

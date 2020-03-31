@@ -1,13 +1,18 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.component.listener.ParameterLocation;
 import com.reedelk.rest.openapi.OpenApiSerializable;
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.Optional;
+
+import static com.reedelk.rest.component.listener.openapi.ParameterLocation.query;
+import static java.util.Optional.ofNullable;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = ParameterObject.class, scope = PROTOTYPE)
@@ -33,20 +38,76 @@ public class ParameterObject implements Implementor, OpenApiSerializable {
     @Description("The location of the parameter. Possible values are 'query', 'header', 'path' or 'cookie'.")
     private ParameterLocation in;
 
-    @Property("Required")
+    @Property("Style")
+    @Example("FORM")
+    @DefaultValue("SIMPLE")
+    @Description("Describes how the parameter value will be serialized depending on the type of the parameter value. " +
+            "Default values (based on value of in): for query - form; for path - simple; for header - simple; for cookie - form.")
+    private ParameterStyle style;
+
+    @Property("Schema")
+    @DefaultValue("STRING")
+    private PredefinedSchema predefinedSchema;
+
+    @Property("Custom Schema")
+    @When(propertyName = "predefinedSchema", propertyValue = "NONE")
+    @When(propertyName = "predefinedSchema", propertyValue = When.NULL)
+    private ResourceText schema;
+
+    @Property("Example")
+    @Hint("myParamValue")
+    @Example("myParamValue")
+    @Description("Example of the parameter's potential value. " +
+            "The example SHOULD match the specified schema and encoding properties if present. ")
+    private String example;
+
+    @Property("Explode")
     @DefaultValue("false")
-    @Description("Determines whether this parameter is mandatory. Otherwise, the property MAY be included and its default value is false.")
-    @When(propertyName = "in", propertyValue = "PATH")
-    private Boolean required;
+    @Description("When this is true, parameter values of type array or object generate separate parameters " +
+            "for each value of the array or key-value pair of the map. For other types of parameters this property " +
+            "has no effect. When style is form, the default value is true. " +
+            "For all other styles, the default value is false.")
+    private Boolean explode;
 
     @Property("Deprecated")
     @Description("Specifies that a parameter is deprecated and SHOULD be transitioned out of usage.")
     private Boolean deprecated;
 
+    @Property("Required")
+    @DefaultValue("false")
+    @Description("Determines whether this parameter is mandatory. " +
+            "Otherwise, the property MAY be included and its default value is false.")
+    @When(propertyName = "in", propertyValue = "PATH")
+    private Boolean required;
+
     @Property("Allow Empty")
+    @DefaultValue("false")
     @When(propertyName = "in", propertyValue = "QUERY")
-    @Description("Sets the ability to pass empty-valued parameters. This is valid only for query parameters and allows sending a parameter with an empty value.")
+    @Description("Sets the ability to pass empty-valued parameters. " +
+            "This is valid only for query parameters and allows sending a parameter with an empty value.")
     private Boolean allowEmptyValue;
+
+    @Property("Allow Reserved")
+    @Description("Determines whether the parameter value SHOULD allow reserved characters, " +
+            "as defined by RFC3986 :/?#[]@!$&'()*+,;= to be included without percent-encoding. " +
+            "This property only applies to parameters with an in value of query.")
+    private Boolean allowReserved;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public ParameterLocation getIn() {
         return in;
@@ -56,12 +117,12 @@ public class ParameterObject implements Implementor, OpenApiSerializable {
         this.in = in;
     }
 
-    public String getDescription() {
-        return description;
+    public ParameterStyle getStyle() {
+        return style;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStyle(ParameterStyle style) {
+        this.style = style;
     }
 
     public Boolean getRequired() {
@@ -88,11 +149,44 @@ public class ParameterObject implements Implementor, OpenApiSerializable {
         this.allowEmptyValue = allowEmptyValue;
     }
 
+    public Boolean getExplode() {
+        return explode;
+    }
+
+    public void setExplode(Boolean explode) {
+        this.explode = explode;
+    }
+
+    public Boolean getAllowReserved() {
+        return allowReserved;
+    }
+
+    public void setAllowReserved(Boolean allowReserved) {
+        this.allowReserved = allowReserved;
+    }
+
+    public ResourceText getSchema() {
+        return schema;
+    }
+
+    public void setSchema(ResourceText schema) {
+        this.schema = schema;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
+    }
+
     @Override
     public JSONObject serialize() {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        set(serialized, "name", name);
-        set(serialized, "in", in.name().toLowerCase());
+        set(serialized, "name", Optional.ofNullable(name).orElse(StringUtils.EMPTY)); // TODO: Test when namme is null
+        // TODO: Add test when in is null
+        set(serialized, "in", ofNullable(in).orElse(query).name().toLowerCase());
         set(serialized, "description", description);
         set(serialized, "required", required); // TODO: Apply logic from spec
         set(serialized, "deprecated", deprecated);
