@@ -329,6 +329,13 @@ public class OpenApiJsons {
             }
         },
 
+        OpenApiWithOverriddenPathParams() {
+            @Override
+            public String path() {
+                return "open_api_with_overridden_path_params.json";
+            }
+        },
+
         JsonPet() {
             @Override
             public String path() {
