@@ -165,7 +165,9 @@ public class OperationObject extends AbstractOpenApiSerializable implements Impl
         set(serialized, "operationId", operationId);
         set(serialized, "parameters", parameters, context);
         if (responses.isEmpty()) {
-            responses.put("default", new ResponseObject()); // make sure at least
+            // make sure at least one default response is present if there are
+            // no user defined responses.
+            responses.put("default", new ResponseObject());
         }
         set(serialized, "responses", responses, context);
         return serialized;
