@@ -93,7 +93,7 @@ public class OpenApiJsons {
         },
     }
 
-    public enum OpenApi implements Provider {
+    public enum OpenApiObject implements Provider {
 
         WithDefaultInfoAndServersAndPaths() {
             @Override
@@ -293,6 +293,41 @@ public class OpenApiJsons {
     }
 
     public enum Examples implements Provider {
+
+        OpenApiEmpty() {
+            @Override
+            public String path() {
+                return "open_api_empty.json";
+            }
+        },
+
+        OpenApiWithPathAndMethod() {
+            @Override
+            public String path() {
+                return "open_api_with_path_and_method.json";
+            }
+        },
+
+        OpenApiWithPathAndMethodAndHeaders() {
+            @Override
+            public String path() {
+                return "open_api_with_path_and_method_and_headers.json";
+            }
+        },
+
+        OpenApiWithPathAndMethodAndHeadersError() {
+            @Override
+            public String path() {
+                return "open_api_with_path_and_method_and_headers_error.json";
+            }
+        },
+
+        OpenApiWithPathParams() {
+            @Override
+            public String path() {
+                return "open_api_with_path_params.json";
+            }
+        },
 
         JsonPet() {
             @Override
