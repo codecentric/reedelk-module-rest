@@ -91,6 +91,30 @@ class SchemaIdTest {
     }
 
     @Test
+    void shouldCorrectlyReturnSchemaNameFromJsonTitleProperty() {
+        // Given
+        doReturn(Mono.just("{ \"title\":\"My Person Schema\"}")).when(mockResource).data();
+
+        // When
+        String actual = SchemaId.from(mockResource);
+
+        // Then
+        assertThat(actual).isEqualTo("MyPersonSchema");
+    }
+
+    @Test
+    void shouldCorrectlyReturnSchemaNameFromJsonNameProperty() {
+        // Given
+        doReturn(Mono.just("{ \"name\":\"My Person Schema\"}")).when(mockResource).data();
+
+        // When
+        String actual = SchemaId.from(mockResource);
+
+        // Then
+        assertThat(actual).isEqualTo("MyPersonSchema");
+    }
+
+    @Test
     void shouldThrowExceptionWhenSchemaIsNull() {
         // When
         NullPointerException thrown = assertThrows(NullPointerException.class,
