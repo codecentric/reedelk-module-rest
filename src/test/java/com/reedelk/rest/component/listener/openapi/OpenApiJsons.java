@@ -265,6 +265,23 @@ public class OpenApiJsons {
 
     }
 
+    public enum ResponseBodyObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "response_body_object_with_all_properties.json";
+            }
+        },
+
+        WithDefault() {
+            @Override
+            public String path() {
+                return "response_body_object_with_default.json";
+            }
+        }
+    }
+
     public enum Schemas implements Provider {
 
         Pet() {
@@ -277,10 +294,17 @@ public class OpenApiJsons {
 
     public enum Examples implements Provider {
 
-        Pet() {
+        JsonPet() {
             @Override
             public String path() {
                 return "pet.json";
+            }
+        },
+
+        NoteXml() {
+            @Override
+            public String path() {
+                return "note.xml";
             }
         }
     }

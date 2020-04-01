@@ -16,7 +16,7 @@ class RequestBodyObjectTest extends AbstractOpenApiSerializableTest {
     void shouldCorrectlySerializeRequestBodyWithAllProperties() {
         // Given
         ResourceText example = mock(ResourceText.class);
-        doReturn(just(OpenApiJsons.Examples.Pet.string())).when(example).data();
+        doReturn(just(OpenApiJsons.Examples.JsonPet.string())).when(example).data();
 
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
         mediaTypeObject.setExample(example);

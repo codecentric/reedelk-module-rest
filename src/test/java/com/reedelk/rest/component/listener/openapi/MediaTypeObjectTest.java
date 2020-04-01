@@ -32,7 +32,7 @@ public class MediaTypeObjectTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldCorrectlySerializeMediaTypeWithExample() {
         // Given
-        doReturn(just(OpenApiJsons.Examples.Pet.string())).when(example).data();
+        doReturn(just(OpenApiJsons.Examples.JsonPet.string())).when(example).data();
 
         MediaTypeObject mediaType = new MediaTypeObject();
         mediaType.setExample(example);
@@ -44,7 +44,7 @@ public class MediaTypeObjectTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldCorrectlySerializeMediaTypeWithSchemaAndExample() {
         // Given
-        doReturn(just(OpenApiJsons.Examples.Pet.string())).when(example).data();
+        doReturn(just(OpenApiJsons.Examples.JsonPet.string())).when(example).data();
         doReturn(just(OpenApiJsons.Schemas.Pet.string())).when(schema).data();
 
         MediaTypeObject mediaType = new MediaTypeObject();
