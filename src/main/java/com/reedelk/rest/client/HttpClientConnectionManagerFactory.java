@@ -23,6 +23,9 @@ public class HttpClientConnectionManagerFactory {
 
     private static final int DEFAULT_CONNECTIONS_CLIENT = 10;
 
+    private HttpClientConnectionManagerFactory() {
+    }
+
     public static NHttpClientConnectionManager create(RestClientConfiguration configuration) {
             boolean isTrustCertificates = Optional.ofNullable(configuration.getTrustCertificates()).orElse(false);
             Registry<SchemeIOSessionStrategy> registry = createRegistry(isTrustCertificates);

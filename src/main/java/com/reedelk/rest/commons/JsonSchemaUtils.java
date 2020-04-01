@@ -14,6 +14,12 @@ import static java.util.Optional.ofNullable;
 
 public class JsonSchemaUtils {
 
+    private static final String JSON_PROPERTY_SCHEMA = "schema";
+    private static final String JSON_PROPERTY_REF = "$ref";
+
+    private JsonSchemaUtils() {
+    }
+
     public static void setSchema(OpenApiSerializableContext context,
                                  JSONObject serialized,
                                  PredefinedSchema predefinedSchema,
@@ -24,17 +30,17 @@ public class JsonSchemaUtils {
             ofNullable(schema).ifPresent(theSchema -> {
                 String schemaReference = context.schemaReferenceOf(theSchema);
                 JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
-                schemaReferenceObject.put("$ref", schemaReference);
-                serialized.put("schema", schemaReferenceObject);
+                schemaReferenceObject.put(JSON_PROPERTY_REF, schemaReference);
+                serialized.put(JSON_PROPERTY_SCHEMA, schemaReferenceObject);
             });
         } else {
             // Predefined schema
-            serialized.put("schema", new JSONObject(predefinedSchema.schema()));
+            serialized.put(JSON_PROPERTY_SCHEMA, new JSONObject(predefinedSchema.schema()));
         }
     }
 
     public static String findIdFrom(ResourceText schema) {
-        Preconditions.checkNotNull(schema, "schema");
+        Preconditions.checkNotNull(schema, JSON_PROPERTY_SCHEMA);
 
         String schemaAsJson = StreamUtils.FromString.consume(schema.data());
         JSONObject schemaAsJsonObject = new JSONObject(schemaAsJson);

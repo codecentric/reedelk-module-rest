@@ -20,8 +20,8 @@ public class BufferSizeAwareResponseConsumer extends AbstractAsyncResponseConsum
 
     private final int responseBufferSize;
 
-    private volatile HttpResponse response;
-    private volatile SimpleInputBuffer buf;
+    private HttpResponse response;
+    private SimpleInputBuffer buf;
 
     public static HttpAsyncResponseConsumer<HttpResponse> createConsumer(int responseBufferSize) {
         return new BufferSizeAwareResponseConsumer(responseBufferSize);

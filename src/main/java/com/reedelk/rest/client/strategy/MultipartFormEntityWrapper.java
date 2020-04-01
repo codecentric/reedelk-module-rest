@@ -2,7 +2,6 @@ package com.reedelk.rest.client.strategy;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
 
 import java.io.*;
 

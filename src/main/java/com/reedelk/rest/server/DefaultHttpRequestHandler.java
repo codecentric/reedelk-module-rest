@@ -24,7 +24,6 @@ import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
 import java.util.concurrent.RejectedExecutionException;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import static com.reedelk.rest.commons.HttpHeader.CONTENT_LENGTH;
