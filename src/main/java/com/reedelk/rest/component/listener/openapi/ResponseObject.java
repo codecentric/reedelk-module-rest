@@ -1,6 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.commons.Messages;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
@@ -20,7 +21,7 @@ public class ResponseObject extends AbstractOpenApiSerializable implements Imple
     @Property("Description")
     @Hint("Successful Response")
     @Description("A short description of the response.")
-    private String description = "My Response";
+    private String description = Messages.RestListener.OPEN_API_SUCCESS_RESPONSE.format();
 
     @Property("Content")
     @KeyName("Media Type")

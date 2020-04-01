@@ -1,6 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.commons.Messages;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
@@ -9,11 +10,15 @@ import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.rest.server.uri.UriTemplateStructure;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import static java.util.Optional.*;
+import static java.util.Optional.ofNullable;
 
 public class PathsObject extends AbstractOpenApiSerializable {
 
@@ -79,59 +84,51 @@ public class PathsObject extends AbstractOpenApiSerializable {
 
     private void addDefaultResponse(OperationObject givenOperation, ErrorResponse errorResponse) {
         if (errorResponse == null) return;
-        if (errorResponse.getStatus() == null) return;
 
+        DynamicInteger errorResponseStatus = errorResponse.getStatus();
+        if (errorResponseStatus == null) return;
+
+        String description = Messages.RestListener.OPEN_API_ERROR_RESPONSE.format();
+        DynamicStringMap errorResponseHeaders = errorResponse.getHeaders();
         Map<String, ResponseObject> responses = givenOperation.getResponses();
 
-        ofNullable(errorResponse.getStatus()).ifPresent(theErrorResponseStatus -> {
-            // If the return status is a script, we cannot infer.
-            // So we won't add the entry.
-            if (!theErrorResponseStatus.isScript()) {
-                ofNullable(theErrorResponseStatus.value()).ifPresent(errorResponseStatus -> {
-                    // if response contains Content-Type header we use that one
-                    String errorResponseStatusAsString = String.valueOf(errorResponseStatus);
-
-                    if (!responses.containsKey(errorResponseStatusAsString)) {
-                        // We only put it if the user has not defined his/her
-                        // own response for the current status code.
-                        ResponseObject responseObject = new ResponseObject();
-                        responseObject.setDescription("Error response");
-                        responses.put(errorResponseStatusAsString, responseObject);
-                    }
-
-                    ResponseObject responseObject = responses.get(errorResponseStatusAsString);
-                    DynamicStringMap headers = errorResponse.getHeaders();
-                    applyDefaultHeaders(responseObject, headers);
-                });
-            }
-        });
+        addDefaultResponse(errorResponseStatus, responses, errorResponseHeaders, description);
     }
 
     private void addDefaultResponse(OperationObject givenOperation, Response response) {
         if (response == null) return;
-        if (response.getStatus() == null) return;
 
+        DynamicInteger responseStatus = response.getStatus();
+        if (responseStatus == null) return;
+
+        String description = Messages.RestListener.OPEN_API_SUCCESS_RESPONSE.format();
+        DynamicStringMap responseHeaders = response.getHeaders();
         Map<String, ResponseObject> responses = givenOperation.getResponses();
 
-        ofNullable(response.getStatus()).ifPresent(theResponseStatusCode -> {
-            // If the return status is a script, we cannot infer therefore we won't add the entry.
-            if (!theResponseStatusCode.isScript()) {
-                ofNullable(theResponseStatusCode.value()).ifPresent(responseStatus -> {
-                    // if response contains Content-Type header we use that one
-                    String responseStatusAsString = String.valueOf(responseStatus);
+        addDefaultResponse(responseStatus, responses, responseHeaders, description);
+    }
 
-                    if (!responses.containsKey(responseStatusAsString)) {
-                        // We only put it if the user has not defined his/her
-                        // own response for the current status code.
-                        ResponseObject responseObject = new ResponseObject();
-                        responses.put(responseStatusAsString, responseObject);
-                    }
+    private void addDefaultResponse(DynamicInteger status,
+                                    Map<String, ResponseObject> responses,
+                                    DynamicStringMap headers,
+                                    String description) {
+        // If the return status is a script, we cannot infer so we won't add the entry.
+        if (status.isScript()) return;
 
-                    ResponseObject responseObject = responses.get(responseStatusAsString);
-                    DynamicStringMap headers = response.getHeaders();
-                    applyDefaultHeaders(responseObject, headers);
-                });
+        ofNullable(status.value()).ifPresent(errorResponseStatusValue -> {
+            // if response contains Content-Type header we use that one
+            String errorResponseStatusAsString = String.valueOf(errorResponseStatusValue);
+
+            if (!responses.containsKey(errorResponseStatusAsString)) {
+                // We only put it if the user has not defined his/her
+                // own response for the current status code.
+                ResponseObject responseObject = new ResponseObject();
+                responseObject.setDescription(description);
+                responses.put(errorResponseStatusAsString, responseObject);
             }
+
+            ResponseObject responseObject = responses.get(errorResponseStatusAsString);
+            applyDefaultHeaders(responseObject, headers);
         });
     }
 

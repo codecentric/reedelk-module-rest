@@ -4,7 +4,6 @@ import com.reedelk.rest.component.multipart.PartDefinition;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.component.ProcessorSync;
-import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -42,8 +41,6 @@ public class MultipartMessage implements ProcessorSync {
 
     @Reference
     private ScriptEngineService scriptEngine;
-    @Reference
-    private ConverterService converterService;
 
     @Override
     public Message apply(FlowContext flowContext, Message message) {
