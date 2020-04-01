@@ -4,6 +4,11 @@
     "title": "API",
     "version": "v1"
   },
-  "servers": [{"url": "/"}],
-  "paths": {}
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {},
+  "components": {}
 }

@@ -1,6 +1,6 @@
 package com.reedelk.rest.openapi;
 
-import com.reedelk.rest.commons.SchemaId;
+import com.reedelk.rest.commons.JsonSchemaUtils;
 import com.reedelk.rest.component.listener.openapi.ComponentsObject;
 import com.reedelk.rest.component.listener.openapi.SchemaObject;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -30,7 +30,7 @@ public class OpenApiSerializableContext {
                     // The schema needs to be added to the components object
                     // because it does not exists already.
                     Map<String, SchemaObject> schemas = componentsObject.getSchemas();
-                    String schemaId = SchemaId.from(schema);
+                    String schemaId = JsonSchemaUtils.findIdFrom(schema);
                     SchemaObject newSchemaObject = new SchemaObject();
                     newSchemaObject.setSchema(schema);
                     schemas.put(schemaId, newSchemaObject);

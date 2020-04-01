@@ -1,10 +1,10 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.commons.JsonSchemaUtils;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -197,12 +197,7 @@ public class ParameterObject extends AbstractOpenApiSerializable implements Impl
 
         if (PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Custom schema
-            Optional.ofNullable(schema).ifPresent(resourceText -> {
-                String schemaReference = context.schemaReferenceOf(schema);
-                JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
-                schemaReferenceObject.put("$ref", schemaReference);
-                set(serialized, "schema", schemaReferenceObject);
-            });
+            JsonSchemaUtils.setSchema(context, serialized, schema);
         } else {
             // Predefined schema
             set(serialized, "schema", new JSONObject(predefinedSchema.schema()));

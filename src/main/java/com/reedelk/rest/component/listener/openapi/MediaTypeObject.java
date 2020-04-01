@@ -1,6 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.commons.JsonSchemaUtils;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
@@ -49,12 +50,7 @@ public class MediaTypeObject extends AbstractOpenApiSerializable implements Impl
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        Optional.ofNullable(schema).ifPresent(resourceText -> {
-            String schemaReference = context.schemaReferenceOf(schema);
-            JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
-            schemaReferenceObject.put("$ref", schemaReference);
-            set(serialized, "schema", schemaReferenceObject);
-        });
+        JsonSchemaUtils.setSchema(context, serialized, schema);
         set(serialized, "example", example);
         return serialized;
     }

@@ -1,5 +1,6 @@
 package com.reedelk.rest.commons;
 
+import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.Preconditions;
 import com.reedelk.runtime.api.commons.StreamUtils;
@@ -8,10 +9,20 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 
 import static com.reedelk.runtime.api.commons.Preconditions.checkArgument;
+import static java.util.Optional.ofNullable;
 
-public class SchemaId {
+public class JsonSchemaUtils {
 
-    public static String from(ResourceText schema) {
+    public static void setSchema(OpenApiSerializableContext context, JSONObject serialized, ResourceText schema) {
+        ofNullable(schema).ifPresent(theSchema -> {
+            String schemaReference = context.schemaReferenceOf(theSchema);
+            JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
+            schemaReferenceObject.put("$ref", schemaReference);
+            serialized.put("schema", schemaReferenceObject);
+        });
+    }
+
+    public static String findIdFrom(ResourceText schema) {
         Preconditions.checkNotNull(schema, "schema");
 
         String schemaAsJson = StreamUtils.FromString.consume(schema.data());
@@ -20,13 +31,13 @@ public class SchemaId {
         String schemaId;
         if (schemaAsJsonObject.has("title")) {
             String titleProperty = schemaAsJsonObject.getString("title");
-            schemaId = SchemaId.normalizeNameFrom(titleProperty);
+            schemaId = JsonSchemaUtils.normalizeNameFrom(titleProperty);
         } else if (schemaAsJsonObject.has("name")) {
             String nameProperty = schemaAsJsonObject.getString("name");
-            schemaId = SchemaId.normalizeNameFrom(nameProperty);
+            schemaId = JsonSchemaUtils.normalizeNameFrom(nameProperty);
         } else {
             String path = schema.path();
-            schemaId = SchemaId.fromFilePath(path);
+            schemaId = JsonSchemaUtils.fromFilePath(path);
         }
 
         return schemaId;

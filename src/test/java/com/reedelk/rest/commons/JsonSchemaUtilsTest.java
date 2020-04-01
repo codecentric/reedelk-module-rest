@@ -15,7 +15,7 @@ import static org.mockito.Mockito.lenient;
 
 
 @ExtendWith(MockitoExtension.class)
-class SchemaIdTest {
+class JsonSchemaUtilsTest {
 
     @Mock
     private ResourceText mockResource;
@@ -32,7 +32,7 @@ class SchemaIdTest {
         doReturn(filePath).when(mockResource).path();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("Person");
@@ -45,7 +45,7 @@ class SchemaIdTest {
         doReturn(filePath).when(mockResource).path();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("Person");
@@ -58,7 +58,7 @@ class SchemaIdTest {
         doReturn(filePath).when(mockResource).path();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("Person");
@@ -71,7 +71,7 @@ class SchemaIdTest {
         doReturn(filePath).when(mockResource).path();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("MyPersonSchema");
@@ -84,7 +84,7 @@ class SchemaIdTest {
         doReturn(filePath).when(mockResource).path();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("MyPersonSchema");
@@ -96,7 +96,7 @@ class SchemaIdTest {
         doReturn(Mono.just("{ \"title\":\"My Person Schema\"}")).when(mockResource).data();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("MyPersonSchema");
@@ -108,7 +108,7 @@ class SchemaIdTest {
         doReturn(Mono.just("{ \"name\":\"My Person Schema\"}")).when(mockResource).data();
 
         // When
-        String actual = SchemaId.from(mockResource);
+        String actual = JsonSchemaUtils.findIdFrom(mockResource);
 
         // Then
         assertThat(actual).isEqualTo("MyPersonSchema");
@@ -118,7 +118,7 @@ class SchemaIdTest {
     void shouldThrowExceptionWhenSchemaIsNull() {
         // When
         NullPointerException thrown = assertThrows(NullPointerException.class,
-                () -> SchemaId.from(null));
+                () -> JsonSchemaUtils.findIdFrom(null));
 
         // Expect
         assertThat(thrown).hasMessage("schema");

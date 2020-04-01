@@ -1,6 +1,7 @@
 package com.reedelk.rest.component.listener.openapi;
 
 import com.reedelk.rest.commons.JsonObjectFactory;
+import com.reedelk.rest.commons.JsonSchemaUtils;
 import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
@@ -167,12 +168,7 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
 
         if (PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Custom schema
-            ofNullable(schema).ifPresent(theSchema -> {
-                String schemaReference = context.schemaReferenceOf(theSchema);
-                JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
-                schemaReferenceObject.put("$ref", schemaReference);
-                set(serialized, "schema", schemaReferenceObject);
-            });
+            JsonSchemaUtils.setSchema(context, serialized, schema);
         } else {
             // Predefined schema
             set(serialized, "schema", new JSONObject(predefinedSchema.schema()));
