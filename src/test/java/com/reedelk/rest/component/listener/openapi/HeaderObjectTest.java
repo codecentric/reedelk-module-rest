@@ -29,8 +29,8 @@ class HeaderObjectTest extends AbstractOpenApiSerializableTest {
     void shouldCorrectlySerializeHeaderWithCustomSchema() {
         // Given
         ResourceText schema = mock(ResourceText.class);
-        doReturn(just(OpenApiJsons.Schemas.Sample.string())).when(schema).data();
-        doReturn("/assets/sample.schema.json").when(schema).path();
+        doReturn(just(OpenApiJsons.Schemas.Pet.string())).when(schema).data();
+        doReturn("/assets/pet.schema.json").when(schema).path();
 
         HeaderObject header = new HeaderObject();
         header.setAllowReserved(true);

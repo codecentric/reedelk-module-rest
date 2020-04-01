@@ -175,11 +175,51 @@ public class OpenApiJsons {
         }
     }
 
-    public enum Schemas implements Provider {
-        Sample() {
+    public enum MediaTypeObject implements Provider {
+
+        WithSchema() {
             @Override
             public String path() {
-                return "sample.schema.json";
+                return "media_type_object_with_schema.json";
+            }
+        },
+
+        WithExample() {
+            @Override
+            public String path() {
+                return "media_type_object_with_example.json";
+            }
+        },
+
+        WithSchemaAndExample() {
+            @Override
+            public String path() {
+                return "media_type_object_with_schema_and_example.json";
+            }
+        },
+
+        WithDefault() {
+            @Override
+            public String path() {
+                return "media_type_with_default.json";
+            }
+        }
+    }
+
+    public enum Schemas implements Provider {
+        Pet() {
+            @Override
+            public String path() {
+                return "pet.schema.json";
+            }
+        }
+    }
+
+    public enum Examples implements Provider {
+        Pet() {
+            @Override
+            public String path() {
+                return "pet.json";
             }
         }
     }
