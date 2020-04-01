@@ -59,13 +59,6 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
     @Description("Specifies that a parameter is deprecated and SHOULD be transitioned out of usage.")
     private Boolean deprecated;
 
-    @Property("Allow Empty")
-    @DefaultValue("false")
-    @When(propertyName = "in", propertyValue = "QUERY")
-    @Description("Sets the ability to pass empty-valued parameters. " +
-            "This is valid only for query parameters and allows sending a parameter with an empty value.")
-    private Boolean allowEmptyValue;
-
     @Property("Allow Reserved")
     @Description("Determines whether the parameter value SHOULD allow reserved characters, " +
             "as defined by RFC3986 :/?#[]@!$&'()*+,;= to be included without percent-encoding. " +
@@ -128,14 +121,6 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
         this.deprecated = deprecated;
     }
 
-    public Boolean getAllowEmptyValue() {
-        return allowEmptyValue;
-    }
-
-    public void setAllowEmptyValue(Boolean allowEmptyValue) {
-        this.allowEmptyValue = allowEmptyValue;
-    }
-
     public Boolean getAllowReserved() {
         return allowReserved;
     }
@@ -155,7 +140,6 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
         set(serialized, "example", example);
         set(serialized, "explode", explode);
         set(serialized, "deprecated", deprecated);
-        set(serialized, "allowEmptyValue", allowEmptyValue);
         set(serialized, "allowReserved", allowReserved);
         return serialized;
     }

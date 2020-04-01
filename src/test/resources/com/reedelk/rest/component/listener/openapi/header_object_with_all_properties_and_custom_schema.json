@@ -1,10 +1,7 @@
 {
   "description": "My header description",
   "style": "spaceDelimited",
-  "schema": {
-    "type": "array",
-    "items": {"type": "string"}
-  },
+  "schema": {"$ref": "#/components/schemas/Pet"},
   "example": "my header value",
   "explode": true,
   "deprecated": true,
