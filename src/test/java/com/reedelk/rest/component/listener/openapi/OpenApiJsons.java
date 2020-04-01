@@ -247,6 +247,24 @@ public class OpenApiJsons {
         }
     }
 
+    public enum RequestBodyObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "request_body_object_with_all_properties.json";
+            }
+        },
+
+        WithDefault() {
+            @Override
+            public String path() {
+                return "request_body_object_with_default.json";
+            }
+        }
+
+    }
+
     public enum Schemas implements Provider {
 
         Pet() {

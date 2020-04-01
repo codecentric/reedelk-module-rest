@@ -62,6 +62,10 @@ public class RequestBodyObject extends AbstractOpenApiSerializable implements Im
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
         set(serialized, "description", description);
+        // By specification, the content object must be present, even if it is empty.
+        if (content.isEmpty()) {
+            serialized.put("content", new JSONObject());
+        }
         set(serialized, "content", content, context);
         set(serialized, "required", required);
         return serialized;
