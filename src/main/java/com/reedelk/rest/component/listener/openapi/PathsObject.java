@@ -13,6 +13,8 @@ import org.json.JSONObject;
 
 import java.util.*;
 
+import static java.util.Optional.*;
+
 public class PathsObject extends AbstractOpenApiSerializable {
 
     private Map<String, Map<RestMethod, OperationObject>> paths = new TreeMap<>();
@@ -75,19 +77,17 @@ public class PathsObject extends AbstractOpenApiSerializable {
         });
     }
 
-    // TODO: Fixme refactor this code.
     private void addDefaultResponse(OperationObject givenOperation, ErrorResponse errorResponse) {
         if (errorResponse == null) return;
         if (errorResponse.getStatus() == null) return;
 
         Map<String, ResponseObject> responses = givenOperation.getResponses();
 
-
-        Optional.ofNullable(errorResponse.getStatus()).ifPresent(theErrorResponseStatus -> {
+        ofNullable(errorResponse.getStatus()).ifPresent(theErrorResponseStatus -> {
             // If the return status is a script, we cannot infer.
             // So we won't add the entry.
             if (!theErrorResponseStatus.isScript()) {
-                Optional.ofNullable(theErrorResponseStatus.value()).ifPresent(errorResponseStatus -> {
+                ofNullable(theErrorResponseStatus.value()).ifPresent(errorResponseStatus -> {
                     // if response contains Content-Type header we use that one
                     String errorResponseStatusAsString = String.valueOf(errorResponseStatus);
 
@@ -100,15 +100,8 @@ public class PathsObject extends AbstractOpenApiSerializable {
                     }
 
                     ResponseObject responseObject = responses.get(errorResponseStatusAsString);
-
                     DynamicStringMap headers = errorResponse.getHeaders();
-                    headers.keySet().forEach(headerName -> {
-                        Map<String, HeaderObject> headersMap = responseObject.getHeaders();
-                        if (!headersMap.containsKey(headerName)) {
-                            HeaderObject headerObject = new HeaderObject();
-                            headersMap.put(headerName, headerObject);
-                        }
-                    });
+                    applyDefaultHeaders(responseObject, headers);
                 });
             }
         });
@@ -120,10 +113,10 @@ public class PathsObject extends AbstractOpenApiSerializable {
 
         Map<String, ResponseObject> responses = givenOperation.getResponses();
 
-        Optional.ofNullable(response.getStatus()).ifPresent(theResponseStatusCode -> {
+        ofNullable(response.getStatus()).ifPresent(theResponseStatusCode -> {
             // If the return status is a script, we cannot infer therefore we won't add the entry.
             if (!theResponseStatusCode.isScript()) {
-                Optional.ofNullable(theResponseStatusCode.value()).ifPresent(responseStatus -> {
+                ofNullable(theResponseStatusCode.value()).ifPresent(responseStatus -> {
                     // if response contains Content-Type header we use that one
                     String responseStatusAsString = String.valueOf(responseStatus);
 
@@ -135,16 +128,19 @@ public class PathsObject extends AbstractOpenApiSerializable {
                     }
 
                     ResponseObject responseObject = responses.get(responseStatusAsString);
-
                     DynamicStringMap headers = response.getHeaders();
-                    headers.keySet().forEach(headerName -> {
-                        Map<String, HeaderObject> headersMap = responseObject.getHeaders();
-                        if (!headersMap.containsKey(headerName)) {
-                            HeaderObject headerObject = new HeaderObject();
-                            headersMap.put(headerName, headerObject);
-                        }
-                    });
+                    applyDefaultHeaders(responseObject, headers);
                 });
+            }
+        });
+    }
+
+    private void applyDefaultHeaders(ResponseObject responseObject, DynamicStringMap headers) {
+        headers.keySet().forEach(headerName -> {
+            Map<String, HeaderObject> headersMap = responseObject.getHeaders();
+            if (!headersMap.containsKey(headerName)) {
+                HeaderObject headerObject = new HeaderObject();
+                headersMap.put(headerName, headerObject);
             }
         });
     }

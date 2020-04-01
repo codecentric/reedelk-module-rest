@@ -5,10 +5,15 @@ import com.reedelk.rest.server.mapper.MultipartAttribute;
 import com.reedelk.runtime.api.message.content.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.FormBodyPartBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.nio.entity.NByteArrayEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 import static com.reedelk.rest.commons.Messages.RestClient.MULTIPART_PART_CONTENT_UNSUPPORTED;
 import static com.reedelk.rest.commons.Messages.RestClient.MULTIPART_PART_NULL;
@@ -59,14 +64,25 @@ public class HttpEntityBuilder {
     private void buildPart(MultipartEntityBuilder builder, String partName, Part part) {
         if (part.getContent() instanceof ByteArrayContent) {
             byte[] dataAsBytes = (byte[]) part.getContent().data();
+
             String filename = part.getAttributes().getOrDefault(MultipartAttribute.FILE_NAME, null);
             ContentType contentType = contentTypeOrDefault(part.getContent(), ContentType.DEFAULT_BINARY);
-            builder.addBinaryBody(partName, dataAsBytes, contentType, filename);
+
+            ByteArrayBody byteArrayBody = new ByteArrayBody(dataAsBytes, contentType, filename);
+            FormBodyPartBuilder formBodyPartBuilder = FormBodyPartBuilder.create(partName, byteArrayBody);
+            Optional.ofNullable(part.attributes())
+                    .ifPresent(partAttrs -> partAttrs.forEach(formBodyPartBuilder::addField));
+            builder.addPart(formBodyPartBuilder.build());
 
         } else if (part.getContent() instanceof StringContent) {
             String dataAsString = (String) part.getContent().data();
             ContentType contentType = contentTypeOrDefault(part.getContent(), ContentType.DEFAULT_TEXT);
-            builder.addTextBody(partName, dataAsString, contentType);
+
+            StringBody stringBody = new StringBody(dataAsString, contentType);
+            FormBodyPartBuilder formBodyPartBuilder = FormBodyPartBuilder.create(partName, stringBody);
+            Optional.ofNullable(part.attributes())
+                    .ifPresent(partAttrs -> partAttrs.forEach(formBodyPartBuilder::addField));
+            builder.addPart(formBodyPartBuilder.build());
 
         } else if (part.getContent() == null) {
             logger.warn(MULTIPART_PART_NULL.format(partName));
