@@ -100,7 +100,7 @@ public class OpenApiJsons {
             public String path() {
                 return "open_api_object_with_default_info_and_servers_and_paths.json";
             }
-        };
+        }
     }
 
     public enum PathsObject implements Provider {
@@ -219,6 +219,30 @@ public class OpenApiJsons {
             @Override
             public String path() {
                 return "operation_object_with_default.json";
+            }
+        }
+    }
+
+    public enum ParameterObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "parameter_object_with_all_properties.json";
+            }
+        },
+
+        WithDefault() {
+            @Override
+            public String path() {
+                return "parameter_object_with_default.json";
+            }
+        },
+
+        WithInPath() {
+            @Override
+            public String path() {
+                return "parameter_object_with_in_path.json";
             }
         }
     }

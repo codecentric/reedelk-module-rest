@@ -131,44 +131,12 @@ public class ParameterObject extends AbstractOpenApiSerializable implements Impl
         this.style = style;
     }
 
-    public Boolean getRequired() {
-        return required;
+    public PredefinedSchema getPredefinedSchema() {
+        return predefinedSchema;
     }
 
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-
-    public Boolean getDeprecated() {
-        return deprecated;
-    }
-
-    public void setDeprecated(Boolean deprecated) {
-        this.deprecated = deprecated;
-    }
-
-    public Boolean getAllowEmptyValue() {
-        return allowEmptyValue;
-    }
-
-    public void setAllowEmptyValue(Boolean allowEmptyValue) {
-        this.allowEmptyValue = allowEmptyValue;
-    }
-
-    public Boolean getExplode() {
-        return explode;
-    }
-
-    public void setExplode(Boolean explode) {
-        this.explode = explode;
-    }
-
-    public Boolean getAllowReserved() {
-        return allowReserved;
-    }
-
-    public void setAllowReserved(Boolean allowReserved) {
-        this.allowReserved = allowReserved;
+    public void setPredefinedSchema(PredefinedSchema predefinedSchema) {
+        this.predefinedSchema = predefinedSchema;
     }
 
     public ResourceText getSchema() {
@@ -187,12 +155,52 @@ public class ParameterObject extends AbstractOpenApiSerializable implements Impl
         this.example = example;
     }
 
+    public Boolean getExplode() {
+        return explode;
+    }
+
+    public void setExplode(Boolean explode) {
+        this.explode = explode;
+    }
+
+    public Boolean getDeprecated() {
+        return deprecated;
+    }
+
+    public void setDeprecated(Boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+
+    public Boolean getRequired() {
+        return required;
+    }
+
+    public void setRequired(Boolean required) {
+        this.required = required;
+    }
+
+    public Boolean getAllowEmptyValue() {
+        return allowEmptyValue;
+    }
+
+    public void setAllowEmptyValue(Boolean allowEmptyValue) {
+        this.allowEmptyValue = allowEmptyValue;
+    }
+
+    public Boolean getAllowReserved() {
+        return allowReserved;
+    }
+
+    public void setAllowReserved(Boolean allowReserved) {
+        this.allowReserved = allowReserved;
+    }
+
     @Override
     public JSONObject serialize(OpenApiSerializableContext context) {
         JSONObject serialized = JsonObjectFactory.newJSONObject();
-        set(serialized, "name", Optional.ofNullable(name).orElse(StringUtils.EMPTY)); // TODO: Test when namme is null
+        set(serialized, "name", Optional.ofNullable(name).orElse(StringUtils.EMPTY));
         set(serialized, "description", description);
-        set(serialized, "in", ofNullable(in).orElse(query).name().toLowerCase()); // TODO: Add test when in is null
+        set(serialized, "in", ofNullable(in).orElse(query).name().toLowerCase());
         set(serialized, "style", style.name());
 
         JsonSchemaUtils.setSchema(context, serialized, predefinedSchema, schema);
