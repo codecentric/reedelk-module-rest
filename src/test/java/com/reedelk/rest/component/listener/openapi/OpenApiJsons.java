@@ -308,6 +308,13 @@ public class OpenApiJsons {
             }
         },
 
+        OpenApiCustomBasePath() {
+            @Override
+            public String path() {
+                return "open_api_with_custom_base_path.json";
+            }
+        },
+
         OpenApiWithPathAndMethod() {
             @Override
             public String path() {

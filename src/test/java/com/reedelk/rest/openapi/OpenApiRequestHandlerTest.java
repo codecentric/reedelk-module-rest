@@ -32,6 +32,20 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
         assertSerializedCorrectly(serialized, Examples.OpenApiEmpty);
     }
 
+    @Test
+    void shouldCorrectlySetBasePath() {
+        // Given
+        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        configuration.setBasePath("/api/v1");
+        OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
+
+        // When
+        String serialized = handler.serializeOpenApi();
+
+        // Then
+        assertSerializedCorrectly(serialized, Examples.OpenApiCustomBasePath);
+    }
+
     // One response with default
     @Test
     void shouldSerializeWithPathAndMethod() {
