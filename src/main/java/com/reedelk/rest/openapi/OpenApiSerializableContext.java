@@ -1,13 +1,14 @@
 package com.reedelk.rest.openapi;
 
+import com.reedelk.rest.commons.SchemaId;
 import com.reedelk.rest.component.listener.openapi.ComponentsObject;
 import com.reedelk.rest.component.listener.openapi.SchemaObject;
-import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
-import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Optional;
+
+import static com.reedelk.runtime.api.commons.Preconditions.checkNotNull;
 
 public class OpenApiSerializableContext {
 
@@ -18,11 +19,13 @@ public class OpenApiSerializableContext {
     }
 
     public String schemaReferenceOf(ResourceText schema) {
+        checkNotNull(schema, "schema");
+
         return findSchemaMatching(schema)
                 .map(schemaId -> "#/components/schemas/" + schemaId)
                 .orElseGet(() -> {
                     Map<String, SchemaObject> schemas = componentsObject.getSchemas();
-                    String schemaId = schemaIdFrom(schema);
+                    String schemaId = SchemaId.from(schema);
 
                     SchemaObject newSchemaObject = new SchemaObject();
                     newSchemaObject.setSchema(schema);
@@ -31,23 +34,7 @@ public class OpenApiSerializableContext {
                 });
     }
 
-    private String schemaIdFrom(ResourceText schema) {
-        String schemaAsJson = StreamUtils.FromString.consume(schema.data());
-        JSONObject schemaAsJsonObject = new JSONObject(schemaAsJson);
-        String schemaId;
-        if (schemaAsJsonObject.has("name")) {
-            schemaId = schemaAsJsonObject.getString("name");
-        } else {
-            String path = schema.path();
-            String idStr = path.substring(path.lastIndexOf('/') + 1);
-            schemaId = idStr.replaceAll("[^a-zA-Z0-9_-]", "");
-        }
-        return schemaId;
-    }
-
     private Optional<String> findSchemaMatching(ResourceText target) {
-        if (target == null) return Optional.empty();
-
         Map<String, SchemaObject> schemas = componentsObject.getSchemas();
         for (Map.Entry<String, SchemaObject> entry : schemas.entrySet()) {
             String currentSchemaId = entry.getKey();

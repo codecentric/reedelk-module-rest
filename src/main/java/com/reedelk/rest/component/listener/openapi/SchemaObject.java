@@ -34,7 +34,8 @@ public class SchemaObject extends AbstractOpenApiSerializable implements Impleme
         String jsonSchema = StreamUtils.FromString.consume(schema.data());
         JSONObject schemaAsJsonObject = new JSONObject(jsonSchema);
         if (schemaAsJsonObject.has("name")) {
-            schemaAsJsonObject.remove("name"); // we must remove the name property.
+            // we must remove the name property if present.
+            schemaAsJsonObject.remove("name");
         }
         return schemaAsJsonObject;
     }

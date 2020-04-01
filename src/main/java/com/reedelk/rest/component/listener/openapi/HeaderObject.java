@@ -9,8 +9,7 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
-import java.util.Optional;
-
+import static java.util.Optional.ofNullable;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = HeaderObject.class, scope = PROTOTYPE)
@@ -168,8 +167,8 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
 
         if (PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Custom schema
-            Optional.ofNullable(schema).ifPresent(resourceText -> {
-                String schemaReference = context.schemaReferenceOf(schema);
+            ofNullable(schema).ifPresent(theSchema -> {
+                String schemaReference = context.schemaReferenceOf(theSchema);
                 JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
                 schemaReferenceObject.put("$ref", schemaReference);
                 set(serialized, "schema", schemaReferenceObject);
