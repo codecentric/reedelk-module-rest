@@ -3,20 +3,17 @@ package com.reedelk.rest.openapi;
 import com.reedelk.rest.component.listener.openapi.ComponentsObject;
 import com.reedelk.rest.component.listener.openapi.SchemaObject;
 import com.reedelk.runtime.api.resource.ResourceText;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static reactor.core.publisher.Mono.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static reactor.core.publisher.Mono.just;
 
 @ExtendWith(MockitoExtension.class)
 class OpenApiSerializableContextTest {
