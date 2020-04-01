@@ -289,6 +289,13 @@ public class OpenApiJsons {
             public String path() {
                 return "pet.schema.json";
             }
+        },
+
+        Coordinates() {
+            @Override
+            public String path() {
+                return "coordinates.schema.json";
+            }
         }
     }
 
@@ -333,6 +340,13 @@ public class OpenApiJsons {
             @Override
             public String path() {
                 return "open_api_with_overridden_path_params.json";
+            }
+        },
+
+        OpenApiWithSchemas() {
+            @Override
+            public String path() {
+                return "open_api_with_schemas.json";
             }
         },
 
