@@ -11,12 +11,11 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import reactor.core.publisher.Mono;
 
 import static com.reedelk.rest.component.listener.openapi.OpenApiJsons.Examples;
-import static org.mockito.Mockito.*;
-import static reactor.core.publisher.Mono.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static reactor.core.publisher.Mono.just;
 
 class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
 

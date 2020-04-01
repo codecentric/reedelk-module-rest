@@ -2,8 +2,6 @@ package com.reedelk.rest.component.listener.openapi;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ParameterObjectTest extends AbstractOpenApiSerializableTest {
 
     @Test
