@@ -1,6 +1,7 @@
 package com.reedelk.rest.commons;
 
 import com.reedelk.runtime.api.commons.FileUtils;
+import com.reedelk.runtime.api.commons.Preconditions;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -11,6 +12,8 @@ import static com.reedelk.runtime.api.commons.Preconditions.checkArgument;
 public class SchemaId {
 
     public static String from(ResourceText schema) {
+        Preconditions.checkNotNull(schema, "schema");
+
         String schemaAsJson = StreamUtils.FromString.consume(schema.data());
         JSONObject schemaAsJsonObject = new JSONObject(schemaAsJson);
 

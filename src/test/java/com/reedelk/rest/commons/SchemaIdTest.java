@@ -9,7 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -20,7 +22,7 @@ class SchemaIdTest {
 
     @BeforeEach
     void setUp() {
-        doReturn(Mono.just("{}")).when(mockResource).data();
+        lenient().doReturn(Mono.just("{}")).when(mockResource).data();
     }
 
     @Test
@@ -86,5 +88,15 @@ class SchemaIdTest {
 
         // Then
         assertThat(actual).isEqualTo("MyPersonSchema");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenSchemaIsNull() {
+        // When
+        NullPointerException thrown = assertThrows(NullPointerException.class,
+                () -> SchemaId.from(null));
+
+        // Expect
+        assertThat(thrown).hasMessage("schema");
     }
 }
