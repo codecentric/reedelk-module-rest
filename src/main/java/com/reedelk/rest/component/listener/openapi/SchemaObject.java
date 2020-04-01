@@ -9,10 +9,15 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = SchemaObject.class, scope = PROTOTYPE)
 public class SchemaObject extends AbstractOpenApiSerializable implements Implementor {
+
+    private static final List<String> PROPERTIES_TO_EXCLUDE_FROM_SCHEMA = Arrays.asList("$id", "$schema", "name");
 
     @Property("Schema")
     @Hint("assets/data_model.json")
@@ -33,10 +38,14 @@ public class SchemaObject extends AbstractOpenApiSerializable implements Impleme
     public JSONObject serialize(OpenApiSerializableContext context) {
         String jsonSchema = StreamUtils.FromString.consume(schema.data());
         JSONObject schemaAsJsonObject = new JSONObject(jsonSchema);
-        if (schemaAsJsonObject.has("name")) {
-            // we must remove the name property if present.
-            schemaAsJsonObject.remove("name");
-        }
+        PROPERTIES_TO_EXCLUDE_FROM_SCHEMA.forEach(propertyName ->
+                removePropertyIfExists(schemaAsJsonObject, propertyName));
         return schemaAsJsonObject;
+    }
+
+    private void removePropertyIfExists(JSONObject jsonObject, String propertyName) {
+        if (jsonObject.has(propertyName)) {
+            jsonObject.remove(propertyName);
+        }
     }
 }

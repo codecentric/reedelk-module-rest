@@ -206,7 +206,25 @@ public class OpenApiJsons {
         }
     }
 
+    public enum OperationObject implements Provider {
+
+        WithAllProperties() {
+            @Override
+            public String path() {
+                return "operation_object_with_all_properties.json";
+            }
+        },
+
+        WithDefault() {
+            @Override
+            public String path() {
+                return "operation_object_with_default.json";
+            }
+        }
+    }
+
     public enum Schemas implements Provider {
+
         Pet() {
             @Override
             public String path() {
@@ -216,6 +234,7 @@ public class OpenApiJsons {
     }
 
     public enum Examples implements Provider {
+
         Pet() {
             @Override
             public String path() {
