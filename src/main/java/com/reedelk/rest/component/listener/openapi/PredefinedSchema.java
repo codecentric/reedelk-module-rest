@@ -18,13 +18,15 @@ public enum PredefinedSchema {
     ARRAY_INTEGER("{\n" +
             "    \"type\": \"array\",\n" +
             "    \"items\": {\n" +
-            "      \"type\": \"integer\",\n" +
+            "      \"type\": \"integer\"\n" +
+            "      }" +
             "    }"),
     @DisplayName("Array of Strings")
     ARRAY_STRING("{\n" +
             "    \"type\": \"array\",\n" +
             "    \"items\": {\n" +
-            "      \"type\": \"string\",\n" +
+            "      \"type\": \"string\"\n" +
+            "      }" +
             "    }");
 
     private String schema;

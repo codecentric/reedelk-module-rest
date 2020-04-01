@@ -151,6 +151,17 @@ public class OpenApiJsons {
         }
     }
 
+    public enum HeaderObject implements Provider {
+
+        WithAllPropertiesAndDefaultSchema() {
+            @Override
+            public String path() {
+                return "header_object_with_all_properties_and_default_schema.json";
+            }
+        }
+
+    }
+
     interface Provider {
 
         String path();

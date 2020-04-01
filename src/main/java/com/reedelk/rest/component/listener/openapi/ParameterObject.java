@@ -200,7 +200,15 @@ public class ParameterObject extends AbstractOpenApiSerializable implements Impl
         set(serialized, "example", example);
         set(serialized, "explode", explode);
         set(serialized, "deprecated", deprecated);
-        set(serialized, "required", required); // TODO: Apply logic from spec
+
+        // If the parameter location is "path", this property is REQUIRED and its value MUST be true.
+        // Otherwise, the property MAY be included and its default value is false.
+        if (ParameterLocation.path.equals(in)) {
+            set(serialized, "required", Boolean.TRUE);
+        } else {
+            set(serialized, "required", required);
+        }
+
         set(serialized, "allowEmptyValue", allowEmptyValue);
         set(serialized, "allowReserved", allowReserved);
         return serialized;

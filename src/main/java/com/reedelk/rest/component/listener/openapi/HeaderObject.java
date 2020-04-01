@@ -10,7 +10,6 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 import org.osgi.service.component.annotations.Component;
 
-import static java.util.Optional.ofNullable;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Component(service = HeaderObject.class, scope = PROTOTYPE)
@@ -59,13 +58,6 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
     @Property("Deprecated")
     @Description("Specifies that a parameter is deprecated and SHOULD be transitioned out of usage.")
     private Boolean deprecated;
-
-    @Property("Required")
-    @DefaultValue("false")
-    @Description("Determines whether this parameter is mandatory. " +
-            "Otherwise, the property MAY be included and its default value is false.")
-    @When(propertyName = "in", propertyValue = "PATH")
-    private Boolean required;
 
     @Property("Allow Empty")
     @DefaultValue("false")
@@ -136,14 +128,6 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
         this.deprecated = deprecated;
     }
 
-    public Boolean getRequired() {
-        return required;
-    }
-
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-
     public Boolean getAllowEmptyValue() {
         return allowEmptyValue;
     }
@@ -171,7 +155,6 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
         set(serialized, "example", example);
         set(serialized, "explode", explode);
         set(serialized, "deprecated", deprecated);
-        set(serialized, "required", required); // TODO: Apply logic from spec
         set(serialized, "allowEmptyValue", allowEmptyValue);
         set(serialized, "allowReserved", allowReserved);
         return serialized;
