@@ -134,6 +134,23 @@ public class OpenApiJsons {
         }
     }
 
+    public enum ComponentsObject implements Provider {
+
+        WithNoSchemas() {
+            @Override
+            public String path() {
+                return "components_object_with_no_schemas.json";
+            }
+        },
+
+        WithSampleSchemas() {
+            @Override
+            public String path() {
+                return "components_object_with_sample_schemas.json";
+            }
+        }
+    }
+
     interface Provider {
 
         String path();

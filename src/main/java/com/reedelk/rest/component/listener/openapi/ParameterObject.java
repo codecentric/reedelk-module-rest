@@ -195,13 +195,8 @@ public class ParameterObject extends AbstractOpenApiSerializable implements Impl
         set(serialized, "in", ofNullable(in).orElse(query).name().toLowerCase()); // TODO: Add test when in is null
         set(serialized, "style", style.name());
 
-        if (PredefinedSchema.NONE.equals(predefinedSchema)) {
-            // Custom schema
-            JsonSchemaUtils.setSchema(context, serialized, schema);
-        } else {
-            // Predefined schema
-            set(serialized, "schema", new JSONObject(predefinedSchema.schema()));
-        }
+        JsonSchemaUtils.setSchema(context, serialized, predefinedSchema, schema);
+
         set(serialized, "example", example);
         set(serialized, "explode", explode);
         set(serialized, "deprecated", deprecated);

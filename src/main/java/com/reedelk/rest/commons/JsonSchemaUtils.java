@@ -1,5 +1,6 @@
 package com.reedelk.rest.commons;
 
+import com.reedelk.rest.component.listener.openapi.PredefinedSchema;
 import com.reedelk.rest.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.Preconditions;
@@ -13,13 +14,23 @@ import static java.util.Optional.ofNullable;
 
 public class JsonSchemaUtils {
 
-    public static void setSchema(OpenApiSerializableContext context, JSONObject serialized, ResourceText schema) {
-        ofNullable(schema).ifPresent(theSchema -> {
-            String schemaReference = context.schemaReferenceOf(theSchema);
-            JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
-            schemaReferenceObject.put("$ref", schemaReference);
-            serialized.put("schema", schemaReferenceObject);
-        });
+    public static void setSchema(OpenApiSerializableContext context,
+                                 JSONObject serialized,
+                                 PredefinedSchema predefinedSchema,
+                                 ResourceText schema) {
+
+        // Custom schema
+        if (PredefinedSchema.NONE.equals(predefinedSchema)) {
+            ofNullable(schema).ifPresent(theSchema -> {
+                String schemaReference = context.schemaReferenceOf(theSchema);
+                JSONObject schemaReferenceObject = JsonObjectFactory.newJSONObject();
+                schemaReferenceObject.put("$ref", schemaReference);
+                serialized.put("schema", schemaReferenceObject);
+            });
+        } else {
+            // Predefined schema
+            serialized.put("schema", new JSONObject(predefinedSchema.schema()));
+        }
     }
 
     public static String findIdFrom(ResourceText schema) {
