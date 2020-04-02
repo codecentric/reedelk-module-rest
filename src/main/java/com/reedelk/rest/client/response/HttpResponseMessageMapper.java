@@ -3,7 +3,6 @@ package com.reedelk.rest.client.response;
 import com.reedelk.rest.commons.HttpHeadersAsMap;
 import com.reedelk.rest.commons.MimeTypeExtract;
 import com.reedelk.rest.component.RestClient;
-import com.reedelk.runtime.api.commons.JavaType;
 import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -47,7 +46,7 @@ public class HttpResponseMessageMapper {
 
         // Convert the response to string if the mime type is
         // application/json or other string based mime type.
-        if (String.class == JavaType.from(mimeType)) {
+        if (String.class == mimeType.javaType()) {
             String result = EntityUtils.toString(entity);
             return MessageBuilder.get()
                     .attributes(responseAttributes)
