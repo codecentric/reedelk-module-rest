@@ -13,7 +13,7 @@ import com.reedelk.rest.client.uri.UriEvaluator;
 import com.reedelk.rest.client.uri.UriProvider;
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.commons.StreamingMode;
-import com.reedelk.rest.component.client.AdvancedConfiguration;
+import com.reedelk.rest.component.client.BufferConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.component.ProcessorAsync;
@@ -23,6 +23,7 @@ import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -112,14 +113,22 @@ public class RestClient implements ProcessorAsync {
     @Description("Map of request query parameters names > values. The values are dynamic.")
     private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
+    @Property("Target Variable")
+    @Hint("myRestClientResult")
+    @Example("myRestClientResult")
     @Group("Advanced")
-    @Property("Advanced")
-    private AdvancedConfiguration advancedConfiguration;
+    @Description("If the property is not empty, the result of the REST Client execution is assigned to the given context" +
+            " variable instead of the message payload.")
+    private DynamicString target;
+
+    @Group("Advanced")
+    @Property("Buffer Configuration")
+    private BufferConfiguration bufferConfiguration;
 
     @Reference
-    private ScriptEngineService scriptEngine;
-    @Reference
     private HttpClientFactory clientFactory;
+    @Reference
+    private ScriptEngineService scriptEngine;
     @Reference
     private ConverterService converterService;
 
@@ -140,7 +149,7 @@ public class RestClient implements ProcessorAsync {
 
         URI uri = uriProvider.uri();
 
-        HttpClientResultCallback resultCallback = new HttpClientResultCallback(uri, flowContext, callback);
+        HttpClientResultCallback resultCallback = new HttpClientResultCallback(uri, flowContext, message, target, callback, scriptEngine);
 
         execution.execute(client, message, flowContext, uri, headerProvider, bodyProvider, resultCallback);
     }
@@ -159,7 +168,7 @@ public class RestClient implements ProcessorAsync {
 
         // Init execution
         execution = ExecutionStrategyBuilder.builder()
-                .advancedConfig(advancedConfiguration)
+                .advancedConfig(bufferConfiguration)
                 .streaming(streaming)
                 .method(method)
                 .build();
@@ -234,7 +243,15 @@ public class RestClient implements ProcessorAsync {
         this.queryParameters = queryParameters;
     }
 
-    public void setAdvancedConfiguration(AdvancedConfiguration advancedConfiguration) {
-        this.advancedConfiguration = advancedConfiguration;
+    public void setBufferConfiguration(BufferConfiguration bufferConfiguration) {
+        this.bufferConfiguration = bufferConfiguration;
+    }
+
+    public DynamicString getTarget() {
+        return target;
+    }
+
+    public void setTarget(DynamicString target) {
+        this.target = target;
     }
 }

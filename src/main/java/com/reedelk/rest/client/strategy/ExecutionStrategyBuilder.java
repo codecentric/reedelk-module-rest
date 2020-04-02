@@ -2,7 +2,7 @@ package com.reedelk.rest.client.strategy;
 
 import com.reedelk.rest.commons.RestMethod;
 import com.reedelk.rest.commons.StreamingMode;
-import com.reedelk.rest.component.client.AdvancedConfiguration;
+import com.reedelk.rest.component.client.BufferConfiguration;
 import org.apache.http.client.methods.*;
 
 import java.util.Optional;
@@ -15,7 +15,7 @@ import static java.lang.String.format;
 
 public class ExecutionStrategyBuilder {
 
-    private AdvancedConfiguration advancedConfiguration;
+    private BufferConfiguration bufferConfiguration;
     private StreamingMode streaming;
     private RestMethod method;
 
@@ -26,8 +26,8 @@ public class ExecutionStrategyBuilder {
         return new ExecutionStrategyBuilder();
     }
 
-    public ExecutionStrategyBuilder advancedConfig(AdvancedConfiguration advancedConfiguration) {
-        this.advancedConfiguration = advancedConfiguration;
+    public ExecutionStrategyBuilder advancedConfig(BufferConfiguration bufferConfiguration) {
+        this.bufferConfiguration = bufferConfiguration;
         return this;
     }
 
@@ -75,14 +75,14 @@ public class ExecutionStrategyBuilder {
     }
 
     private int getResponseBufferSize() {
-        return Optional.ofNullable(advancedConfiguration)
+        return Optional.ofNullable(bufferConfiguration)
                 .flatMap(config -> Optional.ofNullable(config.getResponseBufferSize()))
                 .orElse(RESPONSE_BUFFER_SIZE);
     }
 
     private int getRequestBufferSize() {
-        return Optional.ofNullable(advancedConfiguration)
-                .flatMap(advancedConfiguration -> Optional.ofNullable(advancedConfiguration.getRequestBufferSize()))
+        return Optional.ofNullable(bufferConfiguration)
+                .flatMap(bufferConfiguration -> Optional.ofNullable(bufferConfiguration.getRequestBufferSize()))
                 .orElse(REQUEST_BUFFER_SIZE);
     }
 }

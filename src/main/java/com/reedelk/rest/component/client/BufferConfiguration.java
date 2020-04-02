@@ -6,9 +6,8 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Collapsible
-@Component(service = AdvancedConfiguration.class, scope = PROTOTYPE)
-public class AdvancedConfiguration implements Implementor {
+@Component(service = BufferConfiguration.class, scope = PROTOTYPE)
+public class BufferConfiguration implements Implementor {
 
     @Property("Response buffer size")
     @Hint("16384") // 16 * 1024

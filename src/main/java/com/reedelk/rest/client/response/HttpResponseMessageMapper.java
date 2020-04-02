@@ -20,6 +20,23 @@ import java.util.Map;
 
 public class HttpResponseMessageMapper {
 
+    // 'mapBody' and 'map' should be kept in sync. One it is used when the
+    // result of the HTTP Client execution is assigned to a context variable,
+    // the other is used when the result is set as a message payload.
+    public static Object mapBody(HttpResponse response) throws IOException {
+        MimeType mimeType = MimeTypeExtract.from(response.getAllHeaders());
+        HttpEntity entity = response.getEntity();
+        if (entity == null) {
+            return null;
+        }
+        entity = applyDecompressStrategyFrom(entity);
+        if (String.class == mimeType.javaType()) {
+            return EntityUtils.toString(entity);
+        } else {
+            return EntityUtils.toByteArray(entity);
+        }
+    }
+
     public static Message map(HttpResponse response) throws IOException {
         StatusLine statusLine = response.getStatusLine();
 
@@ -27,7 +44,6 @@ public class HttpResponseMessageMapper {
         attributes.put(HttpResponseAttribute.STATUS_CODE, statusLine.getStatusCode());
         attributes.put(HttpResponseAttribute.REASON_PHRASE, statusLine.getReasonPhrase());
         attributes.put(HttpResponseAttribute.HEADERS, HttpHeadersAsMap.of(response.getAllHeaders()));
-
         DefaultMessageAttributes responseAttributes = new DefaultMessageAttributes(RestClient.class, attributes);
 
         MimeType mimeType = MimeTypeExtract.from(response.getAllHeaders());

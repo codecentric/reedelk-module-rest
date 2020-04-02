@@ -8,6 +8,8 @@ import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.script.ScriptEngineService;
+import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -20,17 +22,24 @@ import java.util.TreeMap;
 
 import static com.reedelk.rest.commons.Messages.RestClient.REQUEST_CANCELLED;
 import static com.reedelk.rest.commons.Messages.RestClient.REQUEST_FAILED;
+import static com.reedelk.runtime.api.commons.StringUtils.isNotBlank;
 
 public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
 
     private final URI uri;
     private final OnResult callback;
     private final FlowContext flowContext;
+    private final DynamicString target;
+    private final Message originalMessage;
+    private final ScriptEngineService scriptEngine;
 
-    public HttpClientResultCallback(URI uri, FlowContext flowContext, OnResult callback) {
+    public HttpClientResultCallback(URI uri, FlowContext flowContext, Message message, DynamicString target, OnResult callback, ScriptEngineService scriptEngine) {
         this.uri = uri;
+        this.target = target;
         this.callback = callback;
+        this.originalMessage = message;
         this.flowContext = flowContext;
+        this.scriptEngine = scriptEngine;
     }
 
     @Override
@@ -39,8 +48,19 @@ public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
             StatusLine statusLine = response.getStatusLine();
 
             if (IsSuccessfulStatus.status(statusLine.getStatusCode())) {
-                Message message = HttpResponseMessageMapper.map(response);
-                callback.onResult(flowContext, message);
+
+                // If the target variable has been set, we assign to a context variable
+                // the result of the HTTP response and we return the original message.
+                if (target != null && isNotBlank(target.value())) {
+                    Object responseContent = HttpResponseMessageMapper.mapBody(response);
+                    scriptEngine.evaluate(target, flowContext, originalMessage)
+                            .ifPresent(contextVariableName -> flowContext.put(contextVariableName, responseContent));
+                    callback.onResult(flowContext, originalMessage);
+
+                } else {
+                    Message message = HttpResponseMessageMapper.map(response);
+                    callback.onResult(flowContext, message);
+                }
 
             } else {
                 // If the response is not successful (e.g >= 200 && < 300) we throw an exception.
