@@ -149,7 +149,8 @@ public class RestClient implements ProcessorAsync {
 
         URI uri = uriProvider.uri();
 
-        HttpClientResultCallback resultCallback = new HttpClientResultCallback(uri, flowContext, message, target, callback, scriptEngine);
+        HttpClientResultCallback resultCallback =
+                new HttpClientResultCallback(uri, flowContext, message, target, callback, scriptEngine);
 
         execution.execute(client, message, flowContext, uri, headerProvider, bodyProvider, resultCallback);
     }
