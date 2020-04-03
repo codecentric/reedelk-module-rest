@@ -1,13 +1,13 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.commons.Messages;
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.commons.JsonObjectFactory;
+import com.reedelk.rest.internal.commons.Messages;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
-import com.reedelk.rest.openapi.OpenApiSerializableContext;
-import com.reedelk.rest.server.uri.UriTemplateStructure;
+import com.reedelk.rest.internal.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.internal.openapi.OpenApiSerializableContext;
+import com.reedelk.rest.internal.server.uri.UriTemplateStructure;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;

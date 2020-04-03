@@ -1,8 +1,8 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
-import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.commons.HttpProtocol;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.client.*;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.reedelk.rest.commons.RestMethod.GET;
+import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

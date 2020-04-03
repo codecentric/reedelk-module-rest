@@ -4,7 +4,7 @@ import org.apache.http.client.methods.HttpOptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.reedelk.rest.commons.RestMethod.OPTIONS;
+import static com.reedelk.rest.internal.commons.RestMethod.OPTIONS;
 import static org.apache.http.HttpStatus.SC_OK;
 
 class RestListenerOptionsTest extends RestListenerAbstractTest {

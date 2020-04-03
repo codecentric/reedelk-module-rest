@@ -1,6 +1,6 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.client.HttpClientResponseException;
+import com.reedelk.rest.internal.client.HttpClientResponseException;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;

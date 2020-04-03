@@ -1,8 +1,8 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.commons.HttpProtocol;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.newRequestPattern;
-import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
+import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

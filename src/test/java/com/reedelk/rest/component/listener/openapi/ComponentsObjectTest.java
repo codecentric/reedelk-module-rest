@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.openapi.OpenApiSerializableContext;
+import com.reedelk.rest.internal.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

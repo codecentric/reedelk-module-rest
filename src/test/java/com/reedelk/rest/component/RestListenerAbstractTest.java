@@ -1,7 +1,7 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.server.ServerProvider;
+import com.reedelk.rest.internal.commons.RestMethod;
+import com.reedelk.rest.internal.server.ServerProvider;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;

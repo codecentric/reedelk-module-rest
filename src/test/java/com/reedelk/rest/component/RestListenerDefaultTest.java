@@ -3,7 +3,7 @@ package com.reedelk.rest.component;
 import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Test;
 
-import static com.reedelk.rest.commons.RestMethod.GET;
+import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static org.apache.http.HttpStatus.SC_OK;
 
 class RestListenerDefaultTest extends RestListenerAbstractTest {

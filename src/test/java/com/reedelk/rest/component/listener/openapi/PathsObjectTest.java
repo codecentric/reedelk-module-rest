@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.resource.ResourceText;

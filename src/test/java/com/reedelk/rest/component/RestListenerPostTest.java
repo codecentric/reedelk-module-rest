@@ -26,11 +26,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
-import static com.reedelk.rest.commons.HttpHeader.TRANSFER_ENCODING;
-import static com.reedelk.rest.commons.Messages.RestListener.ERROR_MULTIPART_NOT_SUPPORTED;
-import static com.reedelk.rest.commons.RestMethod.POST;
-import static com.reedelk.rest.commons.RestMethod.PUT;
+import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
+import static com.reedelk.rest.internal.commons.HttpHeader.TRANSFER_ENCODING;
+import static com.reedelk.rest.internal.commons.Messages.RestListener.ERROR_MULTIPART_NOT_SUPPORTED;
+import static com.reedelk.rest.internal.commons.RestMethod.POST;
+import static com.reedelk.rest.internal.commons.RestMethod.PUT;
 import static com.reedelk.runtime.api.message.content.MimeType.*;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;

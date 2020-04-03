@@ -4,7 +4,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.reedelk.rest.commons.RestMethod.DELETE;
+import static com.reedelk.rest.internal.commons.RestMethod.DELETE;
 import static org.apache.http.HttpStatus.SC_OK;
 
 class RestListenerDeleteTest extends RestListenerAbstractTest {

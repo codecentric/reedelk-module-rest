@@ -10,8 +10,8 @@ import org.mockito.Mockito;
 import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
-import static com.reedelk.rest.commons.RestMethod.PUT;
+import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
+import static com.reedelk.rest.internal.commons.RestMethod.PUT;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;

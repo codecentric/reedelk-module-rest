@@ -24,8 +24,8 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static com.reedelk.rest.commons.RestMethod.GET;
-import static com.reedelk.rest.server.mapper.HttpRequestAttribute.*;
+import static com.reedelk.rest.internal.commons.RestMethod.GET;
+import static com.reedelk.rest.internal.server.mapper.HttpRequestAttribute.*;
 import static com.reedelk.runtime.api.commons.ImmutableMap.of;
 import static com.reedelk.runtime.api.commons.StringUtils.EMPTY;
 import static com.reedelk.runtime.api.message.content.MimeType.APPLICATION_JSON;

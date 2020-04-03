@@ -7,8 +7,8 @@ import com.reedelk.runtime.api.message.MessageBuilder;
 import org.junit.jupiter.api.Test;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
-import static com.reedelk.rest.commons.RestMethod.GET;
+import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
+import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static com.reedelk.runtime.api.message.content.MimeType.APPLICATION_JSON;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
 

@@ -1,9 +1,9 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.commons.JsonObjectFactory;
-import com.reedelk.rest.commons.Messages;
-import com.reedelk.rest.openapi.AbstractOpenApiSerializable;
-import com.reedelk.rest.openapi.OpenApiSerializableContext;
+import com.reedelk.rest.internal.commons.JsonObjectFactory;
+import com.reedelk.rest.internal.commons.Messages;
+import com.reedelk.rest.internal.openapi.AbstractOpenApiSerializable;
+import com.reedelk.rest.internal.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.json.JSONObject;

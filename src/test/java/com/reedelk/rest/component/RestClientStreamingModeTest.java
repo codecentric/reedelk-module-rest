@@ -1,9 +1,9 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.commons.RestMethod;
-import com.reedelk.rest.commons.StreamingMode;
+import com.reedelk.rest.internal.commons.HttpProtocol;
+import com.reedelk.rest.internal.commons.RestMethod;
+import com.reedelk.rest.internal.commons.StreamingMode;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;

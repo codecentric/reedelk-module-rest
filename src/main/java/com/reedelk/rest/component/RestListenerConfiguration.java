@@ -1,6 +1,6 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.commons.HttpProtocol;
+import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.component.listener.SecurityConfiguration;
 import com.reedelk.rest.component.listener.openapi.OpenApiObject;
 import com.reedelk.runtime.api.annotation.*;

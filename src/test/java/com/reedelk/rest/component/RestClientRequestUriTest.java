@@ -1,7 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.reedelk.rest.commons.RestMethod.valueOf;
+import static com.reedelk.rest.internal.commons.RestMethod.valueOf;
 import static com.reedelk.runtime.api.commons.ImmutableMap.of;
 
 

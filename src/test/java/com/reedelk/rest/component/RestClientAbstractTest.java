@@ -1,8 +1,8 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.reedelk.rest.client.HttpClientFactory;
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.client.HttpClientFactory;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;

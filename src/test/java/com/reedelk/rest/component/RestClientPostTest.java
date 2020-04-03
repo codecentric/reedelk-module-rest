@@ -12,8 +12,8 @@ import java.util.Optional;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.matching.RequestPatternBuilder.newRequestPattern;
-import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
-import static com.reedelk.rest.commons.RestMethod.POST;
+import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
+import static com.reedelk.rest.internal.commons.RestMethod.POST;
 import static com.reedelk.runtime.api.message.content.MimeType.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;

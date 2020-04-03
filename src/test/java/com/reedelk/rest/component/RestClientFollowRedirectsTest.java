@@ -1,7 +1,7 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.commons.HttpProtocol;
-import com.reedelk.rest.commons.RestMethod;
+import com.reedelk.rest.internal.commons.HttpProtocol;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.reedelk.rest.commons.HttpHeader.CONTENT_TYPE;
+import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
 
 class RestClientFollowRedirectsTest extends RestClientAbstractTest {
