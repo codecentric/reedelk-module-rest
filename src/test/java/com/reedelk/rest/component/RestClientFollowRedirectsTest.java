@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
-import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
+import static com.reedelk.runtime.api.message.content.MimeType.TEXT_PLAIN;
 
 class RestClientFollowRedirectsTest extends RestClientAbstractTest {
 
@@ -35,14 +35,14 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
 
         givenThat(any(urlEqualTo("/v2/resource"))
                 .willReturn(aResponse()
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody("Redirect success")
                         .withStatus(200)));
 
         Message payload = MessageBuilder.get().empty().build();
 
         // Expect
-        AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT);
+        AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT_PLAIN);
     }
 
     @ParameterizedTest
@@ -66,14 +66,14 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
 
         givenThat(any(urlEqualTo("/v2/resource"))
                 .willReturn(aResponse()
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody("Redirect success")
                         .withStatus(200)));
 
         Message payload = MessageBuilder.get().empty().build();
 
         // Expect
-        AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT);
+        AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT_PLAIN);
     }
 
     @ParameterizedTest

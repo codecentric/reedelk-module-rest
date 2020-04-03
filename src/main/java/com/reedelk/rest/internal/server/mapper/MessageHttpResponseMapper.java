@@ -89,7 +89,7 @@ public class MessageHttpResponseMapper {
             // Content type is by default text if response is error (exception).
             // If the user wants to output JSON they must override with specific
             // additional headers the content type.
-            serverResponse.addHeader(CONTENT_TYPE, MimeType.TEXT.toString());
+            serverResponse.addHeader(CONTENT_TYPE, MimeType.TEXT_PLAIN.toString());
         }
 
         // 3. Headers (which might override headers above)

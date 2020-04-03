@@ -92,7 +92,7 @@ class DefaultBodyProviderTest {
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
         Message message = MessageBuilder.get()
-                .withString(Flux.just("one", "two", "three"), MimeType.TEXT)
+                .withString(Flux.just("one", "two", "three"), MimeType.TEXT_PLAIN)
                 .build();
 
         // When

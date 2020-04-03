@@ -12,7 +12,7 @@ import java.util.Optional;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.rest.internal.commons.RestMethod.PUT;
-import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
+import static com.reedelk.runtime.api.message.content.MimeType.TEXT_PLAIN;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
@@ -37,14 +37,14 @@ class RestClientPutTest extends RestClientAbstractTest {
         givenThat(put(urlEqualTo(PATH))
                 .withRequestBody(equalToJson(requestBody))
                 .willReturn(aResponse()
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withStatus(200)
                         .withBody(expectedResponseBody)));
 
         Message payload = MessageBuilder.get().withJson(requestBody).build();
 
         // Expect
-        AssertHttpResponse.isSuccessful(client, payload, flowContext, expectedResponseBody, TEXT);
+        AssertHttpResponse.isSuccessful(client, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
     }
 
     @Test
@@ -60,14 +60,14 @@ class RestClientPutTest extends RestClientAbstractTest {
         givenThat(put(urlEqualTo(PATH))
                 .withRequestBody(binaryEqualTo(new byte[0]))
                 .willReturn(aResponse()
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withStatus(200)
                         .withBody(expectedResponseBody)));
 
         Message emptyPayload = MessageBuilder.get().empty().build();
 
         // Expect
-        AssertHttpResponse.isSuccessful(client, emptyPayload, flowContext, expectedResponseBody, TEXT);
+        AssertHttpResponse.isSuccessful(client, emptyPayload, flowContext, expectedResponseBody, TEXT_PLAIN);
     }
 
     @Test
@@ -79,7 +79,7 @@ class RestClientPutTest extends RestClientAbstractTest {
         givenThat(put(urlEqualTo(PATH))
                 .willReturn(aResponse()
                         .withStatus(404)
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody(expectedErrorMessage)));
 
         Message emptyPayload = MessageBuilder.get().empty().build();

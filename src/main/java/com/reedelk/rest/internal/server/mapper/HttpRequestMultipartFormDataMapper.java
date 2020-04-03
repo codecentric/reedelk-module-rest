@@ -116,7 +116,7 @@ class HttpRequestMultipartFormDataMapper {
             throw rethrown;
         }
 
-        StringContent content = new StringContent(attributeValue, MimeType.TEXT);
+        StringContent content = new StringContent(attributeValue, MimeType.TEXT_PLAIN);
         Part part = Part.builder()
                 .content(content)
                 .name(name)

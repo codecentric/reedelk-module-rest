@@ -23,7 +23,7 @@ public class PartDefinition implements Implementor {
     @Property("Mime type")
     @MimeTypeCombo
     @Example(MimeType.MIME_TYPE_APPLICATION_BINARY)
-    @InitValue(MimeType.MIME_TYPE_APPLICATION_BINARY)
+    @DefaultValue(MimeType.MIME_TYPE_APPLICATION_BINARY)
     @Description("Sets the mime type of the part object.")
     private String mimeType;
 

@@ -47,13 +47,13 @@ class RestClientPostTest extends RestClientAbstractTest {
                     .willReturn(aResponse()
                             .withStatus(200)
                             .withBody(expectedResponseBody)
-                            .withHeader(CONTENT_TYPE, TEXT.toString())));
+                            .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
 
             Message payload = MessageBuilder.get().withJson(requestBody).build();
 
             // Expect
-            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
         }
 
         @Test
@@ -74,16 +74,16 @@ class RestClientPostTest extends RestClientAbstractTest {
 
             givenThat(post(urlEqualTo(PATH))
                     .withRequestBody(equalTo(requestBody))
-                    .withHeader(CONTENT_TYPE, equalTo(TEXT.toString()))
+                    .withHeader(CONTENT_TYPE, equalTo(TEXT_PLAIN.toString()))
                     .willReturn(aResponse()
                             .withStatus(200)
                             .withBody(expectedResponseBody)
-                            .withHeader(CONTENT_TYPE, TEXT.toString())));
+                            .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
             Message payload = MessageBuilder.get().withText(requestBody).build();
 
             // Expect
-            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
         }
 
         @Test
@@ -107,12 +107,12 @@ class RestClientPostTest extends RestClientAbstractTest {
                     .willReturn(aResponse()
                             .withStatus(200)
                             .withBody(expectedResponseBody)
-                            .withHeader(CONTENT_TYPE, TEXT.toString())));
+                            .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
             Message payload = MessageBuilder.get().withBinary(requestBody).build();
 
             // Expect
-            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
         }
 
         @Test
@@ -191,10 +191,10 @@ class RestClientPostTest extends RestClientAbstractTest {
                     .willReturn(aResponse()
                             .withStatus(200)
                             .withBody(expectedResponseBody)
-                            .withHeader(CONTENT_TYPE, TEXT.toString())));
+                            .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
             // Expect
-            AssertHttpResponse.isSuccessful(component, message, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, message, flowContext, expectedResponseBody, TEXT_PLAIN);
             verify(newRequestPattern().withoutHeader(CONTENT_TYPE));
         }
 
@@ -208,10 +208,10 @@ class RestClientPostTest extends RestClientAbstractTest {
                     .willReturn(aResponse()
                             .withStatus(200)
                             .withBody(expectedResponseBody)
-                            .withHeader(CONTENT_TYPE, TEXT.toString())));
+                            .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
             // Expect
-            AssertHttpResponse.isSuccessful(component, message, flowContext, expectedResponseBody, TEXT);
+            AssertHttpResponse.isSuccessful(component, message, flowContext, expectedResponseBody, TEXT_PLAIN);
             verify(newRequestPattern().withoutHeader(CONTENT_TYPE));
         }
     }
@@ -225,7 +225,7 @@ class RestClientPostTest extends RestClientAbstractTest {
         givenThat(post(urlEqualTo(PATH))
                 .willReturn(aResponse()
                         .withStatus(507)
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody(expectedErrorMessage)));
 
         Message emptyPayload = MessageBuilder.get().empty().build();

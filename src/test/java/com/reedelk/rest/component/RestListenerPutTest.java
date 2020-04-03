@@ -58,7 +58,7 @@ class RestListenerPutTest extends RestListenerAbstractTest {
         RestListener listener = listenerWith(PUT, defaultConfiguration);
 
         // Expect
-        assertBodySent(listener, putRequest, TEST_TEXT_BODY, TEXT);
+        assertBodySent(listener, putRequest, TEST_TEXT_BODY, TEXT_PLAIN);
     }
 
     @Test

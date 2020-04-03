@@ -81,7 +81,7 @@ class RestListenerPostTest extends RestListenerAbstractTest {
         RestListener listener = listenerWith(POST, defaultConfiguration);
 
         // Expect
-        assertBodySent(listener, postRequest, TEST_TEXT_BODY, TEXT);
+        assertBodySent(listener, postRequest, TEST_TEXT_BODY, TEXT_PLAIN);
     }
 
     @Test
@@ -134,7 +134,7 @@ class RestListenerPostTest extends RestListenerAbstractTest {
         Parts parts = (Parts) payload;
 
         assertThat(parts).containsOnlyKeys("username", "myfile");
-        assertExistsPartWith(parts, "username", TEXT, "John", Collections.emptyMap());
+        assertExistsPartWith(parts, "username", TEXT_PLAIN, "John", Collections.emptyMap());
         assertExistsPartWith(parts, "myfile", APPLICATION_BINARY, binaryContent,
                 ImmutableMap.of(
                         CONTENT_TYPE, ContentType.APPLICATION_OCTET_STREAM.toString(),

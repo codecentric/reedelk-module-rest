@@ -75,13 +75,13 @@ class MimeTypeExtractTest {
         void shouldReturnCorrectMimeTypeWhenContentHeaderIsPresent() {
             // Given
             HttpHeaders headers = new DefaultHttpHeaders();
-            headers.set("coNtEnt-Type", MimeType.TEXT.toString());
+            headers.set("coNtEnt-Type", MimeType.TEXT_PLAIN.toString());
 
             // When
             MimeType actual = MimeTypeExtract.from(headers);
 
             // Then
-            assertThat(actual).isEqualTo(MimeType.TEXT);
+            assertThat(actual).isEqualTo(MimeType.TEXT_PLAIN);
         }
 
         @Test

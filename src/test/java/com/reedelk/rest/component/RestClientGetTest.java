@@ -10,7 +10,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static com.reedelk.runtime.api.message.content.MimeType.APPLICATION_JSON;
-import static com.reedelk.runtime.api.message.content.MimeType.TEXT;
+import static com.reedelk.runtime.api.message.content.MimeType.TEXT_PLAIN;
 
 class RestClientGetTest extends RestClientAbstractTest {
 
@@ -42,7 +42,7 @@ class RestClientGetTest extends RestClientAbstractTest {
         givenThat(get(urlEqualTo(PATH))
                 .willReturn(aResponse()
                         .withStatus(507)
-                        .withHeader(CONTENT_TYPE, TEXT.toString())
+                        .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody(expectedErrorMessage)));
 
         Message emptyPayload = MessageBuilder.get().empty().build();

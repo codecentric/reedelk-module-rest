@@ -129,7 +129,7 @@ class MessageHttpResponseMapperTest {
                 mapper.map(message, response, flowContext);
 
                 // Then
-                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT.toString());
+                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT_PLAIN.toString());
                 verifyNoMoreInteractions(scriptEngine);
             }
 
@@ -341,7 +341,7 @@ class MessageHttpResponseMapperTest {
                 mapper.map(exception, response, flowContext);
 
                 // Then
-                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT.toString());
+                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT_PLAIN.toString());
                 verifyNoMoreInteractions(scriptEngine);
             }
 
@@ -361,7 +361,7 @@ class MessageHttpResponseMapperTest {
                 mapper.map(exception, response, flowContext);
 
                 // Then
-                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT.toString());
+                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT_PLAIN.toString());
             }
 
             @Test
@@ -384,7 +384,7 @@ class MessageHttpResponseMapperTest {
                 mapper.map(exception, response, flowContext);
 
                 // Then
-                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT.toString());
+                verify(response).addHeader(CONTENT_TYPE, MimeType.TEXT_PLAIN.toString());
                 verifyNoMoreInteractions(scriptEngine);
             }
 

@@ -44,7 +44,7 @@ public class MultipartPartBuilder {
             example = "MultipartBuilder.part('textContent').text(message.payload())",
             description = "Sets text data to the current part object. Default mime type is 'text/plain'.")
     public MultipartPartBuilder text(String text) {
-        StringContent content = new StringContent(text, MimeType.TEXT);
+        StringContent content = new StringContent(text, MimeType.TEXT_PLAIN);
         current.content(content);
         return this;
     }

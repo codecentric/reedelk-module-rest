@@ -38,7 +38,7 @@ class ContentTypeTest {
     @Test
     void shouldReturnEmptyMimeTypeWhenEmptyContent() {
         // Given
-        Message messageWithNullContent = MessageBuilder.get().empty(MimeType.TEXT).build();
+        Message messageWithNullContent = MessageBuilder.get().empty(MimeType.TEXT_PLAIN).build();
 
         // When
         Optional<String> maybeContentType = ContentType.from(messageWithNullContent);
