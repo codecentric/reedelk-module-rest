@@ -41,6 +41,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = RestClient.class, scope = PROTOTYPE)
 public class RestClient implements ProcessorAsync {
 
+    @DialogTitle("REST Client Configuration")
     @Property("Client config")
     private RestClientConfiguration configuration;
 

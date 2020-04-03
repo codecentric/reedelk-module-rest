@@ -33,6 +33,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = RestListener.class, scope = PROTOTYPE)
 public class RestListener extends AbstractInbound {
 
+    @DialogTitle("REST Listener Configuration")
     @Property("Configuration")
     private RestListenerConfiguration configuration;
 
