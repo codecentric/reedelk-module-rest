@@ -7,8 +7,8 @@ import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.Part;
-import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.Attachment;
+import com.reedelk.runtime.api.message.content.Attachments;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.junit.jupiter.api.Test;
@@ -67,7 +67,7 @@ class DefaultBodyProviderTest {
         DynamicObject body = DynamicObject.from("#[message.payload()]", context);
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
-        Parts parts = createParts();
+        Attachments parts = createParts();
 
         Message message = MessageBuilder.get().withJavaObject(parts).build();
 
@@ -109,7 +109,7 @@ class DefaultBodyProviderTest {
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
         Message message = MessageBuilder.get()
-                .withJavaObject(Mono.just(createParts()), Parts.class)
+                .withJavaObject(Mono.just(createParts()), Attachments.class)
                 .build();
 
         // When
@@ -136,20 +136,20 @@ class DefaultBodyProviderTest {
         assertThat(streamable).isFalse();
     }
 
-    private Parts createParts() {
+    private Attachments createParts() {
         ByteArrayContent pictureContent = new ByteArrayContent("picturebytes".getBytes(), MimeType.IMAGE_JPEG);
-        Part myPicturePart = Part.builder().name("myPicture")
+        Attachment myPicturePart = Attachment.builder().name("myPicture")
                 .attribute("filename", "my_picture.jpg")
                 .content(pictureContent)
                 .build();
 
         ByteArrayContent fileContent = new ByteArrayContent("filebytes".getBytes(), MimeType.APPLICATION_BINARY);
-        Part myFilePart = Part.builder().name("myFile")
+        Attachment myFilePart = Attachment.builder().name("myFile")
                 .attribute("filename", "myFile.wav")
                 .content(fileContent)
                 .build();
 
-        Parts parts = new Parts();
+        Attachments parts = new Attachments();
         parts.put("myPicturePart", myPicturePart);
         parts.put("myFilePart", myFilePart);
         return parts;

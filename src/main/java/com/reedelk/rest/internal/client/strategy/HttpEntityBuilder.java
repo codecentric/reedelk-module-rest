@@ -46,7 +46,7 @@ public class HttpEntityBuilder {
     }
 
     private HttpEntity buildMultipart() {
-        Parts dataAsMultipart = bodyResult.getDataAsMultipart();
+        Attachments dataAsMultipart = bodyResult.getDataAsMultipart();
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         dataAsMultipart.forEach((partName, part) -> buildPart(builder, partName, part));
         return new MultipartFormEntityWrapper(builder.build());
@@ -61,7 +61,7 @@ public class HttpEntityBuilder {
         }
     }
 
-    private void buildPart(MultipartEntityBuilder builder, String partName, Part part) {
+    private void buildPart(MultipartEntityBuilder builder, String partName, Attachment part) {
         if (part.getContent() instanceof ByteArrayContent) {
             byte[] dataAsBytes = (byte[]) part.getContent().data();
 

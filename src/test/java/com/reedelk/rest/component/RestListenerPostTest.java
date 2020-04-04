@@ -2,8 +2,8 @@ package com.reedelk.rest.component;
 
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.Part;
-import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.Attachment;
+import com.reedelk.runtime.api.message.content.Attachments;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -131,7 +131,7 @@ class RestListenerPostTest extends RestListenerAbstractTest {
         makeRequest(listener, postRequest);
 
         // Then
-        Parts parts = (Parts) payload;
+        Attachments parts = (Attachments) payload;
 
         assertThat(parts).containsOnlyKeys("username", "myfile");
         assertExistsPartWith(parts, "username", TEXT_PLAIN, "John", Collections.emptyMap());
@@ -169,8 +169,8 @@ class RestListenerPostTest extends RestListenerAbstractTest {
         assertThat(responseAsString).contains(ERROR_MULTIPART_NOT_SUPPORTED.format());
     }
 
-    private void assertExistsPartWith(Parts parts, String name, MimeType mimeType, Object data, Map<String,String> attributes) {
-        Part usernamePart = parts.get(name);
+    private void assertExistsPartWith(Attachments parts, String name, MimeType mimeType, Object data, Map<String,String> attributes) {
+        Attachment usernamePart = parts.get(name);
         assertThat(usernamePart.getName()).isEqualTo(name);
         assertThat(usernamePart.getContent().mimeType()).isEqualTo(mimeType);
         assertThat(usernamePart.getContent().data()).isEqualTo(data);

@@ -9,8 +9,8 @@ import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.Part;
-import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.Attachment;
+import com.reedelk.runtime.api.message.content.Attachments;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
@@ -44,11 +44,11 @@ public class MultipartMessage implements ProcessorSync {
 
     @Override
     public Message apply(FlowContext flowContext, Message message) {
-        Parts allParts = new Parts();
+        Attachments allParts = new Attachments();
         Optional.ofNullable(parts).ifPresent(partDefinitionMap ->
                 partDefinitionMap.forEach((partName, partDefinition) -> {
                     if (StringUtils.isNotBlank(partName)) {
-                        Part part = buildPartFrom(flowContext, message, partName, partDefinition);
+                        Attachment part = buildPartFrom(flowContext, message, partName, partDefinition);
                         allParts.put(partName, part);
                     }
                 }));
@@ -72,12 +72,12 @@ public class MultipartMessage implements ProcessorSync {
         this.scriptEngine = scriptEngine;
     }
 
-    private Part buildPartFrom(FlowContext flowContext,
-                               Message message,
-                               String partName,
-                               PartDefinition partDefinition) {
+    private Attachment buildPartFrom(FlowContext flowContext,
+                                     Message message,
+                                     String partName,
+                                     PartDefinition partDefinition) {
 
-        Part.Builder partBuilder = Part.builder().name(partName);
+        Attachment.Builder partBuilder = Attachment.builder().name(partName);
 
         // Part Content
         String mimeTypeAsString = partDefinition.getMimeType();

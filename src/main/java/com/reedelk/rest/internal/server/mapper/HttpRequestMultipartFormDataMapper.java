@@ -29,7 +29,7 @@ class HttpRequestMultipartFormDataMapper {
             throw new ExecutionException(ERROR_MULTIPART_NOT_SUPPORTED.format());
         }
 
-        Mono<Parts> partsMono = request.data().aggregate().flatMap(byteBuffer -> {
+        Mono<Attachments> partsMono = request.data().aggregate().flatMap(byteBuffer -> {
 
             HttpPostRequestDecoder postDecoder = null;
             FullHttpRequest fullHttpRequest = null;
@@ -49,7 +49,7 @@ class HttpRequestMultipartFormDataMapper {
                         fullHttpRequest,
                         CharsetUtil.UTF_8);
 
-                Parts parts = new Parts();
+                Attachments parts = new Attachments();
 
                 // Loop attribute/file upload parts
                 for (InterfaceHttpData data : postDecoder.getBodyHttpDatas()) {
@@ -69,10 +69,10 @@ class HttpRequestMultipartFormDataMapper {
             }
         });
 
-        return MessageBuilder.get().withJavaObject(partsMono, Parts.class, request.mimeType());
+        return MessageBuilder.get().withJavaObject(partsMono, Attachments.class, request.mimeType());
     }
 
-    private static void handleFileUploadPart(Parts parts, FileUpload fileUpload) {
+    private static void handleFileUploadPart(Attachments parts, FileUpload fileUpload) {
         String name = fileUpload.getName();
 
         byte[] fileContentAsBytes;
@@ -95,7 +95,7 @@ class HttpRequestMultipartFormDataMapper {
 
         MimeType mimeType = MimeType.parse(contentType);
         ByteArrayContent content = new ByteArrayContent(fileContentAsBytes, mimeType);
-        Part part = Part.builder()
+        Attachment part = Attachment.builder()
                 .content(content)
                 .attribute(MultipartAttribute.TRANSFER_ENCODING, contentTransferEncoding)
                 .attribute(MultipartAttribute.CONTENT_TYPE, contentType)
@@ -105,7 +105,7 @@ class HttpRequestMultipartFormDataMapper {
         parts.put(name, part);
     }
 
-    private static void handleAttributePart(Parts parts, Attribute attribute) {
+    private static void handleAttributePart(Attachments parts, Attribute attribute) {
         String name = attribute.getName();
         String attributeValue;
         try {
@@ -117,7 +117,7 @@ class HttpRequestMultipartFormDataMapper {
         }
 
         StringContent content = new StringContent(attributeValue, MimeType.TEXT_PLAIN);
-        Part part = Part.builder()
+        Attachment part = Attachment.builder()
                 .content(content)
                 .name(name)
                 .build();

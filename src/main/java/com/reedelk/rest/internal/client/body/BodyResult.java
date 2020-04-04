@@ -1,14 +1,14 @@
 package com.reedelk.rest.internal.client.body;
 
-import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.Attachments;
 
 public class BodyResult {
 
     private final boolean isMultipart;
-    private final Parts dataAsMultipart;
+    private final Attachments dataAsMultipart;
     private final byte[] dataAsBytes;
 
-    public BodyResult(Parts data) {
+    public BodyResult(Attachments data) {
         this.isMultipart = true;
         this.dataAsMultipart = data;
         this.dataAsBytes = null;
@@ -24,7 +24,7 @@ public class BodyResult {
         return isMultipart;
     }
 
-    public Parts getDataAsMultipart() {
+    public Attachments getDataAsMultipart() {
         return dataAsMultipart;
     }
 

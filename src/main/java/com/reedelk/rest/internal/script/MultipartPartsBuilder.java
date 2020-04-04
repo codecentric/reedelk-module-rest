@@ -2,16 +2,16 @@ package com.reedelk.rest.internal.script;
 
 import com.reedelk.runtime.api.annotation.AutocompleteItem;
 import com.reedelk.runtime.api.annotation.AutocompleteType;
-import com.reedelk.runtime.api.message.content.Part;
-import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.Attachment;
+import com.reedelk.runtime.api.message.content.Attachments;
 
 @AutocompleteType(description = "Multipart parts builder allows to create multiple parts")
 public class MultipartPartsBuilder {
 
-    private final Parts parts;
+    private final Attachments parts;
 
     MultipartPartsBuilder() {
-        parts = new Parts();
+        parts = new Attachments();
     }
 
     @AutocompleteItem(
@@ -27,11 +27,11 @@ public class MultipartPartsBuilder {
             signature = "build()",
             example = "MultipartBuilder.part('textContent').text('sample text').build()",
             description = "Creates the Multipart object with all the configured parts.")
-    public Parts build() {
+    public Attachments build() {
         return parts;
     }
 
-    public MultipartPartsBuilder add(Part part) {
+    public MultipartPartsBuilder add(Attachment part) {
         this.parts.put(part.getName(), part);
         return this;
     }

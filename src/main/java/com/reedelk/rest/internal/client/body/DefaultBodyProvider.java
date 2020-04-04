@@ -4,7 +4,7 @@ import com.reedelk.runtime.api.commons.ScriptUtils;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
-import com.reedelk.runtime.api.message.content.Parts;
+import com.reedelk.runtime.api.message.content.Attachments;
 import com.reedelk.runtime.api.message.content.TypedPublisher;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
@@ -30,8 +30,8 @@ public class DefaultBodyProvider implements BodyProvider {
         // The evaluated payload might be multipart or any other value.
         // For any other value we must convert it to byte array otherwise we keep it as Multipart.
         // The body strategy will take care of building the correct HTTP response for multipart or not multipart.
-        if (evaluatedObject instanceof Parts) {
-            Parts multipartBody = (Parts) evaluatedObject;
+        if (evaluatedObject instanceof Attachments) {
+            Attachments multipartBody = (Attachments) evaluatedObject;
             return new BodyResult(multipartBody);
         } else {
             byte[] byteArrayBody = converter.convert(evaluatedObject, byte[].class);
@@ -54,7 +54,7 @@ public class DefaultBodyProvider implements BodyProvider {
                     // the reactor netty API forces us to keep it as a stream and consume
                     // it later, therefore the content with Parts it is a stream however it
                     // cannot be consumed as a stream.
-                    !message.content().type().equals(Parts.class);
+                    !message.content().type().equals(Attachments.class);
         }
         return false;
     }

@@ -6,15 +6,15 @@ import com.reedelk.runtime.api.message.content.*;
 
 @AutocompleteType(
         description = "The MultipartPartBuilder allows to build a REST Part object. " +
-                "The MultipartPartBuilder type is used together wihth MultipartBuilder to build REST Multipart payloads.")
+                "The MultipartPartBuilder type is used together with MultipartBuilder to build REST Multipart payloads.")
 public class MultipartPartBuilder {
 
     private final MultipartPartsBuilder parent;
-    private Part.Builder current;
+    private Attachment.Builder current;
 
     MultipartPartBuilder(MultipartPartsBuilder parent, String partName) {
         this.parent = parent;
-        current = Part.builder().name(partName);
+        current = Attachment.builder().name(partName);
     }
 
     @AutocompleteItem(
@@ -87,7 +87,7 @@ public class MultipartPartBuilder {
             signature = "build()",
             example = "MultipartBuilder.part('textContent').text('sample text').build()",
             description = "Creates the Multipart object with all the configured parts.")
-    public Parts build() {
+    public Attachments build() {
         return parent.add(current.build()).build();
     }
 }
