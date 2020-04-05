@@ -18,17 +18,16 @@ public class RestScriptModules implements ScriptSource {
         this.moduleId = moduleId;
     }
 
-
     @Override
     public Map<String, Object> bindings() {
         Map<String, Object> bindings = new HashMap<>();
-        bindings.put("MultipartBuilder", new MultipartBuilder());
+        bindings.put("HttpPartBuilder", new HttpPartBuilder());
         return bindings;
     }
 
     @Override
     public Collection<String> scriptModuleNames() {
-        return unmodifiableList(Collections.singletonList("MultipartBuilder"));
+        return unmodifiableList(Collections.singletonList("HttpPartBuilder"));
     }
 
     @Override
@@ -38,6 +37,6 @@ public class RestScriptModules implements ScriptSource {
 
     @Override
     public String resource() {
-        return "/function/rest-javascript-functions.js";
+        return "/function/javascript-functions.js";
     }
 }

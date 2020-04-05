@@ -27,7 +27,7 @@ public class BodyProviderStreamAuto implements BodyProvider {
     @Override
     public Publisher<byte[]> from(HttpServerResponse response, Message message, FlowContext flowContext) {
         if (isEvaluateMessagePayload) {
-            if (isMessageStreamable(message)) {
+            if (message.content().isStream()) {
                 return streamAlways.from(response, message, flowContext);
             }
         }
@@ -38,10 +38,5 @@ public class BodyProviderStreamAuto implements BodyProvider {
     public Publisher<byte[]> from(HttpServerResponse response, Throwable throwable, FlowContext flowContext) {
         // An exception is never streamed.
         return streamNone.from(response, throwable, flowContext);
-    }
-
-    private boolean isMessageStreamable(Message message) {
-        return message.content().isStream() &&
-                !message.content().isConsumed();
     }
 }

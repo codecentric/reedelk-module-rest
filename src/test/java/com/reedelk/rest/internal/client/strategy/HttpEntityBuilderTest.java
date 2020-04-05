@@ -1,16 +1,18 @@
 package com.reedelk.rest.internal.client.strategy;
 
 import com.reedelk.rest.internal.client.body.BodyResult;
+import com.reedelk.runtime.api.message.content.Attachment;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.Attachment;
-import com.reedelk.runtime.api.message.content.Attachments;
 import org.apache.http.HttpEntity;
 import org.apache.http.nio.entity.NByteArrayEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -50,18 +52,18 @@ class HttpEntityBuilderTest {
     void shouldBuildMultipartEntityCorrectly() {
         // Given
         ByteArrayContent pictureContent = new ByteArrayContent("picturebytes".getBytes(), MimeType.IMAGE_JPEG);
-        Attachment myPicturePart = Attachment.builder().name("myPicture")
+        Attachment myPicturePart = Attachment.builder()
                 .attribute("filename", "my_picture.jpg")
                 .content(pictureContent)
                 .build();
 
         ByteArrayContent fileContent = new ByteArrayContent("filebytes".getBytes(), MimeType.APPLICATION_BINARY);
-        Attachment myFilePart = Attachment.builder().name("myFile")
+        Attachment myFilePart = Attachment.builder()
                 .attribute("filename", "myFile.wav")
                 .content(fileContent)
                 .build();
 
-        Attachments parts = new Attachments();
+        Map<String,Attachment> parts = new HashMap<>();
         parts.put("myPicturePart", myPicturePart);
         parts.put("myFilePart", myFilePart);
 

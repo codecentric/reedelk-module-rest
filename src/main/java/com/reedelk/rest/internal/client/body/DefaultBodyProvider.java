@@ -4,11 +4,13 @@ import com.reedelk.runtime.api.commons.ScriptUtils;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
-import com.reedelk.runtime.api.message.content.Attachments;
+import com.reedelk.runtime.api.message.content.Attachment;
 import com.reedelk.runtime.api.message.content.TypedPublisher;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
 import org.reactivestreams.Publisher;
+
+import java.util.Map;
 
 public class DefaultBodyProvider implements BodyProvider {
 
@@ -27,11 +29,11 @@ public class DefaultBodyProvider implements BodyProvider {
     @Override
     public BodyResult get(Message message, FlowContext flowContext) {
         Object evaluatedObject = scriptEngine.evaluate(body, flowContext, message).orElse(new byte[0]);
-        // The evaluated payload might be multipart or any other value.
-        // For any other value we must convert it to byte array otherwise we keep it as Multipart.
-        // The body strategy will take care of building the correct HTTP response for multipart or not multipart.
-        if (evaluatedObject instanceof Attachments) {
-            Attachments multipartBody = (Attachments) evaluatedObject;
+        // The evaluated payload might be an Attachments map (Multipart) or any other value.
+        // For any other value we must convert it to byte array otherwise we keep it as Attachments map (Multipart).
+        // The body strategy will take care of building the correct HTTP response for Multipart or not Multipart request.
+        if (Attachment.isAttachmentMap(evaluatedObject)) {
+            Map<String, Attachment> multipartBody = (Map<String,Attachment>) evaluatedObject;
             return new BodyResult(multipartBody);
         } else {
             byte[] byteArrayBody = converter.convert(evaluatedObject, byte[].class);
@@ -48,13 +50,7 @@ public class DefaultBodyProvider implements BodyProvider {
     @Override
     public boolean streamable(Message message) {
         if (isEvaluateMessagePayloadBody) {
-            return message.content().isStream() &&
-                    !message.content().isConsumed() &&
-                    // Multipart cannot be streamed! However in the listener
-                    // the reactor netty API forces us to keep it as a stream and consume
-                    // it later, therefore the content with Parts it is a stream however it
-                    // cannot be consumed as a stream.
-                    !message.content().type().equals(Attachments.class);
+            return message.content().isStream();
         }
         return false;
     }

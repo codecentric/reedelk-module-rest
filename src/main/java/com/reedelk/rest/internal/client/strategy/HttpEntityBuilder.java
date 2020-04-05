@@ -13,6 +13,7 @@ import org.apache.http.nio.entity.NByteArrayEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static com.reedelk.rest.internal.commons.Messages.RestClient.MULTIPART_PART_CONTENT_UNSUPPORTED;
@@ -46,7 +47,7 @@ public class HttpEntityBuilder {
     }
 
     private HttpEntity buildMultipart() {
-        Attachments dataAsMultipart = bodyResult.getDataAsMultipart();
+        Map<String, Attachment> dataAsMultipart = bodyResult.getDataAsMultipart();
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         dataAsMultipart.forEach((partName, part) -> buildPart(builder, partName, part));
         return new MultipartFormEntityWrapper(builder.build());

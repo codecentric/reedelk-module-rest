@@ -7,10 +7,9 @@ import com.reedelk.runtime.api.component.ProcessorSync;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
+import com.reedelk.runtime.api.message.content.Attachment;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.Attachment;
-import com.reedelk.runtime.api.message.content.Attachments;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
@@ -44,11 +43,11 @@ public class MultipartMessage implements ProcessorSync {
 
     @Override
     public Message apply(FlowContext flowContext, Message message) {
-        Attachments allParts = new Attachments();
+        Map<String, Attachment> allParts = new HashMap<>();
         Optional.ofNullable(parts).ifPresent(partDefinitionMap ->
                 partDefinitionMap.forEach((partName, partDefinition) -> {
                     if (StringUtils.isNotBlank(partName)) {
-                        Attachment part = buildPartFrom(flowContext, message, partName, partDefinition);
+                        Attachment part = buildPartFrom(flowContext, message, partDefinition);
                         allParts.put(partName, part);
                     }
                 }));
@@ -74,10 +73,9 @@ public class MultipartMessage implements ProcessorSync {
 
     private Attachment buildPartFrom(FlowContext flowContext,
                                      Message message,
-                                     String partName,
                                      PartDefinition partDefinition) {
 
-        Attachment.Builder partBuilder = Attachment.builder().name(partName);
+        Attachment.Builder partBuilder = Attachment.builder();
 
         // Part Content
         String mimeTypeAsString = partDefinition.getMimeType();

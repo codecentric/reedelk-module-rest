@@ -11,8 +11,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
 
-@Component(service = RestModuleActivator.class, scope = SINGLETON, immediate = true)
-public class RestModuleActivator {
+@Component(service = ModuleActivator.class, scope = SINGLETON, immediate = true)
+public class ModuleActivator {
 
     // TODO: Should we stop the Listener Servers if any started!?
     @Reference

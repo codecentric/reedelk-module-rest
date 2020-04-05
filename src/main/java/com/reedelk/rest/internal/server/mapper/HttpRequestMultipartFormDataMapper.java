@@ -3,7 +3,10 @@ package com.reedelk.rest.internal.server.mapper;
 import com.reedelk.rest.internal.ExecutionException;
 import com.reedelk.runtime.api.exception.ESBException;
 import com.reedelk.runtime.api.message.MessageBuilder;
-import com.reedelk.runtime.api.message.content.*;
+import com.reedelk.runtime.api.message.content.Attachment;
+import com.reedelk.runtime.api.message.content.ByteArrayContent;
+import com.reedelk.runtime.api.message.content.MimeType;
+import com.reedelk.runtime.api.message.content.StringContent;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
@@ -12,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.reedelk.rest.internal.commons.Messages.RestListener.*;
 import static io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
@@ -29,7 +34,7 @@ class HttpRequestMultipartFormDataMapper {
             throw new ExecutionException(ERROR_MULTIPART_NOT_SUPPORTED.format());
         }
 
-        Mono<Attachments> partsMono = request.data().aggregate().flatMap(byteBuffer -> {
+        Mono<Map> partsMono = request.data().aggregate().flatMap(byteBuffer -> {
 
             HttpPostRequestDecoder postDecoder = null;
             FullHttpRequest fullHttpRequest = null;
@@ -49,7 +54,7 @@ class HttpRequestMultipartFormDataMapper {
                         fullHttpRequest,
                         CharsetUtil.UTF_8);
 
-                Attachments parts = new Attachments();
+                Map<String, Attachment> parts = new HashMap<>();
 
                 // Loop attribute/file upload parts
                 for (InterfaceHttpData data : postDecoder.getBodyHttpDatas()) {
@@ -69,10 +74,10 @@ class HttpRequestMultipartFormDataMapper {
             }
         });
 
-        return MessageBuilder.get().withJavaObject(partsMono, Attachments.class, request.mimeType());
+        return MessageBuilder.get().withJavaObject(partsMono, Map.class, request.mimeType());
     }
 
-    private static void handleFileUploadPart(Attachments parts, FileUpload fileUpload) {
+    private static void handleFileUploadPart(Map<String,Attachment> parts, FileUpload fileUpload) {
         String name = fileUpload.getName();
 
         byte[] fileContentAsBytes;
@@ -96,16 +101,15 @@ class HttpRequestMultipartFormDataMapper {
         MimeType mimeType = MimeType.parse(contentType);
         ByteArrayContent content = new ByteArrayContent(fileContentAsBytes, mimeType);
         Attachment part = Attachment.builder()
-                .content(content)
                 .attribute(MultipartAttribute.TRANSFER_ENCODING, contentTransferEncoding)
                 .attribute(MultipartAttribute.CONTENT_TYPE, contentType)
                 .attribute(MultipartAttribute.FILE_NAME, filename)
-                .name(name)
+                .content(content)
                 .build();
         parts.put(name, part);
     }
 
-    private static void handleAttributePart(Attachments parts, Attribute attribute) {
+    private static void handleAttributePart(Map<String,Attachment> parts, Attribute attribute) {
         String name = attribute.getName();
         String attributeValue;
         try {
@@ -119,7 +123,6 @@ class HttpRequestMultipartFormDataMapper {
         StringContent content = new StringContent(attributeValue, MimeType.TEXT_PLAIN);
         Attachment part = Attachment.builder()
                 .content(content)
-                .name(name)
                 .build();
         parts.put(name, part);
     }
