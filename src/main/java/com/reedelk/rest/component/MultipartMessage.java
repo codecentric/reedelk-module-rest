@@ -39,7 +39,7 @@ public class MultipartMessage implements ProcessorSync {
     private Map<String, PartDefinition> parts = new HashMap<>();
 
     @Reference
-    private ScriptEngineService scriptEngine;
+    ScriptEngineService scriptEngine;
 
     @Override
     public Message apply(FlowContext flowContext, Message message) {
