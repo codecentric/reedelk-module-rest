@@ -8,9 +8,7 @@ import com.reedelk.runtime.api.annotation.AutocompleteType;
         description = "The HttpPartBuilder creates new HttpPart objects.")
 public class HttpPartBuilder {
 
-    @AutocompleteItem(
-            cursorOffset = 1,
-            signature = "create()",
+    @AutocompleteItem(signature = "create()",
             example = "HttpPartBuilder.create()",
             description = "Creates a new HttpPart object.")
     public HttpPart create() {
