@@ -74,13 +74,6 @@ public class RestListenerConfiguration implements Implementor {
     @Description("The maximum length of all headers.")
     private Integer maxLengthOfAllHeaders;
 
-    @Property("Keep alive")
-    @Example("true")
-    @InitValue("true")
-    @DefaultValue("true")
-    @Description("Enables socket keep alive for this listener.")
-    private Boolean keepAlive;
-
     @Property("Compress response")
     @Example("true")
     @DefaultValue("false")
@@ -88,15 +81,23 @@ public class RestListenerConfiguration implements Implementor {
     private Boolean compress;
 
     @Property("Disable Open API")
+    @Description("If true, open API is not exposed for all endpoints using this REST Listener Configuration.")
     private Boolean disableOpenApi;
+
+    @Property("Keep alive")
+    @Example("true")
+    @InitValue("true")
+    @DefaultValue("true")
+    @Description("Enables socket keep alive for this listener.")
+    private Boolean keepAlive;
 
     @Property("Security configuration")
     @When(propertyName = "protocol", propertyValue = "HTTPS")
     private SecurityConfiguration securityConfiguration;
 
     @Property("Open API Configuration")
-    @When(propertyName = "openApiDisabled", propertyValue = When.NULL)
-    @When(propertyName = "openApiDisabled", propertyValue = "false")
+    @When(propertyName = "disableOpenApi", propertyValue = When.NULL)
+    @When(propertyName = "disableOpenApi", propertyValue = "false")
     private OpenApiObject openApi = new OpenApiObject();
 
     public String getHost() {
