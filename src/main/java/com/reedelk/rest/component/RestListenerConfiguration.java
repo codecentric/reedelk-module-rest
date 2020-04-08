@@ -42,13 +42,13 @@ public class RestListenerConfiguration implements Implementor {
     @Description("The base path shared by all the listeners using this configuration.")
     private String basePath;
 
-    @Property("Read timeout millis")
+    @Property("Read timeout")
     @Hint("60000")
     @Example("30000")
     @Description("Sets the socket read timeout for this listener in milliseconds.")
     private Integer readTimeoutMillis;
 
-    @Property("Connection timeout millis")
+    @Property("Connection timeout")
     @Hint("30000")
     @Example("30000")
     @Description("Sets the socket connection timeout for this listener in milliseconds.")
