@@ -16,6 +16,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class MediaTypeObject extends AbstractOpenApiSerializable implements Implementor {
 
     @Property("Example")
+    @WidthAuto
     @Hint("assets/data_model.json")
     @Example("assets/data_model.json")
     @HintBrowseFile("Select Example File ...")
@@ -23,6 +24,7 @@ public class MediaTypeObject extends AbstractOpenApiSerializable implements Impl
     private ResourceText example;
 
     @Property("Schema")
+    @WidthAuto
     @Hint("assets/data_model.json")
     @HintBrowseFile("Select Schema File ...")
     @Example("assets/data_model.json")

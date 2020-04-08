@@ -35,6 +35,7 @@ public class HeaderObject extends AbstractOpenApiSerializable implements Impleme
     private PredefinedSchema predefinedSchema = PredefinedSchema.STRING;
 
     @Property("Custom Schema")
+    @WidthAuto
     @HintBrowseFile("Select Schema File ...")
     @When(propertyName = "predefinedSchema", propertyValue = "NONE")
     @When(propertyName = "predefinedSchema", propertyValue = When.NULL)

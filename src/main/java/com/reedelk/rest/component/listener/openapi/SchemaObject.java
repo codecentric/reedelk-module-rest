@@ -20,6 +20,7 @@ public class SchemaObject extends AbstractOpenApiSerializable implements Impleme
     private static final List<String> PROPERTIES_TO_EXCLUDE_FROM_SCHEMA = Arrays.asList("$id", "$schema", "name");
 
     @Property("Schema")
+    @WidthAuto
     @Hint("assets/data_model.json")
     @Example("assets/data_model.json")
     @HintBrowseFile("Select Schema File ...")
