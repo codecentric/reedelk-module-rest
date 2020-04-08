@@ -75,7 +75,7 @@ public class ServerProvider {
     }
 
     private boolean isOpenApiDisabled(RestListenerConfiguration configuration) {
-        return ofNullable(configuration.getOpenApiDisabled())
+        return ofNullable(configuration.getDisableOpenApi())
                 .orElse(false);
     }
 }

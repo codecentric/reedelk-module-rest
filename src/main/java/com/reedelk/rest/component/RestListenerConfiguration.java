@@ -87,8 +87,8 @@ public class RestListenerConfiguration implements Implementor {
     @Description("If true the response is compressed before sending it to the client.")
     private Boolean compress;
 
-    @Property("Open API Disabled")
-    private Boolean openApiDisabled;
+    @Property("Disable Open API")
+    private Boolean disableOpenApi;
 
     @Property("Security configuration")
     @When(propertyName = "protocol", propertyValue = "HTTPS")
@@ -203,11 +203,11 @@ public class RestListenerConfiguration implements Implementor {
         this.openApi = openApi;
     }
 
-    public Boolean getOpenApiDisabled() {
-        return openApiDisabled;
+    public Boolean getDisableOpenApi() {
+        return disableOpenApi;
     }
 
-    public void setOpenApiDisabled(Boolean openApiDisabled) {
-        this.openApiDisabled = openApiDisabled;
+    public void setDisableOpenApi(Boolean disableOpenApi) {
+        this.disableOpenApi = disableOpenApi;
     }
 }
