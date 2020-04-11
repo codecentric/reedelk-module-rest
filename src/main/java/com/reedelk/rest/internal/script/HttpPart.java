@@ -21,6 +21,16 @@ public class HttpPart {
 
     @AutocompleteItem(
             cursorOffset = 1,
+            signature = "name(name: String)",
+            example = "HttpPartBuilder.create().name('myFile')",
+            description = "Sets the name of the attachment.")
+    public HttpPart name(String name) {
+        current.name(name);
+        return this;
+    }
+
+    @AutocompleteItem(
+            cursorOffset = 1,
             signature = "attribute(key: String, value: String)",
             example = "HttpPartBuilder.create().attribute('filename','my_image.png')",
             description = "Adds a new attribute with the given key and value to the part object.")

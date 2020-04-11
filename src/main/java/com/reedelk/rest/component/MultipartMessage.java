@@ -47,7 +47,7 @@ public class MultipartMessage implements ProcessorSync {
         Optional.ofNullable(parts).ifPresent(partDefinitionMap ->
                 partDefinitionMap.forEach((partName, partDefinition) -> {
                     if (StringUtils.isNotBlank(partName)) {
-                        Attachment part = buildPartFrom(flowContext, message, partDefinition);
+                        Attachment part = buildPartFrom(flowContext, message, partName, partDefinition);
                         allParts.put(partName, part);
                     }
                 }));
@@ -73,9 +73,10 @@ public class MultipartMessage implements ProcessorSync {
 
     private Attachment buildPartFrom(FlowContext flowContext,
                                      Message message,
+                                     String partName,
                                      PartDefinition partDefinition) {
 
-        Attachment.Builder partBuilder = Attachment.builder();
+        Attachment.Builder partBuilder = Attachment.builder().name(partName);
 
         // Part Content
         String mimeTypeAsString = partDefinition.getMimeType();

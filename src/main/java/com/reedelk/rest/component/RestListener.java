@@ -22,7 +22,7 @@ import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.require
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireTrue;
 import static com.reedelk.runtime.api.commons.StringUtils.isBlank;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
-
+// TODO: Should rename it with RESTListener instead like for POP3Listener and so on? Same for Rest Client?
 @ModuleComponent("REST Listener")
 @Description("The REST Listener can be used to create a REST endpoint listening on " +
                 "a given port, post and path. The listening path might contain path segments which " +

@@ -63,7 +63,9 @@ public class HttpEntityBuilder {
     }
 
     private void buildPart(MultipartEntityBuilder builder, String partName, Attachment part) {
-        if (part.getContent() instanceof ByteArrayContent) {
+        TypedContent<?, ?> content = part.getContent();
+
+        if (content instanceof ByteArrayContent) {
             byte[] dataAsBytes = (byte[]) part.getContent().data();
 
             String filename = part.getAttributes().getOrDefault(MultipartAttribute.FILE_NAME, null);
@@ -75,7 +77,7 @@ public class HttpEntityBuilder {
                     .ifPresent(partAttrs -> partAttrs.forEach(formBodyPartBuilder::addField));
             builder.addPart(formBodyPartBuilder.build());
 
-        } else if (part.getContent() instanceof StringContent) {
+        } else if (content instanceof StringContent) {
             String dataAsString = (String) part.getContent().data();
             ContentType contentType = contentTypeOrDefault(part.getContent(), ContentType.DEFAULT_TEXT);
 
@@ -85,7 +87,7 @@ public class HttpEntityBuilder {
                     .ifPresent(partAttrs -> partAttrs.forEach(formBodyPartBuilder::addField));
             builder.addPart(formBodyPartBuilder.build());
 
-        } else if (part.getContent() == null) {
+        } else if (content == null) {
             logger.warn(MULTIPART_PART_NULL.format(partName));
 
         } else {

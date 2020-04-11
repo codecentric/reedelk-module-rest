@@ -101,6 +101,7 @@ class HttpRequestMultipartFormDataMapper {
         MimeType mimeType = MimeType.parse(contentType);
         ByteArrayContent content = new ByteArrayContent(fileContentAsBytes, mimeType);
         Attachment part = Attachment.builder()
+                .name(name)
                 .attribute(MultipartAttribute.TRANSFER_ENCODING, contentTransferEncoding)
                 .attribute(MultipartAttribute.CONTENT_TYPE, contentType)
                 .attribute(MultipartAttribute.FILE_NAME, filename)
@@ -122,6 +123,7 @@ class HttpRequestMultipartFormDataMapper {
 
         StringContent content = new StringContent(attributeValue, MimeType.TEXT_PLAIN);
         Attachment part = Attachment.builder()
+                .name(name)
                 .content(content)
                 .build();
         parts.put(name, part);
