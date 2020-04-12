@@ -81,10 +81,10 @@ public class RESTListener extends AbstractInbound {
 
     @Override
     public void onStart() {
-        requireNotNull(RESTListener.class, configuration, "RestListener configuration must be defined");
-        requireNotNull(RESTListener.class, configuration.getProtocol(), "RestListener configuration protocol must be defined");
-        requireNotNull(RESTListener.class, method, "RestListener method must be defined");
-        requireTrue(RESTListener.class, isBlank(path) || path.startsWith("/") ,"RestListener path must start with '/'");
+        requireNotNull(RESTListener.class, configuration, "RESTListener configuration must be defined");
+        requireNotNull(RESTListener.class, configuration.getProtocol(), "RESTListener configuration protocol must be defined");
+        requireNotNull(RESTListener.class, method, "RESTListener method must be defined");
+        requireTrue(RESTListener.class, isBlank(path) || path.startsWith("/") ,"RESTListener path must start with '/'");
 
         HttpRequestHandler requestHandler = DefaultHttpRequestHandler.builder()
                         .inboundEventListener(RESTListener.this)

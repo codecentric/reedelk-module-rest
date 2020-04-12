@@ -194,7 +194,7 @@ public class RESTClient implements ProcessorAsync {
         if (configuration != null) {
             client = clientFactory.create(this, configuration);
         } else {
-            requireNonNull(baseURL, "RestClient base URL must be defined");
+            requireNonNull(baseURL, "RESTClient base URL must be defined");
             client = clientFactory.create();
         }
     }
