@@ -108,6 +108,6 @@ class RESTClientBasicAuthTest extends RESTClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Basic Authentication Configuration must be present in the JSON definition when 'authentication' property is 'BASIC'");
+        assertThat(thrown).hasMessage("RESTClientConfiguration (com.reedelk.rest.component.RESTClientConfiguration) has a configuration error: Basic Authentication Configuration must be present in the JSON definition when 'authentication' property is 'BASIC'");
     }
 }

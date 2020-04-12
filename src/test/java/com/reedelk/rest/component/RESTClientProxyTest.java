@@ -73,7 +73,7 @@ class RESTClientProxyTest extends RESTClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'");
+        assertThat(thrown).hasMessage("RESTClientConfiguration (com.reedelk.rest.component.RESTClientConfiguration) has a configuration error: Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'");
     }
 
     @DisplayName("Proxy Digest Authentication tests")
