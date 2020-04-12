@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class AssertHttpResponse {
 
-    static void isSuccessful(RestClient1 client,
+    static void isSuccessful(RESTClient client,
                              Message message,
                              FlowContext context,
                              String expectedBody,
@@ -28,7 +28,7 @@ class AssertHttpResponse {
         }
     }
 
-    static void isSuccessful(RestClient1 component,
+    static void isSuccessful(RESTClient component,
                              Message message,
                              FlowContext context) {
         try {
@@ -39,7 +39,7 @@ class AssertHttpResponse {
         }
     }
 
-    static void isNotSuccessful(RestClient1 component,
+    static void isNotSuccessful(RESTClient component,
                                 Message message,
                                 FlowContext context,
                                 int status,
@@ -52,7 +52,7 @@ class AssertHttpResponse {
         }
     }
 
-    static void isNotSuccessful(RestClient1 component,
+    static void isNotSuccessful(RESTClient component,
                                 Message message,
                                 FlowContext context,
                                 String expectedErrorMessage) {
@@ -81,13 +81,13 @@ class AssertHttpResponse {
         private final Message message;
         private final String expectedBody;
         private final FlowContext context;
-        private final RestClient1 component;
+        private final RESTClient component;
         private final MimeType expectedMimeType;
 
         private Message response;
         private Throwable exception;
 
-        SuccessAssertion(RestClient1 component,
+        SuccessAssertion(RESTClient component,
                          Message message,
                          FlowContext context,
                          String expectedBody,
@@ -99,7 +99,7 @@ class AssertHttpResponse {
             this.message = message;
         }
 
-        SuccessAssertion(RestClient1 component,
+        SuccessAssertion(RESTClient component,
                          Message message,
                          FlowContext context) {
             this(component, message, context, null, null);
@@ -139,14 +139,14 @@ class AssertHttpResponse {
 
         private final Message message;
         private final FlowContext context;
-        private final RestClient1 component;
+        private final RESTClient component;
         private final String expectedErrorMessage;
         private final int expectedStatus;
         private final String expectedReasonPhrase;
 
         private HttpClientResponseException error;
 
-        UnSuccessAssertion(RestClient1 component,
+        UnSuccessAssertion(RESTClient component,
                            Message message,
                            FlowContext context,
                            String expectedErrorMessage) {
@@ -158,7 +158,7 @@ class AssertHttpResponse {
             this.expectedErrorMessage = expectedErrorMessage;
         }
 
-        UnSuccessAssertion(RestClient1 component,
+        UnSuccessAssertion(RESTClient component,
                            Message message,
                            FlowContext context,
                            int expectedStatus,

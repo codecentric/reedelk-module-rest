@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.*;
 
-class RestClient1StreamingModeTest extends RestClient1AbstractTest {
+class RESTClientStreamingModeTest extends RESTClientAbstractTest {
 
     @DisplayName("Streaming mode NONE tests")
     @Nested
@@ -35,13 +35,13 @@ class RestClient1StreamingModeTest extends RestClient1AbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithCorrectContentLengthHeader(String method) {
             // Given
-            RestClient1Configuration configuration = new RestClient1Configuration();
+            RESTClientConfiguration configuration = new RESTClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
             configuration.setId(UUID.randomUUID().toString());
 
-            RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
             component.setStreaming(StreamingMode.NONE);
 
             String requestBody = "{\"Name\":\"John\"}";
@@ -79,13 +79,13 @@ class RestClient1StreamingModeTest extends RestClient1AbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithChunkedContent(String method) {
             // Given
-            RestClient1Configuration configuration = new RestClient1Configuration();
+            RESTClientConfiguration configuration = new RESTClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
             configuration.setId(UUID.randomUUID().toString());
 
-            RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
             component.setStreaming(StreamingMode.ALWAYS);
 
             String requestBodyChunk1 = "{\"Name\":";
@@ -126,13 +126,13 @@ class RestClient1StreamingModeTest extends RestClient1AbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithChunkedContent(String method) {
             // Given
-            RestClient1Configuration configuration = new RestClient1Configuration();
+            RESTClientConfiguration configuration = new RESTClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
             configuration.setId(UUID.randomUUID().toString());
 
-            RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
             component.setStreaming(StreamingMode.AUTO);
 
             String requestBodyChunk1 = "{\"Name\":";
@@ -168,13 +168,13 @@ class RestClient1StreamingModeTest extends RestClient1AbstractTest {
         @ValueSource(strings = {"POST", "PUT", "DELETE"})
         void shouldSendBodyWithContentLengthHeader(String method) {
             // Given
-            RestClient1Configuration configuration = new RestClient1Configuration();
+            RESTClientConfiguration configuration = new RESTClientConfiguration();
             configuration.setHost(HOST);
             configuration.setPort(PORT);
             configuration.setProtocol(HttpProtocol.HTTP);
             configuration.setId(UUID.randomUUID().toString());
 
-            RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH, EVALUATE_PAYLOAD_BODY);
             component.setStreaming(StreamingMode.AUTO);
 
             String requestBody = "{\"Name\":\"John\"}";

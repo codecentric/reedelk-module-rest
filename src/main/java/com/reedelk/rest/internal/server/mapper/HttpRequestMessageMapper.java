@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.server.mapper;
 
 import com.reedelk.rest.internal.commons.HttpHeader;
-import com.reedelk.rest.component.RestListener1;
+import com.reedelk.rest.component.RESTListener;
 import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -45,7 +45,7 @@ public class HttpRequestMessageMapper {
         // the 'correlationId' context variable available in each flow execution instance.
         setCorrelationIdIfPresent(request, attributes);
 
-        DefaultMessageAttributes requestAttributes = new DefaultMessageAttributes(RestListener1.class, attributes);
+        DefaultMessageAttributes requestAttributes = new DefaultMessageAttributes(RESTListener.class, attributes);
 
         MimeType mimeType = request.mimeType();
 

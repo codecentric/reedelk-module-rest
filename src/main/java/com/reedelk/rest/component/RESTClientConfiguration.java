@@ -9,8 +9,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Shared
-@Component(service = RestClient1Configuration.class, scope = PROTOTYPE)
-public class RestClient1Configuration implements Implementor {
+@Component(service = RESTClientConfiguration.class, scope = PROTOTYPE)
+public class RESTClientConfiguration implements Implementor {
 
     @Property("id")
     @Hidden

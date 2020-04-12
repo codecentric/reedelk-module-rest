@@ -12,13 +12,13 @@ import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static com.reedelk.runtime.api.message.content.MimeType.APPLICATION_JSON;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT_PLAIN;
 
-class RestClient1GetTest extends RestClient1AbstractTest {
+class RESTClientGetTest extends RESTClientAbstractTest {
 
     @Test
     void shouldGetExecuteCorrectlyWhenResponse200() {
         // Given
         String responseBody = "{\"Name\":\"John\"}";
-        RestClient1 component = clientWith(GET, BASE_URL, PATH);
+        RESTClient component = clientWith(GET, BASE_URL, PATH);
 
         WireMock.givenThat(get(urlEqualTo(PATH))
                 .willReturn(aResponse()
@@ -37,7 +37,7 @@ class RestClient1GetTest extends RestClient1AbstractTest {
     void shouldGetThrowExceptionWhenResponseNot2xxAndNotEmptyBody() {
         // Given
         String expectedErrorMessage = "Error exception caused by XYZ";
-        RestClient1 component = clientWith(GET, BASE_URL, PATH);
+        RESTClient component = clientWith(GET, BASE_URL, PATH);
 
         givenThat(get(urlEqualTo(PATH))
                 .willReturn(aResponse()
@@ -54,7 +54,7 @@ class RestClient1GetTest extends RestClient1AbstractTest {
 
     @Test
     void shouldGetThrowExceptionWhenResponseNot2xxAndEmptyBody() {
-        RestClient1 component = clientWith(GET, BASE_URL, PATH);
+        RESTClient component = clientWith(GET, BASE_URL, PATH);
 
         givenThat(get(urlEqualTo(PATH))
                 .willReturn(aResponse()

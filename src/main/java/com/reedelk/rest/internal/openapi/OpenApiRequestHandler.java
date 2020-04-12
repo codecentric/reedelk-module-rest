@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.RestListener1Configuration;
+import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OpenApiObject;
@@ -25,7 +25,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     protected OpenApiObject openAPI;
     protected OpenApiSerializableContext context;
 
-    protected OpenApiRequestHandler(RestListener1Configuration configuration) {
+    protected OpenApiRequestHandler(RESTListenerConfiguration configuration) {
         openAPI = configuration.getOpenApi();
         openAPI.setBasePath(configuration.getBasePath());
         context = new OpenApiSerializableContext(openAPI.getComponents());

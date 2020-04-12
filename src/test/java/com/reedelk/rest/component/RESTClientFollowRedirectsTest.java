@@ -13,19 +13,19 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT_PLAIN;
 
-class RestClient1FollowRedirectsTest extends RestClient1AbstractTest {
+class RESTClientFollowRedirectsTest extends RESTClientAbstractTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldFollowRedirectsByDefault() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
 
-        RestClient1 component = clientWith(RestMethod.GET, configuration, PATH);
+        RESTClient component = clientWith(RestMethod.GET, configuration, PATH);
 
 
         givenThat(any(urlEqualTo(PATH))
@@ -49,14 +49,14 @@ class RestClient1FollowRedirectsTest extends RestClient1AbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldFollowRedirectsTrue() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
         configuration.setFollowRedirects(true);
 
-        RestClient1 component = clientWith(RestMethod.GET, configuration, PATH);
+        RESTClient component = clientWith(RestMethod.GET, configuration, PATH);
 
 
         givenThat(any(urlEqualTo(PATH))
@@ -80,14 +80,14 @@ class RestClient1FollowRedirectsTest extends RestClient1AbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldNotFollowRedirects() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
         configuration.setFollowRedirects(false);
 
-        RestClient1 component = clientWith(RestMethod.GET, configuration, PATH);
+        RESTClient component = clientWith(RestMethod.GET, configuration, PATH);
 
 
         givenThat(any(urlEqualTo(PATH))

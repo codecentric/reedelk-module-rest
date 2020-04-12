@@ -6,19 +6,19 @@ import org.junit.jupiter.api.Test;
 import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static org.apache.http.HttpStatus.SC_OK;
 
-class RestListener1DefaultTest extends RestListener1AbstractTest {
+class RESTListenerDefaultTest extends RESTListenerAbstractTest {
 
     @Test
     void shouldUseDefaultHostAndPortWhenConfigDoesNotDefineHostAndPort() {
         // Given
-        RestListener1Configuration configWithoutHostAndPortDefined = new RestListener1Configuration();
+        RESTListenerConfiguration configWithoutHostAndPortDefined = new RESTListenerConfiguration();
 
         int defaultPort = 8080;
         String defaultHost = "localhost";
 
         HttpGet request = new HttpGet("http://" + defaultHost + ":"+ defaultPort);
 
-        RestListener1 listener = listenerWith(GET, configWithoutHostAndPortDefined);
+        RESTListener listener = listenerWith(GET, configWithoutHostAndPortDefined);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 

@@ -30,12 +30,12 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
                 "across different REST Listener whenever there is a need to reuse a common endpoint configuration " +
                 "across different REST resources. The REST Listener is an Inbound component and it can only be placed " +
                 "at the beginning of a flow.")
-@Component(service = RestListener1.class, scope = PROTOTYPE)
-public class RestListener1 extends AbstractInbound {
+@Component(service = RESTListener.class, scope = PROTOTYPE)
+public class RESTListener extends AbstractInbound {
 
     @DialogTitle("REST Listener Configuration")
     @Property("Configuration")
-    private RestListener1Configuration configuration;
+    private RESTListenerConfiguration configuration;
 
     @Property("Path")
     @Hint("/resource/{id}")
@@ -81,13 +81,13 @@ public class RestListener1 extends AbstractInbound {
 
     @Override
     public void onStart() {
-        requireNotNull(RestListener1.class, configuration, "RestListener configuration must be defined");
-        requireNotNull(RestListener1.class, configuration.getProtocol(), "RestListener configuration protocol must be defined");
-        requireNotNull(RestListener1.class, method, "RestListener method must be defined");
-        requireTrue(RestListener1.class, isBlank(path) || path.startsWith("/") ,"RestListener path must start with '/'");
+        requireNotNull(RESTListener.class, configuration, "RestListener configuration must be defined");
+        requireNotNull(RESTListener.class, configuration.getProtocol(), "RestListener configuration protocol must be defined");
+        requireNotNull(RESTListener.class, method, "RestListener method must be defined");
+        requireTrue(RESTListener.class, isBlank(path) || path.startsWith("/") ,"RestListener path must start with '/'");
 
         HttpRequestHandler requestHandler = DefaultHttpRequestHandler.builder()
-                        .inboundEventListener(RestListener1.this)
+                        .inboundEventListener(RESTListener.this)
                         .errorResponse(errorResponse)
                         .scriptEngine(scriptEngine)
                         .streaming(streaming)
@@ -112,7 +112,7 @@ public class RestListener1 extends AbstractInbound {
         });
     }
 
-    public void setConfiguration(RestListener1Configuration configuration) {
+    public void setConfiguration(RESTListenerConfiguration configuration) {
         this.configuration = configuration;
     }
 

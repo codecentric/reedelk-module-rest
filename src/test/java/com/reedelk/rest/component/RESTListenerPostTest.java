@@ -35,7 +35,7 @@ import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RestListener1PostTest extends RestListener1AbstractTest {
+class RESTListenerPostTest extends RESTListenerAbstractTest {
 
     private HttpPost postRequest;
 
@@ -51,7 +51,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         StringEntity entity = new StringEntity(TEST_JSON_BODY, ContentType.APPLICATION_JSON);
         postRequest.setEntity(entity);
 
-        RestListener1 listener = listenerWith(POST, defaultConfiguration);
+        RESTListener listener = listenerWith(POST, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
@@ -65,7 +65,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         StringEntity entity = new StringEntity(TEST_JSON_BODY, ContentType.APPLICATION_JSON);
         postRequest.setEntity(entity);
 
-        RestListener1 listener = listenerWith(POST, defaultConfiguration);
+        RESTListener listener = listenerWith(POST, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, postRequest, TEST_JSON_BODY, APPLICATION_JSON);
@@ -77,7 +77,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         StringEntity entity = new StringEntity(TEST_TEXT_BODY, ContentType.TEXT_PLAIN);
         postRequest.setEntity(entity);
 
-        RestListener1 listener = listenerWith(POST, defaultConfiguration);
+        RESTListener listener = listenerWith(POST, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, postRequest, TEST_TEXT_BODY, TEXT_PLAIN);
@@ -90,7 +90,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         ByteArrayEntity entity = new ByteArrayEntity(binaryData, ContentType.DEFAULT_BINARY);
         postRequest.setEntity(entity);
 
-        RestListener1 listener = listenerWith(POST, defaultConfiguration);
+        RESTListener listener = listenerWith(POST, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, postRequest, binaryData, APPLICATION_BINARY);
@@ -104,7 +104,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         params.add(new BasicNameValuePair("password", "pass"));
         postRequest.setEntity(new UrlEncodedFormEntity(params));
 
-        RestListener1 listener = listenerWith(POST, defaultConfiguration);
+        RESTListener listener = listenerWith(POST, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, postRequest,
@@ -124,7 +124,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         HttpEntity multipart = builder.build();
         postRequest.setEntity(multipart);
 
-        RestListener1 listener = listenerWith(POST, defaultConfiguration);
+        RESTListener listener = listenerWith(POST, defaultConfiguration);
 
         // When
         makeRequest(listener, postRequest);
@@ -156,7 +156,7 @@ class RestListener1PostTest extends RestListener1AbstractTest {
         HttpEntity multipart = builder.build();
         request.setEntity(multipart);
 
-        RestListener1 listener = listenerWith(PUT, defaultConfiguration);
+        RESTListener listener = listenerWith(PUT, defaultConfiguration);
         listener.onStart();
 
         // When

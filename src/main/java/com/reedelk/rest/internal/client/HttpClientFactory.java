@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.client;
 
-import com.reedelk.rest.component.RestClient1;
-import com.reedelk.rest.component.RestClient1Configuration;
+import com.reedelk.rest.component.RESTClient;
+import com.reedelk.rest.component.RESTClientConfiguration;
 import com.reedelk.rest.component.client.*;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -30,12 +30,12 @@ public class HttpClientFactory {
     private static final int DEFAULT_SOCKET_TIMEOUT = 60000;
 
     private final Map<String, HttpClient> configIdClientMap = new HashMap<>();
-    private final Map<String, List<RestClient1>> configIdClients = new HashMap<>();
+    private final Map<String, List<RESTClient>> configIdClients = new HashMap<>();
 
-    public synchronized HttpClient create(RestClient1 listener, RestClient1Configuration configuration) {
+    public synchronized HttpClient create(RESTClient listener, RESTClientConfiguration configuration) {
         String configId = configuration.getId();
         if (configIdClientMap.containsKey(configId)) {
-            List<RestClient1> listeners;
+            List<RESTClient> listeners;
             if (!configIdClients.containsKey(configId)) {
                 listeners = new ArrayList<>();
                 configIdClients.put(configId, listeners);
@@ -67,14 +67,14 @@ public class HttpClientFactory {
         Authentication authentication = configuration.getAuthentication();
         if (Authentication.BASIC.equals(authentication)) {
             BasicAuthenticationConfiguration basicConfig =
-                    requireNotNull(RestClient1Configuration.class, configuration.getBasicAuthentication(), BASIC_AUTH_MISSING.format());
+                    requireNotNull(RESTClientConfiguration.class, configuration.getBasicAuthentication(), BASIC_AUTH_MISSING.format());
             configureBasicAuth(authHost, basicConfig, credentialsProvider, context);
         }
 
         // Digest authentication config
         if (Authentication.DIGEST.equals(authentication)) {
             DigestAuthenticationConfiguration digestConfig =
-                    requireNotNull(RestClient1Configuration.class, configuration.getDigestAuthentication(), DIGEST_AUTH_MISSING.format());
+                    requireNotNull(RESTClientConfiguration.class, configuration.getDigestAuthentication(), DIGEST_AUTH_MISSING.format());
             configureDigestAuth(authHost, digestConfig, credentialsProvider, context);
         }
 
@@ -82,7 +82,7 @@ public class HttpClientFactory {
         Proxy proxy = configuration.getProxy();
         if (Proxy.PROXY.equals(proxy)) {
             ProxyConfiguration proxyConfig =
-                    requireNotNull(RestClient1Configuration.class, configuration.getProxyConfiguration(), PROXY_CONFIG_MISSING.format());
+                    requireNotNull(RESTClientConfiguration.class, configuration.getProxyConfiguration(), PROXY_CONFIG_MISSING.format());
             configureProxy(proxyConfig, builder, credentialsProvider, context);
         }
 
@@ -95,7 +95,7 @@ public class HttpClientFactory {
         HttpClientContextProvider contextProvider = new HttpClientContextProvider(authHost, configuration.getBasicAuthentication(), configuration.getDigestAuthentication());
         HttpClient client = new HttpClient(asyncClient, contextProvider);
 
-        List<RestClient1> listeners;
+        List<RESTClient> listeners;
         if (!configIdClients.containsKey(configId)) {
             listeners = new ArrayList<>();
             configIdClients.put(configId, listeners);
@@ -130,13 +130,13 @@ public class HttpClientFactory {
         configIdClients.clear();
     }
 
-    public synchronized void release(RestClient1Configuration connectionConfig, RestClient1 client, HttpClient httpClient) {
+    public synchronized void release(RESTClientConfiguration connectionConfig, RESTClient client, HttpClient httpClient) {
         if (connectionConfig == null) {
             httpClient.close();
         } else {
             String configId = connectionConfig.getId();
             if (configIdClients.containsKey(configId)) {
-                List<RestClient1> clients = configIdClients.get(configId);
+                List<RESTClient> clients = configIdClients.get(configId);
                 clients.remove(client);
                 if (clients.isEmpty()) {
                     if (configIdClientMap.containsKey(configId)) {
@@ -173,7 +173,7 @@ public class HttpClientFactory {
         }
     }
 
-    private RequestConfig createRequestConfig(RestClient1Configuration configuration) {
+    private RequestConfig createRequestConfig(RESTClientConfiguration configuration) {
         RequestConfig.Builder builder = RequestConfig.custom();
 
         Optional.ofNullable(configuration.getFollowRedirects())

@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.RestListener1Configuration;
+import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
@@ -20,7 +20,7 @@ public class OpenApiServerDecorator implements Server {
     private final Server delegate;
     private OpenApiRequestHandler openApiRequestHandler;
 
-    public OpenApiServerDecorator(RestListener1Configuration configuration, Server delegate) {
+    public OpenApiServerDecorator(RESTListenerConfiguration configuration, Server delegate) {
         this.delegate = delegate;
         this.openApiRequestHandler = new OpenApiRequestHandler(configuration);
         addOpenApiDocumentRoute();

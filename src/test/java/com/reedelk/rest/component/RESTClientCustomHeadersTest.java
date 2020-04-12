@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.lenient;
 
-class RestClient1CustomHeadersTest extends RestClient1AbstractTest {
+class RESTClientCustomHeadersTest extends RESTClientAbstractTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
@@ -39,7 +39,7 @@ class RestClient1CustomHeadersTest extends RestClient1AbstractTest {
                 .withHeader("Source", equalTo("test source"))
                 .willReturn(aResponse().withStatus(200)));
 
-        RestClient1 component = clientWith(RestMethod.valueOf(method), BASE_URL, PATH, EVALUATE_PAYLOAD_BODY, additionalHeadersMap);
+        RESTClient component = clientWith(RestMethod.valueOf(method), BASE_URL, PATH, EVALUATE_PAYLOAD_BODY, additionalHeadersMap);
 
         Message message = MessageBuilder.get().empty().build();
 

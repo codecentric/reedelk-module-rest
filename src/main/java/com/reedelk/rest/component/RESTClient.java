@@ -38,12 +38,12 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
                 "The base REST Client configuration can be shared across multiple REST clients in " +
                 "case there is a common remote resource to make different requests to. The components supports " +
                 "basic an digest authentication with the remote server.")
-@Component(service = RestClient1.class, scope = PROTOTYPE)
-public class RestClient1 implements ProcessorAsync {
+@Component(service = RESTClient.class, scope = PROTOTYPE)
+public class RESTClient implements ProcessorAsync {
 
     @DialogTitle("REST Client Configuration")
     @Property("Client config")
-    private RestClient1Configuration configuration;
+    private RESTClientConfiguration configuration;
 
     @Property("Base URL")
     @Hint("https://api.example.com")
@@ -213,7 +213,7 @@ public class RestClient1 implements ProcessorAsync {
         this.method = method;
     }
 
-    public void setConfiguration(RestClient1Configuration configuration) {
+    public void setConfiguration(RESTClientConfiguration configuration) {
         this.configuration = configuration;
     }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static com.reedelk.rest.internal.commons.RestMethod.DELETE;
 import static org.apache.http.HttpStatus.SC_OK;
 
-class RestListener1DeleteTest extends RestListener1AbstractTest {
+class RESTListenerDeleteTest extends RESTListenerAbstractTest {
 
     private HttpDelete deleteRequest;
 
@@ -20,7 +20,7 @@ class RestListener1DeleteTest extends RestListener1AbstractTest {
     @Test
     void shouldReturn200() {
         // Given
-        RestListener1 listener = listenerWith(DELETE, defaultConfiguration);
+        RESTListener listener = listenerWith(DELETE, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 

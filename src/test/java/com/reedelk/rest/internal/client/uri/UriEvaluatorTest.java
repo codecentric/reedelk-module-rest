@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.client.uri;
 
-import com.reedelk.rest.component.RestClient1Configuration;
+import com.reedelk.rest.component.RESTClientConfiguration;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
@@ -28,7 +28,7 @@ class UriEvaluatorTest {
     @Test
     void shouldCorrectlyBuildUriWhenPortIsMissing() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost("localhost");
 
         UriEvaluator evaluator = UriEvaluator.builder()
@@ -47,7 +47,7 @@ class UriEvaluatorTest {
     @Test
     void shouldThrowExceptionWhenHostIsMissing() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class,
@@ -62,7 +62,7 @@ class UriEvaluatorTest {
     @Test
     void shouldCorrectlyBuildUriWithBasePath() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost("localhost");
         configuration.setBasePath("/api");
 
@@ -82,7 +82,7 @@ class UriEvaluatorTest {
     @Test
     void shouldCorrectlyBuildUriWithCustomPortAndBasePath() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost("localhost");
         configuration.setPort(8867);
         configuration.setBasePath("/api");

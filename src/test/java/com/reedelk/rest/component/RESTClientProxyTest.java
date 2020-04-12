@@ -20,7 +20,7 @@ import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RestClient1ProxyTest extends RestClient1AbstractTest {
+class RESTClientProxyTest extends RESTClientAbstractTest {
 
     // We assume that the WireMock server is our proxy server
     private static final String PROXY_HOST = HOST;
@@ -34,7 +34,7 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
         proxyConfiguration.setHost(PROXY_HOST);
         proxyConfiguration.setPort(PROXY_PORT);
 
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost("my-test-host.com");
         configuration.setPort(7891);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -42,7 +42,7 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
         configuration.setProxy(Proxy.PROXY);
         configuration.setProxyConfiguration(proxyConfiguration);
 
-        RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH);
+        RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH);
 
         givenThat(any(urlEqualTo(PATH))
                 .withHeader("Host", equalTo("my-test-host.com:7891"))
@@ -57,14 +57,14 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
     @Test
     void shouldThrowExceptionWhenProxyButNoConfigIsDefined() {
         // Given
-        RestClient1Configuration configuration = new RestClient1Configuration();
+        RESTClientConfiguration configuration = new RESTClientConfiguration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
         configuration.setProxy(Proxy.PROXY);
 
-        RestClient1 restClient = new RestClient1();
+        RESTClient restClient = new RESTClient();
         restClient.setConfiguration(configuration);
         restClient.setMethod(GET);
         restClient.setPath(PATH);
@@ -96,7 +96,7 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
             proxyConfiguration.setAuthentication(ProxyAuthentication.DIGEST);
             proxyConfiguration.setDigestAuthentication(proxyAuthConfiguration);
 
-            RestClient1Configuration configuration = new RestClient1Configuration();
+            RESTClientConfiguration configuration = new RESTClientConfiguration();
             configuration.setHost("my-test-host.com");
             configuration.setPort(7891);
             configuration.setProtocol(HttpProtocol.HTTP);
@@ -104,7 +104,7 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
             configuration.setProxy(Proxy.PROXY);
             configuration.setProxyConfiguration(proxyConfiguration);
 
-            RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH);
+            RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH);
 
             givenThat(any(urlEqualTo(PATH))
                     .withHeader("Proxy-Authorization", StringValuePattern.ABSENT)
@@ -143,7 +143,7 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
             proxyConfiguration.setAuthentication(ProxyAuthentication.BASIC);
             proxyConfiguration.setBasicAuthentication(proxyAuthConfiguration);
 
-            RestClient1Configuration configuration = new RestClient1Configuration();
+            RESTClientConfiguration configuration = new RESTClientConfiguration();
             configuration.setHost("my-test-host.com");
             configuration.setPort(7891);
             configuration.setProtocol(HttpProtocol.HTTP);
@@ -151,7 +151,7 @@ class RestClient1ProxyTest extends RestClient1AbstractTest {
             configuration.setProxy(Proxy.PROXY);
             configuration.setProxyConfiguration(proxyConfiguration);
 
-            RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH);
+            RESTClient component = clientWith(RestMethod.valueOf(method), configuration, PATH);
 
             givenThat(any(urlEqualTo(PATH))
                     .withHeader("Proxy-Authorization", StringValuePattern.ABSENT)

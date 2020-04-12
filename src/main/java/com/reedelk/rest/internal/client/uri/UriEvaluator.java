@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.client.uri;
 
 import com.reedelk.rest.internal.commons.HttpProtocol;
-import com.reedelk.rest.component.RestClient1Configuration;
+import com.reedelk.rest.component.RESTClientConfiguration;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
@@ -72,7 +72,7 @@ public class UriEvaluator {
         private String path;
         private String baseURL;
         private ScriptEngineService scriptEngine;
-        private RestClient1Configuration configuration;
+        private RESTClientConfiguration configuration;
         private DynamicStringMap pathParameters = DynamicStringMap.empty();
         private DynamicStringMap queryParameters = DynamicStringMap.empty();
 
@@ -91,7 +91,7 @@ public class UriEvaluator {
             return this;
         }
 
-        public Builder configuration(RestClient1Configuration configuration) {
+        public Builder configuration(RESTClientConfiguration configuration) {
             this.configuration = configuration;
             return this;
         }
@@ -121,7 +121,7 @@ public class UriEvaluator {
 
             } else {
                 // Use config
-                requireNotNull(RestClient1Configuration.class, configuration, CONFIG_CLIENT_NULL_ERROR.format());
+                requireNotNull(RESTClientConfiguration.class, configuration, CONFIG_CLIENT_NULL_ERROR.format());
 
                 String host = configuration.getHost();
                 int port = port(configuration.getPort());

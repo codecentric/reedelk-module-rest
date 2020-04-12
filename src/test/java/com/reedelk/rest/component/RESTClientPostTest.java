@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.eq;
 
-class RestClient1PostTest extends RestClient1AbstractTest {
+class RESTClientPostTest extends RESTClientAbstractTest {
 
     @Nested
     @DisplayName("payload and mime type are correct")
@@ -31,7 +31,7 @@ class RestClient1PostTest extends RestClient1AbstractTest {
             String requestBody = "{\"Name\":\"John\"}";
             byte[] requestBodyAsBytes = requestBody.getBytes();
             String expectedResponseBody = "POST was successful";
-            RestClient1 component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
 
             doReturn(requestBodyAsBytes)
                     .when(converterService)
@@ -62,7 +62,7 @@ class RestClient1PostTest extends RestClient1AbstractTest {
             String requestBody = "text payload";
             byte[] requestBodyAsBytes = requestBody.getBytes();
             String expectedResponseBody = "POST was successful";
-            RestClient1 component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
 
             doReturn(requestBodyAsBytes)
                     .when(converterService)
@@ -91,7 +91,7 @@ class RestClient1PostTest extends RestClient1AbstractTest {
             // Given
             byte[] requestBody = "My binary request body".getBytes();
             String expectedResponseBody = "POST was successful";
-            RestClient1 component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
+            RESTClient component = clientWith(POST, BASE_URL, PATH, EVALUATE_PAYLOAD_BODY);
 
             doReturn(requestBody)
                     .when(converterService)
@@ -174,7 +174,7 @@ class RestClient1PostTest extends RestClient1AbstractTest {
             DynamicObject body = DynamicObject.from("#['hello this is a script']", moduleContext);
             String expectedResponseBody = "POST was successful";
             byte[] payloadAsBytes = "hello this is a script".getBytes();
-            RestClient1 component = clientWith(POST, BASE_URL, PATH, body);
+            RESTClient component = clientWith(POST, BASE_URL, PATH, body);
 
             doReturn(payloadAsBytes)
                     .when(converterService)
@@ -201,7 +201,7 @@ class RestClient1PostTest extends RestClient1AbstractTest {
         void assertEmptyContentTypeAndPayload(DynamicObject body, Message message) {
             // Given
             String expectedResponseBody = "It works";
-            RestClient1 component = clientWith(POST, BASE_URL, PATH, body);
+            RESTClient component = clientWith(POST, BASE_URL, PATH, body);
 
             givenThat(post(urlEqualTo(PATH))
                     .withRequestBody(binaryEqualTo(new byte[0]))
@@ -220,7 +220,7 @@ class RestClient1PostTest extends RestClient1AbstractTest {
     void shouldPostThrowExceptionWhenResponseNot2xx() {
         // Given
         String expectedErrorMessage = "Error exception caused by XYZ";
-        RestClient1 component = clientWith(POST, BASE_URL, PATH);
+        RESTClient component = clientWith(POST, BASE_URL, PATH);
 
         givenThat(post(urlEqualTo(PATH))
                 .willReturn(aResponse()
