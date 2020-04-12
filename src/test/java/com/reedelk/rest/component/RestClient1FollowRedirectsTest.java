@@ -13,19 +13,19 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.reedelk.rest.internal.commons.HttpHeader.CONTENT_TYPE;
 import static com.reedelk.runtime.api.message.content.MimeType.TEXT_PLAIN;
 
-class RestClientFollowRedirectsTest extends RestClientAbstractTest {
+class RestClient1FollowRedirectsTest extends RestClient1AbstractTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldFollowRedirectsByDefault() {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
 
-        RestClient component = clientWith(RestMethod.GET, configuration, PATH);
+        RestClient1 component = clientWith(RestMethod.GET, configuration, PATH);
 
 
         givenThat(any(urlEqualTo(PATH))
@@ -49,14 +49,14 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldFollowRedirectsTrue() {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
         configuration.setFollowRedirects(true);
 
-        RestClient component = clientWith(RestMethod.GET, configuration, PATH);
+        RestClient1 component = clientWith(RestMethod.GET, configuration, PATH);
 
 
         givenThat(any(urlEqualTo(PATH))
@@ -80,14 +80,14 @@ class RestClientFollowRedirectsTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
     void shouldNotFollowRedirects() {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
         configuration.setFollowRedirects(false);
 
-        RestClient component = clientWith(RestMethod.GET, configuration, PATH);
+        RestClient1 component = clientWith(RestMethod.GET, configuration, PATH);
 
 
         givenThat(any(urlEqualTo(PATH))

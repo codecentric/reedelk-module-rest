@@ -2,7 +2,7 @@ package com.reedelk.rest.internal.server;
 
 
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.RestListener1Configuration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
@@ -33,9 +33,9 @@ public class DefaultServer implements Server {
     private NioEventLoopGroup bossGroup;
     private NioEventLoopGroup workerGroup;
 
-    private final RestListenerConfiguration configuration;
+    private final RestListener1Configuration configuration;
 
-    DefaultServer(RestListenerConfiguration configuration) {
+    DefaultServer(RestListener1Configuration configuration) {
         this.configuration = configuration;
 
         this.routes = new DefaultServerRoutes();
@@ -96,9 +96,9 @@ public class DefaultServer implements Server {
                 '}';
     }
 
-    private TcpServer createTcpServer(RestListenerConfiguration configuration) {
+    private TcpServer createTcpServer(RestListener1Configuration configuration) {
         TcpServer bootstrap = TcpServer.create();
-        bootstrap = ServerSecurityConfigurer.configure(RestListenerConfiguration.class, bootstrap, configuration);
+        bootstrap = ServerSecurityConfigurer.configure(RestListener1Configuration.class, bootstrap, configuration);
         bootstrap = bootstrap.bootstrap(serverBootstrap -> {
             ServerConfigurer.configure(serverBootstrap, configuration);
             return serverBootstrap

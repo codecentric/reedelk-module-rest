@@ -39,7 +39,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
-class RestListenerGetTest extends RestListenerAbstractTest {
+class RestListener1GetTest extends RestListener1AbstractTest {
 
     private final long moduleId = 10L;
     private final ModuleContext moduleContext = new ModuleContext(moduleId);
@@ -55,7 +55,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenPathIsNull() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
@@ -66,7 +66,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenPathIsNullAndRequestEndsWithRoot() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
@@ -79,7 +79,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenPathIsRoot() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.setPath("/");
         listener.onStart();
@@ -91,7 +91,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenPathIsRootAndRequestEndsWithRoot() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.setPath("/");
         listener.onStart();
@@ -105,7 +105,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenPathDefinedWithRegularExpression() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener(((message, callback) -> callback.onResult(context, message)));
         listener.setPath("/web/{page:.*}");
         listener.onStart();
@@ -119,12 +119,12 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenBasePathOnlyIsDefined() {
         // Given
-        RestListenerConfiguration configWithBasePath = new RestListenerConfiguration();
+        RestListener1Configuration configWithBasePath = new RestListener1Configuration();
         configWithBasePath.setHost(DEFAULT_HOST);
         configWithBasePath.setPort(DEFAULT_PORT);
         configWithBasePath.setBasePath("/api/internal");
 
-        RestListener listener = listenerWith(GET, configWithBasePath);
+        RestListener1 listener = listenerWith(GET, configWithBasePath);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
@@ -137,12 +137,12 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200WhenBasePathAndPathAreBothDefined() {
         // Given
-        RestListenerConfiguration configWithBasePath = new RestListenerConfiguration();
+        RestListener1Configuration configWithBasePath = new RestListener1Configuration();
         configWithBasePath.setHost(DEFAULT_HOST);
         configWithBasePath.setPort(DEFAULT_PORT);
         configWithBasePath.setBasePath("/api/internal");
 
-        RestListener listener = listenerWith(GET, configWithBasePath);
+        RestListener1 listener = listenerWith(GET, configWithBasePath);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.setPath("/group/{groupId}");
         listener.onStart();
@@ -160,7 +160,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         Response response = new Response();
         response.setBody(scriptWithSyntaxError);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.setResponse(response);
         listener.setPath("/");
@@ -185,7 +185,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn404() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
@@ -198,7 +198,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn500() {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onError(context, new IllegalStateException("flow error")));
         listener.onStart();
 
@@ -218,7 +218,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         errorResponse.setBody(errorResponseBody);
         errorResponse.setHeaders(errorResponseHeaders);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.setErrorResponse(errorResponse);
         listener.addEventListener((message, callback) -> callback.onError(context, thrownException));
         listener.onStart();
@@ -252,7 +252,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         errorResponse.setHeaders(errorResponseHeaders);
         errorResponse.setStatus(errorResponseCode);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.setErrorResponse(errorResponse);
         listener.addEventListener((message, callback) -> callback.onError(context, thrownException));
         listener.onStart();
@@ -281,7 +281,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         errorResponse.setHeaders(errorResponseHeaders);
         errorResponse.setBody(errorResponseBody);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.setErrorResponse(errorResponse);
         listener.addEventListener((message, callback) -> callback.onError(context, thrownException));
         listener.onStart();
@@ -316,7 +316,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(errorResponseStatus);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.setErrorResponse(errorResponse);
         listener.addEventListener((message, callback) -> callback.onError(context, thrownException));
         listener.onStart();
@@ -335,7 +335,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         // Given
         Message emptyMessage = MessageBuilder.get().empty().build();
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, emptyMessage));
         listener.onStart();
 
@@ -372,7 +372,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
                 .when(scriptEngine)
                 .evaluate(errorResponseHeaders, context, exception);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onError(context, exception));
         listener.setErrorResponse(errorResponse);
         listener.onStart();
@@ -391,7 +391,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
         Response listenerResponse = new Response();
         listenerResponse.setBody(responseBody);
 
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.setResponse(listenerResponse);
         listener.addEventListener((message, callback) -> callback.onResult(context, responseMessage));
         listener.onStart();
@@ -406,7 +406,7 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldSetMimeTypeUnknownForInboundMessage() throws IOException {
         // Given
-        RestListener listener = listenerWith(GET, defaultConfiguration);
+        RestListener1 listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> {
             inboundMessage = message;
             callback.onResult(context, message);
@@ -425,12 +425,12 @@ class RestListenerGetTest extends RestListenerAbstractTest {
     @Test
     void shouldCorrectlyMapHttpRequestToInboundMessageAttributes() throws IOException {
         // Given
-        RestListenerConfiguration configWithBasePath = new RestListenerConfiguration();
+        RestListener1Configuration configWithBasePath = new RestListener1Configuration();
         configWithBasePath.setHost(DEFAULT_HOST);
         configWithBasePath.setPort(DEFAULT_PORT);
         configWithBasePath.setBasePath("/api/internal");
 
-        RestListener listener = listenerWith(GET, configWithBasePath);
+        RestListener1 listener = listenerWith(GET, configWithBasePath);
         listener.setPath("/group/{groupId}");
         listener.addEventListener((message, callback) -> {
             inboundMessage = message;

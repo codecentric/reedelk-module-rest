@@ -32,7 +32,7 @@ import static org.junit.Assert.fail;
 
 @ExtendWith(MockitoExtension.class)
 @Tag(INTEGRATION)
-abstract class RestListenerAbstractTest {
+abstract class RestListener1AbstractTest {
 
     private final long moduleId = 10L;
     final ModuleContext moduleContext = new ModuleContext(moduleId);
@@ -52,9 +52,9 @@ abstract class RestListenerAbstractTest {
     protected Object payload;
 
     Message inboundMessage;
-    RestListenerConfiguration defaultConfiguration;
+    RestListener1Configuration defaultConfiguration;
 
-    private RestListener listener;
+    private RestListener1 listener;
 
     @BeforeAll
     static void setUpBeforeAll(){
@@ -63,11 +63,11 @@ abstract class RestListenerAbstractTest {
 
     @BeforeEach
     void setUp() {
-        listener = new RestListener();
+        listener = new RestListener1();
         setField(listener, "provider", serverProvider);
         setField(listener, "scriptEngine", scriptEngine);
 
-        defaultConfiguration = new RestListenerConfiguration();
+        defaultConfiguration = new RestListener1Configuration();
         defaultConfiguration.setHost(DEFAULT_HOST);
         defaultConfiguration.setPort(DEFAULT_PORT);
     }
@@ -79,7 +79,7 @@ abstract class RestListenerAbstractTest {
         }
     }
 
-    RestListener listenerWith(RestMethod method, RestListenerConfiguration configuration) {
+    RestListener1 listenerWith(RestMethod method, RestListener1Configuration configuration) {
         listener.setConfiguration(configuration);
         listener.setMethod(method);
         return listener;
@@ -109,7 +109,7 @@ abstract class RestListenerAbstractTest {
         }
     }
 
-    void assertBodySent(RestListener listener, HttpUriRequest request, Object expectedContent, MimeType expectedMimeType) throws IOException {
+    void assertBodySent(RestListener1 listener, HttpUriRequest request, Object expectedContent, MimeType expectedMimeType) throws IOException {
         // Execute request
         makeRequest(listener, request);
 
@@ -118,7 +118,7 @@ abstract class RestListenerAbstractTest {
         assertThat(inboundMessage.content().mimeType()).isEqualTo(expectedMimeType);
     }
 
-    void makeRequest(RestListener listener, HttpUriRequest request) throws IOException {
+    void makeRequest(RestListener1 listener, HttpUriRequest request) throws IOException {
         // Setup event listener and start route
         listener.addEventListener((message, callback) ->
                 new Thread(() -> {
@@ -144,7 +144,7 @@ abstract class RestListenerAbstractTest {
         assertThat(response.getStatusLine().getStatusCode()).isEqualTo(expected);
     }
 
-    private void setField(RestListener client, String fieldName, Object object) {
+    private void setField(RestListener1 client, String fieldName, Object object) {
         try {
             Field field = client.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);

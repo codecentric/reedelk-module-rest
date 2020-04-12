@@ -2,7 +2,7 @@ package com.reedelk.rest.internal.server;
 
 import com.reedelk.rest.internal.commons.Defaults;
 import com.reedelk.rest.internal.commons.HostNamePortKey;
-import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.RestListener1Configuration;
 import com.reedelk.rest.internal.openapi.OpenApiServerDecorator;
 import org.osgi.service.component.annotations.Component;
 
@@ -19,7 +19,7 @@ public class ServerProvider {
 
     private Map<HostNamePortKey, Server> serverMap = new ConcurrentHashMap<>();
 
-    public Optional<Server> getOrCreate(RestListenerConfiguration configuration) {
+    public Optional<Server> getOrCreate(RestListener1Configuration configuration) {
         HostNamePortKey key = new HostNamePortKey(
                 Defaults.RestListener.host(configuration.getHost()),
                 Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol()));
@@ -40,7 +40,7 @@ public class ServerProvider {
         return of(server);
     }
 
-    public Optional<Server> get(RestListenerConfiguration configuration) {
+    public Optional<Server> get(RestListener1Configuration configuration) {
         if (configuration == null) return empty();
         HostNamePortKey key = new HostNamePortKey(
                 Defaults.RestListener.host(configuration.getHost()),
@@ -67,14 +67,14 @@ public class ServerProvider {
      * If they don't, it means that there are multiple configurations
      * defined on the same host and port but with different base paths.
      */
-    private void checkBasePathIsConsistent(RestListenerConfiguration configuration, Server server) {
+    private void checkBasePathIsConsistent(RestListener1Configuration configuration, Server server) {
         if (!Objects.equals(configuration.getBasePath(), server.getBasePath())) {
             throw new IllegalStateException("There are two server configurations " +
                     "on the same host and port with different base paths");
         }
     }
 
-    private boolean isOpenApiDisabled(RestListenerConfiguration configuration) {
+    private boolean isOpenApiDisabled(RestListener1Configuration configuration) {
         return ofNullable(configuration.getDisableOpenApi())
                 .orElse(false);
     }

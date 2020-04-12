@@ -13,7 +13,7 @@ import static com.reedelk.rest.internal.commons.RestMethod.valueOf;
 import static com.reedelk.runtime.api.commons.ImmutableMap.of;
 
 
-class RestClientRequestUriTest extends RestClientAbstractTest {
+class RestClient1RequestUriTest extends RestClient1AbstractTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
@@ -65,7 +65,7 @@ class RestClientRequestUriTest extends RestClientAbstractTest {
 
         Message message = MessageBuilder.get().empty().build();
         RestMethod restMethod = valueOf(method);
-        RestClient restClient = clientWith(restMethod, BASE_URL, path, pathParameters, queryParameters);
+        RestClient1 restClient = clientWith(restMethod, BASE_URL, path, pathParameters, queryParameters);
 
         // Expect
         AssertHttpResponse.isSuccessful(restClient, message, flowContext);

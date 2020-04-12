@@ -10,8 +10,8 @@ import org.osgi.service.component.annotations.Component;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @Shared
-@Component(service = RestListenerConfiguration.class, scope = PROTOTYPE)
-public class RestListenerConfiguration implements Implementor {
+@Component(service = RestListener1Configuration.class, scope = PROTOTYPE)
+public class RestListener1Configuration implements Implementor {
 
     @Property("Protocol")
     @Example("HTTPS")

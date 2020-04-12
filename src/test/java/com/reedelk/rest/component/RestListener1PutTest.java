@@ -13,7 +13,7 @@ import static com.reedelk.rest.internal.commons.RestMethod.PUT;
 import static com.reedelk.runtime.api.message.content.MimeType.*;
 import static org.apache.http.HttpStatus.SC_OK;
 
-class RestListenerPutTest extends RestListenerAbstractTest {
+class RestListener1PutTest extends RestListener1AbstractTest {
 
     private HttpPut putRequest;
 
@@ -29,7 +29,7 @@ class RestListenerPutTest extends RestListenerAbstractTest {
         StringEntity entity = new StringEntity(TEST_JSON_BODY, ContentType.APPLICATION_JSON);
         putRequest.setEntity(entity);
 
-        RestListener listener = listenerWith(PUT, defaultConfiguration);
+        RestListener1 listener = listenerWith(PUT, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 
@@ -43,7 +43,7 @@ class RestListenerPutTest extends RestListenerAbstractTest {
         StringEntity entity = new StringEntity(TEST_JSON_BODY, ContentType.APPLICATION_JSON);
         putRequest.setEntity(entity);
 
-        RestListener listener = listenerWith(PUT, defaultConfiguration);
+        RestListener1 listener = listenerWith(PUT, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, putRequest, TEST_JSON_BODY, APPLICATION_JSON);
@@ -55,7 +55,7 @@ class RestListenerPutTest extends RestListenerAbstractTest {
         StringEntity entity = new StringEntity(TEST_TEXT_BODY, ContentType.TEXT_PLAIN);
         putRequest.setEntity(entity);
 
-        RestListener listener = listenerWith(PUT, defaultConfiguration);
+        RestListener1 listener = listenerWith(PUT, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, putRequest, TEST_TEXT_BODY, TEXT_PLAIN);
@@ -68,7 +68,7 @@ class RestListenerPutTest extends RestListenerAbstractTest {
         ByteArrayEntity entity = new ByteArrayEntity(binaryData, ContentType.DEFAULT_BINARY);
         putRequest.setEntity(entity);
 
-        RestListener listener = listenerWith(PUT, defaultConfiguration);
+        RestListener1 listener = listenerWith(PUT, defaultConfiguration);
 
         // Expect
         assertBodySent(listener, putRequest, binaryData, APPLICATION_BINARY);

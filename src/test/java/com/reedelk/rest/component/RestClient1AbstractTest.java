@@ -28,7 +28,7 @@ import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 @Tag(INTEGRATION)
-abstract class RestClientAbstractTest {
+abstract class RestClient1AbstractTest {
 
     @Mock
     protected ConverterService converterService;
@@ -79,8 +79,8 @@ abstract class RestClientAbstractTest {
         clientFactory.shutdown();
     }
 
-    RestClient clientWith(RestMethod method, RestClientConfiguration configuration, String path) {
-        RestClient restClient = new RestClient();
+    RestClient1 clientWith(RestMethod method, RestClient1Configuration configuration, String path) {
+        RestClient1 restClient = new RestClient1();
         restClient.setConfiguration(configuration);
         restClient.setMethod(method);
         restClient.setPath(path);
@@ -91,8 +91,8 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, RestClientConfiguration configuration, String path, DynamicObject body) {
-        RestClient restClient = new RestClient();
+    RestClient1 clientWith(RestMethod method, RestClient1Configuration configuration, String path, DynamicObject body) {
+        RestClient1 restClient = new RestClient1();
         restClient.setConfiguration(configuration);
         restClient.setMethod(method);
         restClient.setPath(path);
@@ -104,8 +104,8 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, String baseURL, String path) {
-        RestClient restClient = new RestClient();
+    RestClient1 clientWith(RestMethod method, String baseURL, String path) {
+        RestClient1 restClient = new RestClient1();
         restClient.setBaseURL(baseURL);
         restClient.setMethod(method);
         restClient.setPath(path);
@@ -116,8 +116,8 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicObject body) {
-        RestClient restClient = new RestClient();
+    RestClient1 clientWith(RestMethod method, String baseURL, String path, DynamicObject body) {
+        RestClient1 restClient = new RestClient1();
         restClient.setBaseURL(baseURL);
         restClient.setMethod(method);
         restClient.setPath(path);
@@ -129,8 +129,8 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicObject body, DynamicStringMap additionalHeaders) {
-        RestClient restClient = new RestClient();
+    RestClient1 clientWith(RestMethod method, String baseURL, String path, DynamicObject body, DynamicStringMap additionalHeaders) {
+        RestClient1 restClient = new RestClient1();
         restClient.setHeaders(additionalHeaders);
         restClient.setBaseURL(baseURL);
         restClient.setMethod(method);
@@ -143,8 +143,8 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    RestClient clientWith(RestMethod method, String baseURL, String path, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
-        RestClient restClient = new RestClient();
+    RestClient1 clientWith(RestMethod method, String baseURL, String path, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
+        RestClient1 restClient = new RestClient1();
         restClient.setBaseURL(baseURL);
         restClient.setMethod(method);
         restClient.setPath(path);
@@ -156,19 +156,19 @@ abstract class RestClientAbstractTest {
         return restClient;
     }
 
-    protected void setScriptEngine(RestClient restClient) {
+    protected void setScriptEngine(RestClient1 restClient) {
         setField(restClient, "scriptEngine", scriptEngine);
     }
 
-    protected void setClientFactory(RestClient restClient) {
+    protected void setClientFactory(RestClient1 restClient) {
         setField(restClient, "clientFactory", clientFactory);
     }
 
-    protected void setConverter(RestClient restClient) {
+    protected void setConverter(RestClient1 restClient) {
         setField(restClient, "converterService", converterService);
     }
 
-    private void setField(RestClient client, String fieldName, Object object) {
+    private void setField(RestClient1 client, String fieldName, Object object) {
         try {
             Field field = client.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -180,7 +180,7 @@ abstract class RestClientAbstractTest {
         }
     }
 
-    private void configureRequestAndQueryParams(RestClient client, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
+    private void configureRequestAndQueryParams(RestClient1 client, DynamicStringMap pathParameters, DynamicStringMap queryParameters) {
         if (pathParameters != null && queryParameters != null) {
             client.setPathParameters(pathParameters);
             client.setQueryParameters(queryParameters);

@@ -2,7 +2,7 @@ package com.reedelk.rest.internal.client.response;
 
 import com.reedelk.rest.internal.commons.HttpHeadersAsMap;
 import com.reedelk.rest.internal.commons.MimeTypeExtract;
-import com.reedelk.rest.component.RestClient;
+import com.reedelk.rest.component.RestClient1;
 import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -44,7 +44,7 @@ public class HttpResponseMessageMapper {
         attributes.put(HttpResponseAttribute.STATUS_CODE, statusLine.getStatusCode());
         attributes.put(HttpResponseAttribute.REASON_PHRASE, statusLine.getReasonPhrase());
         attributes.put(HttpResponseAttribute.HEADERS, HttpHeadersAsMap.of(response.getAllHeaders()));
-        DefaultMessageAttributes responseAttributes = new DefaultMessageAttributes(RestClient.class, attributes);
+        DefaultMessageAttributes responseAttributes = new DefaultMessageAttributes(RestClient1.class, attributes);
 
         MimeType mimeType = MimeTypeExtract.from(response.getAllHeaders());
 

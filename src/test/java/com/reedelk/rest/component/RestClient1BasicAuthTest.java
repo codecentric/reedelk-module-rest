@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.matching.StringValuePattern;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.client.Authentication;
-import com.reedelk.rest.component.client.DigestAuthenticationConfiguration;
+import com.reedelk.rest.component.client.BasicAuthenticationConfiguration;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -19,43 +19,37 @@ import static com.reedelk.rest.internal.commons.RestMethod.GET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class RestClientDigestAuthTest extends RestClientAbstractTest {
+class RestClient1BasicAuthTest extends RestClient1AbstractTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
-    void shouldCorrectlyPerformDigestAuthentication(String method) {
+    void shouldCorrectlyPerformBasicAuthentication(String method) {
         // Given
         String username = "test123";
         String password = "pass123";
-        DigestAuthenticationConfiguration digestAuth = new DigestAuthenticationConfiguration();
-        digestAuth.setPassword(password);
-        digestAuth.setUsername(username);
+        BasicAuthenticationConfiguration basicAuth = new BasicAuthenticationConfiguration();
+        basicAuth.setPassword(password);
+        basicAuth.setUsername(username);
 
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
-        configuration.setAuthentication(Authentication.DIGEST);
-        configuration.setDigestAuthentication(digestAuth);
+        configuration.setAuthentication(Authentication.BASIC);
+        configuration.setBasicAuthentication(basicAuth);
 
-        RestClient component = clientWith(RestMethod.valueOf(method), configuration, PATH);
-
+        RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH);
 
         givenThat(any(urlEqualTo(PATH))
                 .withHeader("Authorization", StringValuePattern.ABSENT)
                 .willReturn(aResponse()
-                        .withHeader("WWW-Authenticate", "Digest realm=\"testrealm@host.com\"," +
-                                "qop=\"auth,auth-int\"," +
-                                "nonce=\"dcd98b7102dd2f0e8b11d0f600bfb0c093\"," +
-                                "opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"")
+                        .withHeader("WWW-Authenticate", "Basic realm=\"test-realm\"")
                         .withStatus(401)));
 
         givenThat(any(urlEqualTo(PATH))
-                .withHeader("Authorization", matching("Digest username=\"test123\", realm=\"testrealm@host.com\", nonce=\"dcd98b7102dd2f0e8b11d0f600bfb0c093\", uri=\"/v1/resource\", response=.*"))
-                .willReturn(aResponse()
-                        .withStatus(200)));
-
+                .withBasicAuth(username, password)
+                .willReturn(aResponse().withStatus(200)));
 
         Message payload = MessageBuilder.get().empty().build();
 
@@ -63,33 +57,31 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
         AssertHttpResponse.isSuccessful(component, payload, flowContext);
     }
 
+
     @ParameterizedTest
     @ValueSource(strings = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
-    void shouldCorrectlyPerformDigestAuthenticationWithPreemptive(String method) {
+    void shouldCorrectlyPerformBasicAuthenticationWithPreemptive(String method) {
         // Given
         String username = "test123";
         String password = "pass123";
-        DigestAuthenticationConfiguration digestAuth = new DigestAuthenticationConfiguration();
-        digestAuth.setPassword(password);
-        digestAuth.setUsername(username);
-        digestAuth.setPreemptive(true);
-        digestAuth.setRealm("test.realm@host.com");
-        digestAuth.setNonce("noncetest");
+        BasicAuthenticationConfiguration basicAuth = new BasicAuthenticationConfiguration();
+        basicAuth.setPassword(password);
+        basicAuth.setUsername(username);
+        basicAuth.setPreemptive(true);
 
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
-        configuration.setAuthentication(Authentication.DIGEST);
-        configuration.setDigestAuthentication(digestAuth);
+        configuration.setAuthentication(Authentication.BASIC);
+        configuration.setBasicAuthentication(basicAuth);
 
-        RestClient component = clientWith(RestMethod.valueOf(method), configuration, PATH);
+        RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH);
 
         givenThat(any(urlEqualTo(PATH))
-                .withHeader("Authorization", matching("Digest username=\"test123\", realm=\"test.realm@host.com\", nonce=\"noncetest\", uri=\"/v1/resource\", response=.*"))
+                .withBasicAuth(username, password)
                 .willReturn(aResponse().withStatus(200)));
-
 
         Message payload = MessageBuilder.get().empty().build();
 
@@ -98,16 +90,16 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenDigestAuthenticationButNoConfigIsDefined() {
+    void shouldThrowExceptionWhenBasicAuthenticationButNoConfigIsDefined() {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
-        configuration.setAuthentication(Authentication.DIGEST);
+        configuration.setAuthentication(Authentication.BASIC);
 
-        RestClient restClient = new RestClient();
+        RestClient1 restClient = new RestClient1();
         restClient.setConfiguration(configuration);
         restClient.setMethod(GET);
         restClient.setPath(PATH);
@@ -116,6 +108,6 @@ class RestClientDigestAuthTest extends RestClientAbstractTest {
 
         // Expect
         ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
-        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'");
+        assertThat(thrown).hasMessage("RestClientConfiguration (com.reedelk.rest.component.RestClientConfiguration) has a configuration error: Basic Authentication Configuration must be present in the JSON definition when 'authentication' property is 'BASIC'");
     }
 }

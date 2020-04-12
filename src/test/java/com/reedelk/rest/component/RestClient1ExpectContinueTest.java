@@ -21,13 +21,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 
-class RestClientExpectContinueTest extends RestClientAbstractTest {
+class RestClient1ExpectContinueTest extends RestClient1AbstractTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
     void shouldNotAddExpectContinueByDefault(String method) {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -51,7 +51,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
                         .withBody("Expect continue success")
                         .withStatus(200)));
 
-        RestClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
+        RestClient1 restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
         Message payload = MessageBuilder.get().empty().build();
 
@@ -65,7 +65,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
     void shouldNotAddExpectContinueWhenFalse(String method) {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -91,7 +91,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
                         .withBody("Expect continue success")
                         .withStatus(200)));
 
-        RestClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
+        RestClient1 restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
         Message payload = MessageBuilder.get().empty().build();
 
@@ -106,7 +106,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"POST", "PUT", "DELETE"})
     void shouldAddExpectContinueWhenTrue(String method) {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
@@ -132,7 +132,7 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
                         .withBody("Expect continue success")
                         .withStatus(200)));
 
-        RestClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
+        RestClient1 restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
         Message payload = MessageBuilder.get().empty().build();
 
@@ -147,14 +147,14 @@ class RestClientExpectContinueTest extends RestClientAbstractTest {
     @ValueSource(strings = {"GET","HEAD","OPTIONS"})
     void shouldNotAddExpectContinueWhenTrueToNotEntityEnclosedMethods(String method) {
         // Given
-        RestClientConfiguration configuration = new RestClientConfiguration();
+        RestClient1Configuration configuration = new RestClient1Configuration();
         configuration.setHost(HOST);
         configuration.setPort(PORT);
         configuration.setProtocol(HttpProtocol.HTTP);
         configuration.setId(UUID.randomUUID().toString());
         configuration.setExpectContinue(true);
 
-        RestClient component = clientWith(RestMethod.valueOf(method), configuration, PATH);
+        RestClient1 component = clientWith(RestMethod.valueOf(method), configuration, PATH);
 
         givenThat(WireMock.any(urlEqualTo(PATH))
                 .willReturn(aResponse()

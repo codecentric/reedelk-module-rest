@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.RestListener1Configuration;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpRouteHandler;
 import com.reedelk.rest.internal.server.Server;
@@ -29,7 +29,7 @@ class OpenApiServerDecoratorTest {
     @Test
     void shouldAddOpenApiRouteToDelegate() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
 
         // When
         new OpenApiServerDecorator(configuration, delegate);
@@ -46,7 +46,7 @@ class OpenApiServerDecoratorTest {
     @Test
     void shouldReturnHasEmptyRoutesTrue() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         doReturn(Collections.singletonList(openApiHandler)).when(delegate).handlers();
 
         // When
@@ -59,7 +59,7 @@ class OpenApiServerDecoratorTest {
     @Test
     void shouldAddRouteToDelegate() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiServerDecorator decorator = new OpenApiServerDecorator(configuration, delegate);
 
         // When
@@ -82,7 +82,7 @@ class OpenApiServerDecoratorTest {
     @Test
     void shouldRemoveRouteFromDelegate() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiServerDecorator decorator = new OpenApiServerDecorator(configuration, delegate);
 
         // When
@@ -95,7 +95,7 @@ class OpenApiServerDecoratorTest {
     @Test
     void shouldStopRemoveOpenApiRouteFromDelegateAndStop() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiServerDecorator decorator = new OpenApiServerDecorator(configuration, delegate);
 
         // When

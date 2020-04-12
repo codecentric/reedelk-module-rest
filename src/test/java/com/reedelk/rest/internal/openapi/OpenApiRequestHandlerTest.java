@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.RestListenerConfiguration;
+import com.reedelk.rest.component.RestListener1Configuration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.*;
@@ -22,7 +22,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeCorrectlyEmptyOpenApi() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
         // When
@@ -35,7 +35,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldCorrectlySetBasePath() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         configuration.setBasePath("/api/v1");
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
@@ -50,7 +50,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeWithPathAndMethod() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
         handler.add("/", RestMethod.GET, null, null, null);
 
@@ -64,7 +64,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeWithPathAndMethodAndResponseHeaders() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
         Response response = new Response();
@@ -85,7 +85,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeWithPathAndMethodAndResponseErrorHeaders() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
         ErrorResponse errorResponse = new ErrorResponse();
@@ -106,7 +106,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeWithPathParamsFromPath() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
         Response response = new Response();
         response.setStatus(DynamicInteger.from(200));
@@ -123,7 +123,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeOverridePathParamDefinitionFromOperation() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
         Response response = new Response();
         response.setStatus(DynamicInteger.from(200));
@@ -151,7 +151,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeExcludePathFromOpenApi() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
         OperationObject operation = new OperationObject();
@@ -171,7 +171,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
         // Given
         String path = "/";
 
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
         handler.add(path, RestMethod.GET, null, null, null);
 
@@ -192,7 +192,7 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
     @Test
     void shouldSerializeCustomSchemasCorrectly() {
         // Given
-        RestListenerConfiguration configuration = new RestListenerConfiguration();
+        RestListener1Configuration configuration = new RestListener1Configuration();
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
         ResourceText petSchemaResource = mock(ResourceText.class);

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static com.reedelk.rest.internal.commons.RestMethod.HEAD;
 import static org.apache.http.HttpStatus.SC_OK;
 
-class RestListenerHeadTest extends RestListenerAbstractTest {
+class RestListener1HeadTest extends RestListener1AbstractTest {
 
     private HttpHead headRequest;
 
@@ -20,7 +20,7 @@ class RestListenerHeadTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200() {
         // Given
-        RestListener listener = listenerWith(HEAD, defaultConfiguration);
+        RestListener1 listener = listenerWith(HEAD, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 

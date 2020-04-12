@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static com.reedelk.rest.internal.commons.RestMethod.OPTIONS;
 import static org.apache.http.HttpStatus.SC_OK;
 
-class RestListenerOptionsTest extends RestListenerAbstractTest {
+class RestListener1OptionsTest extends RestListener1AbstractTest {
 
     private HttpOptions optionsRequest;
 
@@ -20,7 +20,7 @@ class RestListenerOptionsTest extends RestListenerAbstractTest {
     @Test
     void shouldReturn200() {
         // Given
-        RestListener listener = listenerWith(OPTIONS, defaultConfiguration);
+        RestListener1 listener = listenerWith(OPTIONS, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, message));
         listener.onStart();
 

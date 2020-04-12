@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.client;
 
-import com.reedelk.rest.component.RestClientConfiguration;
+import com.reedelk.rest.component.RestClient1Configuration;
 import com.reedelk.runtime.api.exception.ESBException;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -26,7 +26,7 @@ public class HttpClientConnectionManagerFactory {
     private HttpClientConnectionManagerFactory() {
     }
 
-    public static NHttpClientConnectionManager create(RestClientConfiguration configuration) {
+    public static NHttpClientConnectionManager create(RestClient1Configuration configuration) {
             boolean isTrustCertificates = Optional.ofNullable(configuration.getTrustCertificates()).orElse(false);
             Registry<SchemeIOSessionStrategy> registry = createRegistry(isTrustCertificates);
             int maxConnections = Optional.ofNullable(configuration.getMaxPoolConnections()).orElse(DEFAULT_CONNECTIONS_CLIENT);
