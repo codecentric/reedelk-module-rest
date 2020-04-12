@@ -1,11 +1,11 @@
 package com.reedelk.rest.internal.client;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 
 import java.util.List;
 import java.util.Map;
 
-public class HttpClientResponseException extends ESBException {
+public class HttpClientResponseException extends PlatformException {
 
     private final byte[] data;
     private final int statusCode;

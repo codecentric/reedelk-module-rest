@@ -3,7 +3,7 @@ package com.reedelk.rest.component;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.commons.ModuleContext;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageAttributes;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -174,7 +174,7 @@ class RESTListenerGetTest extends RESTListenerAbstractTest {
                 .when(scriptEngine)
                 .evaluate(eq(nullValue), eq(context), any(Message.class));
 
-        doThrow(new ESBException("Script error"))
+        doThrow(new PlatformException("Script error"))
                 .when(scriptEngine)
                 .evaluate(eq(scriptWithSyntaxError), eq(context), any(Message.class));
 
@@ -286,7 +286,7 @@ class RESTListenerGetTest extends RESTListenerAbstractTest {
         listener.addEventListener((message, callback) -> callback.onError(context, thrownException));
         listener.onStart();
 
-        ESBException evaluationException = new ESBException("Could not evaluate script");
+        PlatformException evaluationException = new PlatformException("Could not evaluate script");
         doThrow(evaluationException)
                 .when(scriptEngine)
                 .evaluate(errorResponseBody, context, thrownException);
@@ -321,7 +321,7 @@ class RESTListenerGetTest extends RESTListenerAbstractTest {
         listener.addEventListener((message, callback) -> callback.onError(context, thrownException));
         listener.onStart();
 
-        ESBException evaluationException = new ESBException("Could not evaluate script");
+        PlatformException evaluationException = new PlatformException("Could not evaluate script");
         doThrow(evaluationException)
                 .when(scriptEngine)
                 .evaluate(errorResponseStatus, context, thrownException);

@@ -1,8 +1,8 @@
 package com.reedelk.rest.internal;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 
-public class ExecutionException extends ESBException {
+public class ExecutionException extends PlatformException {
 
     public ExecutionException(String errorMessage) {
         super(errorMessage);

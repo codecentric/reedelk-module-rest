@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.server;
 
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import io.netty.handler.codec.http.HttpMethod;
 import org.reactivestreams.Publisher;
 import reactor.core.Exceptions;
@@ -72,7 +72,7 @@ public class DefaultServerRoutes implements HttpServerRoutes {
     }
 
 
-    static class RouteAlreadyDefinedException extends ESBException {
+    static class RouteAlreadyDefinedException extends PlatformException {
         RouteAlreadyDefinedException(String method, String path) {
             super(String.format("Route for method [%s] and path [%s] is already defined", method, path));
         }

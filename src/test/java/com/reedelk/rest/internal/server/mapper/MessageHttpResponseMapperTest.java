@@ -3,7 +3,7 @@ package com.reedelk.rest.internal.server.mapper;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.commons.ModuleContext;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -274,7 +274,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicInteger status = DynamicInteger.from("#[507]", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithErrorStatus(status);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 doReturn(Optional.of(507))
                         .when(scriptEngine).evaluate(status, flowContext, exception);
@@ -291,7 +291,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicInteger errorStatus = DynamicInteger.from("#[myStatusCodeVar]", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithErrorStatus(errorStatus);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 doReturn(Optional.of(507))
                         .when(scriptEngine).evaluate(errorStatus, flowContext, exception);
@@ -307,7 +307,7 @@ class MessageHttpResponseMapperTest {
             void shouldSetDefaultHttpResponseStatusWhenStatusIsNull() {
                 // Given
                 MessageHttpResponseMapper mapper = newMapperWithErrorStatus(null);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 // When
                 mapper.map(exception, response, flowContext);
@@ -326,7 +326,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray errorBody = DynamicByteArray.from("#[error]", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithErrorBody(errorBody);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 DynamicValue nullDynamicValue = null;
                 doReturn(Optional.empty())
@@ -352,7 +352,7 @@ class MessageHttpResponseMapperTest {
 
                 DynamicByteArray errorBody = DynamicByteArray.from("my text body", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithErrorBody(errorBody);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 doReturn(Optional.empty())
                         .when(scriptEngine).evaluate(nullDynamicValue, flowContext, exception);
@@ -369,7 +369,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray errorBody = DynamicByteArray.from("", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithErrorBody(errorBody);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 DynamicValue nullDynamicValue = null;
                 doReturn(Optional.empty())
@@ -393,7 +393,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray errorBody = DynamicByteArray.from(null, moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithErrorBody(errorBody);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 DynamicValue nullDynamicValue = null;
                 doReturn(Optional.empty())
@@ -416,7 +416,7 @@ class MessageHttpResponseMapperTest {
             void shouldNotSetContentTypeHeaderWhenBodyIsNull() {
                 // Given
                 MessageHttpResponseMapper mapper = newMapperWithErrorBody(null);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 DynamicValue nullDynamicValue = null;
                 doReturn(Optional.empty())
@@ -452,7 +452,7 @@ class MessageHttpResponseMapperTest {
                 headers.put("header2", "my header 2");
 
                 MessageHttpResponseMapper mapper = newMapperWithErrorAdditionalHeaders(headers);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 doReturn(of("header1", "my header 1", "header2", "my header 2"))
                         .when(scriptEngine)
@@ -483,7 +483,7 @@ class MessageHttpResponseMapperTest {
                 headers.put("coNteNt-TyPe", "new content type");
 
                 MessageHttpResponseMapper mapper = newMapperWithErrorAdditionalHeaders(headers);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 doReturn(of("coNteNt-TyPe", "new content type"))
                         .when(scriptEngine)
@@ -508,7 +508,7 @@ class MessageHttpResponseMapperTest {
                 HttpHeaders initialHeaders = new DefaultHttpHeaders();
 
                 MessageHttpResponseMapper mapper = newMapperWithErrorAdditionalHeaders(null);
-                Throwable exception = new ESBException("Error while processing JSON");
+                Throwable exception = new PlatformException("Error while processing JSON");
 
                 // When
                 mapper.map(exception, response, flowContext);

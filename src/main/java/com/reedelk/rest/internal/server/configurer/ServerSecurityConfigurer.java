@@ -4,7 +4,7 @@ import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import io.netty.handler.ssl.SslContextBuilder;
 import reactor.netty.tcp.TcpServer;
 
@@ -46,7 +46,7 @@ public class ServerSecurityConfigurer {
                 contextBuilder = SslContextBuilder.forServer(certificateFile, privateKeyFile);
 
             } else {
-                throw new ESBException("Wrong config");
+                throw new PlatformException("Wrong config");
             }
 
             if (securityConfig.getUseTrustStore() != null && securityConfig.getUseTrustStore()) {
@@ -58,7 +58,7 @@ public class ServerSecurityConfigurer {
             try {
                 sslContextSpec.sslContext(contextBuilder.build());
             } catch (SSLException e) {
-                throw new ESBException(e);
+                throw new PlatformException(e);
             }
         });
     }
@@ -78,8 +78,8 @@ public class ServerSecurityConfigurer {
             }
             factory.init(keyStore);
             return factory;
-        } catch (Exception e) {
-            throw new ESBException(e);
+        } catch (Exception exception) {
+            throw new PlatformException(exception);
         }
     }
 
@@ -97,8 +97,8 @@ public class ServerSecurityConfigurer {
             }
             factory.init(keyStore, password.toCharArray());
             return factory;
-        } catch (Exception e) {
-            throw new ESBException(e);
+        } catch (Exception exception) {
+            throw new PlatformException(exception);
         }
     }
 }

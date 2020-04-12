@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.server.mapper;
 
 import com.reedelk.rest.internal.ExecutionException;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.Attachment;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
@@ -83,8 +83,8 @@ class HttpRequestMultipartFormDataMapper {
         byte[] fileContentAsBytes;
         try {
             fileContentAsBytes = fileUpload.get();
-        } catch (IOException e) {
-            ESBException rethrown = new ESBException(ERROR_MULTIPART_FILE_UPLOAD_VALUE.format(name), e);
+        } catch (IOException exception) {
+            PlatformException rethrown = new PlatformException(ERROR_MULTIPART_FILE_UPLOAD_VALUE.format(name), exception);
             logger.error("Multipart Mapper error", rethrown);
             throw rethrown;
         } finally {
@@ -116,7 +116,7 @@ class HttpRequestMultipartFormDataMapper {
         try {
             attributeValue = attribute.getValue();
         } catch (IOException e) {
-            ESBException rethrown = new ESBException(ERROR_MULTIPART_ATTRIBUTE_VALUE.format(name), e);
+            PlatformException rethrown = new PlatformException(ERROR_MULTIPART_ATTRIBUTE_VALUE.format(name), e);
             logger.error("Multipart Mapper error", rethrown);
             throw rethrown;
         }

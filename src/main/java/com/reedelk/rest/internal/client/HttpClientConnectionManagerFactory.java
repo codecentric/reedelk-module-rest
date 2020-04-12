@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.client;
 
 import com.reedelk.rest.component.RESTClientConfiguration;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -38,7 +38,7 @@ public class HttpClientConnectionManagerFactory {
             pool.setMaxTotal(maxConnections);
             return pool;
         } catch (Exception exception) {
-            throw new ESBException(exception);
+            throw new PlatformException(exception);
         }
     }
 
@@ -59,7 +59,7 @@ public class HttpClientConnectionManagerFactory {
                         .build();
             }
         } catch (Exception exception) {
-            throw new ESBException(exception);
+            throw new PlatformException(exception);
         }
     }
 

@@ -5,7 +5,7 @@ import com.reedelk.rest.internal.commons.HttpHeadersAsMap;
 import com.reedelk.rest.internal.commons.IsSuccessfulStatus;
 import com.reedelk.runtime.api.commons.StackTraceUtils;
 import com.reedelk.runtime.api.component.OnResult;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
@@ -85,13 +85,13 @@ public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
     @Override
     public void failed(Exception ex) {
         String errorMessage = StackTraceUtils.rootCauseMessageOf(ex);
-        ESBException exception = new ESBException(REQUEST_FAILED.format(uri.toString(), errorMessage), ex);
+        PlatformException exception = new PlatformException(REQUEST_FAILED.format(uri.toString(), errorMessage), ex);
         callback.onError(flowContext, exception);
     }
 
     @Override
     public void cancelled() {
-        ESBException exception = new ESBException(REQUEST_CANCELLED.format(uri.toString()));
+        PlatformException exception = new PlatformException(REQUEST_CANCELLED.format(uri.toString()));
         callback.onError(flowContext, exception);
     }
 }

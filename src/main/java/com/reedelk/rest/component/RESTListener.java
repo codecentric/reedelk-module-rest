@@ -12,7 +12,7 @@ import com.reedelk.rest.internal.server.ServerProvider;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.AbstractInbound;
 import com.reedelk.runtime.api.exception.ConfigurationException;
-import com.reedelk.runtime.api.exception.ESBException;
+import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -107,7 +107,7 @@ public class RESTListener extends AbstractInbound {
             try {
                 provider.release(server);
             } catch (Exception exception) {
-                throw new ESBException(exception);
+                throw new PlatformException(exception);
             }
         });
     }
