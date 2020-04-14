@@ -1,9 +1,9 @@
 package com.reedelk.rest.internal.server.mapper;
 
-import com.reedelk.rest.internal.commons.AsSerializableMap;
 import com.reedelk.rest.internal.commons.HttpHeadersAsMap;
 import com.reedelk.rest.internal.commons.MimeTypeExtract;
 import com.reedelk.rest.internal.commons.QueryParameters;
+import com.reedelk.runtime.api.commons.SerializableUtils;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.message.content.MimeType;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -73,7 +73,7 @@ class HttpRequestWrapper {
     }
 
     HashMap<String, String> params() {
-        return AsSerializableMap.of(request.params());
+        return SerializableUtils.asSerializableMap(request.params());
     }
 
     TreeMap<String, List<String>> headers() {

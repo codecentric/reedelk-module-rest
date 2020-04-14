@@ -1,5 +1,6 @@
 package com.reedelk.rest.internal.commons;
 
+import com.reedelk.runtime.api.commons.SerializableUtils;
 import com.reedelk.runtime.api.commons.StringUtils;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
@@ -17,6 +18,6 @@ public class QueryParameters {
 
         QueryStringDecoder decoder = new QueryStringDecoder(uri);
         Map<String, List<String>> queryParameters = decoder.parameters();
-        return AsSerializableMap.of(queryParameters);
+        return SerializableUtils.asSerializableMapWithList(queryParameters);
     }
 }
