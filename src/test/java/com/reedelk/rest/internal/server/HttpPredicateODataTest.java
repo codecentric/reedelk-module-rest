@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.server;
 
-import com.reedelk.rest.internal.commons.AsSerializableMap;
 import com.reedelk.rest.internal.commons.QueryParameters;
+import com.reedelk.runtime.api.commons.SerializableUtils;
 import io.netty.handler.codec.http.HttpMethod;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -277,7 +277,7 @@ class HttpPredicateODataTest {
         boolean matches = predicate.test(request);
         assertThat(matches).isTrue();
 
-        Map<String, String> pathParams = AsSerializableMap.of(predicate.apply(request.uri()));
+        Map<String, String> pathParams = SerializableUtils.asSerializableMap(predicate.apply(request.uri()));
         HashMap<String, List<String>> queryParams = QueryParameters.from(request.uri());
 
         queryAndPathParamsConsumer.accept(pathParams, queryParams);
