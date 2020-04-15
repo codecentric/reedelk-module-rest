@@ -1,16 +1,10 @@
 package com.reedelk.rest.internal.commons;
 
+import com.reedelk.runtime.api.commons.FormattedMessage;
+
 public class Messages {
 
     private Messages() {
-    }
-
-    private static String formatMessage(String template, Object ...args) {
-        return String.format(template, args);
-    }
-
-    interface FormattedMessage {
-        String format(Object ...args);
     }
 
     public enum RestClient implements FormattedMessage {
@@ -25,15 +19,15 @@ public class Messages {
         MULTIPART_PART_NULL("Part with name %s is null and it will not be added to the HttpEntity"),
         MULTIPART_PART_CONTENT_UNSUPPORTED("Part with Java Content Type %s is not supported and it will not be added to the HttpEntity");
 
-        private String msg;
+        private String message;
 
-        RestClient(String msg) {
-            this.msg = msg;
+        RestClient(String message) {
+            this.message = message;
         }
 
         @Override
-        public String format(Object... args) {
-            return formatMessage(msg, args);
+        public String template() {
+            return message;
         }
     }
 
@@ -46,15 +40,15 @@ public class Messages {
         OPEN_API_SUCCESS_RESPONSE("My Response"),
         OPEN_API_ERROR_RESPONSE("Error response");
 
-        private String msg;
+        private String message;
 
-        RestListener(String msg) {
-            this.msg = msg;
+        RestListener(String message) {
+            this.message = message;
         }
 
         @Override
-        public String format(Object... args) {
-            return formatMessage(msg, args);
+        public String template() {
+            return message;
         }
     }
 }
