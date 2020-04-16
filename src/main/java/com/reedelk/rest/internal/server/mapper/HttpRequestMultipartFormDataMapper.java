@@ -74,7 +74,7 @@ class HttpRequestMultipartFormDataMapper {
             }
         });
 
-        return MessageBuilder.get().withJavaObject(partsMono, Map.class, request.mimeType());
+        return MessageBuilder.get().withJavaObject(partsMono, Map.class);
     }
 
     private static void handleFileUploadPart(Map<String,Attachment> parts, FileUpload fileUpload) {
