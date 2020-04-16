@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;
@@ -64,7 +65,7 @@ class RESTClientStreamingModeTest extends RESTClientAbstractTest {
                             .withStatus(200)));
 
 
-            Message payload = MessageBuilder.get().withJson(requestBody).build();
+            Message payload = MessageBuilder.get(TestComponent.class).withJson(requestBody).build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -92,7 +93,7 @@ class RESTClientStreamingModeTest extends RESTClientAbstractTest {
             String requestBodyChunk2 = "\"John\"}";
 
             Flux<byte[]> binaryStream = Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes());
-            Message message = MessageBuilder.get().withBinary(binaryStream, MimeType.APPLICATION_JSON).build();
+            Message message = MessageBuilder.get(TestComponent.class).withBinary(binaryStream, MimeType.APPLICATION_JSON).build();
 
             TypedPublisher<Object> stream = message.content().stream();
 
@@ -140,7 +141,7 @@ class RESTClientStreamingModeTest extends RESTClientAbstractTest {
 
             Flux<byte[]> byteArrayStream = Flux.just(requestBodyChunk1.getBytes(), requestBodyChunk2.getBytes());
 
-            Message message = MessageBuilder.get().withBinary(byteArrayStream, MimeType.APPLICATION_JSON).build();
+            Message message = MessageBuilder.get(TestComponent.class).withBinary(byteArrayStream, MimeType.APPLICATION_JSON).build();
 
             TypedPublisher<Object> stream = message.content().stream();
 
@@ -180,7 +181,7 @@ class RESTClientStreamingModeTest extends RESTClientAbstractTest {
             String requestBody = "{\"Name\":\"John\"}";
             byte[] requestBytes = requestBody.getBytes();
 
-            Message payload = MessageBuilder.get().withBinary(requestBytes, MimeType.APPLICATION_JSON).build();
+            Message payload = MessageBuilder.get(TestComponent.class).withBinary(requestBytes, MimeType.APPLICATION_JSON).build();
 
             doReturn(Optional.of(requestBytes))
                     .when(scriptEngine)

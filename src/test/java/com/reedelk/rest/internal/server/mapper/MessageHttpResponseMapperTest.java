@@ -1,5 +1,6 @@
 package com.reedelk.rest.internal.server.mapper;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.commons.ModuleContext;
@@ -62,7 +63,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicInteger status = DynamicInteger.from("201", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithStatus(status);
-                Message message = MessageBuilder.get().withText("a body").build();
+                Message message = MessageBuilder.get(TestComponent.class).withText("a body").build();
 
                 doReturn(Optional.of(201))
                         .when(scriptEngine).evaluate(status, flowContext, message);
@@ -79,7 +80,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicInteger status = DynamicInteger.from("#[myStatusCodeVar]", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithStatus(status);
-                Message message = MessageBuilder.get().withText("a body").build();
+                Message message = MessageBuilder.get(TestComponent.class).withText("a body").build();
 
                 doReturn(Optional.of(201))
                         .when(scriptEngine)
@@ -97,7 +98,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicInteger status = null;
                 MessageHttpResponseMapper mapper = newMapperWithStatus(status);
-                Message message = MessageBuilder.get().withText("a body").build();
+                Message message = MessageBuilder.get(TestComponent.class).withText("a body").build();
 
                 doReturn(Optional.empty())
                         .when(scriptEngine).evaluate(status, flowContext, message);
@@ -119,7 +120,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray body = DynamicByteArray.from("#[message.payload()]", moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithBody(body);
-                Message message = MessageBuilder.get().withText("my text body").build();
+                Message message = MessageBuilder.get(TestComponent.class).withText("my text body").build();
 
                 doReturn(new HashMap<>())
                         .when(scriptEngine)
@@ -137,7 +138,7 @@ class MessageHttpResponseMapperTest {
             void shouldNotSetContentTypeHeaderWhenBodyIsEmptyText() {
                 // Given
                 MessageHttpResponseMapper mapper = newMapperWithBody(DynamicByteArray.from("", moduleContext));
-                Message message = MessageBuilder.get().empty().build();
+                Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
                 // When
                 mapper.map(message, response, flowContext);
@@ -151,7 +152,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray body = null;
                 MessageHttpResponseMapper mapper = newMapperWithBody(body);
-                Message message = MessageBuilder.get().empty().build();
+                Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
                 doReturn(new HashMap<>())
                         .when(scriptEngine)
@@ -170,7 +171,7 @@ class MessageHttpResponseMapperTest {
                 // Given
                 DynamicByteArray body = DynamicByteArray.from(null, moduleContext);
                 MessageHttpResponseMapper mapper = newMapperWithBody(body);
-                Message message = MessageBuilder.get().empty().build();
+                Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
                 doReturn(new HashMap<>())
                         .when(scriptEngine)
@@ -201,7 +202,7 @@ class MessageHttpResponseMapperTest {
                 headers.put("header2", "my header 2");
 
                 MessageHttpResponseMapper mapper = newMapperWithAdditionalHeaders(headers);
-                Message message = MessageBuilder.get().empty().build();
+                Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
                 doReturn(of("header1", "my header 1", "header2", "my header 2"))
                         .when(scriptEngine)
@@ -228,7 +229,7 @@ class MessageHttpResponseMapperTest {
                 headers.put("coNteNt-TyPe", "new content type");
 
                 MessageHttpResponseMapper mapper = newMapperWithAdditionalHeaders(headers);
-                Message message = MessageBuilder.get().empty().build();
+                Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
                 doReturn(of("coNteNt-TyPe", "new content type"))
                         .when(scriptEngine)
@@ -249,7 +250,7 @@ class MessageHttpResponseMapperTest {
                 HttpHeaders initialHeaders = new DefaultHttpHeaders();
 
                 MessageHttpResponseMapper mapper = newMapperWithAdditionalHeaders(null);
-                Message message = MessageBuilder.get().empty().build();
+                Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
                 // When
                 mapper.map(message, response, flowContext);

@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.flow.FlowContext;
@@ -53,7 +54,7 @@ class RESTClientExpectContinueTest extends RESTClientAbstractTest {
 
         RESTClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(restClient, payload, flowContext, "Expect continue success", TEXT_PLAIN);
@@ -93,7 +94,7 @@ class RESTClientExpectContinueTest extends RESTClientAbstractTest {
 
         RESTClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(restClient, payload, flowContext, "Expect continue success", TEXT_PLAIN);
@@ -134,7 +135,7 @@ class RESTClientExpectContinueTest extends RESTClientAbstractTest {
 
         RESTClient restClient = clientWith(RestMethod.valueOf(method), configuration, PATH, dynamicBody);
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
 
         // Expect
@@ -161,7 +162,7 @@ class RESTClientExpectContinueTest extends RESTClientAbstractTest {
                         .withBody("Expect continue success")
                         .withStatus(200)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);

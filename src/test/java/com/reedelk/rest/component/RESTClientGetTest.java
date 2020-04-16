@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.reedelk.rest.TestComponent;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -26,7 +27,7 @@ class RESTClientGetTest extends RESTClientAbstractTest {
                         .withStatus(200)
                         .withBody(responseBody)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse
@@ -45,7 +46,7 @@ class RESTClientGetTest extends RESTClientAbstractTest {
                         .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody(expectedErrorMessage)));
 
-        Message emptyPayload = MessageBuilder.get().empty().build();
+        Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse
@@ -60,7 +61,7 @@ class RESTClientGetTest extends RESTClientAbstractTest {
                 .willReturn(aResponse()
                         .withStatus(500)));
 
-        Message emptyPayload = MessageBuilder.get().empty().build();
+        Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse

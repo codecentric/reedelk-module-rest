@@ -1,9 +1,8 @@
 package com.reedelk.rest.internal.client.response;
 
+import com.reedelk.rest.component.RESTClient;
 import com.reedelk.rest.internal.commons.HttpHeadersAsMap;
 import com.reedelk.rest.internal.commons.MimeTypeExtract;
-import com.reedelk.rest.component.RESTClient;
-import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
@@ -44,7 +43,6 @@ public class HttpResponseMessageMapper {
         attributes.put(HttpResponseAttribute.STATUS_CODE, statusLine.getStatusCode());
         attributes.put(HttpResponseAttribute.REASON_PHRASE, statusLine.getReasonPhrase());
         attributes.put(HttpResponseAttribute.HEADERS, HttpHeadersAsMap.of(response.getAllHeaders()));
-        DefaultMessageAttributes responseAttributes = new DefaultMessageAttributes(RESTClient.class, attributes);
 
         MimeType mimeType = MimeTypeExtract.from(response.getAllHeaders());
 
@@ -52,9 +50,9 @@ public class HttpResponseMessageMapper {
 
         // Empty payload
         if (entity == null) {
-            return MessageBuilder.get()
+            return MessageBuilder.get(RESTClient.class)
+                    .attributes(attributes)
                     .empty()
-                    .attributes(responseAttributes)
                     .build();
         }
 
@@ -64,15 +62,15 @@ public class HttpResponseMessageMapper {
         // application/json or other string based mime type.
         if (String.class == mimeType.javaType()) {
             String result = EntityUtils.toString(entity);
-            return MessageBuilder.get()
-                    .attributes(responseAttributes)
+            return MessageBuilder.get(RESTClient.class)
                     .withString(result, mimeType)
+                    .attributes(attributes)
                     .build();
         } else {
             byte[] bytes = EntityUtils.toByteArray(entity);
-            return MessageBuilder.get()
-                    .attributes(responseAttributes)
+            return MessageBuilder.get(RESTClient.class)
                     .withBinary(bytes, mimeType)
+                    .attributes(attributes)
                     .build();
         }
     }

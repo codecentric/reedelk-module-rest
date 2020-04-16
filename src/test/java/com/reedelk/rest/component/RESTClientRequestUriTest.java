@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -63,7 +64,7 @@ class RESTClientRequestUriTest extends RESTClientAbstractTest {
         // Given
         givenThat(WireMock.any(urlEqualTo(expectedPath)).willReturn(aResponse().withStatus(200)));
 
-        Message message = MessageBuilder.get().empty().build();
+        Message message = MessageBuilder.get(TestComponent.class).empty().build();
         RestMethod restMethod = valueOf(method);
         RESTClient restClient = clientWith(restMethod, BASE_URL, path, pathParameters, queryParameters);
 

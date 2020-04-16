@@ -1,8 +1,6 @@
 package com.reedelk.rest.internal.server.mapper;
 
 import com.reedelk.rest.internal.commons.HttpHeader;
-import com.reedelk.rest.component.RESTListener;
-import com.reedelk.runtime.api.message.DefaultMessageAttributes;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
@@ -45,15 +43,13 @@ public class HttpRequestMessageMapper {
         // the 'correlationId' context variable available in each flow execution instance.
         setCorrelationIdIfPresent(request, attributes);
 
-        DefaultMessageAttributes requestAttributes = new DefaultMessageAttributes(RESTListener.class, attributes);
-
         MimeType mimeType = request.mimeType();
 
         MessageBuilder messageBuilder = MULTIPART_FORM_DATA.equals(mimeType) ?
                 HttpRequestMultipartFormDataMapper.map(request) :
                 HttpRequestContentMapper.map(request);
 
-        return messageBuilder.attributes(requestAttributes).build();
+        return messageBuilder.attributes(attributes).build();
     }
 
     private void setCorrelationIdIfPresent(HttpRequestWrapper request, Map<String, Serializable> attributes) {

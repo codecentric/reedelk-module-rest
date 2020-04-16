@@ -1,5 +1,6 @@
 package com.reedelk.rest.internal.server.mapper;
 
+import com.reedelk.rest.component.RESTListener;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
@@ -35,7 +36,8 @@ class HttpRequestContentMapper {
         TypedPublisher<?> typedPublisher =
                 StreamUtils.FromByteArray.fromMimeType(byteArrayStream, mimeType);
 
-        return MessageBuilder.get().withTypedPublisher(typedPublisher, mimeType);
+        return MessageBuilder.get(RESTListener.class)
+                .withTypedPublisher(typedPublisher, mimeType);
     }
 
     private static BiConsumer<ByteBuf, SynchronousSink<byte[]>> asByteArrayStream() {

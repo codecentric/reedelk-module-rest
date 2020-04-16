@@ -1,5 +1,6 @@
 package com.reedelk.rest.internal.client.body;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.converter.ConverterService;
 import com.reedelk.runtime.api.flow.FlowContext;
@@ -42,7 +43,7 @@ class DefaultBodyProviderTest {
         DynamicObject body = DynamicObject.from("#['My content']", context);
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
-        Message message = MessageBuilder.get().empty().build();
+        Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
         String evaluationResult = "My content";
         doReturn(Optional.of(evaluationResult))
@@ -70,7 +71,7 @@ class DefaultBodyProviderTest {
 
         Map<String,Attachment> parts = createParts();
 
-        Message message = MessageBuilder.get().withJavaObject(parts).build();
+        Message message = MessageBuilder.get(TestComponent.class).withJavaObject(parts).build();
 
         doReturn(Optional.of(parts))
                 .when(scriptEngine)
@@ -92,7 +93,7 @@ class DefaultBodyProviderTest {
         DynamicObject body = DynamicObject.from("#[message.payload()]", context);
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
-        Message message = MessageBuilder.get()
+        Message message = MessageBuilder.get(TestComponent.class)
                 .withString(Flux.just("one", "two", "three"), MimeType.TEXT_PLAIN)
                 .build();
 
@@ -109,7 +110,7 @@ class DefaultBodyProviderTest {
         DynamicObject body = DynamicObject.from("#[message.payload()]", context);
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
-        Message message = MessageBuilder.get()
+        Message message = MessageBuilder.get(TestComponent.class)
                 .withJavaObject(Mono.just(createParts()))
                 .build();
 
@@ -126,7 +127,7 @@ class DefaultBodyProviderTest {
         DynamicObject body = DynamicObject.from("#[context.myBinaryArray]", context);
         DefaultBodyProvider bodyProvider = new DefaultBodyProvider(scriptEngine, converterService, body);
 
-        Message message = MessageBuilder.get()
+        Message message = MessageBuilder.get(TestComponent.class)
                 .withBinary("my binary data".getBytes())
                 .build();
 

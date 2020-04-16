@@ -1,9 +1,10 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
+import com.reedelk.rest.TestComponent;
+import com.reedelk.rest.component.client.*;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.client.*;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -48,7 +49,7 @@ class RESTClientProxyTest extends RESTClientAbstractTest {
                 .withHeader("Host", equalTo("my-test-host.com:7891"))
                 .willReturn(aResponse().withStatus(200)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -116,7 +117,7 @@ class RESTClientProxyTest extends RESTClientAbstractTest {
                     .withHeader("Proxy-Authorization", matching("Digest username=\"squid-user\", realm=\"SurfinUSA\",.*"))
                     .willReturn(aResponse().withStatus(200)));
 
-            Message payload = MessageBuilder.get().empty().build();
+            Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -163,7 +164,7 @@ class RESTClientProxyTest extends RESTClientAbstractTest {
                     .withHeader("Proxy-Authorization", equalTo("Basic c3F1aWQtdXNlcjpzcXVpZC1wYXNz"))
                     .willReturn(aResponse().withStatus(200)));
 
-            Message payload = MessageBuilder.get().empty().build();
+            Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext);

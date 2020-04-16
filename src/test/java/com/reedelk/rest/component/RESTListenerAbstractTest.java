@@ -1,5 +1,6 @@
 package com.reedelk.rest.component;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.ServerProvider;
 import com.reedelk.runtime.api.commons.ModuleContext;
@@ -127,7 +128,7 @@ abstract class RESTListenerAbstractTest {
                     // not be able to consume the payload because it is a Fast non-blocking Thread.
                     inboundMessage = message;
                     payload = message.payload();
-                    callback.onResult(context, MessageBuilder.get().empty().build());
+                    callback.onResult(context, MessageBuilder.get(TestComponent.class).empty().build());
                 }).start());
         listener.onStart();
 

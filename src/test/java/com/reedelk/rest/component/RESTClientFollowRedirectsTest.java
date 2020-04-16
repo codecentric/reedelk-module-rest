@@ -1,5 +1,6 @@
 package com.reedelk.rest.component;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.message.Message;
@@ -39,7 +40,7 @@ class RESTClientFollowRedirectsTest extends RESTClientAbstractTest {
                         .withBody("Redirect success")
                         .withStatus(200)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT_PLAIN);
@@ -70,7 +71,7 @@ class RESTClientFollowRedirectsTest extends RESTClientAbstractTest {
                         .withBody("Redirect success")
                         .withStatus(200)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext, "Redirect success", TEXT_PLAIN);
@@ -95,7 +96,7 @@ class RESTClientFollowRedirectsTest extends RESTClientAbstractTest {
                         .withHeader("Location", "/v2/resource")
                         .withStatus(301)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isNotSuccessful(component, payload, flowContext, 301, "Moved Permanently");

@@ -52,7 +52,9 @@ public class MultipartMessage implements ProcessorSync {
                     }
                 }));
 
-        return MessageBuilder.get().withJavaObject(allParts).build();
+        return MessageBuilder.get(MultipartMessage.class)
+                .withJavaObject(allParts)
+                .build();
     }
 
     public Map<String, PartDefinition> getParts() {

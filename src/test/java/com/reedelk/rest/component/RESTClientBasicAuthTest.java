@@ -1,10 +1,11 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.matching.StringValuePattern;
-import com.reedelk.rest.internal.commons.HttpProtocol;
-import com.reedelk.rest.internal.commons.RestMethod;
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.component.client.Authentication;
 import com.reedelk.rest.component.client.BasicAuthenticationConfiguration;
+import com.reedelk.rest.internal.commons.HttpProtocol;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -51,7 +52,7 @@ class RESTClientBasicAuthTest extends RESTClientAbstractTest {
                 .withBasicAuth(username, password)
                 .willReturn(aResponse().withStatus(200)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);
@@ -83,7 +84,7 @@ class RESTClientBasicAuthTest extends RESTClientAbstractTest {
                 .withBasicAuth(username, password)
                 .willReturn(aResponse().withStatus(200)));
 
-        Message payload = MessageBuilder.get().empty().build();
+        Message payload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext);

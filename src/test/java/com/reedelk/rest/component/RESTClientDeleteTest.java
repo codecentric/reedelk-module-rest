@@ -1,5 +1,6 @@
 package com.reedelk.rest.component;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -41,7 +42,7 @@ class RESTClientDeleteTest extends RESTClientAbstractTest {
                         .withStatus(200)
                         .withBody(expectedResponseBody)));
 
-        Message payload = MessageBuilder.get().withJson(requestBody).build();
+        Message payload = MessageBuilder.get(TestComponent.class).withJson(requestBody).build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
@@ -60,7 +61,7 @@ class RESTClientDeleteTest extends RESTClientAbstractTest {
                         .withStatus(200)
                         .withBody(expectedResponseBody)));
 
-        Message emptyPayload = MessageBuilder.get().empty().build();
+        Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isSuccessful(component, emptyPayload, flowContext, expectedResponseBody, TEXT_PLAIN);
@@ -78,7 +79,7 @@ class RESTClientDeleteTest extends RESTClientAbstractTest {
                         .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody(expectedErrorMessage)));
 
-        Message emptyPayload = MessageBuilder.get().empty().build();
+        Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);

@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
@@ -41,7 +42,7 @@ class RESTClientCustomHeadersTest extends RESTClientAbstractTest {
 
         RESTClient component = clientWith(RestMethod.valueOf(method), BASE_URL, PATH, EVALUATE_PAYLOAD_BODY, additionalHeadersMap);
 
-        Message message = MessageBuilder.get().empty().build();
+        Message message = MessageBuilder.get(TestComponent.class).empty().build();
 
         lenient().doReturn(TypedMono.emptyVoid()).when(scriptEngine)
                 .evaluateStream(EVALUATE_PAYLOAD_BODY, flowContext, message);

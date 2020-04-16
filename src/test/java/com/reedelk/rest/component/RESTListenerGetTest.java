@@ -1,5 +1,6 @@
 package com.reedelk.rest.component;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.runtime.api.commons.ModuleContext;
@@ -333,7 +334,7 @@ class RESTListenerGetTest extends RESTListenerAbstractTest {
     @Test
     void shouldReturnEmptyResponseContent() {
         // Given
-        Message emptyMessage = MessageBuilder.get().empty().build();
+        Message emptyMessage = MessageBuilder.get(TestComponent.class).empty().build();
 
         RESTListener listener = listenerWith(GET, defaultConfiguration);
         listener.addEventListener((message, callback) -> callback.onResult(context, emptyMessage));
@@ -385,7 +386,7 @@ class RESTListenerGetTest extends RESTListenerAbstractTest {
     void shouldReturnCorrectContentType() throws IOException {
         // Given
         String json = "{\"name\":\"John\"}";
-        Message responseMessage = MessageBuilder.get().withJson(json).build();
+        Message responseMessage = MessageBuilder.get(TestComponent.class).withJson(json).build();
 
         DynamicByteArray responseBody = DynamicByteArray.from("#[message.payload()]", moduleContext);
         Response listenerResponse = new Response();

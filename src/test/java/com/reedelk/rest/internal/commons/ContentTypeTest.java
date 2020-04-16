@@ -1,8 +1,9 @@
 package com.reedelk.rest.internal.commons;
 
+import com.reedelk.runtime.api.component.ProcessorSync;
+import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
-import com.reedelk.runtime.api.message.content.MimeType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -14,7 +15,7 @@ class ContentTypeTest {
     @Test
     void shouldReturnCorrectContentType() {
         // Given
-        Message messageWithJson = MessageBuilder.get().withJson("{}").build();
+        Message messageWithJson = MessageBuilder.get(MyTestComponent.class).withJson("{}").build();
 
         // When
         Optional<String> maybeContentType = ContentType.from(messageWithJson);
@@ -26,7 +27,7 @@ class ContentTypeTest {
     @Test
     void shouldReturnEmptyWhenMessageHasEmptyContent() {
         // Given
-        Message messageWithNullContent = MessageBuilder.get().empty().build();
+        Message messageWithNullContent = MessageBuilder.get(MyTestComponent.class).empty().build();
 
         // When
         Optional<String> maybeContentType = ContentType.from(messageWithNullContent);
@@ -36,26 +37,21 @@ class ContentTypeTest {
     }
 
     @Test
-    void shouldReturnEmptyMimeTypeWhenEmptyContent() {
-        // Given
-        Message messageWithNullContent = MessageBuilder.get().empty(MimeType.TEXT_PLAIN).build();
-
-        // When
-        Optional<String> maybeContentType = ContentType.from(messageWithNullContent);
-
-        // Then
-        assertThat(maybeContentType).hasValue("text/plain");
-    }
-
-    @Test
     void shouldReturnEmptyWhenMessageContentHasNullMimeType() {
         // Given
-        Message message = MessageBuilder.get().withString("test", null).build();
+        Message message = MessageBuilder.get(MyTestComponent.class).withString("test", null).build();
 
         // When
         Optional<String> maybeContentType = ContentType.from(message);
 
         // Then
         assertThat(maybeContentType).isNotPresent();
+    }
+
+    static class MyTestComponent implements ProcessorSync {
+        @Override
+        public Message apply(FlowContext flowContext, Message message) {
+            throw new UnsupportedOperationException();
+        }
     }
 }

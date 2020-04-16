@@ -1,5 +1,6 @@
 package com.reedelk.rest.internal.server.mapper;
 
+import com.reedelk.rest.component.RESTListener;
 import com.reedelk.rest.internal.ExecutionException;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -74,7 +75,8 @@ class HttpRequestMultipartFormDataMapper {
             }
         });
 
-        return MessageBuilder.get().withJavaObject(partsMono, Map.class);
+        return MessageBuilder.get(RESTListener.class)
+                .withJavaObject(partsMono, Map.class);
     }
 
     private static void handleFileUploadPart(Map<String,Attachment> parts, FileUpload fileUpload) {

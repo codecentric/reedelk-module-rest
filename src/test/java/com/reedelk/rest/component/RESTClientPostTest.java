@@ -1,5 +1,6 @@
 package com.reedelk.rest.component;
 
+import com.reedelk.rest.TestComponent;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -50,7 +51,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
 
-            Message payload = MessageBuilder.get().withJson(requestBody).build();
+            Message payload = MessageBuilder.get(TestComponent.class).withJson(requestBody).build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
@@ -80,7 +81,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
                             .withBody(expectedResponseBody)
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
-            Message payload = MessageBuilder.get().withText(requestBody).build();
+            Message payload = MessageBuilder.get(TestComponent.class).withText(requestBody).build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
@@ -109,7 +110,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
                             .withBody(expectedResponseBody)
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())));
 
-            Message payload = MessageBuilder.get().withBinary(requestBody).build();
+            Message payload = MessageBuilder.get(TestComponent.class).withBinary(requestBody).build();
 
             // Expect
             AssertHttpResponse.isSuccessful(component, payload, flowContext, expectedResponseBody, TEXT_PLAIN);
@@ -118,7 +119,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
         @Test
         void shouldNotSetContentTypeHeaderWhenPayloadIsEmpty() {
             // Given
-            Message emptyPayload = MessageBuilder.get().empty().build();
+            Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
             doReturn(Optional.empty())
                     .when(scriptEngine)
@@ -132,7 +133,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsNull() {
             // Given
             DynamicObject body = null;
-            Message emptyPayload = MessageBuilder.get().empty().build();
+            Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
 
 
@@ -144,7 +145,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsEmptyString() {
             // Given
             DynamicObject body = DynamicObject.from(" ", moduleContext);
-            Message emptyPayload = MessageBuilder.get().empty().build();
+            Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
             doReturn(Optional.empty())
                     .when(scriptEngine)
@@ -158,7 +159,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
         void shouldNotSetContentTypeHeaderAndSendEmptyPayloadWhenBodyIsEmptyScript() {
             // Given
             DynamicObject body = DynamicObject.from("#[]", moduleContext);
-            Message emptyPayload = MessageBuilder.get().empty().build();
+            Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
             doReturn(Optional.empty())
                     .when(scriptEngine)
@@ -184,7 +185,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
                     .when(scriptEngine)
                     .evaluate(eq(body), any(FlowContext.class), any(Message.class));
 
-            Message message = MessageBuilder.get().withText("my payload").build();
+            Message message = MessageBuilder.get(TestComponent.class).withText("my payload").build();
 
             givenThat(post(urlEqualTo(PATH))
                     .withRequestBody(equalTo("hello this is a script"))
@@ -228,7 +229,7 @@ class RESTClientPostTest extends RESTClientAbstractTest {
                         .withHeader(CONTENT_TYPE, TEXT_PLAIN.toString())
                         .withBody(expectedErrorMessage)));
 
-        Message emptyPayload = MessageBuilder.get().empty().build();
+        Message emptyPayload = MessageBuilder.get(TestComponent.class).empty().build();
 
         // Expect
         AssertHttpResponse.isNotSuccessful(component, emptyPayload, flowContext, expectedErrorMessage);
