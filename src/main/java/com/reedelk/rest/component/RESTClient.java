@@ -1,5 +1,6 @@
 package com.reedelk.rest.component;
 
+import com.reedelk.rest.component.client.BufferConfiguration;
 import com.reedelk.rest.internal.client.HttpClient;
 import com.reedelk.rest.internal.client.HttpClientFactory;
 import com.reedelk.rest.internal.client.HttpClientResultCallback;
@@ -13,7 +14,6 @@ import com.reedelk.rest.internal.client.uri.UriEvaluator;
 import com.reedelk.rest.internal.client.uri.UriProvider;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;
-import com.reedelk.rest.component.client.BufferConfiguration;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.OnResult;
 import com.reedelk.runtime.api.component.ProcessorAsync;
@@ -42,7 +42,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 public class RESTClient implements ProcessorAsync {
 
     @DialogTitle("REST Client Configuration")
-    @Property("Client config")
+    @Property("Configuration")
     private RESTClientConfiguration configuration;
 
     @Property("Base URL")
