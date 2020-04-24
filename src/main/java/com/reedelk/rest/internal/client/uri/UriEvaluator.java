@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static com.reedelk.rest.internal.commons.Messages.RestClient.CONFIG_CLIENT_NULL_ERROR;
 import static com.reedelk.rest.internal.commons.Messages.RestClient.REQUEST_URL_ERROR;
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotNull;
 import static com.reedelk.runtime.api.commons.StringUtils.isBlank;
 import static com.reedelk.runtime.api.commons.StringUtils.isNotNull;
 

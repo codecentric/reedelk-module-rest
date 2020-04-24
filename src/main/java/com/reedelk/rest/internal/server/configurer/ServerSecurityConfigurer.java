@@ -1,8 +1,8 @@
 package com.reedelk.rest.internal.server.configurer;
 
-import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.*;
+import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.exception.PlatformException;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.util.Optional;
 
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotBlank;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotBlank;
 import static java.util.Objects.requireNonNull;
 
 public class ServerSecurityConfigurer {

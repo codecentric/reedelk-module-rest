@@ -19,8 +19,8 @@ import org.osgi.service.component.annotations.Reference;
 import java.util.Optional;
 
 import static com.reedelk.rest.internal.commons.Messages.RestListener.LISTENER_CONFIG_MISSING;
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireTrue;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotNull;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireTrue;
 import static com.reedelk.runtime.api.commons.StringUtils.isBlank;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 

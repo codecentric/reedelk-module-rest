@@ -19,7 +19,7 @@ import org.osgi.service.component.annotations.Component;
 import java.util.*;
 
 import static com.reedelk.rest.internal.commons.Messages.RestClient.*;
-import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
+import static com.reedelk.runtime.api.commons.ComponentPrecondition.Configuration.requireNotNull;
 import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
 
 @Component(service = HttpClientFactory.class, scope = SINGLETON)
