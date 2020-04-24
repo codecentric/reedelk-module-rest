@@ -1,8 +1,9 @@
 package com.reedelk.rest.internal.client.uri;
 
+import com.reedelk.rest.component.RESTClient;
 import com.reedelk.rest.component.RESTClientConfiguration;
-import com.reedelk.rest.internal.ExecutionException;
 import com.reedelk.rest.internal.commons.HttpProtocol;
+import com.reedelk.runtime.api.exception.ComponentConfigurationException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
@@ -132,7 +133,7 @@ public class UriEvaluator {
                     evaluator.baseURL = uri.toString();
                 } catch (URISyntaxException exception) {
                     String message = REQUEST_URL_ERROR.format(host ,port, basePath, scheme, exception.getMessage());
-                    throw new ExecutionException(message, exception);
+                    throw new ComponentConfigurationException(RESTClient.class, message, exception);
                 }
             }
             return evaluator;
