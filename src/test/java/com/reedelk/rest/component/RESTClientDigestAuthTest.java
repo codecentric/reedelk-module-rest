@@ -6,7 +6,7 @@ import com.reedelk.rest.component.client.Authentication;
 import com.reedelk.rest.component.client.DigestAuthenticationConfiguration;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.runtime.api.exception.ConfigurationException;
+import com.reedelk.runtime.api.exception.ComponentConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import org.junit.jupiter.api.Test;
@@ -116,7 +116,7 @@ class RESTClientDigestAuthTest extends RESTClientAbstractTest {
         setClientFactory(restClient);
 
         // Expect
-        ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
+        ComponentConfigurationException thrown = assertThrows(ComponentConfigurationException.class, restClient::initialize);
         assertThat(thrown).hasMessage("RESTClientConfiguration (com.reedelk.rest.component.RESTClientConfiguration) has a configuration error: Digest Authentication Configuration must be present in the JSON definition when 'authentication' property is 'DIGEST'");
     }
 }

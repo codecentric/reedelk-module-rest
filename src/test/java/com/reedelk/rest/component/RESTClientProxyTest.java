@@ -5,7 +5,7 @@ import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.component.client.*;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.runtime.api.exception.ConfigurationException;
+import com.reedelk.runtime.api.exception.ComponentConfigurationException;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import org.junit.jupiter.api.DisplayName;
@@ -73,7 +73,7 @@ class RESTClientProxyTest extends RESTClientAbstractTest {
         setClientFactory(restClient);
 
         // Expect
-        ConfigurationException thrown = assertThrows(ConfigurationException.class, restClient::initialize);
+        ComponentConfigurationException thrown = assertThrows(ComponentConfigurationException.class, restClient::initialize);
         assertThat(thrown).hasMessage("RESTClientConfiguration (com.reedelk.rest.component.RESTClientConfiguration) has a configuration error: Proxy Configuration must be present in the JSON definition when 'proxy' property is 'PROXY'");
     }
 

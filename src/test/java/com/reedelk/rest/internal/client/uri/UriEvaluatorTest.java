@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.client.uri;
 
 import com.reedelk.rest.component.RESTClientConfiguration;
-import com.reedelk.runtime.api.exception.ConfigurationException;
+import com.reedelk.runtime.api.exception.ComponentConfigurationException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
@@ -50,7 +50,7 @@ class UriEvaluatorTest {
         RESTClientConfiguration configuration = new RESTClientConfiguration();
 
         // Expect
-        ConfigurationException thrown = assertThrows(ConfigurationException.class,
+        ComponentConfigurationException thrown = assertThrows(ComponentConfigurationException.class,
                 () -> UriEvaluator.builder()
                 .configuration(configuration)
                 .scriptEngine(mockScriptEngine)
@@ -104,7 +104,7 @@ class UriEvaluatorTest {
     @Test
     void shouldThrowExceptionWhenConfigAndBaseURLAreNull() {
         // Given
-        ConfigurationException thrown = assertThrows(ConfigurationException.class,
+        ComponentConfigurationException thrown = assertThrows(ComponentConfigurationException.class,
                 () -> UriEvaluator.builder()
                         .scriptEngine(mockScriptEngine)
                         .build());

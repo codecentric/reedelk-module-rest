@@ -18,11 +18,11 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = OperationObject.class, scope = PROTOTYPE)
 public class OperationObject extends AbstractOpenApiSerializable implements Implementor {
 
-    @Property("Exclude")
+    @Property("Exclude this resource from the OpenAPI document")
     @Description("Excludes this endpoint from being published in the OpenAPI document.")
     private Boolean exclude;
 
-    @Property("Deprecated")
+    @Property("Deprecated operation")
     @DefaultValue("false")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)

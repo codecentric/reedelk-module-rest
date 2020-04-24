@@ -1,21 +1,22 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.internal.commons.StreamingMode;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
+import com.reedelk.rest.internal.commons.RestMethod;
+import com.reedelk.rest.internal.commons.StreamingMode;
 import com.reedelk.rest.internal.server.DefaultHttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.Server;
 import com.reedelk.rest.internal.server.ServerProvider;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.AbstractInbound;
-import com.reedelk.runtime.api.exception.ConfigurationException;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.Optional;
 
 import static com.reedelk.rest.internal.commons.Messages.RestListener.LISTENER_CONFIG_MISSING;
 import static com.reedelk.runtime.api.commons.ConfigurationPreconditions.requireNotNull;
@@ -95,8 +96,10 @@ public class RESTListener extends AbstractInbound {
                         .response(response)
                         .build();
 
-        Server server = provider.getOrCreate(configuration)
-                .orElseThrow(() -> new ConfigurationException(LISTENER_CONFIG_MISSING.format()));
+        Optional<Server> maybeServer = provider.getOrCreate(configuration);
+        requireTrue(RESTListener.class, maybeServer.isPresent(), LISTENER_CONFIG_MISSING.format());
+
+        Server server = maybeServer.get();
         server.addRoute(path, method, response, errorResponse, openApi, requestHandler);
     }
 
