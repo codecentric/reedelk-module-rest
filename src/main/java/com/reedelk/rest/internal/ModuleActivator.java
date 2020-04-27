@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal;
 
 import com.reedelk.rest.internal.client.HttpClientFactory;
-import com.reedelk.rest.internal.script.RestScriptModules;
+import com.reedelk.rest.internal.script.GlobalFunctions;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -22,8 +22,9 @@ public class ModuleActivator {
 
     @Activate
     public void start(BundleContext context) {
-        RestScriptModules restScriptModules = new RestScriptModules(context.getBundle().getBundleId());
-        scriptEngine.register(restScriptModules);
+        long moduleId = context.getBundle().getBundleId();
+        GlobalFunctions globalFunctions = new GlobalFunctions(moduleId);
+        scriptEngine.register(globalFunctions);
     }
 
     @Deactivate
