@@ -1,8 +1,8 @@
 package com.reedelk.rest.internal.server;
 
+import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.internal.commons.Defaults;
 import com.reedelk.rest.internal.commons.HostNamePortKey;
-import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.internal.openapi.OpenApiServerDecorator;
 import org.osgi.service.component.annotations.Component;
 

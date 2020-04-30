@@ -1,8 +1,8 @@
 package com.reedelk.rest.internal.client.strategy;
 
+import com.reedelk.rest.component.client.BufferConfiguration;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;
-import com.reedelk.rest.component.client.BufferConfiguration;
 import org.apache.http.client.methods.*;
 
 import java.util.Optional;

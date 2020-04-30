@@ -1,18 +1,21 @@
 package com.reedelk.rest.internal.client.response;
 
 import com.reedelk.rest.component.RESTClient;
-import com.reedelk.rest.internal.commons.HttpHeadersAsMap;
+import com.reedelk.rest.internal.attribute.RESTClientAttributes;
 import com.reedelk.rest.internal.commons.MimeTypeExtract;
 import com.reedelk.runtime.api.message.Message;
+import com.reedelk.runtime.api.message.MessageAttributes;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.MimeType;
-import org.apache.http.*;
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.entity.DeflateDecompressingEntity;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +40,9 @@ public class HttpResponseMessageMapper {
     }
 
     public static Message map(HttpResponse response) throws IOException {
-        StatusLine statusLine = response.getStatusLine();
 
-        Map<String, Serializable> attributes = new HashMap<>();
-        attributes.put(HttpResponseAttribute.STATUS_CODE, statusLine.getStatusCode());
-        attributes.put(HttpResponseAttribute.REASON_PHRASE, statusLine.getReasonPhrase());
-        attributes.put(HttpResponseAttribute.HEADERS, HttpHeadersAsMap.of(response.getAllHeaders()));
+        MessageAttributes attributes = new RESTClientAttributes(response);
+
 
         MimeType mimeType = MimeTypeExtract.from(response.getAllHeaders());
 

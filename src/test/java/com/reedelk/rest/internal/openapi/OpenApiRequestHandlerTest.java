@@ -1,10 +1,10 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.*;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.resource.ResourceText;

@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.server.configurer;
 
-import com.reedelk.rest.internal.commons.Defaults;
 import com.reedelk.rest.component.RESTListenerConfiguration;
+import com.reedelk.rest.internal.commons.Defaults;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;

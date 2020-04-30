@@ -18,16 +18,16 @@ public class ErrorResponse implements Implementor {
     @Property("Body")
     @Hint("error body text")
     @InitValue("#[error]")
-    @AutocompleteVariable(name = "error", type = Error.class)
-    @AutocompleteVariable(name = "context", type = FlowContext.class)
+    @ScriptVariable(name = "error", type = Error.class)
+    @ScriptVariable(name = "context", type = FlowContext.class)
     @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
     @Property("Status")
     @Hint("500")
     @InitValue("500")
-    @AutocompleteVariable(name = "error", type = Error.class)
-    @AutocompleteVariable(name = "context", type = FlowContext.class)
+    @ScriptVariable(name = "error", type = Error.class)
+    @ScriptVariable(name = "context", type = FlowContext.class)
     @Description("The status code of the error response might be a static or a dynamic value, " +
             "e.g. could be a variable defined in the flow context: <code>context.myErrorResponseStatus</code>.")
     private DynamicInteger status;
@@ -36,8 +36,8 @@ public class ErrorResponse implements Implementor {
     @TabGroup("Error Response Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
-    @AutocompleteVariable(name = "error", type = Error.class)
-    @AutocompleteVariable(name = "context", type = FlowContext.class)
+    @ScriptVariable(name = "error", type = Error.class)
+    @ScriptVariable(name = "context", type = FlowContext.class)
     @Description("Additional headers to be set in the HTTP error response.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 

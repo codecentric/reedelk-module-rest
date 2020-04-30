@@ -1,13 +1,13 @@
 package com.reedelk.rest.internal.script;
 
-import com.reedelk.runtime.api.annotation.AutocompleteItem;
-import com.reedelk.runtime.api.annotation.AutocompleteType;
+import com.reedelk.runtime.api.annotation.Type;
+import com.reedelk.runtime.api.annotation.TypeFunction;
 import com.reedelk.runtime.api.message.content.Attachment;
 import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.message.content.StringContent;
 
-@AutocompleteType(description = "An HttpPart object encapsulates an HTTP part " +
+@Type(description = "An HttpPart object encapsulates an HTTP part " +
         "to be used in HTTP Multipart requests/responses. The HTTP listener payload contains a map " +
         "of HttpPart objects whenever a POST request has 'multipart/form-data' content type. " +
         "A map of HttpPart objects can be used as an input of a REST Client component to make multipart HTTP requests.")
@@ -19,7 +19,7 @@ public class HttpPart {
         current = Attachment.builder();
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             cursorOffset = 1,
             signature = "name(name: String)",
             example = "HttpPartBuilder.create().name('myFile')",
@@ -29,7 +29,7 @@ public class HttpPart {
         return this;
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             cursorOffset = 1,
             signature = "attribute(key: String, value: String)",
             example = "HttpPartBuilder.create().attribute('filename','my_image.png')",
@@ -39,7 +39,7 @@ public class HttpPart {
         return this;
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             cursorOffset = 1,
             signature = "binary(data: byte[])",
             example = "HttpPartBuilder.create().binary(message.payload())",
@@ -50,7 +50,7 @@ public class HttpPart {
         return this;
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             cursorOffset = 1,
             signature = "text(data: String)",
             example = "HttpPartBuilder.create().text(message.payload())",
@@ -61,7 +61,7 @@ public class HttpPart {
         return this;
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             cursorOffset = 1,
             signature = "binaryWithMimeType(data: byte[], mimeType: String)",
             example = "HttpPartBuilder.create().binaryWithMimeType(message.payload(), 'application/octet-stream')",
@@ -73,7 +73,7 @@ public class HttpPart {
         return this;
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             cursorOffset = 1,
             signature = "textWithMimeType(data: String, mimeType: String)",
             example = "HttpPartBuilder.create().textWithMimeType(message.payload(), 'text/plain')",
@@ -85,7 +85,7 @@ public class HttpPart {
         return this;
     }
 
-    @AutocompleteItem(
+    @TypeFunction(
             signature = "build()",
             example = "HttpPartBuilder.create().text('sample text').build()",
             description = "Creates an HttpPart object with the configured settings.")

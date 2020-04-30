@@ -1,10 +1,10 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.internal.commons.JsonObjectFactory;
 import com.reedelk.rest.internal.commons.Messages;
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.rest.component.listener.ErrorResponse;
-import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.internal.openapi.AbstractOpenApiSerializable;
 import com.reedelk.rest.internal.openapi.OpenApiSerializableContext;
 import com.reedelk.rest.internal.server.uri.UriTemplateStructure;

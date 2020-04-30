@@ -1,8 +1,8 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.rest.internal.commons.JsonSchemaUtils;
 import com.reedelk.rest.component.listener.openapi.ComponentsObject;
 import com.reedelk.rest.component.listener.openapi.SchemaObject;
+import com.reedelk.rest.internal.commons.JsonSchemaUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
 
 import java.util.Map;

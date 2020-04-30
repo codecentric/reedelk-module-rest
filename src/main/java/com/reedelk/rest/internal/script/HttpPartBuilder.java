@@ -1,14 +1,14 @@
 package com.reedelk.rest.internal.script;
 
-import com.reedelk.runtime.api.annotation.AutocompleteItem;
-import com.reedelk.runtime.api.annotation.AutocompleteType;
+import com.reedelk.runtime.api.annotation.Type;
+import com.reedelk.runtime.api.annotation.TypeFunction;
 
-@AutocompleteType(
+@Type(
         global = true,
         description = "The HttpPartBuilder creates new HttpPart objects.")
 public class HttpPartBuilder {
 
-    @AutocompleteItem(signature = "create()",
+    @TypeFunction(signature = "create()",
             example = "HttpPartBuilder.create()",
             description = "Creates a new HttpPart object.")
     public HttpPart create() {

@@ -1,11 +1,11 @@
 package com.reedelk.rest.internal.server;
 
 
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.configurer.ServerConfigurer;
 import com.reedelk.rest.internal.server.configurer.ServerSecurityConfigurer;
 import com.reedelk.runtime.api.commons.StringUtils;

@@ -1,7 +1,7 @@
 package com.reedelk.rest.component;
 
-import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.component.client.*;
+import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-class HttpRequestWrapper {
+public class HttpRequestWrapper {
 
     private static final String QUERY_PARAMS_START_MARKER = "?";
 
@@ -24,27 +24,27 @@ class HttpRequestWrapper {
         this.request = request;
     }
 
-    String version() {
+    public String version() {
         return request.version().text();
     }
 
-    String scheme() {
+    public String scheme() {
         return request.scheme();
     }
 
-    String method() {
+    public String method() {
         return request.method().name();
     }
 
-    String requestUri() {
+    public String requestUri() {
         return request.uri();
     }
 
-    MimeType mimeType() {
+    public MimeType mimeType() {
         return MimeTypeExtract.from(request);
     }
 
-    String queryString() {
+    public String queryString() {
         // Keep only query parameters from the uri
         int queryParamsStart = request.uri().indexOf("?");
         return queryParamsStart > -1 ?
@@ -52,7 +52,7 @@ class HttpRequestWrapper {
                 StringUtils.EMPTY;
     }
 
-    String requestPath() {
+    public String requestPath() {
         // Remove query parameters from the uri
         int queryParamsStartIndex = request.uri().indexOf(QUERY_PARAMS_START_MARKER);
         return queryParamsStartIndex > -1 ?
@@ -64,19 +64,19 @@ class HttpRequestWrapper {
         return request.receive();
     }
 
-    String remoteAddress() {
+    public String remoteAddress() {
         return request.remoteAddress().toString();
     }
 
-    HashMap<String, List<String>> queryParams() {
+    public HashMap<String, List<String>> queryParams() {
         return QueryParameters.from(request.uri());
     }
 
-    HashMap<String, String> params() {
+    public HashMap<String, String> params() {
         return SerializableUtils.asSerializableMap(request.params());
     }
 
-    TreeMap<String, List<String>> headers() {
+    public TreeMap<String, List<String>> headers() {
         return HttpHeadersAsMap.of(request.requestHeaders());
     }
 

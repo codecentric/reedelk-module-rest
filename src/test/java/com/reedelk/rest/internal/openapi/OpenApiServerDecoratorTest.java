@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.RESTListenerConfiguration;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpRouteHandler;
 import com.reedelk.rest.internal.server.Server;

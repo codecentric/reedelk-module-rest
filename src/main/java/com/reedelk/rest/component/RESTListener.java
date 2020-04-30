@@ -63,11 +63,11 @@ public class RESTListener extends AbstractInbound {
             "When set to Always <b>Transfer-Encoding: chunked</b> is always used, and when none <b>Content-Length</b> is always used instead.")
     private StreamingMode streaming = StreamingMode.AUTO;
 
-    @Group("Response")
+    @Group("Response Body")
     @Property("Response")
     private Response response;
 
-    @Group("Error Response")
+    @Group("Response Error Body")
     @Property("Error Response")
     private ErrorResponse errorResponse;
 

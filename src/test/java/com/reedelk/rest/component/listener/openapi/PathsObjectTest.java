@@ -1,8 +1,8 @@
 package com.reedelk.rest.component.listener.openapi;
 
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

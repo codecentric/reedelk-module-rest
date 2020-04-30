@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-import static com.reedelk.rest.internal.server.mapper.HttpRequestAttribute.*;
+import static com.reedelk.rest.internal.attribute.RESTListenerAttributes.*;
 import static com.reedelk.runtime.api.message.MessageAttributeKey.CORRELATION_ID;
 import static io.netty.handler.codec.http.HttpMethod.PUT;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
