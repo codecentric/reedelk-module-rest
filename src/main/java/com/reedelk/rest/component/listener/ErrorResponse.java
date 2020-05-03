@@ -18,7 +18,7 @@ public class ErrorResponse implements Implementor {
     @Property("Body")
     @Hint("error body text")
     @InitValue("#[error]")
-    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class})
+    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class}) // TODO: Make error class LOCAL and add wrapper to return status code and stuff.
     @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
