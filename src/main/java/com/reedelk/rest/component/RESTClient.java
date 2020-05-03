@@ -77,19 +77,6 @@ public class RESTClient implements ProcessorAsync {
     @Description("Sets the payload of the HTTP request. It could be a dynamic or a static value.")
     private DynamicObject body;
 
-    @Property("Streaming")
-    @Example("ALWAYS")
-    @InitValue("AUTO")
-    @DefaultValue("AUTO")
-    @When(propertyName = "method", propertyValue = "DELETE")
-    @When(propertyName = "method", propertyValue = "POST")
-    @When(propertyName = "method", propertyValue = "PUT")
-    @Description("Determines the strategy type the body will be sent to the server. " +
-            "When <i>Stream</i> the request body will be sent chunk by chunk without loading the entire content into memory. " +
-            "When <i>None</i> the body will be loaded into memory and then sent to the server. When <i>Auto</i> the component " +
-            "will inspect the content of the body to determine the best strategy to send the HTTP request data.")
-    private StreamingMode streaming = StreamingMode.AUTO;
-
     @Property("Headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
@@ -121,6 +108,20 @@ public class RESTClient implements ProcessorAsync {
     @Description("If the property is not empty, the result of the REST Client execution is assigned to the given context" +
             " variable instead of the message payload.")
     private DynamicString target;
+
+    @Property("Streaming")
+    @Group("Advanced")
+    @Example("ALWAYS")
+    @InitValue("AUTO")
+    @DefaultValue("AUTO")
+    @When(propertyName = "method", propertyValue = "DELETE")
+    @When(propertyName = "method", propertyValue = "POST")
+    @When(propertyName = "method", propertyValue = "PUT")
+    @Description("Determines the strategy type the body will be sent to the server. " +
+            "When <i>Stream</i> the request body will be sent chunk by chunk without loading the entire content into memory. " +
+            "When <i>None</i> the body will be loaded into memory and then sent to the server. When <i>Auto</i> the component " +
+            "will inspect the content of the body to determine the best strategy to send the HTTP request data.")
+    private StreamingMode streaming = StreamingMode.AUTO;
 
     @Group("Advanced")
     @Property("Buffer Configuration")
