@@ -6,7 +6,6 @@ import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
-@Collapsible
 @Component(service = ProxyConfiguration.class, scope = PROTOTYPE)
 public class ProxyConfiguration implements Implementor {
 
