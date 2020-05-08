@@ -3,6 +3,7 @@ package com.reedelk.rest.component;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.OperationObject;
+import com.reedelk.rest.internal.attribute.RESTListenerAttributes;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;
 import com.reedelk.rest.internal.server.DefaultHttpRequestHandler;
@@ -16,6 +17,7 @@ import com.reedelk.runtime.api.script.ScriptEngineService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static com.reedelk.rest.internal.commons.Messages.RestListener.LISTENER_CONFIG_MISSING;
@@ -25,6 +27,7 @@ import static com.reedelk.runtime.api.commons.StringUtils.isBlank;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @ModuleComponent("REST Listener")
+@ComponentOutput(attributes = RESTListenerAttributes.class, payload = {byte[].class, String.class, Map.class})
 @Description("The REST Listener can be used to create a REST endpoint listening on " +
                 "a given port, post and path. The listening path might contain path segments which " +
                 "are matched whenever an HTTP request comes in. A REST Listener configuration might be shared " +
