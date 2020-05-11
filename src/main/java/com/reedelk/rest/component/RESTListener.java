@@ -70,8 +70,8 @@ public class RESTListener extends AbstractInbound {
     @Property("Response")
     private Response response;
 
-    @Group("Response Error")
-    @Property("Error Response")
+    @Group("Response error")
+    @Property("Response error")
     private ErrorResponse errorResponse;
 
     @Group("Open API")
