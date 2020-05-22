@@ -15,14 +15,14 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @Component(service = ErrorResponse.class, scope = PROTOTYPE)
 public class ErrorResponse implements Implementor {
 
-    @Property("Body")
+    @Property("Error body")
     @Hint("error body text")
     @InitValue("#[error]")
     @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class}) // TODO: Make error class LOCAL and add wrapper to return status code and stuff.
     @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
-    @Property("Status")
+    @Property("Error status")
     @Hint("500")
     @InitValue("500")
     @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class})
@@ -30,8 +30,8 @@ public class ErrorResponse implements Implementor {
             "e.g. could be a variable defined in the flow context: <code>context.myErrorResponseStatus</code>.")
     private DynamicInteger status;
 
-    @Property("Error Response Headers")
-    @TabGroup("Error Response Headers")
+    @Property("Error response headers")
+    @TabGroup("Error response headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
     @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class})
