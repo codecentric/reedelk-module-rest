@@ -1,6 +1,7 @@
 package com.reedelk.rest.component;
 
 import com.reedelk.rest.component.client.BufferConfiguration;
+import com.reedelk.rest.internal.attribute.RESTClientAttributes;
 import com.reedelk.rest.internal.client.HttpClient;
 import com.reedelk.rest.internal.client.HttpClientFactory;
 import com.reedelk.rest.internal.client.HttpClientResultCallback;
@@ -33,6 +34,13 @@ import static java.util.Objects.requireNonNull;
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 
 @ModuleComponent("REST Client")
+@ComponentOutput(
+        attributes = RESTClientAttributes.class,
+        payload = { byte[].class, String.class },
+        description = "The data content of the HTTP response")
+@ComponentInput(
+        payload = Object.class,
+        description = "The data to be sent in the HTTP request for POST, PUT, DELETE requests.")
 @Description("Use this component to make a REST API Call. " +
                 "Supported REST methods are: GET, POST, PUT, DELETE, HEAD, OPTIONS. " +
                 "The base REST Client configuration can be shared across multiple REST clients in " +
