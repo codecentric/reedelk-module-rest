@@ -2,11 +2,11 @@ package com.reedelk.rest.internal.server.mapper;
 
 import com.reedelk.rest.component.RESTListener;
 import com.reedelk.rest.internal.ExecutionException;
-import com.reedelk.rest.internal.type.AttachmentsMap;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.Attachment;
 import com.reedelk.runtime.api.message.content.MimeType;
+import com.reedelk.runtime.api.type.MapOfAttachments;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
@@ -33,7 +33,7 @@ class HttpRequestMultipartFormDataMapper {
             throw new ExecutionException(ERROR_MULTIPART_NOT_SUPPORTED.format());
         }
 
-        Mono<AttachmentsMap> partsMono = request.data().aggregate().flatMap(byteBuffer -> {
+        Mono<MapOfAttachments> partsMono = request.data().aggregate().flatMap(byteBuffer -> {
 
             HttpPostRequestDecoder postDecoder = null;
             FullHttpRequest fullHttpRequest = null;
@@ -53,7 +53,7 @@ class HttpRequestMultipartFormDataMapper {
                         fullHttpRequest,
                         CharsetUtil.UTF_8);
 
-                AttachmentsMap parts = new AttachmentsMap();
+                MapOfAttachments parts = new MapOfAttachments();
 
                 // Loop attribute/file upload parts
                 for (InterfaceHttpData data : postDecoder.getBodyHttpDatas()) {
@@ -74,7 +74,7 @@ class HttpRequestMultipartFormDataMapper {
         });
 
         return MessageBuilder.get(RESTListener.class)
-                .withJavaObject(partsMono, AttachmentsMap.class);
+                .withJavaObject(partsMono, MapOfAttachments.class);
     }
 
     private static void handleFileUploadPart(Map<String,Attachment> parts, FileUpload fileUpload) {

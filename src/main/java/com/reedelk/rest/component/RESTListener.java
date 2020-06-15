@@ -10,11 +10,11 @@ import com.reedelk.rest.internal.server.DefaultHttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.Server;
 import com.reedelk.rest.internal.server.ServerProvider;
-import com.reedelk.rest.internal.type.AttachmentsMap;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.AbstractInbound;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.script.ScriptEngineService;
+import com.reedelk.runtime.api.type.MapOfAttachments;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -29,7 +29,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
 @ModuleComponent("REST Listener")
 @ComponentOutput(
         attributes = RESTListenerAttributes.class,
-        payload = { byte[].class, String.class, AttachmentsMap.class})
+        payload = { byte[].class, String.class, MapOfAttachments.class})
 @Description("The REST Listener can be used to create a REST endpoint listening on " +
                 "a given port, post and path. The listening path might contain path segments which " +
                 "are matched whenever an HTTP request comes in. A REST Listener configuration might be shared " +

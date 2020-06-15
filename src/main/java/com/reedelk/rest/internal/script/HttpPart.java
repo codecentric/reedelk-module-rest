@@ -19,7 +19,7 @@ public class HttpPart {
 
     @TypeFunction(
             cursorOffset = 1,
-            signature = "name(name: String)",
+            signature = "name(String name)",
             example = "HttpPartBuilder.create().name('myFile')",
             description = "Sets the name of the attachment.")
     public HttpPart name(String name) {
@@ -29,7 +29,7 @@ public class HttpPart {
 
     @TypeFunction(
             cursorOffset = 1,
-            signature = "attribute(key: String, value: String)",
+            signature = "attribute(String key, String value)",
             example = "HttpPartBuilder.create().attribute('filename','my_image.png')",
             description = "Adds a new attribute with the given key and value to the part object.")
     public HttpPart attribute(String key, String value) {
@@ -39,7 +39,7 @@ public class HttpPart {
 
     @TypeFunction(
             cursorOffset = 1,
-            signature = "binary(data: byte[])",
+            signature = "binary(byte[] data)",
             example = "HttpPartBuilder.create().binary(message.payload())",
             description = "Sets binary data to the current part object. Default mime type is 'application/octet-stream'.")
     public HttpPart binary(byte[] data) {
@@ -50,7 +50,7 @@ public class HttpPart {
 
     @TypeFunction(
             cursorOffset = 1,
-            signature = "text(data: String)",
+            signature = "text(String data)",
             example = "HttpPartBuilder.create().text(message.payload())",
             description = "Sets text data to the current part object. Default mime type is 'text/plain'.")
     public HttpPart text(String text) {
@@ -61,10 +61,10 @@ public class HttpPart {
 
     @TypeFunction(
             cursorOffset = 1,
-            signature = "binaryWithMimeType(data: byte[], mimeType: String)",
-            example = "HttpPartBuilder.create().binaryWithMimeType(message.payload(), 'application/octet-stream')",
+            signature = "binary(byte[] data, String mimeType)",
+            example = "HttpPartBuilder.create().binary(message.payload(), 'application/octet-stream')",
             description = "Sets binary data to the current part object with the given mime type.")
-    public HttpPart binaryWithMimeType(byte[] data, String mimeType) {
+    public HttpPart binary(byte[] data, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
         current.data(data);
         current.mimeType(mimeTypeObject);
@@ -73,10 +73,10 @@ public class HttpPart {
 
     @TypeFunction(
             cursorOffset = 1,
-            signature = "textWithMimeType(data: String, mimeType: String)",
-            example = "HttpPartBuilder.create().textWithMimeType(message.payload(), 'text/plain')",
+            signature = "text(String data, String mimeType)",
+            example = "HttpPartBuilder.create().text(message.payload(), 'text/plain')",
             description = "Sets text data to the current part object with the given mime type.")
-    public HttpPart textWithMimeType(String text, String mimeType) {
+    public HttpPart text(String text, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
         current.data(text.getBytes());
         current.mimeType(mimeTypeObject);
