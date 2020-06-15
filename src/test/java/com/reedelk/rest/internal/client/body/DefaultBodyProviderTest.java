@@ -7,7 +7,6 @@ import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.Attachment;
-import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
@@ -139,16 +138,16 @@ class DefaultBodyProviderTest {
     }
 
     private Map<String,Attachment> createParts() {
-        ByteArrayContent pictureContent = new ByteArrayContent("picturebytes".getBytes(), MimeType.IMAGE_JPEG);
         Attachment myPicturePart = Attachment.builder()
                 .attribute("filename", "my_picture.jpg")
-                .content(pictureContent)
+                .data("picturebytes".getBytes())
+                .mimeType(MimeType.IMAGE_JPEG)
                 .build();
 
-        ByteArrayContent fileContent = new ByteArrayContent("filebytes".getBytes(), MimeType.APPLICATION_BINARY);
         Attachment myFilePart = Attachment.builder()
                 .attribute("filename", "myFile.wav")
-                .content(fileContent)
+                .data("filebytes".getBytes())
+                .mimeType(MimeType.APPLICATION_BINARY)
                 .build();
 
         Map<String,Attachment> parts = new HashMap<>();

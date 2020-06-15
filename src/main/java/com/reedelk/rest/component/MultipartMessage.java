@@ -8,7 +8,6 @@ import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.Attachment;
-import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
@@ -86,7 +85,8 @@ public class MultipartMessage implements ProcessorSync {
         DynamicByteArray content = partDefinition.getContent();
 
         byte[] data = scriptEngine.evaluate(content, flowContext, message).orElse(null);
-        partBuilder.content(new ByteArrayContent(data, mimeType));
+        partBuilder.data(data);
+        partBuilder.mimeType(mimeType);
 
         // Part attributes
         DynamicStringMap attributesDynamicMap = partDefinition.getAttributes();

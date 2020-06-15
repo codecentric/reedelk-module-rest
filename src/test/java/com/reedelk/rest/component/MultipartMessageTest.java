@@ -95,7 +95,7 @@ class MultipartMessageTest {
         assertThat(partsAttachments).hasSize(1);
 
         Attachment attachment = partsAttachments.get("part1");
-        Map<String, String> attributes = attachment.getAttributes();
+        Map<String, String> attributes = attachment.attributes();
         assertThat(attributes).containsEntry("filename", "my-picture.jpg");
     }
 }

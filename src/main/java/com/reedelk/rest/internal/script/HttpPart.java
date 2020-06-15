@@ -3,9 +3,7 @@ package com.reedelk.rest.internal.script;
 import com.reedelk.runtime.api.annotation.Type;
 import com.reedelk.runtime.api.annotation.TypeFunction;
 import com.reedelk.runtime.api.message.content.Attachment;
-import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.StringContent;
 
 @Type(description = "An HttpPart object encapsulates an HTTP part " +
         "to be used in HTTP Multipart requests/responses. The HTTP listener payload contains a map " +
@@ -45,8 +43,8 @@ public class HttpPart {
             example = "HttpPartBuilder.create().binary(message.payload())",
             description = "Sets binary data to the current part object. Default mime type is 'application/octet-stream'.")
     public HttpPart binary(byte[] data) {
-        ByteArrayContent content = new ByteArrayContent(data, MimeType.APPLICATION_BINARY);
-        current.content(content);
+        current.data(data);
+        current.mimeType(MimeType.APPLICATION_BINARY);
         return this;
     }
 
@@ -56,8 +54,8 @@ public class HttpPart {
             example = "HttpPartBuilder.create().text(message.payload())",
             description = "Sets text data to the current part object. Default mime type is 'text/plain'.")
     public HttpPart text(String text) {
-        StringContent content = new StringContent(text, MimeType.TEXT_PLAIN);
-        current.content(content);
+        current.data(text.getBytes());
+        current.mimeType(MimeType.TEXT_PLAIN);
         return this;
     }
 
@@ -68,8 +66,8 @@ public class HttpPart {
             description = "Sets binary data to the current part object with the given mime type.")
     public HttpPart binaryWithMimeType(byte[] data, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
-        ByteArrayContent content = new ByteArrayContent(data, mimeTypeObject);
-        current.content(content);
+        current.data(data);
+        current.mimeType(mimeTypeObject);
         return this;
     }
 
@@ -80,8 +78,8 @@ public class HttpPart {
             description = "Sets text data to the current part object with the given mime type.")
     public HttpPart textWithMimeType(String text, String mimeType) {
         MimeType mimeTypeObject = MimeType.parse(mimeType);
-        StringContent content = new StringContent(text, mimeTypeObject);
-        current.content(content);
+        current.data(text.getBytes());
+        current.mimeType(mimeTypeObject);
         return this;
     }
 

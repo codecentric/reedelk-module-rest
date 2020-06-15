@@ -2,13 +2,13 @@ package com.reedelk.rest.internal.client.strategy;
 
 import com.reedelk.rest.internal.client.body.BodyResult;
 import com.reedelk.rest.internal.server.mapper.MultipartAttribute;
-import com.reedelk.runtime.api.message.content.*;
+import com.reedelk.runtime.api.message.content.Attachment;
+import com.reedelk.runtime.api.message.content.MimeType;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.FormBodyPartBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.nio.entity.NByteArrayEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,9 +53,8 @@ public class HttpEntityBuilder {
         return new MultipartFormEntityWrapper(builder.build());
     }
 
-    private ContentType contentTypeOrDefault(TypedContent<?,?> content, ContentType defaultContentType) {
-        if (content.mimeType() != null) {
-            MimeType mimeType = content.mimeType();
+    private ContentType contentTypeOrDefault(MimeType mimeType, ContentType defaultContentType) {
+        if (mimeType != null) {
             return ContentType.create(mimeType.toString());
         } else {
             return defaultContentType;
@@ -63,26 +62,13 @@ public class HttpEntityBuilder {
     }
 
     private void buildPart(MultipartEntityBuilder builder, String partName, Attachment part) {
-        TypedContent<?, ?> content = part.getContent();
+        byte[] content = part.data();
 
-        if (content instanceof ByteArrayContent) {
-            byte[] dataAsBytes = (byte[]) part.getContent().data();
-
-            String filename = part.getAttributes().getOrDefault(MultipartAttribute.FILE_NAME, null);
-            ContentType contentType = contentTypeOrDefault(part.getContent(), ContentType.DEFAULT_BINARY);
-
-            ByteArrayBody byteArrayBody = new ByteArrayBody(dataAsBytes, contentType, filename);
+        if (content != null) {
+            String filename = part.attributes().getOrDefault(MultipartAttribute.FILE_NAME, null);
+            ContentType contentType = contentTypeOrDefault(part.mimeType(), ContentType.DEFAULT_BINARY);
+            ByteArrayBody byteArrayBody = new ByteArrayBody(content, contentType, filename);
             FormBodyPartBuilder formBodyPartBuilder = FormBodyPartBuilder.create(partName, byteArrayBody);
-            Optional.ofNullable(part.attributes())
-                    .ifPresent(partAttrs -> partAttrs.forEach(formBodyPartBuilder::addField));
-            builder.addPart(formBodyPartBuilder.build());
-
-        } else if (content instanceof StringContent) {
-            String dataAsString = (String) part.getContent().data();
-            ContentType contentType = contentTypeOrDefault(part.getContent(), ContentType.DEFAULT_TEXT);
-
-            StringBody stringBody = new StringBody(dataAsString, contentType);
-            FormBodyPartBuilder formBodyPartBuilder = FormBodyPartBuilder.create(partName, stringBody);
             Optional.ofNullable(part.attributes())
                     .ifPresent(partAttrs -> partAttrs.forEach(formBodyPartBuilder::addField));
             builder.addPart(formBodyPartBuilder.build());
@@ -91,8 +77,7 @@ public class HttpEntityBuilder {
             logger.warn(MULTIPART_PART_NULL.format(partName));
 
         } else {
-            Class<?> contentType = part.getContent().type();
-            logger.warn(MULTIPART_PART_CONTENT_UNSUPPORTED.format(contentType.getSimpleName()));
+            logger.warn(MULTIPART_PART_CONTENT_UNSUPPORTED.format(content.getClass().getSimpleName()));
         }
     }
 }

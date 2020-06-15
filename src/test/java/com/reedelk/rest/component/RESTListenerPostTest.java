@@ -133,7 +133,7 @@ class RESTListenerPostTest extends RESTListenerAbstractTest {
         Map<String, Attachment> parts = (Map<String, Attachment>) payload;
 
         assertThat(parts).containsOnlyKeys("username", "myfile");
-        assertExistsPartWith(parts, "username", TEXT_PLAIN, "John", Collections.emptyMap());
+        assertExistsPartWith(parts, "username", TEXT_PLAIN, "John".getBytes(), Collections.emptyMap());
         assertExistsPartWith(parts, "myfile", APPLICATION_BINARY, binaryContent,
                 ImmutableMap.of(
                         CONTENT_TYPE, ContentType.APPLICATION_OCTET_STREAM.toString(),
@@ -170,8 +170,8 @@ class RESTListenerPostTest extends RESTListenerAbstractTest {
 
     private void assertExistsPartWith(Map<String, Attachment> parts, String name, MimeType mimeType, Object data, Map<String,String> attributes) {
         Attachment usernamePart = parts.get(name);
-        assertThat(usernamePart.getContent().mimeType()).isEqualTo(mimeType);
-        assertThat(usernamePart.getContent().data()).isEqualTo(data);
-        assertThat(usernamePart.getAttributes()).isEqualTo(attributes);
+        assertThat(usernamePart.mimeType()).isEqualTo(mimeType);
+        assertThat(usernamePart.data()).isEqualTo(data);
+        assertThat(usernamePart.attributes()).isEqualTo(attributes);
     }
 }

@@ -6,9 +6,7 @@ import com.reedelk.rest.internal.type.AttachmentsMap;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.message.MessageBuilder;
 import com.reedelk.runtime.api.message.content.Attachment;
-import com.reedelk.runtime.api.message.content.ByteArrayContent;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.api.message.content.StringContent;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
@@ -101,13 +99,13 @@ class HttpRequestMultipartFormDataMapper {
         String contentTransferEncoding = fileUpload.getContentTransferEncoding();
 
         MimeType mimeType = MimeType.parse(contentType);
-        ByteArrayContent content = new ByteArrayContent(fileContentAsBytes, mimeType);
         Attachment part = Attachment.builder()
                 .name(name)
                 .attribute(MultipartAttribute.TRANSFER_ENCODING, contentTransferEncoding)
                 .attribute(MultipartAttribute.CONTENT_TYPE, contentType)
                 .attribute(MultipartAttribute.FILE_NAME, filename)
-                .content(content)
+                .data(fileContentAsBytes)
+                .mimeType(mimeType)
                 .build();
         parts.put(name, part);
     }
@@ -123,10 +121,10 @@ class HttpRequestMultipartFormDataMapper {
             throw rethrown;
         }
 
-        StringContent content = new StringContent(attributeValue, MimeType.TEXT_PLAIN);
         Attachment part = Attachment.builder()
                 .name(name)
-                .content(content)
+                .data(attributeValue.getBytes())
+                .mimeType(MimeType.TEXT_PLAIN)
                 .build();
         parts.put(name, part);
     }
