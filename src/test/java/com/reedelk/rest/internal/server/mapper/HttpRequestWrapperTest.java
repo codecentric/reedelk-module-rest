@@ -15,7 +15,10 @@ import reactor.core.publisher.Flux;
 import reactor.netty.ByteBufFlux;
 import reactor.netty.http.server.HttpServerRequest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -237,6 +240,23 @@ class HttpRequestWrapperTest {
     }
 
     @Test
+    void shouldReturnDecodedQueryParameters() throws UnsupportedEncodingException {
+        // Given
+        String encodedQueryValue1 = URLEncoder.encode("query Value 1", StandardCharsets.UTF_8.toString());
+        String encodedQueryValue2 = URLEncoder.encode("query Value 2", StandardCharsets.UTF_8.toString());
+
+        String uri = "/resource/34/group/user?queryParam1=" + encodedQueryValue1 + "&queryParam2=" + encodedQueryValue2;
+        doReturn(uri).when(mockRequest).uri();
+
+        // When
+        HashMap<String, List<String>> queryParams = wrapper.queryParams();
+
+        // Then
+        assertThat(queryParams).containsEntry("queryParam1", singletonList("query Value 1"));
+        assertThat(queryParams).containsEntry("queryParam2", singletonList("query Value 2"));
+    }
+
+    @Test
     void shouldReturnCorrectPathParams() {
         // Given
         Map<String,String> pathParams = new HashMap<>();
@@ -250,6 +270,22 @@ class HttpRequestWrapperTest {
         // Then
         assertThat(actualParams).containsEntry("param1", "param1Value");
         assertThat(actualParams).containsEntry("param2", "param2Value");
+    }
+
+    @Test
+    void shouldReturnDecodedPathParams() throws UnsupportedEncodingException {
+        // Given
+        Map<String,String> pathParams = new HashMap<>();
+        pathParams.put("param1", URLEncoder.encode("my path", StandardCharsets.UTF_8.toString()));
+        pathParams.put("param2", URLEncoder.encode("my second >?Pa: th", StandardCharsets.UTF_8.toString()));
+        doReturn(pathParams).when(mockRequest).params();
+
+        // When
+        HashMap<String, String> actualParams = wrapper.params();
+
+        // Then
+        assertThat(actualParams).containsEntry("param1", "my path");
+        assertThat(actualParams).containsEntry("param2", "my second >?Pa: th");
     }
 
     @Test

@@ -3,7 +3,7 @@ package com.reedelk.rest.internal.server.mapper;
 import com.reedelk.rest.internal.commons.HttpHeadersAsMap;
 import com.reedelk.rest.internal.commons.MimeTypeExtract;
 import com.reedelk.rest.internal.commons.QueryParameters;
-import com.reedelk.runtime.api.commons.SerializableUtils;
+import com.reedelk.rest.internal.commons.URLDecoderUtil;
 import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.message.content.MimeType;
 import io.netty.handler.codec.http.HttpHeaders;
@@ -12,6 +12,7 @@ import reactor.netty.http.server.HttpServerRequest;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class HttpRequestWrapper {
@@ -73,7 +74,15 @@ public class HttpRequestWrapper {
     }
 
     public HashMap<String, String> params() {
-        return SerializableUtils.asSerializableMap(request.params());
+        HashMap<String, String> decodedParameters = new HashMap<>();
+        if (request.params() == null) return decodedParameters;
+
+        for (Map.Entry<String,String> entry : request.params().entrySet()) {
+            String paramKey = entry.getKey();
+            String paramValue = entry.getValue();
+            decodedParameters.put(paramKey, URLDecoderUtil.decode(paramValue));
+        }
+        return decodedParameters;
     }
 
     public TreeMap<String, List<String>> headers() {
