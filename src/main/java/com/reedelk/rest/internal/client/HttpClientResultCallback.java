@@ -9,7 +9,6 @@ import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -29,11 +28,11 @@ public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
     private final URI uri;
     private final OnResult callback;
     private final FlowContext flowContext;
-    private final DynamicString target;
+    private final String target;
     private final Message originalMessage;
     private final ScriptEngineService scriptEngine;
 
-    public HttpClientResultCallback(URI uri, FlowContext flowContext, Message message, DynamicString target, OnResult callback, ScriptEngineService scriptEngine) {
+    public HttpClientResultCallback(URI uri, FlowContext flowContext, Message message, String target, OnResult callback, ScriptEngineService scriptEngine) {
         this.uri = uri;
         this.target = target;
         this.callback = callback;
@@ -51,10 +50,9 @@ public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
 
                 // If the target variable has been set, we assign to a context variable
                 // the result of the HTTP response and we return the original message.
-                if (target != null && isNotBlank(target.value())) {
+                if (isNotBlank(target)) {
                     Object responseContent = HttpResponseMessageMapper.mapBody(response);
-                    scriptEngine.evaluate(target, flowContext, originalMessage)
-                            .ifPresent(contextVariableName -> flowContext.put(contextVariableName, responseContent));
+                    flowContext.put(target, responseContent);
                     callback.onResult(flowContext, originalMessage);
 
                 } else {

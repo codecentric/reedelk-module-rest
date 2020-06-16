@@ -24,7 +24,6 @@ import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicObject;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicString;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -113,9 +112,9 @@ public class RESTClient implements ProcessorAsync {
     @Hint("myRestClientResult")
     @Example("myRestClientResult")
     @Group("Advanced")
-    @Description("If the property is not empty, the result of the REST Client execution is assigned to the given context" +
-            " variable instead of the message payload.")
-    private DynamicString target;
+    @Description("If the property is not empty, the result of the REST Client execution is assigned to " +
+            "the context variable with the given target name instead of the message payload.")
+    private String target;
 
     @Property("Streaming")
     @Group("Advanced")
@@ -258,11 +257,11 @@ public class RESTClient implements ProcessorAsync {
         this.bufferConfiguration = bufferConfiguration;
     }
 
-    public DynamicString getTarget() {
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(DynamicString target) {
+    public void setTarget(String target) {
         this.target = target;
     }
 }
