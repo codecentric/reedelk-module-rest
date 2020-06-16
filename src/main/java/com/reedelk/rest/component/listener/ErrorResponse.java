@@ -2,7 +2,7 @@ package com.reedelk.rest.component.listener;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.api.exception.Error;
+import com.reedelk.runtime.api.exception.ExceptionType;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
@@ -18,14 +18,14 @@ public class ErrorResponse implements Implementor {
     @Property("Error body")
     @Hint("error body text")
     @InitValue("#[error]")
-    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class})
+    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, ExceptionType.class})
     @Description("The body of the error response might be a static or a dynamic value.")
     private DynamicByteArray body;
 
     @Property("Error status")
     @Hint("500")
     @InitValue("500")
-    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class})
+    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, ExceptionType.class})
     @Description("The status code of the error response might be a static or a dynamic value, " +
             "e.g. could be a variable defined in the flow context: <code>context.myErrorResponseStatus</code>.")
     private DynamicInteger status;
@@ -34,7 +34,7 @@ public class ErrorResponse implements Implementor {
     @TabGroup("Error response headers")
     @KeyName("Header Name")
     @ValueName("Header Value")
-    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, Error.class})
+    @ScriptSignature(arguments = {"context", "error"}, types = {FlowContext.class, ExceptionType.class})
     @Description("Additional headers to be set in the HTTP error response.")
     private DynamicStringMap headers = DynamicStringMap.empty();
 
