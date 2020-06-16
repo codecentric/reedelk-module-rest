@@ -5,8 +5,8 @@ import com.reedelk.rest.internal.server.mapper.HttpRequestWrapper;
 import com.reedelk.runtime.api.annotation.Type;
 import com.reedelk.runtime.api.annotation.TypeProperty;
 import com.reedelk.runtime.api.message.MessageAttributes;
-
-import java.util.Map;
+import com.reedelk.runtime.api.type.MapOfStringListOfString;
+import com.reedelk.runtime.api.type.MapOfStringString;
 
 import static com.reedelk.rest.internal.attribute.RESTListenerAttributes.*;
 import static com.reedelk.runtime.api.message.MessageAttributeKey.CORRELATION_ID;
@@ -14,13 +14,13 @@ import static com.reedelk.runtime.api.message.MessageAttributeKey.CORRELATION_ID
 @Type
 @TypeProperty(name = REMOTE_ADDRESS, type = String.class)
 @TypeProperty(name = MATCHING_PATH, type = String.class)
-@TypeProperty(name = QUERY_PARAMS, type = Map.class)
+@TypeProperty(name = QUERY_PARAMS, type = MapOfStringListOfString.class)
 @TypeProperty(name = REQUEST_PATH, type = String.class)
 @TypeProperty(name = REQUEST_URI, type = String.class)
 @TypeProperty(name = QUERY_STRING, type = String.class)
-@TypeProperty(name = PATH_PARAMS, type = Map.class)
+@TypeProperty(name = PATH_PARAMS, type = MapOfStringString.class)
 @TypeProperty(name = VERSION, type = String.class)
-@TypeProperty(name = HEADERS, type = Map.class)
+@TypeProperty(name = HEADERS, type = MapOfStringListOfString.class)
 @TypeProperty(name = SCHEME, type = String.class)
 @TypeProperty(name = METHOD, type = String.class)
 public class RESTListenerAttributes extends MessageAttributes {
