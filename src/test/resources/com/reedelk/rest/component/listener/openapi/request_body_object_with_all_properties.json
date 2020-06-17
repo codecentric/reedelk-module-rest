@@ -1,5 +1,5 @@
 {
   "description": "My request body",
-  "content": {"application/json": {"example": "{\n  \"id\": \"Dog\",\n  \"name\": \"John\"\n}\n"}},
+  "content": {"application/json": {"example": "{\"id\":\"Dog\",\"name\":\"John\"}"}},
   "required": true
 }

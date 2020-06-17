@@ -1,12 +1,15 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.internal.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.resource.ResourceText;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.reedelk.rest.component.listener.openapi.OpenApiJsons.Examples;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static reactor.core.publisher.Mono.just;
@@ -48,7 +51,13 @@ class ResponseObjectTest extends AbstractOpenApiSerializableTest {
         response.setHeaders(headers);
 
         // Expect
-        assertSerializedCorrectly(response, OpenApiJsons.ResponseBodyObject.WithAllProperties);
+        OpenApiJsons.ResponseBodyObject withAllProperties = OpenApiJsons.ResponseBodyObject.WithAllProperties;
+
+        ComponentsObject componentsObject = new ComponentsObject();
+        OpenApiSerializableContext context = new OpenApiSerializableContext(componentsObject);
+        JSONObject actualObject = response.serialize(context);
+        JSONObject expectedObject = new JSONObject(withAllProperties.string());
+        assertSameExamples(actualObject, expectedObject);
     }
 
     @Test
@@ -58,5 +67,16 @@ class ResponseObjectTest extends AbstractOpenApiSerializableTest {
 
         // Expect
         assertSerializedCorrectly(response, OpenApiJsons.ResponseBodyObject.WithDefault);
+    }
+
+    private void assertSameExamples(JSONObject object1, JSONObject object2) {
+        JSONObject contentObject1 = object1.getJSONObject("content");
+        JSONObject applicationJsonObject1 = contentObject1.getJSONObject("application/json");
+        String applicationJsonExample1 = applicationJsonObject1.getString("example");
+
+        JSONObject contentObject2 = object2.getJSONObject("content");
+        JSONObject applicationJsonObject2 = contentObject2.getJSONObject("application/json");
+        String applicationJsonExample2 = applicationJsonObject2.getString("example");
+        assertThat(applicationJsonExample1).isEqualToIgnoringNewLines(applicationJsonExample2);
     }
 }

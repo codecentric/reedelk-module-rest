@@ -1,11 +1,14 @@
 package com.reedelk.rest.component.listener.openapi;
 
+import com.reedelk.rest.internal.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.resource.ResourceText;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static reactor.core.publisher.Mono.just;
 
@@ -38,7 +41,14 @@ public class MediaTypeObjectTest extends AbstractOpenApiSerializableTest {
         mediaType.setExample(example);
 
         // Expect
-        assertSerializedCorrectly(mediaType, OpenApiJsons.MediaTypeObject.WithExample);
+        OpenApiJsons.MediaTypeObject withExample = OpenApiJsons.MediaTypeObject.WithExample;
+
+        ComponentsObject componentsObject = new ComponentsObject();
+        OpenApiSerializableContext context = new OpenApiSerializableContext(componentsObject);
+        JSONObject actualObject = mediaType.serialize(context);
+        JSONObject expectedObject = new JSONObject(withExample.string());
+        assertThat(actualObject.getString("example"))
+                .isEqualToIgnoringNewLines(expectedObject.getString("example"));
     }
 
     @Test
@@ -52,7 +62,14 @@ public class MediaTypeObjectTest extends AbstractOpenApiSerializableTest {
         mediaType.setSchema(schema);
 
         // Expect
-        assertSerializedCorrectly(mediaType, OpenApiJsons.MediaTypeObject.WithSchemaAndExample);
+        OpenApiJsons.MediaTypeObject withSchemaAndExample = OpenApiJsons.MediaTypeObject.WithSchemaAndExample;
+
+        ComponentsObject componentsObject = new ComponentsObject();
+        OpenApiSerializableContext context = new OpenApiSerializableContext(componentsObject);
+        JSONObject actualObject = mediaType.serialize(context);
+        JSONObject expectedObject = new JSONObject(withSchemaAndExample.string());
+        assertThat(actualObject.getString("example"))
+                .isEqualToIgnoringNewLines(expectedObject.getString("example"));
     }
 
     @Test
