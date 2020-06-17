@@ -2,10 +2,10 @@
   "description": "My response description",
   "content": {
     "application/json": {
-      "example": "{\n  \"id\": \"Dog\",\n  \"name\": \"John\"\n}\n"
+      "example": "{\"id\":\"Dog\",\"name\":\"John\"}"
     },
     "text/xml": {
-      "example": "<note>\n    <to>Tove<\/to>\n    <from>Jani<\/from>\n    <heading>Reminder<\/heading>\n    <body>Don't forget me this weekend!<\/body>\n<\/note>\n"
+      "example": "<note><to>Tove<\/to><from>Jani<\/from><heading>Reminder<\/heading><body>Don't forget me this weekend!<\/body><\/note>"
     }
   },
   "headers": {
