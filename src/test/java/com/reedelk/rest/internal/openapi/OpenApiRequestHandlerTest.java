@@ -3,21 +3,22 @@ package com.reedelk.rest.internal.openapi;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.component.listener.openapi.*;
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.runtime.api.commons.ImmutableMap;
 import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;
+import com.reedelk.runtime.openapi.PredefinedSchema;
+import com.reedelk.runtime.openapi.model.*;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import static com.reedelk.rest.component.listener.openapi.OpenApiJsons.Examples;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static reactor.core.publisher.Mono.just;
 
-class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
+class OpenApiRequestHandlerTest {
 
     @Test
     void shouldSerializeCorrectlyEmptyOpenApi() {
@@ -196,12 +197,12 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
         OpenApiRequestHandler handler = new OpenApiRequestHandler(configuration);
 
         ResourceText petSchemaResource = mock(ResourceText.class);
-        doReturn(just(OpenApiJsons.Schemas.Pet.string())).when(petSchemaResource).data();
+        doReturn(just(Schemas.Pet.string())).when(petSchemaResource).data();
         SchemaObject petSchema = new SchemaObject();
         petSchema.setSchema(petSchemaResource);
 
         ResourceText coordinatesSchemaResource = mock(ResourceText.class);
-        doReturn(just(OpenApiJsons.Schemas.Coordinates.string())).when(coordinatesSchemaResource).data();
+        doReturn(just(Schemas.Coordinates.string())).when(coordinatesSchemaResource).data();
         SchemaObject coordinatesSchema = new SchemaObject();
         coordinatesSchema.setSchema(coordinatesSchemaResource);
 
@@ -215,5 +216,10 @@ class OpenApiRequestHandlerTest extends AbstractOpenApiSerializableTest {
 
         // Then
         assertSerializedCorrectly(serialized, Examples.OpenApiWithSchemas);
+    }
+
+    protected void assertSerializedCorrectly(String actual, JsonProvider expected) {
+        String expectedJson = expected.string();
+        JSONAssert.assertEquals(expectedJson, actual, JSONCompareMode.STRICT);
     }
 }

@@ -3,11 +3,11 @@ package com.reedelk.rest.internal.openapi;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.component.listener.openapi.OperationObject;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpRouteHandler;
 import com.reedelk.rest.internal.server.Server;
+import com.reedelk.runtime.openapi.model.OperationObject;
 
 import java.util.List;
 
@@ -28,13 +28,17 @@ public class OpenApiServerDecorator implements Server {
 
     @Override
     public void addRoute(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject, HttpRequestHandler httpHandler) {
-        openApiRequestHandler.add(path, method, response, errorResponse, operationObject);
+        com.reedelk.runtime.openapi.model.RestMethod mappedRestMethod =
+                com.reedelk.runtime.openapi.model.RestMethod.valueOf(method.name());
+        openApiRequestHandler.add(path, mappedRestMethod, response, errorResponse, operationObject);
         delegate.addRoute(path, method, response, errorResponse, operationObject, httpHandler);
     }
 
     @Override
     public void removeRoute(String path, RestMethod method) {
-        openApiRequestHandler.remove(path, method);
+        com.reedelk.runtime.openapi.model.RestMethod mappedRestMethod =
+                com.reedelk.runtime.openapi.model.RestMethod.valueOf(method.name());
+        openApiRequestHandler.remove(path, mappedRestMethod);
         delegate.removeRoute(path, method);
     }
 
