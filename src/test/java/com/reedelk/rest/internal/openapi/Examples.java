@@ -56,19 +56,5 @@ public enum Examples implements JsonProvider {
         public String path() {
             return "open_api_with_schemas.json";
         }
-    },
-
-    JsonPet() {
-        @Override
-        public String path() {
-            return "pet.json";
-        }
-    },
-
-    NoteXml() {
-        @Override
-        public String path() {
-            return "note.xml";
-        }
     }
 }
