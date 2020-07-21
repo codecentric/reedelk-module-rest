@@ -7,6 +7,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 @Collapsible
 @Component(service = ResponseObject.class, scope = ServiceScope.PROTOTYPE)
@@ -53,5 +54,19 @@ public class ResponseObject implements Implementor {
 
     public void setHeaders(Map<String, HeaderObject> headers) {
         this.headers = headers;
+    }
+
+    public com.reedelk.runtime.openapi.v3.model.ResponseObject map() {
+        com.reedelk.runtime.openapi.v3.model.ResponseObject target =
+                new com.reedelk.runtime.openapi.v3.model.ResponseObject();
+        target.setDescription(description);
+        Map<String, com.reedelk.runtime.openapi.v3.model.MediaTypeObject> mappedContent = new HashMap<>();
+        content.forEach(new BiConsumer<String, MediaTypeObject>() {
+            @Override
+            public void accept(String contentType, MediaTypeObject mediaTypeObject) {
+                mappedContent.put(contentType, mediaTypeObject.map());
+            }
+        });
+        return null;
     }
 }

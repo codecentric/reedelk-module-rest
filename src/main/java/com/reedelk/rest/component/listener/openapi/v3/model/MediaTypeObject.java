@@ -41,4 +41,8 @@ public class MediaTypeObject implements Implementor {
         this.schema = schema;
     }
 
+    public com.reedelk.runtime.openapi.v3.model.MediaTypeObject map() {
+        com.reedelk.runtime.openapi.v3.model.MediaTypeObject target = new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
+        return target;
+    }
 }

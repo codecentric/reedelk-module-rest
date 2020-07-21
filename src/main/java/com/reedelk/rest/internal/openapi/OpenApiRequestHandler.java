@@ -49,7 +49,6 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     }
 
     public void add(String path, RestMethod httpMethod, Response response, ErrorResponse errorResponse, OperationObject operationObject) {
-
         Boolean excludeApiPath = Optional.ofNullable(operationObject)
                 .flatMap(config -> Optional.ofNullable(config.getExclude()))
                 .orElse(false);
@@ -180,7 +179,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     }
 
     String serializeOpenAPI() {
-        return this.formatter.format(openAPI, context);
+        return formatter.format(openAPI, context);
     }
 
     private Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPathOf(String path) {

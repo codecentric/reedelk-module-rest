@@ -159,6 +159,9 @@ public class OperationObject implements Implementor {
         target.setDescription(description);
         target.setOperationId(operationId);
         target.setSummary(summary);
+        Map<String, com.reedelk.runtime.openapi.v3.model.ResponseObject> mappedResponses = new HashMap<>();
+        responses.forEach((responseStatusCode, responseObject) ->
+                mappedResponses.put(responseStatusCode, responseObject.map()));
         return target;
     }
 }
