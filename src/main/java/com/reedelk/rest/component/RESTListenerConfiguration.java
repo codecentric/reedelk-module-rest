@@ -4,7 +4,7 @@ import com.reedelk.rest.component.listener.SecurityConfiguration;
 import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.model.OpenApiObject;
+import com.reedelk.runtime.openapi.v3.model.OpenApiObject;
 import org.osgi.service.component.annotations.Component;
 
 import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;

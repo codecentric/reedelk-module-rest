@@ -14,7 +14,7 @@ import com.reedelk.runtime.api.component.AbstractInbound;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.type.MapOfAttachments;
-import com.reedelk.runtime.openapi.model.OperationObject;
+import com.reedelk.runtime.openapi.v3.model.OperationObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 

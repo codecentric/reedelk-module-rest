@@ -8,7 +8,7 @@ import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.configurer.ServerConfigurer;
 import com.reedelk.rest.internal.server.configurer.ServerSecurityConfigurer;
 import com.reedelk.runtime.api.commons.StringUtils;
-import com.reedelk.runtime.openapi.model.OperationObject;
+import com.reedelk.runtime.openapi.v3.model.OperationObject;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpMethod;

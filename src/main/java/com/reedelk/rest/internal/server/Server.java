@@ -3,7 +3,7 @@ package com.reedelk.rest.internal.server;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.internal.commons.RestMethod;
-import com.reedelk.runtime.openapi.model.OperationObject;
+import com.reedelk.runtime.openapi.v3.model.OperationObject;
 
 import java.util.List;
 
