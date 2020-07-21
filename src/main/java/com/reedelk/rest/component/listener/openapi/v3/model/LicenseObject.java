@@ -36,4 +36,11 @@ public class LicenseObject implements Implementor {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public com.reedelk.runtime.openapi.v3.model.LicenseObject map() {
+        com.reedelk.runtime.openapi.v3.model.LicenseObject target = new com.reedelk.runtime.openapi.v3.model.LicenseObject();
+        target.setName(name);
+        target.setUrl(url);
+        return target;
+    }
 }

@@ -53,4 +53,11 @@ public class ServerVariableObject implements Implementor {
         this.enumValues = enumValues;
     }
 
+    public com.reedelk.runtime.openapi.v3.model.ServerVariableObject map() {
+        com.reedelk.runtime.openapi.v3.model.ServerVariableObject target = new com.reedelk.runtime.openapi.v3.model.ServerVariableObject();
+        target.setDescription(description);
+        target.setDefaultValue(defaultValue);
+        target.setEnumValues(enumValues);
+        return target;
+    }
 }

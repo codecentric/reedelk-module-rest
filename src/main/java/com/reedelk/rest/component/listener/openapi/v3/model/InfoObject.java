@@ -87,4 +87,15 @@ public class InfoObject implements Implementor {
     public void setVersion(String version) {
         this.version = version;
     }
+
+    public com.reedelk.runtime.openapi.v3.model.InfoObject map() {
+        com.reedelk.runtime.openapi.v3.model.InfoObject target = new com.reedelk.runtime.openapi.v3.model.InfoObject();
+        target.setTitle(title);
+        target.setVersion(version);
+        target.setDescription(description);
+        target.setTermsOfService(termsOfService);
+        if (contact != null) target.setContact(contact.map());
+        if (license != null) target.setLicense(license.map());
+        return target;
+    }
 }

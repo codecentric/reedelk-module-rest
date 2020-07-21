@@ -25,4 +25,11 @@ public class ComponentsObject implements Implementor {
     public void setSchemas(Map<String, SchemaObject> schemas) {
         this.schemas = schemas;
     }
+
+    public com.reedelk.runtime.openapi.v3.model.ComponentsObject map() {
+        com.reedelk.runtime.openapi.v3.model.ComponentsObject target = new com.reedelk.runtime.openapi.v3.model.ComponentsObject();
+        // TODO:
+        //target.setSchemas();
+        return target;
+    }
 }

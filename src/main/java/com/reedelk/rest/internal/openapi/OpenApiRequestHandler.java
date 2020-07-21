@@ -6,6 +6,7 @@ import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.v3.model.*;
 import com.reedelk.rest.internal.commons.HttpHeader;
 import com.reedelk.rest.internal.commons.Messages;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.uri.UriTemplateStructure;
 import com.reedelk.runtime.api.commons.StringUtils;
@@ -28,19 +29,41 @@ import static java.util.Optional.ofNullable;
 public class OpenApiRequestHandler implements HttpRequestHandler {
 
     private static final String HTTP_PATH_SEPARATOR = "/";
+    private final Formatter formatter;
 
-    protected OpenApiObject openAPI;
+    enum Formatter {
+
+        JSON {
+            @Override
+            String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
+                          OpenApiSerializableContext context) {
+                return openApiObject.toJson(context);
+            }
+        },
+        YAML {
+            @Override
+            String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
+                          OpenApiSerializableContext context) {
+                return openApiObject.toYaml(context);
+            }
+        };
+
+        abstract String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
+                               OpenApiSerializableContext context);
+    }
+
+    protected com.reedelk.runtime.openapi.v3.model.OpenApiObject openAPI;
     protected OpenApiSerializableContext context;
 
-    protected OpenApiRequestHandler(RESTListenerConfiguration configuration) {
-        openAPI = configuration.getOpenApi();
-        openAPI.setBasePath(configuration.getBasePath());
-        //context = new OpenApiSerializableContext(openAPI.getComponents());
+    protected OpenApiRequestHandler(RESTListenerConfiguration configuration, Formatter formatter) {
+        this.openAPI = configuration.getOpenApi().map();
+        this.openAPI.setBasePath(configuration.getBasePath());
+        this.formatter = formatter;
     }
 
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
-        String openApiAsJson = serializeOpenApi();
+        String openApiAsJson = this.formatter.format(openAPI, context);
         response.addHeader(HttpHeader.CONTENT_TYPE, MimeType.APPLICATION_JSON.toString());
         response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(openApiAsJson.getBytes()));
@@ -60,25 +83,18 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         } else if (!excludeApiPath) {
             // If the 'exclude' property is false, we don't add the path, otherwise
             // we add the path to the open API specification.
-            Map<RestMethod, OperationObject> operationsByPath = operationsByPathOf(path);
+            Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
 
             addDefaultParameters(operationObject, path);
             addDefaultResponse(operationObject, response); // Adding auto generated responses from request
             addDefaultResponse(operationObject, errorResponse); // Adding auto generated error responses from request
 
-            operationsByPath.put(method, operationObject);
+            //operationsByPath.put(method, operationObject);
         }
     }
 
-    String serializeOpenApi() {
-        // TODO: Fixme
-       // JSONObject serialize = openAPI.serialize(context);
-        //return serialize.toString(2);
-        return "";
-    }
-
     private void add(String path, RestMethod restMethod, Response response, ErrorResponse errorResponse) {
-        Map<RestMethod, OperationObject> operationsByPath = operationsByPathOf(path);
+        Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
         // Create a default operation object
         OperationObject defaultOperation = new OperationObject();
 
@@ -86,7 +102,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         addDefaultResponse(defaultOperation, response); // Adding auto generated responses from request
         addDefaultResponse(defaultOperation, errorResponse); // Adding auto generated error responses from request
 
-        operationsByPath.put(restMethod, defaultOperation);
+        //operationsByPath.put(restMethod, defaultOperation);
     }
 
     private void addDefaultParameters(OperationObject givenOperation, String path) {
@@ -170,18 +186,18 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     }
 
     public void remove(String path, RestMethod restMethod) {
-        Map<RestMethod, OperationObject> operationsByPath = operationsByPathOf(path);
+        Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
         operationsByPath.remove(restMethod);
         if (operationsByPath.isEmpty()) {
             String pathToRemove = realPathOf(path);
-            PathsObject pathsObject = openAPI.getPaths();
+            com.reedelk.runtime.openapi.v3.model.PathsObject pathsObject = openAPI.getPaths();
             pathsObject.getPaths().remove(pathToRemove);
         }
     }
 
-    private Map<RestMethod, OperationObject> operationsByPathOf(String path) {
-        PathsObject pathsObject = openAPI.getPaths();
-        Map<String, Map<RestMethod, OperationObject>> paths = pathsObject.getPaths();
+    private Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPathOf(String path) {
+        com.reedelk.runtime.openapi.v3.model.PathsObject pathsObject = openAPI.getPaths();
+        Map<String, Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject>> paths = pathsObject.getPaths();
         String fixedPath = realPathOf(path);
         if (!paths.containsKey(fixedPath)) {
             paths.put(fixedPath, new HashMap<>());

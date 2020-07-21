@@ -2,12 +2,13 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.v3.model.ServerObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = ServiceScope.PROTOTYPE)
@@ -26,9 +27,6 @@ public class OpenApiObject implements Implementor {
     @DialogTitle("Server Configuration")
     private List<ServerObject> servers = new ArrayList<>();
 
-    private PathsObject paths = new PathsObject();
-    private String basePath;
-
     public InfoObject getInfo() {
         return info;
     }
@@ -45,10 +43,6 @@ public class OpenApiObject implements Implementor {
         this.servers = servers;
     }
 
-    public PathsObject getPaths() {
-        return paths;
-    }
-
     public ComponentsObject getComponents() {
         return components;
     }
@@ -57,7 +51,15 @@ public class OpenApiObject implements Implementor {
         this.components = components;
     }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
+    public com.reedelk.runtime.openapi.v3.model.OpenApiObject map() {
+        com.reedelk.runtime.openapi.v3.model.OpenApiObject target = new com.reedelk.runtime.openapi.v3.model.OpenApiObject();
+        if (info != null) target.setInfo(info.map());
+        if (components != null) target.setComponents(components.map());
+        if (servers != null) {
+            List<com.reedelk.runtime.openapi.v3.model.ServerObject> mapped =
+                    servers.stream().map(ServerObject::map).collect(toList());
+            target.setServers(mapped);
+        }
+        return target;
     }
 }

@@ -2,6 +2,7 @@ package com.reedelk.rest.component;
 
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
+import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
 import com.reedelk.rest.internal.attribute.RESTListenerAttributes;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;
@@ -14,7 +15,6 @@ import com.reedelk.runtime.api.component.AbstractInbound;
 import com.reedelk.runtime.api.exception.PlatformException;
 import com.reedelk.runtime.api.script.ScriptEngineService;
 import com.reedelk.runtime.api.type.MapOfAttachments;
-import com.reedelk.runtime.openapi.v3.model.OperationObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -78,7 +78,7 @@ public class RESTListener extends AbstractInbound {
 
     @Group("Open API")
     @Property("Open API")
-    private OperationObject openApi;
+    private com.reedelk.rest.component.listener.openapi.v3.model.OperationObject openApi;
 
     @Reference
     private ServerProvider provider;

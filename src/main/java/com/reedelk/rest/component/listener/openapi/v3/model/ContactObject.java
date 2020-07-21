@@ -50,4 +50,12 @@ public class ContactObject implements Implementor {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public com.reedelk.runtime.openapi.v3.model.ContactObject map() {
+        com.reedelk.runtime.openapi.v3.model.ContactObject target = new com.reedelk.runtime.openapi.v3.model.ContactObject();
+        target.setEmail(email);
+        target.setName(name);
+        target.setUrl(url);
+        return target;
+    }
 }
