@@ -150,4 +150,15 @@ public class OperationObject implements Implementor {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
+    public com.reedelk.runtime.openapi.v3.model.OperationObject map() {
+        com.reedelk.runtime.openapi.v3.model.OperationObject target =
+                new com.reedelk.runtime.openapi.v3.model.OperationObject();
+        target.setExclude(exclude);
+        target.setDeprecated(deprecated);
+        target.setDescription(description);
+        target.setOperationId(operationId);
+        target.setSummary(summary);
+        return target;
+    }
 }

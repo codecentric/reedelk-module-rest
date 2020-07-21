@@ -24,8 +24,8 @@ public class OpenApiServerDecorator implements Server {
 
     public OpenApiServerDecorator(RESTListenerConfiguration configuration, Server delegate) {
         this.delegate = delegate;
-        this.openApiJsonRequestHandler = new OpenApiRequestHandler(configuration, OpenApiRequestHandler.Formatter.JSON);
-        this.openApiYamlRequestHandler = new OpenApiRequestHandler(configuration, OpenApiRequestHandler.Formatter.YAML);
+        this.openApiJsonRequestHandler = new OpenApiRequestHandler(configuration, Formatter.JSON);
+        this.openApiYamlRequestHandler = new OpenApiRequestHandler(configuration, Formatter.YAML);
         addOpenApiDocumentRoute();
     }
 

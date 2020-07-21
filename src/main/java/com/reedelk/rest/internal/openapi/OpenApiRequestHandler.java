@@ -31,27 +31,6 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     private static final String HTTP_PATH_SEPARATOR = "/";
     private final Formatter formatter;
 
-    enum Formatter {
-
-        JSON {
-            @Override
-            String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
-                          OpenApiSerializableContext context) {
-                return openApiObject.toJson(context);
-            }
-        },
-        YAML {
-            @Override
-            String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
-                          OpenApiSerializableContext context) {
-                return openApiObject.toYaml(context);
-            }
-        };
-
-        abstract String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
-                               OpenApiSerializableContext context);
-    }
-
     protected com.reedelk.runtime.openapi.v3.model.OpenApiObject openAPI;
     protected OpenApiSerializableContext context;
 
@@ -63,13 +42,13 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
-        String openApiAsJson = this.formatter.format(openAPI, context);
+        String openApiAsJson = serializeOpenAPI();
         response.addHeader(HttpHeader.CONTENT_TYPE, MimeType.APPLICATION_JSON.toString());
         response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(openApiAsJson.getBytes()));
     }
 
-    public void add(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject) {
+    public void add(String path, RestMethod httpMethod, Response response, ErrorResponse errorResponse, OperationObject operationObject) {
 
         Boolean excludeApiPath = Optional.ofNullable(operationObject)
                 .flatMap(config -> Optional.ofNullable(config.getExclude()))
@@ -78,22 +57,35 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         if (operationObject == null) {
             // This is the default behaviour. If the open api configuration is not present,
             // we just add the path to the OpenAPI specification.
-            add(path, method, response, errorResponse);
+            add(path, httpMethod, response, errorResponse);
 
         } else if (!excludeApiPath) {
             // If the 'exclude' property is false, we don't add the path, otherwise
             // we add the path to the open API specification.
-            Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
+            Map<com.reedelk.runtime.openapi.v3.model.RestMethod,
+                    com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
 
             addDefaultParameters(operationObject, path);
             addDefaultResponse(operationObject, response); // Adding auto generated responses from request
             addDefaultResponse(operationObject, errorResponse); // Adding auto generated error responses from request
 
-            //operationsByPath.put(method, operationObject);
+            operationsByPath.put(
+                    com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()),
+                    operationObject.map());
         }
     }
 
-    private void add(String path, RestMethod restMethod, Response response, ErrorResponse errorResponse) {
+    public void remove(String path, RestMethod restMethod) {
+        Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
+        operationsByPath.remove(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(restMethod.name()));
+        if (operationsByPath.isEmpty()) {
+            String pathToRemove = realPathOf(path);
+            com.reedelk.runtime.openapi.v3.model.PathsObject pathsObject = openAPI.getPaths();
+            pathsObject.getPaths().remove(pathToRemove);
+        }
+    }
+
+    private void add(String path, RestMethod httpMethod, Response response, ErrorResponse errorResponse) {
         Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
         // Create a default operation object
         OperationObject defaultOperation = new OperationObject();
@@ -102,7 +94,9 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         addDefaultResponse(defaultOperation, response); // Adding auto generated responses from request
         addDefaultResponse(defaultOperation, errorResponse); // Adding auto generated error responses from request
 
-        //operationsByPath.put(restMethod, defaultOperation);
+        operationsByPath.put(
+                com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()),
+                defaultOperation.map());
     }
 
     private void addDefaultParameters(OperationObject givenOperation, String path) {
@@ -185,14 +179,8 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         });
     }
 
-    public void remove(String path, RestMethod restMethod) {
-        Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = operationsByPathOf(path);
-        operationsByPath.remove(restMethod);
-        if (operationsByPath.isEmpty()) {
-            String pathToRemove = realPathOf(path);
-            com.reedelk.runtime.openapi.v3.model.PathsObject pathsObject = openAPI.getPaths();
-            pathsObject.getPaths().remove(pathToRemove);
-        }
+    String serializeOpenAPI() {
+        return this.formatter.format(openAPI, context);
     }
 
     private Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPathOf(String path) {
