@@ -12,7 +12,7 @@ import com.reedelk.runtime.api.commons.StringUtils;
 import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.api.script.dynamicmap.DynamicStringMap;
 import com.reedelk.runtime.api.script.dynamicvalue.DynamicInteger;
-import org.json.JSONObject;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServerRequest;
@@ -35,7 +35,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     protected OpenApiRequestHandler(RESTListenerConfiguration configuration) {
         openAPI = configuration.getOpenApi();
         openAPI.setBasePath(configuration.getBasePath());
-        context = new OpenApiSerializableContext(openAPI.getComponents());
+        //context = new OpenApiSerializableContext(openAPI.getComponents());
     }
 
     @Override
@@ -71,8 +71,10 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     }
 
     String serializeOpenApi() {
-        JSONObject serialize = openAPI.serialize(context);
-        return serialize.toString(2);
+        // TODO: Fixme
+       // JSONObject serialize = openAPI.serialize(context);
+        //return serialize.toString(2);
+        return "";
     }
 
     private void add(String path, RestMethod restMethod, Response response, ErrorResponse errorResponse) {

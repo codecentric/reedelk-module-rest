@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.model.ServerObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 

@@ -14,8 +14,9 @@ import java.util.List;
 import static com.reedelk.rest.internal.commons.RestMethod.GET;
 
 public class OpenApiServerDecorator implements Server {
-
-    private static final String openAPIDocument = "/openapi.json";
+// TODO: Fixme
+    private static final String openAPIDocumentJSON = "/openapi.json";
+    private static final String openAPIDocumentYAML = "/openapi.yaml";
 
     private final Server delegate;
     private OpenApiRequestHandler openApiRequestHandler;
@@ -30,7 +31,7 @@ public class OpenApiServerDecorator implements Server {
     public void addRoute(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject, HttpRequestHandler httpHandler) {
         com.reedelk.runtime.openapi.v3.model.RestMethod mappedRestMethod =
                 com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(method.name());
-        openApiRequestHandler.add(path, mappedRestMethod, response, errorResponse, operationObject);
+        //openApiRequestHandler.add(path, mappedRestMethod, response, errorResponse, operationObject);
         delegate.addRoute(path, method, response, errorResponse, operationObject, httpHandler);
     }
 
@@ -38,7 +39,7 @@ public class OpenApiServerDecorator implements Server {
     public void removeRoute(String path, RestMethod method) {
         com.reedelk.runtime.openapi.v3.model.RestMethod mappedRestMethod =
                 com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(method.name());
-        openApiRequestHandler.remove(path, mappedRestMethod);
+     //   openApiRequestHandler.remove(path, mappedRestMethod);
         delegate.removeRoute(path, method);
     }
 
@@ -62,12 +63,12 @@ public class OpenApiServerDecorator implements Server {
 
     @Override
     public void stop() {
-        delegate.removeRoute(openAPIDocument, GET);
+        delegate.removeRoute(openAPIDocumentJSON, GET);
         delegate.stop();
     }
 
     private void addOpenApiDocumentRoute() {
         // Response, error response and operation object are not used by the delegate.
-        delegate.addRoute(openAPIDocument, GET, null, null, null, openApiRequestHandler);
+        delegate.addRoute(openAPIDocumentJSON, GET, null, null, null, openApiRequestHandler);
     }
 }
