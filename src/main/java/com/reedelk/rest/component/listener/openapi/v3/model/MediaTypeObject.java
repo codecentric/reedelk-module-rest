@@ -1,9 +1,11 @@
 package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.model.ExampleReference;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -50,7 +52,10 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.ru
         if (schema != null) mappedMediaType.setSchema(SchemaUtils.toSchemaReference(schema, context));
 
         // Example
-        // TODO: Map the example. Should we serialize it immediately?
+        if (example != null) {
+            String exampleData = StreamUtils.FromString.consume(example.data());
+            mappedMediaType.setExample(new ExampleReference(exampleData));
+        }
         return mappedMediaType;
     }
 }

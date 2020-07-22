@@ -1,10 +1,5 @@
 package com.reedelk.rest.internal.server;
 
-import com.reedelk.rest.component.listener.ErrorResponse;
-import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
-import com.reedelk.rest.internal.commons.RestMethod;
-
 import java.util.List;
 
 public interface Server {
@@ -17,8 +12,7 @@ public interface Server {
 
     void stop();
 
-    void addRoute(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject openApiObject, HttpRequestHandler httpHandler);
+    void addRoute(RouteDefinition routeDefinition, HttpRequestHandler httpHandler);
 
-    void removeRoute(String path, RestMethod method);
-
+    void removeRoute(RouteDefinition routeDefinition);
 }

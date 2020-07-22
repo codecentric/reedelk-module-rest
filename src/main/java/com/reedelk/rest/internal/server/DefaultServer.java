@@ -2,10 +2,6 @@ package com.reedelk.rest.internal.server;
 
 
 import com.reedelk.rest.component.RESTListenerConfiguration;
-import com.reedelk.rest.component.listener.ErrorResponse;
-import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.configurer.ServerConfigurer;
 import com.reedelk.rest.internal.server.configurer.ServerSecurityConfigurer;
 import com.reedelk.runtime.api.commons.StringUtils;
@@ -48,22 +44,22 @@ public class DefaultServer implements Server {
     }
 
     @Override
-    public void addRoute(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject, HttpRequestHandler httpHandler) {
+    public void addRoute(RouteDefinition routeDefinition, HttpRequestHandler httpHandler) {
         requireNonNull(httpHandler, "httpHandler");
-        requireNonNull(method, "method");
+        requireNonNull(routeDefinition.getMethod(), "method");
 
-        String realPath = getRealPath(path);
+        String realPath = getRealPath(routeDefinition.getPath());
 
-        method.addRoute(routes, realPath, httpHandler);
+        routeDefinition.getMethod().addRoute(routes, realPath, httpHandler);
     }
 
     @Override
-    public void removeRoute(String path, RestMethod method) {
-        requireNonNull(method, "method");
+    public void removeRoute(RouteDefinition routeDefinition) {
+        requireNonNull(routeDefinition.getMethod(), "method");
 
-        String realPath = getRealPath(path);
+        String realPath = getRealPath(routeDefinition.getPath());
 
-        routes.remove(HttpMethod.valueOf(method.name()), realPath);
+        routes.remove(HttpMethod.valueOf(routeDefinition.getMethod().name()), realPath);
     }
 
     @Override

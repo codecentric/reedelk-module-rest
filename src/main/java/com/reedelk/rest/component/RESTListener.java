@@ -6,10 +6,7 @@ import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
 import com.reedelk.rest.internal.attribute.RESTListenerAttributes;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;
-import com.reedelk.rest.internal.server.DefaultHttpRequestHandler;
-import com.reedelk.rest.internal.server.HttpRequestHandler;
-import com.reedelk.rest.internal.server.Server;
-import com.reedelk.rest.internal.server.ServerProvider;
+import com.reedelk.rest.internal.server.*;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.AbstractInbound;
 import com.reedelk.runtime.api.exception.PlatformException;
@@ -85,6 +82,8 @@ public class RESTListener extends AbstractInbound {
     @Reference
     private ScriptEngineService scriptEngine;
 
+    private RouteDefinition routeDefinition;
+
     @Override
     public void onStart() {
         requireNotNull(RESTListener.class, configuration, "RESTListener configuration must be defined");
@@ -105,13 +104,16 @@ public class RESTListener extends AbstractInbound {
         requireTrue(RESTListener.class, maybeServer.isPresent(), LISTENER_CONFIG_MISSING.format());
 
         Server server = maybeServer.get();
-        server.addRoute(path, method, response, errorResponse, openApi, requestHandler);
+
+        this.routeDefinition = new RouteDefinition(path, method, response, errorResponse, openApi);
+        server.addRoute(routeDefinition, requestHandler);
     }
 
     @Override
     public void onShutdown() {
         provider.get(configuration).ifPresent(server -> {
-            server.removeRoute(path, method);
+            server.removeRoute(routeDefinition);
+            this.routeDefinition = null;
             try {
                 provider.release(server);
             } catch (Exception exception) {

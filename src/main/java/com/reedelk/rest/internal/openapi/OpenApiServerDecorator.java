@@ -1,12 +1,9 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.component.RESTListenerConfiguration;
-import com.reedelk.rest.component.listener.ErrorResponse;
-import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
-import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpRouteHandler;
+import com.reedelk.rest.internal.server.RouteDefinition;
 import com.reedelk.rest.internal.server.Server;
 
 import java.util.List;
@@ -19,8 +16,10 @@ public class OpenApiServerDecorator implements Server {
     private static final String openAPIDocumentYAML = "/openapi.yaml";
 
     private final Server delegate;
-    private OpenApiRequestHandler openApiJsonRequestHandler;
-    private OpenApiRequestHandler openApiYamlRequestHandler;
+    private final RouteDefinition openAPIDocumentJSONRoute;
+    private final RouteDefinition openAPIDocumentYAMLRoute;
+    private final OpenApiRequestHandler openApiJsonRequestHandler;
+    private final OpenApiRequestHandler openApiYamlRequestHandler;
 
     public OpenApiServerDecorator(RESTListenerConfiguration configuration, Server delegate) {
         this.delegate = delegate;
@@ -28,23 +27,26 @@ public class OpenApiServerDecorator implements Server {
         this.openApiYamlRequestHandler = new OpenApiRequestHandler(configuration, Formatter.YAML);
 
         // Add open API documents routes.
-        // Response, error response and operation object are not used by the delegate.
-        delegate.addRoute(openAPIDocumentJSON, GET, null, null, null, openApiJsonRequestHandler);
-        delegate.addRoute(openAPIDocumentYAML, GET, null, null, null, openApiYamlRequestHandler);
+        // Response, error response and operation object are NOT used by the delegate.
+        this.openAPIDocumentJSONRoute = new RouteDefinition(openAPIDocumentJSON, GET);
+        this.openAPIDocumentYAMLRoute = new RouteDefinition(openAPIDocumentYAML, GET);
+
+        delegate.addRoute(openAPIDocumentJSONRoute, openApiJsonRequestHandler);
+        delegate.addRoute(openAPIDocumentYAMLRoute, openApiYamlRequestHandler);
     }
 
     @Override
-    public void addRoute(String path, RestMethod method, Response response, ErrorResponse errorResponse, OperationObject operationObject, HttpRequestHandler httpHandler) {
-        openApiJsonRequestHandler.add(path, method, response, errorResponse, operationObject);
-        openApiYamlRequestHandler.add(path, method, response, errorResponse, operationObject);
-        delegate.addRoute(path, method, response, errorResponse, operationObject, httpHandler);
+    public void addRoute(RouteDefinition routeDefinition, HttpRequestHandler httpHandler) {
+        openApiJsonRequestHandler.add(routeDefinition);
+        openApiYamlRequestHandler.add(routeDefinition);
+        delegate.addRoute(routeDefinition, httpHandler);
     }
 
     @Override
-    public void removeRoute(String path, RestMethod method) {
-        openApiJsonRequestHandler.remove(path, method);
-        openApiYamlRequestHandler.remove(path, method);
-        delegate.removeRoute(path, method);
+    public void removeRoute(RouteDefinition routeDefinition) {
+        openApiJsonRequestHandler.remove(routeDefinition);
+        openApiYamlRequestHandler.remove(routeDefinition);
+        delegate.removeRoute(routeDefinition);
     }
 
     @Override
@@ -67,7 +69,8 @@ public class OpenApiServerDecorator implements Server {
 
     @Override
     public void stop() {
-        delegate.removeRoute(openAPIDocumentJSON, GET);
+        delegate.removeRoute(openAPIDocumentJSONRoute);
+        delegate.removeRoute(openAPIDocumentYAMLRoute);
         delegate.stop();
     }
 }
