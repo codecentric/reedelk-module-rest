@@ -44,25 +44,23 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     public void add(String path, RestMethod httpMethod, Response response, ErrorResponse errorResponse, OperationObject operationObject) {
         Boolean excludeApiPath = shouldExcludeApiPath(operationObject);
 
-        if (operationObject == null) {
-            // This is the default behaviour. If the open api configuration is not present,
-            // we just add the path to the OpenAPI specification.
-            add(path, httpMethod, response, errorResponse);
+        OperationObject realOperationObject = operationObject == null ? new OperationObject() : operationObject;
 
-        } else if (!excludeApiPath) {
-            // If the 'exclude' property is false, we don't add the path, otherwise
-            // we add the path to the open API specification.
-            OperationObjectUtils.addDefaultParameters(operationObject, path);
-            OperationObjectUtils.addDefaultSuccessResponse(operationObject, response);
-            OperationObjectUtils.addDefaultErrorResponse(operationObject, errorResponse);
+        if (!excludeApiPath) {
+            // If the 'exclude' property is true, we don't add the path.
+            // Otherwise we add the path to the open API specification.
+            OperationObjectUtils.addRequestParameters(realOperationObject, path);
+            OperationObjectUtils.addSuccessResponse(realOperationObject, response);
+            OperationObjectUtils.addErrorResponse(realOperationObject, errorResponse);
 
-            Map<com.reedelk.runtime.openapi.v3.model.RestMethod,
-                    com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(path);
-            operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()), operationObject.map());
+            // Add Operation to path.
+            Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(path);
+            operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()), realOperationObject.map());
         }
     }
 
     public void remove(String path, RestMethod restMethod) {
+        // Remove Operation from path.
         Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(path);
         operationsByPath.remove(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(restMethod.name()));
         if (operationsByPath.isEmpty()) {
@@ -74,12 +72,6 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
     String serializeOpenAPI() {
         return formatter.format(openAPI, context);
-    }
-
-    private void add(String path, RestMethod httpMethod, Response response, ErrorResponse errorResponse) {
-        OperationObject defaultOperation = OperationObjectUtils.createDefault(path, response, errorResponse);
-        Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(path);
-        operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()), defaultOperation.map());
     }
 
     private Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> findOperationByPath(String path) {

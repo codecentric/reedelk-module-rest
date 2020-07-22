@@ -40,7 +40,6 @@ public class OpenApiServerDecorator implements Server {
         delegate.addRoute(path, method, response, errorResponse, operationObject, httpHandler);
     }
 
-
     @Override
     public void removeRoute(String path, RestMethod method) {
         openApiJsonRequestHandler.remove(path, method);

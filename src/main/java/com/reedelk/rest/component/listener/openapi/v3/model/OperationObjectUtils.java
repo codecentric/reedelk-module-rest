@@ -14,18 +14,10 @@ import static java.util.Optional.ofNullable;
 
 public class OperationObjectUtils {
 
-    public static OperationObject createDefault(String path, Response response, ErrorResponse errorResponse) {
-        OperationObject operationObject = new OperationObject();
-        addDefaultParameters(operationObject, path);
-        addDefaultSuccessResponse(operationObject, response);
-        addDefaultErrorResponse(operationObject, errorResponse);
-        return operationObject;
-    }
-
     /**
      * Adds auto generated parameters from request path.
      */
-    public static void addDefaultParameters(OperationObject operationObject, String path) {
+    public static void addRequestParameters(OperationObject operationObject, String path) {
         UriTemplateStructure templateStructure = UriTemplateStructure.from(path);
         List<String> requestPathParams = templateStructure.getVariableNames();
         List<ParameterObject> parameters = operationObject.getParameters();
@@ -46,9 +38,9 @@ public class OperationObjectUtils {
     }
 
     /**
-     * Adds default success response.
+     * Adds success response.
      */
-    public static void addDefaultSuccessResponse(OperationObject givenOperation, Response response) {
+    public static void addSuccessResponse(OperationObject givenOperation, Response response) {
         if (response == null) return;
 
         DynamicInteger responseStatus = response.getStatus();
@@ -58,13 +50,13 @@ public class OperationObjectUtils {
         DynamicStringMap responseHeaders = response.getHeaders();
         Map<String, ResponseObject> responses = givenOperation.getResponses();
 
-        addDefaultResponse(responseStatus, responses, responseHeaders, description);
+        addResponse(responseStatus, responses, responseHeaders, description);
     }
 
     /**
      * Adds default error response.
      */
-    public static void addDefaultErrorResponse(OperationObject givenOperation, ErrorResponse errorResponse) {
+    public static void addErrorResponse(OperationObject givenOperation, ErrorResponse errorResponse) {
         if (errorResponse == null) return;
 
         DynamicInteger errorResponseStatus = errorResponse.getStatus();
@@ -74,10 +66,10 @@ public class OperationObjectUtils {
         DynamicStringMap errorResponseHeaders = errorResponse.getHeaders();
         Map<String, ResponseObject> responses = givenOperation.getResponses();
 
-        addDefaultResponse(errorResponseStatus, responses, errorResponseHeaders, description);
+        addResponse(errorResponseStatus, responses, errorResponseHeaders, description);
     }
 
-    private static void addDefaultResponse(DynamicInteger status, Map<String, ResponseObject> responses, DynamicStringMap headers, String description) {
+    private static void addResponse(DynamicInteger status, Map<String, ResponseObject> responses, DynamicStringMap headers, String description) {
         // If the return status is a script, we cannot infer so we won't add the entry.
         if (status.isScript()) return;
 
