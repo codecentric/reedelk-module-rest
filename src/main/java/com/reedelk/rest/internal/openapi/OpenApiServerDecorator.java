@@ -26,7 +26,11 @@ public class OpenApiServerDecorator implements Server {
         this.delegate = delegate;
         this.openApiJsonRequestHandler = new OpenApiRequestHandler(configuration, Formatter.JSON);
         this.openApiYamlRequestHandler = new OpenApiRequestHandler(configuration, Formatter.YAML);
-        addOpenApiDocumentRoute();
+
+        // Add open API documents routes.
+        // Response, error response and operation object are not used by the delegate.
+        delegate.addRoute(openAPIDocumentJSON, GET, null, null, null, openApiJsonRequestHandler);
+        delegate.addRoute(openAPIDocumentYAML, GET, null, null, null, openApiYamlRequestHandler);
     }
 
     @Override
@@ -39,8 +43,8 @@ public class OpenApiServerDecorator implements Server {
 
     @Override
     public void removeRoute(String path, RestMethod method) {
-        // TODO: Fixme
-     //   openApiRequestHandler.remove(path, mappedRestMethod);
+        openApiJsonRequestHandler.remove(path, method);
+        openApiYamlRequestHandler.remove(path, method);
         delegate.removeRoute(path, method);
     }
 
@@ -66,11 +70,5 @@ public class OpenApiServerDecorator implements Server {
     public void stop() {
         delegate.removeRoute(openAPIDocumentJSON, GET);
         delegate.stop();
-    }
-
-    private void addOpenApiDocumentRoute() {
-        // Response, error response and operation object are not used by the delegate.
-        delegate.addRoute(openAPIDocumentJSON, GET, null, null, null, openApiJsonRequestHandler);
-        delegate.addRoute(openAPIDocumentYAML, GET, null, null, null, openApiYamlRequestHandler);
     }
 }
