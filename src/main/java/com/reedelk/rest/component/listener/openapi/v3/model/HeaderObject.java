@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = HeaderObject.class, scope = ServiceScope.PROTOTYPE)
-public class HeaderObject implements Implementor {
+public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.HeaderObject> {
 
     @Property("Description")
     @Hint("My header description")
@@ -122,5 +122,19 @@ public class HeaderObject implements Implementor {
 
     public void setAllowReserved(Boolean allowReserved) {
         this.allowReserved = allowReserved;
+    }
+
+    @Override
+    public com.reedelk.runtime.openapi.v3.model.HeaderObject map() {
+        com.reedelk.runtime.openapi.v3.model.HeaderObject mappedHeader = new com.reedelk.runtime.openapi.v3.model.HeaderObject();
+        mappedHeader.setDescription(description);
+        mappedHeader.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
+        mappedHeader.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
+        mappedHeader.setSchema(SchemaUtils.toSchemaReference(schema));
+        mappedHeader.setExample(example);
+        mappedHeader.setExplode(explode);
+        mappedHeader.setDeprecated(deprecated);
+        mappedHeader.setAllowReserved(allowReserved);
+        return mappedHeader;
     }
 }

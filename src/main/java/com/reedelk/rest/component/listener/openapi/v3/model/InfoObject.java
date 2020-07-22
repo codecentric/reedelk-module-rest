@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 @Collapsible
 @Component(service = InfoObject.class, scope = ServiceScope.PROTOTYPE)
-public class InfoObject implements Implementor {
+public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.InfoObject> {
 
     @Property("Title")
     @Hint("My API")
@@ -88,14 +88,15 @@ public class InfoObject implements Implementor {
         this.version = version;
     }
 
+    @Override
     public com.reedelk.runtime.openapi.v3.model.InfoObject map() {
-        com.reedelk.runtime.openapi.v3.model.InfoObject target = new com.reedelk.runtime.openapi.v3.model.InfoObject();
-        target.setTitle(title);
-        target.setVersion(version);
-        target.setDescription(description);
-        target.setTermsOfService(termsOfService);
-        if (contact != null) target.setContact(contact.map());
-        if (license != null) target.setLicense(license.map());
-        return target;
+        com.reedelk.runtime.openapi.v3.model.InfoObject mappedInfo = new com.reedelk.runtime.openapi.v3.model.InfoObject();
+        mappedInfo.setTitle(title);
+        mappedInfo.setDescription(description);
+        mappedInfo.setTermsOfService(termsOfService);
+        mappedInfo.setVersion(version);
+        if (contact != null) mappedInfo.setContact(contact.map());
+        if (license != null) mappedInfo.setLicense(license.map());
+        return mappedInfo;
     }
 }

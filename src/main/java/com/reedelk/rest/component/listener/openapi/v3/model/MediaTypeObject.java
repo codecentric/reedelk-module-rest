@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = MediaTypeObject.class, scope = ServiceScope.PROTOTYPE)
-public class MediaTypeObject implements Implementor {
+public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.MediaTypeObject> {
 
     @Property("Example")
     @WidthAuto
@@ -41,8 +41,12 @@ public class MediaTypeObject implements Implementor {
         this.schema = schema;
     }
 
+    @Override
     public com.reedelk.runtime.openapi.v3.model.MediaTypeObject map() {
-        com.reedelk.runtime.openapi.v3.model.MediaTypeObject target = new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
-        return target;
+        com.reedelk.runtime.openapi.v3.model.MediaTypeObject mappedMediaType =
+                new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
+        mappedMediaType.setSchema(SchemaUtils.toSchemaReference(schema));
+        // TODO: Map the example. Should we serialize it immediately?
+        return mappedMediaType;
     }
 }

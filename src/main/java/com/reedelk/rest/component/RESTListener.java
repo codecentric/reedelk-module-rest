@@ -78,7 +78,7 @@ public class RESTListener extends AbstractInbound {
 
     @Group("Open API")
     @Property("Open API")
-    private com.reedelk.rest.component.listener.openapi.v3.model.OperationObject openApi;
+    private OperationObject openApi;
 
     @Reference
     private ServerProvider provider;

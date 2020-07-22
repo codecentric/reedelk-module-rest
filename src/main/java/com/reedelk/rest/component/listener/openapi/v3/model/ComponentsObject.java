@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Collapsible
 @Component(service = ComponentsObject.class, scope = ServiceScope.PROTOTYPE)
-public class ComponentsObject implements Implementor {
+public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.ComponentsObject> {
 
     @Property("Schemas")
     @KeyName("Schema Name")
@@ -26,11 +26,15 @@ public class ComponentsObject implements Implementor {
         this.schemas = schemas;
     }
 
+    @Override
     public com.reedelk.runtime.openapi.v3.model.ComponentsObject map() {
         com.reedelk.runtime.openapi.v3.model.ComponentsObject target = new com.reedelk.runtime.openapi.v3.model.ComponentsObject();
 
-        // TODO:
-        //target.setSchemas();
+        // Schemas
+        Map<String, com.reedelk.runtime.openapi.v3.model.SchemaObject> mappedSchemas = new HashMap<>();
+        schemas.forEach((schemaId, schemaObject) -> mappedSchemas.put(schemaId, schemaObject.map()));
+        target.setSchemas(mappedSchemas);
+
         return target;
     }
 }

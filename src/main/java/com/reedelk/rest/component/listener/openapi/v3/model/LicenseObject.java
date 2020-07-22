@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 @Collapsible
 @Component(service = LicenseObject.class, scope = ServiceScope.PROTOTYPE)
-public class LicenseObject implements Implementor {
+public class LicenseObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.LicenseObject> {
 
     @Property("Name")
     @Hint("Apache 2.0")
@@ -37,10 +37,12 @@ public class LicenseObject implements Implementor {
         this.url = url;
     }
 
+    @Override
     public com.reedelk.runtime.openapi.v3.model.LicenseObject map() {
-        com.reedelk.runtime.openapi.v3.model.LicenseObject target = new com.reedelk.runtime.openapi.v3.model.LicenseObject();
-        target.setName(name);
-        target.setUrl(url);
-        return target;
+        com.reedelk.runtime.openapi.v3.model.LicenseObject mappedLicense =
+                new com.reedelk.runtime.openapi.v3.model.LicenseObject();
+        mappedLicense.setName(name);
+        mappedLicense.setUrl(url);
+        return mappedLicense;
     }
 }

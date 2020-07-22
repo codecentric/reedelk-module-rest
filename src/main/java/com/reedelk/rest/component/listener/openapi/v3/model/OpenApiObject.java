@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = ServiceScope.PROTOTYPE)
-public class OpenApiObject implements Implementor {
+public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.OpenApiObject> {
 
     // Info Object is required by spec
     @Property("Info")
@@ -51,15 +51,17 @@ public class OpenApiObject implements Implementor {
         this.components = components;
     }
 
+    @Override
     public com.reedelk.runtime.openapi.v3.model.OpenApiObject map() {
-        com.reedelk.runtime.openapi.v3.model.OpenApiObject target = new com.reedelk.runtime.openapi.v3.model.OpenApiObject();
-        if (info != null) target.setInfo(info.map());
-        if (components != null) target.setComponents(components.map());
+        com.reedelk.runtime.openapi.v3.model.OpenApiObject mappedOpenApi =
+                new com.reedelk.runtime.openapi.v3.model.OpenApiObject();
+        if (info != null) mappedOpenApi.setInfo(info.map());
+        if (components != null) mappedOpenApi.setComponents(components.map());
         if (servers != null) {
-            List<com.reedelk.runtime.openapi.v3.model.ServerObject> mapped =
+            List<com.reedelk.runtime.openapi.v3.model.ServerObject> mappedServers =
                     servers.stream().map(ServerObject::map).collect(toList());
-            target.setServers(mapped);
+            mappedOpenApi.setServers(mappedServers);
         }
-        return target;
+        return mappedOpenApi;
     }
 }

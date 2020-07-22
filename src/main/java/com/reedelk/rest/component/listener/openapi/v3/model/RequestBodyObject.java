@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Collapsible
 @Component(service = RequestBodyObject.class, scope = ServiceScope.PROTOTYPE)
-public class RequestBodyObject implements Implementor {
+public class RequestBodyObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.RequestBodyObject> {
 
     @Property("Required")
     @DefaultValue("false")
@@ -51,5 +51,20 @@ public class RequestBodyObject implements Implementor {
 
     public void setContent(Map<String, MediaTypeObject> content) {
         this.content = content;
+    }
+
+    @Override
+    public com.reedelk.runtime.openapi.v3.model.RequestBodyObject map() {
+        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mapped =
+                new com.reedelk.runtime.openapi.v3.model.RequestBodyObject();
+        mapped.setRequired(required);
+        mapped.setDescription(description);
+
+        // Content
+        Map<String, com.reedelk.runtime.openapi.v3.model.MediaTypeObject> mappedContent = new HashMap<>();
+        content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map()));
+        mapped.setContent(mappedContent);
+
+        return mapped;
     }
 }

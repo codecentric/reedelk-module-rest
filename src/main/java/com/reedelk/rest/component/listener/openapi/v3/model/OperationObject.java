@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component(service = OperationObject.class, scope = ServiceScope.PROTOTYPE)
-public class OperationObject implements Implementor {
+public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.OperationObject> {
 
     @Property("Exclude this resource from the OpenAPI document")
     @Description("Excludes this endpoint from being published in the OpenAPI document.")
@@ -151,17 +152,34 @@ public class OperationObject implements Implementor {
         this.tags = tags;
     }
 
+    @Override
     public com.reedelk.runtime.openapi.v3.model.OperationObject map() {
         com.reedelk.runtime.openapi.v3.model.OperationObject target =
                 new com.reedelk.runtime.openapi.v3.model.OperationObject();
+
         target.setExclude(exclude);
         target.setDeprecated(deprecated);
+        target.setSummary(summary);
         target.setDescription(description);
         target.setOperationId(operationId);
-        target.setSummary(summary);
+
+        // Request Body
+        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map();
+        target.setRequestBody(mappedRequestBody);
+
+        // Responses
         Map<String, com.reedelk.runtime.openapi.v3.model.ResponseObject> mappedResponses = new HashMap<>();
         responses.forEach((responseStatusCode, responseObject) ->
                 mappedResponses.put(responseStatusCode, responseObject.map()));
+        target.setResponses(mappedResponses);
+
+        // Parameters
+        List<com.reedelk.runtime.openapi.v3.model.ParameterObject> mappedParameters =
+                parameters.stream().map(ParameterObject::map).collect(Collectors.toList());
+        target.setParameters(mappedParameters);
+
+        // Tags
+        target.setTags(tags);
         return target;
     }
 }

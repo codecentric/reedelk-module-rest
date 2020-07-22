@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = ParameterObject.class, scope = ServiceScope.PROTOTYPE)
-public class ParameterObject implements Implementor {
+public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.ParameterObject> {
 
     @Property("Name")
     @Hint("myParam")
@@ -183,5 +183,24 @@ public class ParameterObject implements Implementor {
 
     public void setAllowReserved(Boolean allowReserved) {
         this.allowReserved = allowReserved;
+    }
+
+    @Override
+    public com.reedelk.runtime.openapi.v3.model.ParameterObject map() {
+        com.reedelk.runtime.openapi.v3.model.ParameterObject mappedParameter =
+                new com.reedelk.runtime.openapi.v3.model.ParameterObject();
+        mappedParameter.setName(name);
+        mappedParameter.setDescription(description);
+        mappedParameter.setIn(com.reedelk.runtime.openapi.v3.model.ParameterLocation.valueOf(in.name()));
+        mappedParameter.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
+        mappedParameter.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
+        mappedParameter.setSchema(SchemaUtils.toSchemaReference(schema));
+        mappedParameter.setExample(example);
+        mappedParameter.setExplode(explode);
+        mappedParameter.setDeprecated(deprecated);
+        mappedParameter.setRequired(required);
+        mappedParameter.setAllowEmptyValue(allowEmptyValue);
+        mappedParameter.setAllowReserved(allowReserved);
+        return mappedParameter;
     }
 }

@@ -48,6 +48,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         return response.sendByteArray(Mono.just(openApiAsJson.getBytes()));
     }
 
+
     public void add(String path, RestMethod httpMethod, Response response, ErrorResponse errorResponse, OperationObject operationObject) {
         Boolean excludeApiPath = Optional.ofNullable(operationObject)
                 .flatMap(config -> Optional.ofNullable(config.getExclude()))

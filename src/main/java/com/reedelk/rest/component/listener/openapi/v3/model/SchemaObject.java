@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = SchemaObject.class, scope = ServiceScope.PROTOTYPE)
-public class SchemaObject implements Implementor {
+public class SchemaObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.SchemaObject> {
 
     @Property("Schema")
     @WidthAuto
@@ -23,5 +23,13 @@ public class SchemaObject implements Implementor {
 
     public void setSchema(ResourceText schema) {
         this.schema = schema;
+    }
+
+    @Override
+    public com.reedelk.runtime.openapi.v3.model.SchemaObject map() {
+        com.reedelk.runtime.openapi.v3.model.SchemaObject mappedSchema =
+                new com.reedelk.runtime.openapi.v3.model.SchemaObject();
+        mappedSchema.setSchema(SchemaUtils.toSchemaReference(schema));
+        return mappedSchema;
     }
 }
