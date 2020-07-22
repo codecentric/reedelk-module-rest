@@ -6,7 +6,6 @@ import com.reedelk.rest.component.listener.openapi.v3.model.OperationObjectUtils
 import com.reedelk.rest.internal.commons.HttpHeader;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.RouteDefinition;
-import com.reedelk.runtime.api.message.content.MimeType;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import com.reedelk.runtime.openapi.v3.model.OpenApiObject;
 import org.reactivestreams.Publisher;
@@ -61,7 +60,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         String serializedOpenAPI = formatter.format(openAPI, context);
 
         // Content Type depends on the formatter. for YAML is different
-        response.addHeader(HttpHeader.CONTENT_TYPE, MimeType.APPLICATION_JSON.toString());
+        response.addHeader(HttpHeader.CONTENT_TYPE, formatter.contentType());
         response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(serializedOpenAPI.getBytes()));
     }
