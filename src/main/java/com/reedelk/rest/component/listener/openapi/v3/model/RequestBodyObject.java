@@ -56,16 +56,16 @@ public class RequestBodyObject implements Implementor, OpenAPIModel<com.reedelk.
 
     @Override
     public com.reedelk.runtime.openapi.v3.model.RequestBodyObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mapped =
+        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody =
                 new com.reedelk.runtime.openapi.v3.model.RequestBodyObject();
-        mapped.setRequired(required);
-        mapped.setDescription(description);
+        mappedRequestBody.setRequired(required);
+        mappedRequestBody.setDescription(description);
 
         // Content
         Map<String, com.reedelk.runtime.openapi.v3.model.MediaTypeObject> mappedContent = new HashMap<>();
         content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map(context)));
-        mapped.setContent(mappedContent);
+        mappedRequestBody.setContent(mappedContent);
 
-        return mapped;
+        return mappedRequestBody;
     }
 }
