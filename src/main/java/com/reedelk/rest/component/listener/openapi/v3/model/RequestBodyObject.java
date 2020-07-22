@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -54,7 +55,7 @@ public class RequestBodyObject implements Implementor, OpenAPIModel<com.reedelk.
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.RequestBodyObject map() {
+    public com.reedelk.runtime.openapi.v3.model.RequestBodyObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.RequestBodyObject mapped =
                 new com.reedelk.runtime.openapi.v3.model.RequestBodyObject();
         mapped.setRequired(required);
@@ -62,7 +63,7 @@ public class RequestBodyObject implements Implementor, OpenAPIModel<com.reedelk.
 
         // Content
         Map<String, com.reedelk.runtime.openapi.v3.model.MediaTypeObject> mappedContent = new HashMap<>();
-        content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map()));
+        content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map(context)));
         mapped.setContent(mappedContent);
 
         return mapped;

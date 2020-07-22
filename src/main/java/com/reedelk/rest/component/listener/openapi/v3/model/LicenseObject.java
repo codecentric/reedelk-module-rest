@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -38,7 +39,7 @@ public class LicenseObject implements Implementor, OpenAPIModel<com.reedelk.runt
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.LicenseObject map() {
+    public com.reedelk.runtime.openapi.v3.model.LicenseObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.LicenseObject mappedLicense =
                 new com.reedelk.runtime.openapi.v3.model.LicenseObject();
         mappedLicense.setName(name);

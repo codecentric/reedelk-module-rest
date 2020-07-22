@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -27,14 +28,15 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.r
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.ComponentsObject map() {
-        com.reedelk.runtime.openapi.v3.model.ComponentsObject target = new com.reedelk.runtime.openapi.v3.model.ComponentsObject();
+    public com.reedelk.runtime.openapi.v3.model.ComponentsObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.model.ComponentsObject mappedComponents =
+                new com.reedelk.runtime.openapi.v3.model.ComponentsObject();
 
         // Schemas
         Map<String, com.reedelk.runtime.openapi.v3.model.SchemaObject> mappedSchemas = new HashMap<>();
-        schemas.forEach((schemaId, schemaObject) -> mappedSchemas.put(schemaId, schemaObject.map()));
-        target.setSchemas(mappedSchemas);
+        schemas.forEach((schemaId, schemaObject) -> mappedSchemas.put(schemaId, schemaObject.map(context)));
+        mappedComponents.setSchemas(mappedSchemas);
 
-        return target;
+        return mappedComponents;
     }
 }

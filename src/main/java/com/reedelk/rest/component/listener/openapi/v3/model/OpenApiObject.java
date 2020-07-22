@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -52,14 +53,14 @@ public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.runt
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.OpenApiObject map() {
+    public com.reedelk.runtime.openapi.v3.model.OpenApiObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.OpenApiObject mappedOpenApi =
                 new com.reedelk.runtime.openapi.v3.model.OpenApiObject();
-        if (info != null) mappedOpenApi.setInfo(info.map());
-        if (components != null) mappedOpenApi.setComponents(components.map());
+        if (info != null) mappedOpenApi.setInfo(info.map(context));
+        if (components != null) mappedOpenApi.setComponents(components.map(context));
         if (servers != null) {
             List<com.reedelk.runtime.openapi.v3.model.ServerObject> mappedServers =
-                    servers.stream().map(ServerObject::map).collect(toList());
+                    servers.stream().map(serverObject -> serverObject.map(context)).collect(toList());
             mappedOpenApi.setServers(mappedServers);
         }
         return mappedOpenApi;

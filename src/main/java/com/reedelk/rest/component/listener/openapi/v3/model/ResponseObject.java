@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -55,19 +56,19 @@ public class ResponseObject implements Implementor {
         this.headers = headers;
     }
 
-    public com.reedelk.runtime.openapi.v3.model.ResponseObject map() {
+    public com.reedelk.runtime.openapi.v3.model.ResponseObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.ResponseObject target =
                 new com.reedelk.runtime.openapi.v3.model.ResponseObject();
         target.setDescription(description);
 
         // Content
         Map<String, com.reedelk.runtime.openapi.v3.model.MediaTypeObject> mappedContent = new HashMap<>();
-        content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map()));
+        content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map(context)));
         target.setContent(mappedContent);
 
         // Headers
         Map<String, com.reedelk.runtime.openapi.v3.model.HeaderObject> mappedHeaders = new HashMap<>();
-        headers.forEach((headerName, headerObject) -> mappedHeaders.put(headerName, headerObject.map()));
+        headers.forEach((headerName, headerObject) -> mappedHeaders.put(headerName, headerObject.map(context)));
         target.setHeaders(mappedHeaders);
 
         return target;

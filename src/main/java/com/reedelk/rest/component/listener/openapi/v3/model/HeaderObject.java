@@ -3,6 +3,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -125,8 +126,9 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runti
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.HeaderObject map() {
-        com.reedelk.runtime.openapi.v3.model.HeaderObject mappedHeader = new com.reedelk.runtime.openapi.v3.model.HeaderObject();
+    public com.reedelk.runtime.openapi.v3.model.HeaderObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.model.HeaderObject mappedHeader =
+                new com.reedelk.runtime.openapi.v3.model.HeaderObject();
         mappedHeader.setDescription(description);
         mappedHeader.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
         mappedHeader.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));

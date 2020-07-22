@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -57,16 +58,17 @@ public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.runti
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.ServerObject map() {
-        com.reedelk.runtime.openapi.v3.model.ServerObject target = new com.reedelk.runtime.openapi.v3.model.ServerObject();
-        target.setUrl(url);
-        target.setDescription(description);
+    public com.reedelk.runtime.openapi.v3.model.ServerObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.model.ServerObject mappedServer =
+                new com.reedelk.runtime.openapi.v3.model.ServerObject();
+        mappedServer.setUrl(url);
+        mappedServer.setDescription(description);
 
-        // Variables
-        Map<String, com.reedelk.runtime.openapi.v3.model.ServerVariableObject> mapped = new HashMap<>();
-        variables.forEach((variableName, serverVariableObject) -> mapped.put(variableName, serverVariableObject.map()));
-        target.setVariables(mapped);
+        // Server Variables
+        Map<String, com.reedelk.runtime.openapi.v3.model.ServerVariableObject> mappedServerVariables = new HashMap<>();
+        variables.forEach((variableName, serverVariableObject) -> mappedServerVariables.put(variableName, serverVariableObject.map(context)));
+        mappedServer.setVariables(mappedServerVariables);
 
-        return target;
+        return mappedServer;
     }
 }

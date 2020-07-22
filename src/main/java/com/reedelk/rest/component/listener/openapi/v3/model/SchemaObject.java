@@ -3,6 +3,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -26,7 +27,7 @@ public class SchemaObject implements Implementor, OpenAPIModel<com.reedelk.runti
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.SchemaObject map() {
+    public com.reedelk.runtime.openapi.v3.model.SchemaObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.SchemaObject mappedSchema =
                 new com.reedelk.runtime.openapi.v3.model.SchemaObject();
         mappedSchema.setSchema(SchemaUtils.toSchemaReference(schema));

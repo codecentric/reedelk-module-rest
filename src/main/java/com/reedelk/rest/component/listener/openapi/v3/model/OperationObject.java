@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -153,7 +154,7 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.ru
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.OperationObject map() {
+    public com.reedelk.runtime.openapi.v3.model.OperationObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.OperationObject target =
                 new com.reedelk.runtime.openapi.v3.model.OperationObject();
 
@@ -164,18 +165,18 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.ru
         target.setOperationId(operationId);
 
         // Request Body
-        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map();
+        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map(context);
         target.setRequestBody(mappedRequestBody);
 
         // Responses
         Map<String, com.reedelk.runtime.openapi.v3.model.ResponseObject> mappedResponses = new HashMap<>();
         responses.forEach((responseStatusCode, responseObject) ->
-                mappedResponses.put(responseStatusCode, responseObject.map()));
+                mappedResponses.put(responseStatusCode, responseObject.map(context)));
         target.setResponses(mappedResponses);
 
         // Parameters
         List<com.reedelk.runtime.openapi.v3.model.ParameterObject> mappedParameters =
-                parameters.stream().map(ParameterObject::map).collect(Collectors.toList());
+                parameters.stream().map(parameterObject -> parameterObject.map(context)).collect(Collectors.toList());
         target.setParameters(mappedParameters);
 
         // Tags

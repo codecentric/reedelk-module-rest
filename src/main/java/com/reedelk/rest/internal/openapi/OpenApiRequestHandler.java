@@ -28,7 +28,8 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     protected OpenApiSerializableContext context;
 
     protected OpenApiRequestHandler(RESTListenerConfiguration configuration, Formatter formatter) {
-        this.openAPI = configuration.getOpenApi().map();
+        this.context = new OpenApiSerializableContext();
+        this.openAPI = configuration.getOpenApi().map(context);
         this.openAPI.setBasePath(configuration.getBasePath());
         this.formatter = formatter;
     }
@@ -55,7 +56,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
             // Add Operation to path.
             Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(path);
-            operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()), realOperationObject.map());
+            operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(httpMethod.name()), realOperationObject.map(context));
         }
     }
 

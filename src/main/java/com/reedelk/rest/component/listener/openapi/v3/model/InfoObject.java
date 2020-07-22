@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -89,14 +90,15 @@ public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.runtime
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.InfoObject map() {
-        com.reedelk.runtime.openapi.v3.model.InfoObject mappedInfo = new com.reedelk.runtime.openapi.v3.model.InfoObject();
+    public com.reedelk.runtime.openapi.v3.model.InfoObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.model.InfoObject mappedInfo =
+                new com.reedelk.runtime.openapi.v3.model.InfoObject();
         mappedInfo.setTitle(title);
         mappedInfo.setDescription(description);
         mappedInfo.setTermsOfService(termsOfService);
         mappedInfo.setVersion(version);
-        if (contact != null) mappedInfo.setContact(contact.map());
-        if (license != null) mappedInfo.setLicense(license.map());
+        if (contact != null) mappedInfo.setContact(contact.map(context));
+        if (license != null) mappedInfo.setLicense(license.map(context));
         return mappedInfo;
     }
 }

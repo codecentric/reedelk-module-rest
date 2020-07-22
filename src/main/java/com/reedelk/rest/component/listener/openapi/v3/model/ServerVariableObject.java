@@ -2,6 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -54,11 +55,12 @@ public class ServerVariableObject implements Implementor, OpenAPIModel<com.reede
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.ServerVariableObject map() {
-        com.reedelk.runtime.openapi.v3.model.ServerVariableObject target = new com.reedelk.runtime.openapi.v3.model.ServerVariableObject();
-        target.setDescription(description);
-        target.setDefaultValue(defaultValue);
-        target.setEnumValues(enumValues);
-        return target;
+    public com.reedelk.runtime.openapi.v3.model.ServerVariableObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.model.ServerVariableObject mappedServerVariable =
+                new com.reedelk.runtime.openapi.v3.model.ServerVariableObject();
+        mappedServerVariable.setDescription(description);
+        mappedServerVariable.setDefaultValue(defaultValue);
+        mappedServerVariable.setEnumValues(enumValues);
+        return mappedServerVariable;
     }
 }
