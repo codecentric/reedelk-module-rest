@@ -1,9 +1,12 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.component.RESTListenerConfiguration;
+import com.reedelk.rest.component.listener.ErrorResponse;
+import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
 import com.reedelk.rest.component.listener.openapi.v3.model.OperationObjectUtils;
 import com.reedelk.rest.internal.commons.HttpHeader;
+import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.RouteDefinition;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
@@ -34,10 +37,13 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         OpenApiObject openAPI = configuration.getOpenApi().map(context);
         openAPI.setBasePath(configuration.getBasePath());
 
+        // For each route definition in the list:
         routeDefinitionList.forEach(routeDefinition -> {
-            // For each route definition ... do..
-            OperationObject operationObject = routeDefinition.getOpenApiObject();
             String path = routeDefinition.getPath();
+            RestMethod method = routeDefinition.getMethod();
+            Response successResponse = routeDefinition.getResponse();
+            ErrorResponse errorResponse = routeDefinition.getErrorResponse();
+            OperationObject operationObject = routeDefinition.getOpenApiObject();
 
             Boolean excludeApiPath = shouldExcludeApiPath(operationObject);
 
@@ -47,12 +53,12 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
                 // If the 'exclude' property is true, we don't add the path.
                 // Otherwise we add the path to the open API specification.
                 OperationObjectUtils.addRequestParameters(realOperationObject, path);
-                OperationObjectUtils.addSuccessResponse(realOperationObject, routeDefinition.getResponse());
-                OperationObjectUtils.addErrorResponse(realOperationObject, routeDefinition.getErrorResponse());
+                OperationObjectUtils.addSuccessResponse(realOperationObject, successResponse);
+                OperationObjectUtils.addErrorResponse(realOperationObject, errorResponse);
 
                 // Add Operation to path.
                 Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(openAPI, path);
-                operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(routeDefinition.getMethod().name()), realOperationObject.map(context));
+                operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(method.name()), realOperationObject.map(context));
             }
             // ----
         });
