@@ -47,7 +47,7 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.ru
         com.reedelk.runtime.openapi.v3.model.MediaTypeObject mappedMediaType =
                 new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
         // Schema
-        if (schema != null) mappedMediaType.setSchema(SchemaUtils.toSchemaReference(schema));
+        if (schema != null) mappedMediaType.setSchema(SchemaUtils.toSchemaReference(schema, context));
 
         // Example
         // TODO: Map the example. Should we serialize it immediately?

@@ -3,16 +3,19 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
+import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import com.reedelk.runtime.openapi.v3.model.SchemaReference;
 import org.json.JSONObject;
 
 public class SchemaUtils {
 
-    public static SchemaReference toSchemaReference(ResourceText schemaReference) {
-        String schemaAsJson = StreamUtils.FromString.consume(schemaReference.data());
-        JSONObject schemaAsJsonObject = new JSONObject(schemaAsJson);
+    public static SchemaReference toSchemaReference(ResourceText resourceText, OpenApiSerializableContext context) {
+        // Schema Data could be JSON or YAML.
+        String schemaData = StreamUtils.FromString.consume(resourceText.data());
 
+        // Extract schema id from JSON could be YAML ?
         String schemaId;
+        JSONObject schemaAsJsonObject = new JSONObject(schemaData);
         if (schemaAsJsonObject.has("title")) {
             String titleProperty = schemaAsJsonObject.getString("title");
             schemaId = normalizeNameFrom(titleProperty);
@@ -20,13 +23,14 @@ public class SchemaUtils {
             String nameProperty = schemaAsJsonObject.getString("name");
             schemaId = normalizeNameFrom(nameProperty);
         } else {
-            String path = schemaReference.path();
+            String path = resourceText.path();
             schemaId = fromFilePath(path);
         }
 
-        SchemaReference reference = new SchemaReference();
-        reference.setSchemaId(schemaId);
-        return reference;
+        ModuleSchemaReference schemaReference = new ModuleSchemaReference(schemaId, schemaData);
+        context.schemaRegister(schemaReference);
+        return schemaReference;
+
     }
 
     private static String fromFilePath(String path) {
