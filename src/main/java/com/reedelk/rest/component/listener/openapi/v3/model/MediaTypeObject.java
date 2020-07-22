@@ -46,7 +46,10 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.ru
     public com.reedelk.runtime.openapi.v3.model.MediaTypeObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.MediaTypeObject mappedMediaType =
                 new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
-        mappedMediaType.setSchema(SchemaUtils.toSchemaReference(schema));
+        // Schema
+        if (schema != null) mappedMediaType.setSchema(SchemaUtils.toSchemaReference(schema));
+
+        // Example
         // TODO: Map the example. Should we serialize it immediately?
         return mappedMediaType;
     }

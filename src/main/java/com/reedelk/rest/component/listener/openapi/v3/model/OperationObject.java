@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component(service = OperationObject.class, scope = ServiceScope.PROTOTYPE)
 public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.OperationObject> {
@@ -165,8 +166,10 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.ru
         target.setOperationId(operationId);
 
         // Request Body
-        com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map(context);
-        target.setRequestBody(mappedRequestBody);
+        if (requestBody != null) {
+            com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map(context);
+            target.setRequestBody(mappedRequestBody);
+        }
 
         // Responses
         Map<String, com.reedelk.runtime.openapi.v3.model.ResponseObject> mappedResponses = new HashMap<>();
@@ -176,7 +179,7 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.ru
 
         // Parameters
         List<com.reedelk.runtime.openapi.v3.model.ParameterObject> mappedParameters =
-                parameters.stream().map(parameterObject -> parameterObject.map(context)).collect(Collectors.toList());
+                parameters.stream().map(parameterObject -> parameterObject.map(context)).collect(toList());
         target.setParameters(mappedParameters);
 
         // Tags

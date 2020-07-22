@@ -195,7 +195,7 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.ru
         mappedParameter.setIn(com.reedelk.runtime.openapi.v3.model.ParameterLocation.valueOf(in.name()));
         mappedParameter.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
         mappedParameter.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
-        mappedParameter.setSchema(SchemaUtils.toSchemaReference(schema));
+        if (schema != null) mappedParameter.setSchema(SchemaUtils.toSchemaReference(schema));
         mappedParameter.setExample(example);
         mappedParameter.setExplode(explode);
         mappedParameter.setDeprecated(deprecated);
