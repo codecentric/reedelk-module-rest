@@ -1,5 +1,10 @@
 [
   {
+    "version": "1.0.1",
+    "date": "//TODO: Add date",
+    "release-notes": "<ul><li>Bugfix: RESTListener route matching did not prioritize routes with exact match.</li><ul>"
+  },
+  {
     "version": "1.0.0",
     "date": "22/6/2020",
     "release-notes": "<ul><li>First module-rest release.</li><ul>"
