@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import static com.reedelk.rest.internal.server.HttpPredicate.MatcherResult;
 import static io.netty.handler.codec.http.HttpMethod.GET;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -271,11 +272,11 @@ class HttpPredicateODataTest {
     }
 
     private void assertThatMatchesWithConditions(String uriPattern, String uri, BiConsumer<Map<String, String>, Map<String, List<String>>> queryAndPathParamsConsumer) {
-        HttpPredicate predicate = new HttpPredicate(uriPattern, HTTP_1_1, GET);
+        HttpPredicate predicate = new HttpPredicate(uriPattern, GET);
         HttpServerRequest request = requestWith(GET, uri);
 
-        boolean matches = predicate.test(request);
-        assertThat(matches).isTrue();
+        MatcherResult matches = predicate.matches(request.method(), request.uri());
+        assertThat(matches).isIn(MatcherResult.EXACT_MATCH, MatcherResult.TEMPLATE_MATCH);
 
         HashMap<String, String> pathParams = SerializableUtils.asSerializableMap(predicate.apply(request.uri()));
         HashMap<String, List<String>> queryParams = SerializableUtils.asSerializableMapWithList(QueryParameters.from(request.uri()));

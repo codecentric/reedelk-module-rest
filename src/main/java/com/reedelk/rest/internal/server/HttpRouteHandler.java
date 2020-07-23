@@ -5,40 +5,30 @@ import org.reactivestreams.Publisher;
 import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
-import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 
-public class HttpRouteHandler implements BiFunction<HttpServerRequest, HttpServerResponse, Publisher<Void>>, Predicate<HttpServerRequest> {
+public class HttpRouteHandler implements BiFunction<HttpServerRequest, HttpServerResponse, Publisher<Void>> {
 
-    private final HttpPredicate condition;
-    private final Function<? super String, Map<String, String>> resolver;
-    private final BiFunction<? super HttpServerRequest, ? super HttpServerResponse, ? extends Publisher<Void>> handler;
+    private final HttpPredicate predicateMatcher;
+    private final HttpRequestHandler handler;
 
-    HttpRouteHandler(HttpPredicate condition,
-                     BiFunction<? super HttpServerRequest, ? super HttpServerResponse, ? extends Publisher<Void>> handler,
-                     Function<? super String, Map<String, String>> resolver) {
-        this.condition = requireNonNull(condition, "condition");
+    HttpRouteHandler(HttpPredicate predicateMatcher, HttpRequestHandler handler) {
+        this.predicateMatcher = requireNonNull(predicateMatcher, "predicateMatcher");
         this.handler = requireNonNull(handler, "handler");
-        this.resolver = resolver;
     }
 
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
-        return handler.apply(request.paramsResolver(resolver), response);
+        return handler.apply(request.paramsResolver(predicateMatcher), response);
     }
 
-    @Override
-    public boolean test(HttpServerRequest request) {
-        return condition.test(request);
+    public HttpPredicate.MatcherResult matches(HttpServerRequest request) {
+        return predicateMatcher.matches(request.method(), request.uri());
     }
 
-    boolean matchesExactly(HttpMethod method, String uri) {
-        requireNonNull(method, "method");
-        requireNonNull(uri, "uri");
-        return method.equals(condition.method) && uri.equals(condition.uri);
+    public HttpPredicate.MatcherResult matches(HttpMethod method, String uri) {
+        return predicateMatcher.matches(method, uri);
     }
 }

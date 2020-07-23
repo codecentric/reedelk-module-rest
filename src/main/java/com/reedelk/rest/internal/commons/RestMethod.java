@@ -4,7 +4,9 @@ import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.HttpServerRoutes;
 
 public enum RestMethod {
+
     GET {
+
         @Override
         public void addRoute(HttpServerRoutes routes, String path, HttpRequestHandler handler) {
             routes.get(path, handler);
@@ -15,7 +17,9 @@ public enum RestMethod {
             return false;
         }
     },
+
     POST {
+
         @Override
         public void addRoute(HttpServerRoutes routes, String path, HttpRequestHandler handler) {
             routes.post(path, handler);
@@ -26,7 +30,9 @@ public enum RestMethod {
             return true;
         }
     },
+
     PUT {
+
         @Override
         public void addRoute(HttpServerRoutes routes, String path, HttpRequestHandler handler) {
             routes.put(path, handler);
@@ -37,7 +43,9 @@ public enum RestMethod {
             return true;
         }
     },
+
     DELETE {
+
         @Override
         public void addRoute(HttpServerRoutes routes, String path, HttpRequestHandler handler) {
             routes.delete(path, handler);
@@ -48,7 +56,9 @@ public enum RestMethod {
             return true;
         }
     },
+
     HEAD {
+
         @Override
         public void addRoute(HttpServerRoutes routes, String path, HttpRequestHandler handler) {
             routes.head(path, handler);
@@ -59,7 +69,9 @@ public enum RestMethod {
             return false;
         }
     },
+
     OPTIONS {
+
         @Override
         public void addRoute(HttpServerRoutes routes, String path, HttpRequestHandler handler) {
             routes.options(path, handler);

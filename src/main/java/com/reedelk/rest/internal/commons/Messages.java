@@ -37,6 +37,8 @@ public class Messages {
         ERROR_MULTIPART_ATTRIBUTE_VALUE("Error extracting Multipart attribute value for part named '%s'"),
         ERROR_MULTIPART_FILE_UPLOAD_VALUE("Error extracting Multipart file upload value for part named '%s'"),
         ERROR_MULTIPART_NOT_SUPPORTED("Multipart Content-Type is only supported for requests with method POST and HTTP version 1.1"),
+        ERROR_BASE_PATH_NOT_CONSISTENT("There are two server configurations on the same host and port with different base paths. Existing server path: [%s], wanted server path: [%s]."),
+        ERROR_ROUTE_ALREADY_DEFINED("Route for method [%s] and path [%s] is already defined."),
         OPEN_API_SUCCESS_RESPONSE("My Response"),
         OPEN_API_ERROR_RESPONSE("Error response");
 

@@ -1,76 +1,89 @@
 package com.reedelk.rest.internal.server;
 
 import com.reedelk.rest.internal.server.uri.UriTemplate;
+import com.reedelk.runtime.api.commons.Preconditions;
 import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpVersion;
-import reactor.netty.http.server.HttpServerRequest;
 
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
-public class HttpPredicate implements Predicate<HttpServerRequest>, Function<Object, Map<String, String>> {
+public class HttpPredicate implements Function<Object, Map<String, String>> {
 
-    final String uri;
-    final HttpMethod method;
-    private final HttpVersion protocol;
+    private final String uri;
+    private final HttpMethod method;
     private final UriTemplate template;
 
-    HttpPredicate(String uri, HttpVersion protocol, HttpMethod method) {
+    HttpPredicate(String uri, HttpMethod method) {
+        Preconditions.checkNotNull(uri, "uri must not be null");
+        Preconditions.checkNotNull(method, "http method must not be null");
         this.uri = uri;
         this.method = method;
-        this.protocol = protocol;
-        this.template = uri != null ? new UriTemplate(uri) : null;
+        this.template = new UriTemplate(uri);
     }
 
     public static HttpPredicate delete(String uri) {
-        return http(uri, null, HttpMethod.DELETE);
+        return http(uri, HttpMethod.DELETE);
     }
 
     public static HttpPredicate get(String uri) {
-        return http(uri, null, HttpMethod.GET);
+        return http(uri, HttpMethod.GET);
     }
 
     public static HttpPredicate head(String uri) {
-        return http(uri, null, HttpMethod.HEAD);
+        return http(uri, HttpMethod.HEAD);
     }
 
-    public static HttpPredicate http(String uri, HttpVersion protocol, HttpMethod method) {
-        if (null == uri) {
-            return null;
-        }
-        return new HttpPredicate(uri, protocol, method);
+    private static HttpPredicate http(String uri, HttpMethod method) {
+        return new HttpPredicate(uri, method);
     }
 
     public static HttpPredicate options(String uri) {
-        return http(uri, null, HttpMethod.OPTIONS);
+        return http(uri, HttpMethod.OPTIONS);
     }
 
     public static HttpPredicate post(String uri) {
-        return http(uri, null, HttpMethod.POST);
+        return http(uri, HttpMethod.POST);
     }
 
     public static HttpPredicate put(String uri) {
-        return http(uri, null, HttpMethod.PUT);
+        return http(uri, HttpMethod.PUT);
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public HttpMethod getMethod() {
+        return method;
     }
 
     @Override
     public Map<String, String> apply(Object key) {
-        if (template == null) {
-            return null;
-        }
+        if (template == null) return null;
         Map<String, String> headers = template.bind(key.toString());
-        if (null != headers && !headers.isEmpty()) {
+        if (headers != null  && !headers.isEmpty()) {
             return headers;
         }
         return null;
     }
 
-    @Override
-    public final boolean test(HttpServerRequest key) {
-        return (protocol == null || protocol.equals(key.version())) &&
-                (method == null || method.equals(key.method())) &&
-                (template == null || template.matches(key.uri()));
+    public final MatcherResult matches(HttpMethod method, String uri) {
+        if (this.method.equals(method)) {
+            if (this.uri.equals(uri)) {
+                // The match is exact, e.g /api/myOperation, we did not need to match against the template.
+                return MatcherResult.EXACT_MATCH;
+            } else if ((template == null || template.matches(uri))){
+                // The match is not exact, there was a match against a template, e.g /api/{ID}
+                return MatcherResult.TEMPLATE_MATCH;
+            }
+        }
+        return MatcherResult.NO_MATCH;
+    }
+
+    enum MatcherResult {
+        NO_MATCH,
+        TEMPLATE_MATCH,
+        EXACT_MATCH
     }
 }
 

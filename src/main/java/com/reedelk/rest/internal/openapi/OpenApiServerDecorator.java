@@ -57,9 +57,9 @@ public class OpenApiServerDecorator implements Server {
     @Override
     public boolean hasEmptyRoutes() {
         List<HttpRouteHandler> handlers = delegate.handlers();
-        // If there is only one route left, it means that there is only the open API route registered.
-        // Therefore the server can be safely shutdown since it would be an empty Open API doucment.
-        return handlers.size() == 1;
+        // If there are only two routes left, it means that there is only the open API route registered.
+        // Therefore the server can be safely shutdown since it would be an empty Open API documents.
+        return handlers.size() == 2;
     }
 
     @Override

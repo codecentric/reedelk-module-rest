@@ -3,7 +3,6 @@ package com.reedelk.rest.component;
 import com.reedelk.rest.TestComponent;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.ServerProvider;
-import com.reedelk.runtime.api.commons.ModuleContext;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
@@ -34,9 +33,6 @@ import static org.junit.Assert.fail;
 @ExtendWith(MockitoExtension.class)
 @Tag(INTEGRATION)
 abstract class RESTListenerAbstractTest {
-
-    private final long moduleId = 10L;
-    final ModuleContext moduleContext = new ModuleContext(moduleId);
 
     static final String TEST_JSON_BODY = "{\"name\":\"John\"}";
     static final String TEST_TEXT_BODY = "This is a sample text";

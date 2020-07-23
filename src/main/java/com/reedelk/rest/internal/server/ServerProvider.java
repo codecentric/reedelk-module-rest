@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.reedelk.rest.internal.commons.Messages.RestListener.ERROR_BASE_PATH_NOT_CONSISTENT;
 import static java.util.Optional.*;
 import static org.osgi.service.component.annotations.ServiceScope.SINGLETON;
 
@@ -69,8 +70,8 @@ public class ServerProvider {
      */
     private void checkBasePathIsConsistent(RESTListenerConfiguration configuration, Server server) {
         if (!Objects.equals(configuration.getBasePath(), server.getBasePath())) {
-            throw new IllegalStateException("There are two server configurations " +
-                    "on the same host and port with different base paths");
+            String error = ERROR_BASE_PATH_NOT_CONSISTENT.format(server.getBasePath(), configuration.getBasePath());
+            throw new IllegalStateException(error);
         }
     }
 
