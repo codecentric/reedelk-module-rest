@@ -1,5 +1,6 @@
 package com.reedelk.rest.internal.server;
 
+import com.reedelk.rest.internal.commons.RemoveQueryParams;
 import com.reedelk.rest.internal.server.uri.UriTemplate;
 import com.reedelk.runtime.api.commons.Preconditions;
 import io.netty.handler.codec.http.HttpMethod;
@@ -69,7 +70,8 @@ public class HttpPredicate implements Function<Object, Map<String, String>> {
 
     public final MatcherResult matches(HttpMethod method, String uri) {
         if (this.method.equals(method)) {
-            if (this.uri.equals(uri)) {
+            String uriWithoutQueryParams = RemoveQueryParams.from(uri);
+            if (this.uri.equals(uriWithoutQueryParams)) {
                 // The match is exact, e.g /api/myOperation, we did not need to match against the template.
                 return MatcherResult.EXACT_MATCH;
             } else if ((template == null || template.matches(uri))){
