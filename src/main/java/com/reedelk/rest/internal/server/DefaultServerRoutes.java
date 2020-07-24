@@ -53,7 +53,7 @@ public class DefaultServerRoutes implements HttpServerRoutes {
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
         try {
-            Optional<HttpRouteHandler> matchingHandler = findMatchingHttpRouteHandler(request);
+            Optional<HttpRouteHandler> matchingHandler = findMatchingHttpRouteHandler(handlers, request);
             if (matchingHandler.isPresent()) {
                 return matchingHandler.get().apply(request, response);
             }
@@ -75,7 +75,7 @@ public class DefaultServerRoutes implements HttpServerRoutes {
      * A route http handler is a match if there is first an exact match, matching the request uri.
      * If there is no an exact match we look for an uri template e.g /api/{ID}.
      */
-    private Optional<HttpRouteHandler> findMatchingHttpRouteHandler(HttpServerRequest request) {
+    static Optional<HttpRouteHandler> findMatchingHttpRouteHandler(List<HttpRouteHandler> handlers, HttpServerRequest request) {
         final Iterator<HttpRouteHandler> iterator = handlers.iterator();
         HttpRouteHandler matchingHandler = null;
         while (iterator.hasNext()) {
