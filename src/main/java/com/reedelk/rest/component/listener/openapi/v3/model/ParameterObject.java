@@ -4,7 +4,7 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.SchemaReference;
+import com.reedelk.runtime.openapi.v3.model.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -195,11 +195,16 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.ru
         mappedParameter.setDescription(description);
         mappedParameter.setIn(com.reedelk.runtime.openapi.v3.model.ParameterLocation.valueOf(in.name()));
         mappedParameter.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
-        mappedParameter.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
-        if (schema != null) {
-            SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema);
-            mappedParameter.setSchema(schemaReference, context);
+
+        if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
+            Schema theSchema = SchemaUtils.toSchemaReference(schema);
+            mappedParameter.setSchema(theSchema, context);
         }
+        if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
+            Schema theSchema = SchemaUtils.toSchemaReference(predefinedSchema);
+            mappedParameter.setSchema(theSchema, context);
+        }
+
         mappedParameter.setExample(example);
         mappedParameter.setExplode(explode);
         mappedParameter.setDeprecated(deprecated);

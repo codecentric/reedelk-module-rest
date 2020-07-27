@@ -6,7 +6,7 @@ import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
 import com.reedelk.runtime.openapi.v3.model.ExampleReference;
-import com.reedelk.runtime.openapi.v3.model.SchemaReference;
+import com.reedelk.runtime.openapi.v3.model.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -51,8 +51,8 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.ru
                 new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
         // Schema
         if (schema != null) {
-            SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema);
-            mappedMediaType.setSchema(schemaReference, context);
+            Schema schema = SchemaUtils.toSchemaReference(this.schema);
+            mappedMediaType.setSchema(schema, context);
         }
 
         // Example

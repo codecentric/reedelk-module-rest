@@ -4,7 +4,7 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.SchemaReference;
+import com.reedelk.runtime.openapi.v3.model.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -31,8 +31,8 @@ public class SchemaObject implements Implementor, OpenAPIModel<com.reedelk.runti
     public com.reedelk.runtime.openapi.v3.model.SchemaObject map(OpenApiSerializableContext context) {
         com.reedelk.runtime.openapi.v3.model.SchemaObject mappedSchema =
                 new com.reedelk.runtime.openapi.v3.model.SchemaObject();
-        SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema);
-        mappedSchema.setSchema(schemaReference, context);
+        Schema schema = SchemaUtils.toSchemaReference(this.schema);
+        mappedSchema.setSchema(schema, context);
         return mappedSchema;
     }
 }

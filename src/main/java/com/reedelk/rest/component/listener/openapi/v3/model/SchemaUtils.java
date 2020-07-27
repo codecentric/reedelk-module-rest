@@ -3,12 +3,16 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
-import com.reedelk.runtime.openapi.v3.model.SchemaReference;
+import com.reedelk.runtime.openapi.v3.model.Schema;
 import org.json.JSONObject;
 
 public class SchemaUtils {
 
-    public static SchemaReference toSchemaReference(ResourceText resourceText) {
+    public static Schema toSchemaReference(PredefinedSchema predefinedSchema) {
+        return new Schema(predefinedSchema.schema());
+    }
+
+    public static Schema toSchemaReference(ResourceText resourceText) {
         // Schema Data could be JSON or YAML.
         String schemaData = StreamUtils.FromString.consume(resourceText.data());
 
@@ -26,7 +30,7 @@ public class SchemaUtils {
             schemaId = fromFilePath(path);
         }
 
-        return new SchemaReference(schemaId, schemaData);
+        return new Schema(schemaId, schemaData);
     }
 
     private static String fromFilePath(String path) {

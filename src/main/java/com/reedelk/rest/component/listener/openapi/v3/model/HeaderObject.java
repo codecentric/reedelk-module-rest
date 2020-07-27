@@ -4,7 +4,7 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.SchemaReference;
+import com.reedelk.runtime.openapi.v3.model.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -132,11 +132,15 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runti
                 new com.reedelk.runtime.openapi.v3.model.HeaderObject();
         mappedHeader.setDescription(description);
         mappedHeader.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
-        mappedHeader.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
 
-        // Schema Reference
-        SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema);
-        mappedHeader.setSchema(schemaReference, context);
+        if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
+            Schema theSchema = SchemaUtils.toSchemaReference(schema);
+            mappedHeader.setSchema(theSchema, context);
+        }
+        if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
+            Schema theSchema = SchemaUtils.toSchemaReference(predefinedSchema);
+            mappedHeader.setSchema(theSchema, context);
+        }
 
         mappedHeader.setExample(example);
         mappedHeader.setExplode(explode);
