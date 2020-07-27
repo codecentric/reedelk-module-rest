@@ -26,7 +26,7 @@ public class SchemaUtils {
             schemaId = fromFilePath(path);
         }
 
-        return new ModuleSchemaReference(schemaId, schemaData);
+        return new SchemaReference(schemaId, schemaData);
     }
 
     private static String fromFilePath(String path) {
