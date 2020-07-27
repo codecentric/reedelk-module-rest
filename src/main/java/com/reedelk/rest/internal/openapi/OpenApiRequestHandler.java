@@ -65,7 +65,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
         String serializedOpenAPI = formatter.format(openAPI, context);
 
-        // Content Type depends on the formatter. for YAML is different
+        // Content Type depends on the formatter. It could be 'application/json' or 'application/x-yaml'.
         response.addHeader(HttpHeader.CONTENT_TYPE, formatter.contentType());
         response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(serializedOpenAPI.getBytes()));
