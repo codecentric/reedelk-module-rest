@@ -2,7 +2,8 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.OpenApiObjectAbstract;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -13,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = ServiceScope.PROTOTYPE)
-public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.OpenApiObject> {
+public class OpenApiObject implements Implementor, OpenAPIModel<OpenApiObjectAbstract> {
 
     // Info Object is required by spec
     @Property("Info")
@@ -53,13 +54,13 @@ public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.runt
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.OpenApiObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.OpenApiObject mappedOpenApi =
-                new com.reedelk.runtime.openapi.v3.model.OpenApiObject();
+    public OpenApiObjectAbstract map(OpenApiSerializableContext context) {
+        OpenApiObjectAbstract mappedOpenApi =
+                new OpenApiObjectAbstract();
         if (info != null) mappedOpenApi.setInfo(info.map(context));
         if (components != null) mappedOpenApi.setComponents(components.map(context));
         if (servers != null) {
-            List<com.reedelk.runtime.openapi.v3.model.ServerObject> mappedServers =
+            List<com.reedelk.runtime.openapi.v3.ServerObject> mappedServers =
                     servers.stream().map(serverObject -> serverObject.map(context)).collect(toList());
             mappedOpenApi.setServers(mappedServers);
         }

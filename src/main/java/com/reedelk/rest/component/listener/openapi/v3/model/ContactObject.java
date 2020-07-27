@@ -2,13 +2,13 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Collapsible
 @Component(service = ContactObject.class, scope = ServiceScope.PROTOTYPE)
-public class ContactObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.ContactObject> {
+public class ContactObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.ContactObject> {
 
     @Property("Name")
     @Hint("API Support")
@@ -53,9 +53,9 @@ public class ContactObject implements Implementor, OpenAPIModel<com.reedelk.runt
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.ContactObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.ContactObject mappedContact =
-                new com.reedelk.runtime.openapi.v3.model.ContactObject();
+    public com.reedelk.runtime.openapi.v3.ContactObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.ContactObject mappedContact =
+                new com.reedelk.runtime.openapi.v3.ContactObject();
         mappedContact.setEmail(email);
         mappedContact.setName(name);
         mappedContact.setUrl(url);

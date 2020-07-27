@@ -3,13 +3,13 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.Schema;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = ParameterObject.class, scope = ServiceScope.PROTOTYPE)
-public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.ParameterObject> {
+public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.ParameterObject> {
 
     @Property("Name")
     @Hint("myParam")
@@ -188,13 +188,13 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.ru
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.ParameterObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.ParameterObject mappedParameter =
-                new com.reedelk.runtime.openapi.v3.model.ParameterObject();
+    public com.reedelk.runtime.openapi.v3.ParameterObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.ParameterObject mappedParameter =
+                new com.reedelk.runtime.openapi.v3.ParameterObject();
         mappedParameter.setName(name);
         mappedParameter.setDescription(description);
-        mappedParameter.setIn(com.reedelk.runtime.openapi.v3.model.ParameterLocation.valueOf(in.name()));
-        mappedParameter.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
+        mappedParameter.setIn(com.reedelk.runtime.openapi.v3.ParameterLocation.valueOf(in.name()));
+        mappedParameter.setStyle(com.reedelk.runtime.openapi.v3.ParameterStyle.valueOf(style.name()));
 
         if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
             Schema theSchema = SchemaUtils.toSchemaReference(schema);

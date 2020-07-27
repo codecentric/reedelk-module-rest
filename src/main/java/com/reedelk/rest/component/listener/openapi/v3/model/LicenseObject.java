@@ -2,13 +2,13 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Collapsible
 @Component(service = LicenseObject.class, scope = ServiceScope.PROTOTYPE)
-public class LicenseObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.LicenseObject> {
+public class LicenseObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.LicenseObject> {
 
     @Property("Name")
     @Hint("Apache 2.0")
@@ -39,9 +39,9 @@ public class LicenseObject implements Implementor, OpenAPIModel<com.reedelk.runt
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.LicenseObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.LicenseObject mappedLicense =
-                new com.reedelk.runtime.openapi.v3.model.LicenseObject();
+    public com.reedelk.runtime.openapi.v3.LicenseObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.LicenseObject mappedLicense =
+                new com.reedelk.runtime.openapi.v3.LicenseObject();
         mappedLicense.setName(name);
         mappedLicense.setUrl(url);
         return mappedLicense;

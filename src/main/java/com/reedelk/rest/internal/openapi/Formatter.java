@@ -2,13 +2,14 @@ package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.rest.internal.commons.HttpContentType;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.OpenApiObjectAbstract;
 
 public enum Formatter {
 
     JSON {
         @Override
-        String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
+        String format(OpenApiObjectAbstract openApiObject,
                       OpenApiSerializableContext context) {
             return openApiObject.toJson(context);
         }
@@ -21,7 +22,7 @@ public enum Formatter {
 
     YAML {
         @Override
-        String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
+        String format(OpenApiObjectAbstract openApiObject,
                       OpenApiSerializableContext context) {
             return openApiObject.toYaml(context);
         }
@@ -32,7 +33,7 @@ public enum Formatter {
         }
     };
 
-    abstract String format(com.reedelk.runtime.openapi.v3.model.OpenApiObject openApiObject,
+    abstract String format(OpenApiObjectAbstract openApiObject,
                            OpenApiSerializableContext context);
 
     abstract String contentType();

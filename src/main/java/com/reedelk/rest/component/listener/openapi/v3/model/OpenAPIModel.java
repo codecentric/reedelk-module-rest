@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3.model;
 
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
 
 /**
  * An interface used to map an object to OpenAPI Model.

@@ -3,7 +3,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
-import com.reedelk.runtime.openapi.v3.model.Schema;
+import com.reedelk.runtime.openapi.v3.Schema;
 import org.json.JSONObject;
 
 public class SchemaUtils {

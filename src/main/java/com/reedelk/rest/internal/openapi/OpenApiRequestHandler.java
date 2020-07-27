@@ -9,8 +9,9 @@ import com.reedelk.rest.internal.commons.HttpHeader;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.RouteDefinition;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.OpenApiObject;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.OpenApiObjectAbstract;
+import com.reedelk.runtime.openapi.v3.PathsObject;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServerRequest;
@@ -34,7 +35,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
         OpenApiSerializableContext context = new OpenApiSerializableContext();
-        OpenApiObject openAPI = configuration.getOpenApi().map(context);
+        OpenApiObjectAbstract openAPI = configuration.getOpenApi().map(context);
         openAPI.setBasePath(configuration.getBasePath());
 
         // For each route definition in the list:
@@ -57,8 +58,8 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
                 OperationObjectUtils.addErrorResponse(realOperationObject, errorResponse);
 
                 // Add Operation to path.
-                Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(openAPI, path);
-                operationsByPath.put(com.reedelk.runtime.openapi.v3.model.RestMethod.valueOf(method.name()), realOperationObject.map(context));
+                Map<com.reedelk.runtime.openapi.v3.RestMethod, com.reedelk.runtime.openapi.v3.OperationObject> operationsByPath = findOperationByPath(openAPI, path);
+                operationsByPath.put(com.reedelk.runtime.openapi.v3.RestMethod.valueOf(method.name()), realOperationObject.map(context));
             }
             // ----
         });
@@ -79,9 +80,9 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         routeDefinitionList.remove(routeDefinition);
     }
 
-    private Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject> findOperationByPath(OpenApiObject openAPI, String path) {
-        com.reedelk.runtime.openapi.v3.model.PathsObject pathsObject = openAPI.getPaths();
-        Map<String, Map<com.reedelk.runtime.openapi.v3.model.RestMethod, com.reedelk.runtime.openapi.v3.model.OperationObject>> paths = pathsObject.getPaths();
+    private Map<com.reedelk.runtime.openapi.v3.RestMethod, com.reedelk.runtime.openapi.v3.OperationObject> findOperationByPath(OpenApiObjectAbstract openAPI, String path) {
+        PathsObject pathsObject = openAPI.getPaths();
+        Map<String, Map<com.reedelk.runtime.openapi.v3.RestMethod, com.reedelk.runtime.openapi.v3.OperationObject>> paths = pathsObject.getPaths();
         String fixedPath = realPathOf(path);
         if (!paths.containsKey(fixedPath)) {
             paths.put(fixedPath, new HashMap<>());

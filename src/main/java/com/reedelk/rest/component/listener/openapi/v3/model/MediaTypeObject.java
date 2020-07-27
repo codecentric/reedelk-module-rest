@@ -4,14 +4,14 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.Example;
-import com.reedelk.runtime.openapi.v3.model.Schema;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.Example;
+import com.reedelk.runtime.openapi.v3.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = MediaTypeObject.class, scope = ServiceScope.PROTOTYPE)
-public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.MediaTypeObject> {
+public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.MediaTypeObject> {
 
     @Property("Example")
     @WidthAuto
@@ -46,9 +46,9 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.ru
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.MediaTypeObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.MediaTypeObject mappedMediaType =
-                new com.reedelk.runtime.openapi.v3.model.MediaTypeObject();
+    public com.reedelk.runtime.openapi.v3.MediaTypeObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.MediaTypeObject mappedMediaType =
+                new com.reedelk.runtime.openapi.v3.MediaTypeObject();
         // Schema
         if (schema != null) {
             Schema schema = SchemaUtils.toSchemaReference(this.schema);

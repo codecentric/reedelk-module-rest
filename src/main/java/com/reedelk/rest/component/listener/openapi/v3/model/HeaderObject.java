@@ -3,13 +3,13 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.model.Schema;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.Schema;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = HeaderObject.class, scope = ServiceScope.PROTOTYPE)
-public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.HeaderObject> {
+public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.HeaderObject> {
 
     @Property("Description")
     @Hint("My header description")
@@ -127,11 +127,11 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runti
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.HeaderObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.HeaderObject mappedHeader =
-                new com.reedelk.runtime.openapi.v3.model.HeaderObject();
+    public com.reedelk.runtime.openapi.v3.HeaderObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.HeaderObject mappedHeader =
+                new com.reedelk.runtime.openapi.v3.HeaderObject();
         mappedHeader.setDescription(description);
-        mappedHeader.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
+        mappedHeader.setStyle(com.reedelk.runtime.openapi.v3.ParameterStyle.valueOf(style.name()));
 
         if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
             Schema theSchema = SchemaUtils.toSchemaReference(schema);

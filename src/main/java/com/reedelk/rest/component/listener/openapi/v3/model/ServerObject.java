@@ -2,7 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component(service = ServerObject.class, scope = ServiceScope.PROTOTYPE)
-public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.ServerObject> {
+public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.ServerObject> {
 
     @Property("URL")
     @Hint("https://development.gigantic-server.com/v1")
@@ -58,14 +58,14 @@ public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.runti
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.ServerObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.ServerObject mappedServer =
-                new com.reedelk.runtime.openapi.v3.model.ServerObject();
+    public com.reedelk.runtime.openapi.v3.ServerObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.ServerObject mappedServer =
+                new com.reedelk.runtime.openapi.v3.ServerObject();
         mappedServer.setUrl(url);
         mappedServer.setDescription(description);
 
         // Server Variables
-        Map<String, com.reedelk.runtime.openapi.v3.model.ServerVariableObject> mappedServerVariables = new HashMap<>();
+        Map<String, com.reedelk.runtime.openapi.v3.ServerVariableObject> mappedServerVariables = new HashMap<>();
         variables.forEach((variableName, serverVariableObject) -> mappedServerVariables.put(variableName, serverVariableObject.map(context)));
         mappedServer.setVariables(mappedServerVariables);
 

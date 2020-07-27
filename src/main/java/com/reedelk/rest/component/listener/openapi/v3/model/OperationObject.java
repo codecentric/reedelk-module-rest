@@ -2,7 +2,7 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
 @Component(service = OperationObject.class, scope = ServiceScope.PROTOTYPE)
-public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.model.OperationObject> {
+public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.OperationObject> {
 
     @Property("Exclude this resource from the OpenAPI document")
     @Description("Excludes this endpoint from being published in the OpenAPI document.")
@@ -155,9 +155,9 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.ru
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.model.OperationObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.model.OperationObject target =
-                new com.reedelk.runtime.openapi.v3.model.OperationObject();
+    public com.reedelk.runtime.openapi.v3.OperationObject map(OpenApiSerializableContext context) {
+        com.reedelk.runtime.openapi.v3.OperationObject target =
+                new com.reedelk.runtime.openapi.v3.OperationObject();
 
         target.setExclude(exclude);
         target.setDeprecated(deprecated);
@@ -167,18 +167,18 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.ru
 
         // Request Body
         if (requestBody != null) {
-            com.reedelk.runtime.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map(context);
+            com.reedelk.runtime.openapi.v3.RequestBodyObject mappedRequestBody = requestBody.map(context);
             target.setRequestBody(mappedRequestBody);
         }
 
         // Responses
-        Map<String, com.reedelk.runtime.openapi.v3.model.ResponseObject> mappedResponses = new HashMap<>();
+        Map<String, com.reedelk.runtime.openapi.v3.ResponseObject> mappedResponses = new HashMap<>();
         responses.forEach((responseStatusCode, responseObject) ->
                 mappedResponses.put(responseStatusCode, responseObject.map(context)));
         target.setResponses(mappedResponses);
 
         // Parameters
-        List<com.reedelk.runtime.openapi.v3.model.ParameterObject> mappedParameters =
+        List<com.reedelk.runtime.openapi.v3.ParameterObject> mappedParameters =
                 parameters.stream().map(parameterObject -> parameterObject.map(context)).collect(toList());
         target.setParameters(mappedParameters);
 
