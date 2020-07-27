@@ -4,6 +4,7 @@ import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import com.reedelk.runtime.openapi.v3.OpenApiSerializableContext;
+import com.reedelk.runtime.openapi.v3.model.SchemaReference;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -195,7 +196,10 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.ru
         mappedParameter.setIn(com.reedelk.runtime.openapi.v3.model.ParameterLocation.valueOf(in.name()));
         mappedParameter.setStyle(com.reedelk.runtime.openapi.v3.model.ParameterStyle.valueOf(style.name()));
         mappedParameter.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
-        if (schema != null) mappedParameter.setSchema(SchemaUtils.toSchemaReference(schema, context));
+        if (schema != null) {
+            SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema);
+            mappedParameter.setSchema(schemaReference, context);
+        }
         mappedParameter.setExample(example);
         mappedParameter.setExplode(explode);
         mappedParameter.setDeprecated(deprecated);

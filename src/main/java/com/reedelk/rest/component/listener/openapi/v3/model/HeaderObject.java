@@ -135,8 +135,8 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.runti
         mappedHeader.setPredefinedSchema(com.reedelk.runtime.openapi.v3.PredefinedSchema.valueOf(predefinedSchema.name()));
 
         // Schema Reference
-        SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema, context);
-        mappedHeader.setSchema(schemaReference);
+        SchemaReference schemaReference = SchemaUtils.toSchemaReference(schema);
+        mappedHeader.setSchema(schemaReference, context);
 
         mappedHeader.setExample(example);
         mappedHeader.setExplode(explode);
