@@ -43,8 +43,8 @@
         </dependency>
         <dependency>
             <groupId>com.reedelk</groupId>
-            <artifactId>runtime-openapi</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <artifactId>reedelk-openapi</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
