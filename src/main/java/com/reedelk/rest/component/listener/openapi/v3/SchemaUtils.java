@@ -6,15 +6,17 @@ import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 public class SchemaUtils {
 
     public static Schema toSchemaReference(PredefinedSchema predefinedSchema) {
-        return new Schema(predefinedSchema.schema());
+        return new Schema(new JSONObject(predefinedSchema.schema()).toMap());
     }
 
     public static Schema toSchemaReference(ResourceText resourceText, OpenApiSerializableContext context) {
         // Schema Data could be JSON or YAML.
-        String schemaData = StreamUtils.FromString.consume(resourceText.data());
+        Map<String,Object> schemaData = new JSONObject(StreamUtils.FromString.consume(resourceText.data())).toMap();
 
         // Extract schema id from JSON could be YAML ?
         String schemaId;
