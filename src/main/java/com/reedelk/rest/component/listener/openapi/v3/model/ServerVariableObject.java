@@ -2,14 +2,13 @@ package com.reedelk.rest.component.listener.openapi.v3.model;
 
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
-import com.reedelk.runtime.openapi.OpenApiSerializableContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 import java.util.List;
 
 @Component(service = ServerVariableObject.class, scope = ServiceScope.PROTOTYPE)
-public class ServerVariableObject implements Implementor, OpenAPIModel<com.reedelk.runtime.openapi.v3.ServerVariableObject> {
+public class ServerVariableObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.ServerVariableObject> {
 
     @Property("Description")
     @Hint("Hosts variable")
@@ -55,9 +54,9 @@ public class ServerVariableObject implements Implementor, OpenAPIModel<com.reede
     }
 
     @Override
-    public com.reedelk.runtime.openapi.v3.ServerVariableObject map(OpenApiSerializableContext context) {
-        com.reedelk.runtime.openapi.v3.ServerVariableObject mappedServerVariable =
-                new com.reedelk.runtime.openapi.v3.ServerVariableObject();
+    public com.reedelk.openapi.v3.ServerVariableObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.ServerVariableObject mappedServerVariable =
+                new com.reedelk.openapi.v3.ServerVariableObject();
         mappedServerVariable.setDescription(description);
         mappedServerVariable.setDefaultValue(defaultValue);
         mappedServerVariable.setEnumValues(enumValues);

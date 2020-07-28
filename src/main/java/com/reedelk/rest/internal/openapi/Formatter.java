@@ -1,9 +1,8 @@
 package com.reedelk.rest.internal.openapi;
 
+import com.reedelk.openapi.v3.OpenApiObjectAbstract;
 import com.reedelk.rest.internal.commons.HttpContentType;
 import com.reedelk.runtime.api.message.content.MimeType;
-import com.reedelk.runtime.openapi.OpenApiSerializableContext;
-import com.reedelk.runtime.openapi.v3.OpenApiObjectAbstract;
 
 public enum Formatter {
 
