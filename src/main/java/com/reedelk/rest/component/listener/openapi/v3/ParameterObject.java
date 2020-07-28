@@ -196,12 +196,12 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
         mappedParameter.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
 
         if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
-            Schema theSchema = SchemaUtils.toSchemaReference(schema);
-            mappedParameter.setSchema(theSchema, context);
+            Schema theSchema = SchemaUtils.toSchemaReference(schema, context);
+            mappedParameter.setSchema(theSchema);
         }
         if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
             Schema theSchema = SchemaUtils.toSchemaReference(predefinedSchema);
-            mappedParameter.setSchema(theSchema, context);
+            mappedParameter.setSchema(theSchema);
         }
 
         mappedParameter.setExample(example);

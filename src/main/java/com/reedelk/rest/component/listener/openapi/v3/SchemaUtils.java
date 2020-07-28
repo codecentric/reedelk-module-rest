@@ -12,7 +12,7 @@ public class SchemaUtils {
         return new Schema(predefinedSchema.schema());
     }
 
-    public static Schema toSchemaReference(ResourceText resourceText) {
+    public static Schema toSchemaReference(ResourceText resourceText, OpenApiSerializableContext context) {
         // Schema Data could be JSON or YAML.
         String schemaData = StreamUtils.FromString.consume(resourceText.data());
 
@@ -30,7 +30,9 @@ public class SchemaUtils {
             schemaId = fromFilePath(path);
         }
 
-        return new Schema(schemaId, schemaData);
+        Schema schema = new Schema(schemaId, schemaData);
+        context.setSchema(schema);
+        return schema;
     }
 
     private static String fromFilePath(String path) {

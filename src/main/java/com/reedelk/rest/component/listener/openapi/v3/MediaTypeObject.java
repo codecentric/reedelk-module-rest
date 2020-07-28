@@ -50,8 +50,8 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
                 new com.reedelk.openapi.v3.MediaTypeObject();
         // Schema
         if (schema != null) {
-            Schema schema = SchemaUtils.toSchemaReference(this.schema);
-            mappedMediaType.setSchema(schema, context);
+            Schema schema = SchemaUtils.toSchemaReference(this.schema, context);
+            mappedMediaType.setSchema(schema);
         }
 
         // Example

@@ -30,8 +30,8 @@ public class SchemaObject implements Implementor, OpenAPIModel<com.reedelk.opena
     public com.reedelk.openapi.v3.SchemaObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.SchemaObject mappedSchema =
                 new com.reedelk.openapi.v3.SchemaObject();
-        Schema schema = SchemaUtils.toSchemaReference(this.schema);
-        mappedSchema.setSchema(schema, context);
+        Schema schema = SchemaUtils.toSchemaReference(this.schema, context);
+        mappedSchema.setSchema(schema);
         return mappedSchema;
     }
 }
