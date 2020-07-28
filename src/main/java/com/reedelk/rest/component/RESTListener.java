@@ -2,7 +2,7 @@ package com.reedelk.rest.component;
 
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
-import com.reedelk.rest.component.listener.openapi.v3.model.OperationObject;
+import com.reedelk.rest.component.listener.openapi.v3.OperationObject;
 import com.reedelk.rest.internal.attribute.RESTListenerAttributes;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.commons.StreamingMode;

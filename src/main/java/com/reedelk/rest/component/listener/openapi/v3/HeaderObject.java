@@ -1,4 +1,4 @@
-package com.reedelk.rest.component.listener.openapi.v3.model;
+package com.reedelk.rest.component.listener.openapi.v3;
 
 import com.reedelk.openapi.OpenApiSerializableContext;
 import com.reedelk.openapi.v3.Schema;
@@ -8,37 +8,22 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
-@Component(service = ParameterObject.class, scope = ServiceScope.PROTOTYPE)
-public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.ParameterObject> {
-
-    @Property("Name")
-    @Hint("myParam")
-    @Example("myParam")
-    @Description("The name of the parameter. Parameter names are case sensitive. " +
-            "If in is 'Path', the name field MUST correspond to a template expression occurring within the path field in the Paths Object. " +
-            "For all other cases, the name corresponds to the parameter name used by the in property.")
-    private String name;
+@Component(service = HeaderObject.class, scope = ServiceScope.PROTOTYPE)
+public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.HeaderObject> {
 
     @Property("Description")
-    @Hint("My parameter description")
-    @Example("My parameter description")
-    @Description("A brief description of the parameter. This could contain examples of use.")
+    @Hint("My header description")
+    @Example("My header description")
+    @Description("A brief description of the header. This could contain examples of use.")
     private String description;
-
-    @Property("In")
-    @Example("header")
-    @InitValue("query")
-    @DefaultValue("query")
-    @Description("The location of the parameter. Possible values are 'query', 'header', 'path' or 'cookie'.")
-    private ParameterLocation in;
 
     @Property("Style")
     @Example("form")
-    @InitValue("form")
-    @DefaultValue("form")
+    @InitValue("simple")
+    @DefaultValue("simple")
     @Description("Describes how the parameter value will be serialized depending on the type of the parameter value. " +
             "Default values (based on value of in): for query - form; for path - simple; for header - simple; for cookie - form.")
-    private ParameterStyle style = ParameterStyle.form;
+    private ParameterStyle style = ParameterStyle.simple;
 
     @Property("Schema")
     @InitValue("STRING")
@@ -71,33 +56,11 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Description("Specifies that a parameter is deprecated and SHOULD be transitioned out of usage.")
     private Boolean deprecated;
 
-    @Property("Required")
-    @DefaultValue("false")
-    @Description("Determines whether this parameter is mandatory. " +
-            "Otherwise, the property MAY be included and its default value is false.")
-    @When(propertyName = "in", propertyValue = "PATH")
-    private Boolean required;
-
-    @Property("Allow Empty")
-    @DefaultValue("false")
-    @When(propertyName = "in", propertyValue = "QUERY")
-    @Description("Sets the ability to pass empty-valued parameters. " +
-            "This is valid only for query parameters and allows sending a parameter with an empty value.")
-    private Boolean allowEmptyValue;
-
     @Property("Allow Reserved")
     @Description("Determines whether the parameter value SHOULD allow reserved characters, " +
             "as defined by RFC3986 :/?#[]@!$&'()*+,;= to be included without percent-encoding. " +
             "This property only applies to parameters with an in value of query.")
     private Boolean allowReserved;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getDescription() {
         return description;
@@ -105,14 +68,6 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public ParameterLocation getIn() {
-        return in;
-    }
-
-    public void setIn(ParameterLocation in) {
-        this.in = in;
     }
 
     public ParameterStyle getStyle() {
@@ -163,22 +118,6 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
         this.deprecated = deprecated;
     }
 
-    public Boolean getRequired() {
-        return required;
-    }
-
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-
-    public Boolean getAllowEmptyValue() {
-        return allowEmptyValue;
-    }
-
-    public void setAllowEmptyValue(Boolean allowEmptyValue) {
-        this.allowEmptyValue = allowEmptyValue;
-    }
-
     public Boolean getAllowReserved() {
         return allowReserved;
     }
@@ -188,29 +127,25 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     }
 
     @Override
-    public com.reedelk.openapi.v3.ParameterObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.ParameterObject mappedParameter =
-                new com.reedelk.openapi.v3.ParameterObject();
-        mappedParameter.setName(name);
-        mappedParameter.setDescription(description);
-        mappedParameter.setIn(com.reedelk.openapi.v3.ParameterLocation.valueOf(in.name()));
-        mappedParameter.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
+    public com.reedelk.openapi.v3.HeaderObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.HeaderObject mappedHeader =
+                new com.reedelk.openapi.v3.HeaderObject();
+        mappedHeader.setDescription(description);
+        mappedHeader.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
 
         if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
             Schema theSchema = SchemaUtils.toSchemaReference(schema);
-            mappedParameter.setSchema(theSchema, context);
+            mappedHeader.setSchema(theSchema, context);
         }
         if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
             Schema theSchema = SchemaUtils.toSchemaReference(predefinedSchema);
-            mappedParameter.setSchema(theSchema, context);
+            mappedHeader.setSchema(theSchema, context);
         }
 
-        mappedParameter.setExample(example);
-        mappedParameter.setExplode(explode);
-        mappedParameter.setDeprecated(deprecated);
-        mappedParameter.setRequired(required);
-        mappedParameter.setAllowEmptyValue(allowEmptyValue);
-        mappedParameter.setAllowReserved(allowReserved);
-        return mappedParameter;
+        mappedHeader.setExample(example);
+        mappedHeader.setExplode(explode);
+        mappedHeader.setDeprecated(deprecated);
+        mappedHeader.setAllowReserved(allowReserved);
+        return mappedHeader;
     }
 }

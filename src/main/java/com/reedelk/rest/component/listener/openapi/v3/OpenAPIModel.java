@@ -1,4 +1,4 @@
-package com.reedelk.rest.component.listener.openapi.v3.model;
+package com.reedelk.rest.component.listener.openapi.v3;
 
 import com.reedelk.openapi.OpenApiSerializableContext;
 
