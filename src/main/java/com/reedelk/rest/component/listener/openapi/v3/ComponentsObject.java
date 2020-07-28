@@ -36,6 +36,16 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
         schemas.forEach((schemaId, schemaObject) -> mappedSchemas.put(schemaId, schemaObject.map(context)));
         mappedComponents.setSchemas(mappedSchemas);
 
+        // Add the ones registered
+        context.getSchemas().forEach((schemaId, schema) -> {
+            if (!schemas.containsKey(schemaId)) {
+                com.reedelk.openapi.v3.SchemaObject schemaObject  = new com.reedelk.openapi.v3.SchemaObject();
+                schemaObject.setSchema(schema);
+                mappedSchemas.put(schemaId, schemaObject);
+            }
+        });
+
+
         return mappedComponents;
     }
 }

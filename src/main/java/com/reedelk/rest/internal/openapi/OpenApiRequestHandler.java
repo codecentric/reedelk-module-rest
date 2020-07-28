@@ -37,6 +37,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         OpenApiSerializableContext context = new OpenApiSerializableContext();
         OpenApiObject openAPI = configuration.getOpenApi().map(context);
         openAPI.setBasePath(configuration.getBasePath());
+        PathsObject pathsObject = openAPI.getPaths();
 
         // For each route definition in the list:
         routeDefinitionList.forEach(routeDefinition -> {
@@ -58,7 +59,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
                 OperationObjectUtils.addErrorResponse(realOperationObject, errorResponse);
 
                 // Add Operation to path.
-                Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> operationsByPath = findOperationByPath(openAPI, path);
+                Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> operationsByPath = findOperationByPath(pathsObject, path);
                 operationsByPath.put(com.reedelk.openapi.v3.RestMethod.valueOf(method.name()), realOperationObject.map(context));
             }
             // ----
@@ -80,8 +81,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         routeDefinitionList.remove(routeDefinition);
     }
 
-    private Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> findOperationByPath(OpenApiObject openAPI, String path) {
-        PathsObject pathsObject = openAPI.getPaths();
+    private Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> findOperationByPath(PathsObject pathsObject, String path) {
         Map<String, Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject>> paths = pathsObject.getPaths();
         String fixedPath = realPathOf(path);
         if (!paths.containsKey(fixedPath)) {
