@@ -1,6 +1,5 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;

@@ -5,6 +5,7 @@ import com.reedelk.openapi.v3.PathsObject;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
+import com.reedelk.rest.component.listener.openapi.v3.OpenApiSerializableContext;
 import com.reedelk.rest.component.listener.openapi.v3.OperationObject;
 import com.reedelk.rest.component.listener.openapi.v3.OperationObjectUtils;
 import com.reedelk.rest.internal.commons.HttpHeader;
