@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.openapi.v3.OpenApiObjectAbstract;
+import com.reedelk.openapi.v3.OpenApiObject;
 import com.reedelk.openapi.v3.PathsObject;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
@@ -34,7 +34,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
         OpenApiSerializableContext context = new OpenApiSerializableContext();
-        OpenApiObjectAbstract openAPI = configuration.getOpenApi().map(context);
+        OpenApiObject openAPI = configuration.getOpenApi().map(context);
         openAPI.setBasePath(configuration.getBasePath());
 
         // For each route definition in the list:
@@ -79,7 +79,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         routeDefinitionList.remove(routeDefinition);
     }
 
-    private Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> findOperationByPath(OpenApiObjectAbstract openAPI, String path) {
+    private Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> findOperationByPath(OpenApiObject openAPI, String path) {
         PathsObject pathsObject = openAPI.getPaths();
         Map<String, Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject>> paths = pathsObject.getPaths();
         String fixedPath = realPathOf(path);

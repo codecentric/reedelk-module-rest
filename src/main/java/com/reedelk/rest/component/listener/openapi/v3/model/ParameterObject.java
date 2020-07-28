@@ -1,5 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3.model;
 
+import com.reedelk.openapi.OpenApiSerializableContext;
 import com.reedelk.openapi.v3.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;

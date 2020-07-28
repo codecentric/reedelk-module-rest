@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3.model;
 
-import com.reedelk.openapi.v3.OpenApiObjectAbstract;
+import com.reedelk.openapi.OpenApiSerializableContext;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = ServiceScope.PROTOTYPE)
-public class OpenApiObject implements Implementor, OpenAPIModel<OpenApiObjectAbstract> {
+public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.OpenApiObject> {
 
     // Info Object is required by spec
     @Property("Info")
@@ -53,9 +53,9 @@ public class OpenApiObject implements Implementor, OpenAPIModel<OpenApiObjectAbs
     }
 
     @Override
-    public OpenApiObjectAbstract map(OpenApiSerializableContext context) {
-        OpenApiObjectAbstract mappedOpenApi =
-                new OpenApiObjectAbstract();
+    public com.reedelk.openapi.v3.OpenApiObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.OpenApiObject mappedOpenApi =
+                new com.reedelk.openapi.v3.OpenApiObject();
         if (info != null) mappedOpenApi.setInfo(info.map(context));
         if (components != null) mappedOpenApi.setComponents(components.map(context));
         if (servers != null) {
