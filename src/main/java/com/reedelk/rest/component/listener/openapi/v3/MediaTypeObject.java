@@ -1,6 +1,5 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.v3.Example;
 import com.reedelk.openapi.v3.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
@@ -15,7 +14,7 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Property("Example")
     @WidthAuto
     @Hint("assets/data_model.json")
-    @com.reedelk.runtime.api.annotation.Example("assets/data_model.json")
+    @Example("assets/data_model.json")
     @HintBrowseFile("Select Example File ...")
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText example;
@@ -24,7 +23,7 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     @WidthAuto
     @Hint("assets/data_model.json")
     @HintBrowseFile("Select Schema File ...")
-    @com.reedelk.runtime.api.annotation.Example("assets/data_model.json")
+    @Example("assets/data_model.json")
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
 
@@ -57,7 +56,7 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
         // Example
         if (example != null) {
             String exampleData = StreamUtils.FromString.consume(example.data());
-            mappedMediaType.setExample(new Example(exampleData));
+            mappedMediaType.setExample(new com.reedelk.openapi.v3.Example(exampleData));
         }
         return mappedMediaType;
     }
