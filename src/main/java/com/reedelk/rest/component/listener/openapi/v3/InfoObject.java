@@ -5,6 +5,8 @@ import com.reedelk.runtime.api.component.Implementor;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
+import java.util.Optional;
+
 @Collapsible
 @Component(service = InfoObject.class, scope = ServiceScope.PROTOTYPE)
 public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.InfoObject> {
@@ -92,10 +94,10 @@ public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.openapi
     public com.reedelk.openapi.v3.InfoObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.InfoObject mappedInfo =
                 new com.reedelk.openapi.v3.InfoObject();
-        mappedInfo.setTitle(title);
+        mappedInfo.setTitle(Optional.ofNullable(title).orElse("My API"));
         mappedInfo.setDescription(description);
         mappedInfo.setTermsOfService(termsOfService);
-        mappedInfo.setVersion(version);
+        mappedInfo.setVersion(Optional.ofNullable(version).orElse("1.0.0"));
         if (contact != null) mappedInfo.setContact(contact.map(context));
         if (license != null) mappedInfo.setLicense(license.map(context));
         return mappedInfo;
