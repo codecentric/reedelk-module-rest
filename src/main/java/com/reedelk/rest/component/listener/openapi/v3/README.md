@@ -1,1 +1,1 @@
-OpenAPI v3.0.3
+Data Model for OpenAPI v3.0.x
