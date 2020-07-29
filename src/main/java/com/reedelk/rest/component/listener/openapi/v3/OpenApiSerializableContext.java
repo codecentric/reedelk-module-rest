@@ -41,7 +41,7 @@ public class OpenApiSerializableContext {
             String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
             SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
             schemasMap.put(schemaResource.path(), schemaDataHolder);
-            return new Schema(schemaGeneratedId);
+            return new Schema("#/components/schemas/" + schemaGeneratedId);
         }
     }
 
