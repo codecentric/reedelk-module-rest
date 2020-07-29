@@ -5,56 +5,52 @@ import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.json.JSONObject;
+import org.yaml.snakeyaml.Yaml;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class OpenApiSerializableContext {
 
-    private final Map<String, Schema> SCHEMAS_MAP = new HashMap<>();
-
-    public Schema register(ResourceText schema) {
-        return null;
-    }
-
-    public void setSchema(String schemaId, Map<String,Object> schemaData) {
-        // If it is a reference we need to register, otherwise we
-        // just serialize the schema as is.
-        if (!SCHEMAS_MAP.containsKey(schemaId)) {
-            SCHEMAS_MAP.put(schemaId, new Schema(schemaData));
-        }
-    }
+    private final Map<String, SchemaDataHolder> schemasMap = new HashMap<>();
 
     public Map<String, Schema> getSchemas() {
-        return Collections.unmodifiableMap(SCHEMAS_MAP);
+        Map<String,Schema> result = new HashMap<>();
+        schemasMap.forEach((resourcePath, schemaDataHolder) ->
+                result.put(schemaDataHolder.schemaId, new Schema(schemaDataHolder.schemaData)));
+        return result;
     }
 
-    public Schema toSchemaReference(PredefinedSchema predefinedSchema) {
-        return new Schema(new JSONObject(predefinedSchema.schema()).toMap());
+    /**
+     * This is a user defined schema with the given ID.
+     */
+    public Schema register(String userDefinedId, ResourceText schemaResource) {
+        Map<String, Object> schemaDataAsMap = schemaDataFrom(schemaResource);
+        SchemaDataHolder schemaDataHolder = new SchemaDataHolder(userDefinedId, schemaDataAsMap);
+        schemasMap.put(schemaResource.path(), schemaDataHolder);
+        return new Schema(schemaDataAsMap);
     }
 
-    public Schema toSchemaReference(ResourceText resourceText, OpenApiSerializableContext context) {
-        // Schema Data could be JSON or YAML.
-        Map<String,Object> schemaData = new JSONObject(StreamUtils.FromString.consume(resourceText.data())).toMap();
-
-        // Extract schema id from JSON could be YAML ?
-        String schemaId;
-        JSONObject schemaAsJsonObject = new JSONObject(schemaData);
-        if (schemaAsJsonObject.has("title")) {
-            String titleProperty = schemaAsJsonObject.getString("title");
-            schemaId = normalizeNameFrom(titleProperty);
-        } else if (schemaAsJsonObject.has("name")) {
-            String nameProperty = schemaAsJsonObject.getString("name");
-            schemaId = normalizeNameFrom(nameProperty);
+    public Schema getSchema(ResourceText schemaResource) {
+        // If exists a user defined, then use that ID, otherwise generate one.
+        if (schemasMap.containsKey(schemaResource.path())) {
+            SchemaDataHolder schemaDataHolder = schemasMap.get(schemaResource.path());
+            return new Schema("#/components/schemas/" + schemaDataHolder.schemaId);
         } else {
-            String path = resourceText.path();
-            schemaId = fromFilePath(path);
+            Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
+            String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
+            SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
+            schemasMap.put(schemaResource.path(), schemaDataHolder);
+            return new Schema(schemaGeneratedId);
         }
+    }
 
-        Schema schema = new Schema(schemaId);
-        context.setSchema(schemaId, schemaData);
-        return schema;
+    /**
+     * Immediately build the schema inline.
+     */
+    public Schema getSchema(PredefinedSchema predefinedSchema) {
+        Map<String, Object> schemaAsMap = new JSONObject(predefinedSchema.schema()).toMap();
+        return new Schema(schemaAsMap);
     }
 
     private String fromFilePath(String path) {
@@ -68,6 +64,28 @@ public class OpenApiSerializableContext {
     }
 
     /**
+     * Extract schema id from JSON could be YAML
+     */
+    private String generateSchemaId(Map<String, Object> schemaDataAsMap, ResourceText schemaResource) {
+        if (schemaDataAsMap.containsKey("title")) {
+            String titleProperty = (String) schemaDataAsMap.get("title");
+            return normalizeNameFrom(titleProperty);
+        } else if (schemaDataAsMap.containsKey("name")) {
+            String nameProperty = (String) schemaDataAsMap.get("name");
+            return normalizeNameFrom(nameProperty);
+        } else {
+            String path = schemaResource.path();
+            return fromFilePath(path);
+        }
+    }
+
+    private Map<String, Object> schemaDataFrom(ResourceText schemaResource) {
+        String schemaDataAsString = StreamUtils.FromString.consume(schemaResource.data());
+        Yaml yaml = new Yaml();
+        return yaml.load(schemaDataAsString);
+    }
+
+    /**
      * A function which removes white spaces, dots, hyphens
      * and other not desired character when the schema name
      * is taken from file name.
@@ -78,19 +96,14 @@ public class OpenApiSerializableContext {
         return value.replaceAll("[^a-zA-Z0-9]", "");
     }
 
-    public Schema register(String schemaId, ResourceText schemaResource) {
-        // This is a user defined schema with the given ID.
+    static class SchemaDataHolder {
 
-        return null;
-    }
+        final String schemaId;
+        final Map<String,Object> schemaData;
 
-    public Schema getSchema(ResourceText schema) {
-        // If exists a user defined, then use that ID, otherwise generate one.
-        return null;
-    }
-
-    public Schema getSchema(PredefinedSchema predefinedSchema) {
-        // Immediately build the schema inline.
-        return null;
+        SchemaDataHolder(String schemaId, Map<String,Object> schemaData) {
+            this.schemaId = schemaId;
+            this.schemaData = schemaData;
+        }
     }
 }
