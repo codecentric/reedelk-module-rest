@@ -45,12 +45,16 @@ public class OpenApiSerializableContext {
         }
     }
 
-    /**
-     * Immediately build the schema inline.
-     */
-    public Schema getSchema(PredefinedSchema predefinedSchema) {
-        Map<String, Object> schemaAsMap = new JSONObject(predefinedSchema.schema()).toMap();
-        return new Schema(schemaAsMap);
+    public Schema getSchema(PredefinedSchema predefinedSchema, ResourceText resourceSchema) {
+        if (PredefinedSchema.NONE.equals(predefinedSchema) && resourceSchema != null) {
+            return getSchema(resourceSchema);
+        }
+        if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
+            // Immediately build the schema inline.
+            Map<String, Object> schemaAsMap = new JSONObject(predefinedSchema.schema()).toMap();
+            return new Schema(schemaAsMap);
+        }
+        return null;
     }
 
     private String fromFilePath(String path) {

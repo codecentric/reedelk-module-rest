@@ -1,6 +1,5 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.v3.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -131,16 +130,7 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
                 new com.reedelk.openapi.v3.HeaderObject();
         mappedHeader.setDescription(description);
         mappedHeader.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
-
-        if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
-            Schema mappedSchema = context.getSchema(schema);
-            mappedHeader.setSchema(mappedSchema);
-        }
-        if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
-            Schema mappedSchema = context.getSchema(predefinedSchema);
-            mappedHeader.setSchema(mappedSchema);
-        }
-
+        mappedHeader.setSchema(context.getSchema(predefinedSchema, schema));
         mappedHeader.setExample(example);
         mappedHeader.setExplode(explode);
         mappedHeader.setDeprecated(deprecated);

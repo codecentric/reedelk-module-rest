@@ -1,6 +1,5 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.v3.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -194,16 +193,7 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
         mappedParameter.setDescription(description);
         mappedParameter.setIn(com.reedelk.openapi.v3.ParameterLocation.valueOf(in.name()));
         mappedParameter.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
-
-        if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
-            Schema mappedSchema = context.getSchema(schema);
-            mappedParameter.setSchema(mappedSchema);
-        }
-        if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
-            Schema mappedSchema = context.getSchema(predefinedSchema);
-            mappedParameter.setSchema(mappedSchema);
-        }
-
+        mappedParameter.setSchema(context.getSchema(predefinedSchema, schema));
         mappedParameter.setExample(example);
         mappedParameter.setExplode(explode);
         mappedParameter.setDeprecated(deprecated);
