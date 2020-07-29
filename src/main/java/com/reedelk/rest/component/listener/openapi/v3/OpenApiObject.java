@@ -55,8 +55,18 @@ public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.open
     public com.reedelk.openapi.v3.OpenApiObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.OpenApiObject mappedOpenApi =
                 new com.reedelk.openapi.v3.OpenApiObject();
-        if (info != null) mappedOpenApi.setInfo(info.map(context));
-        if (components != null) mappedOpenApi.setComponents(components.map(context));
+
+        // Info
+        if (info != null) {
+            mappedOpenApi.setInfo(info.map(context));
+        }
+
+        // Components
+        if (components != null) {
+            mappedOpenApi.setComponents(components.map(context));
+        }
+
+        // Servers
         if (servers != null) {
             List<com.reedelk.openapi.v3.ServerObject> mappedServers =
                     servers.stream().map(serverObject -> serverObject.map(context)).collect(toList());

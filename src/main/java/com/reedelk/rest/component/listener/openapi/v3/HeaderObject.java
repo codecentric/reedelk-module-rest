@@ -133,12 +133,12 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
         mappedHeader.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
 
         if (PredefinedSchema.NONE.equals(predefinedSchema) && schema != null) {
-            Schema theSchema = SchemaUtils.toSchemaReference(schema, context);
-            mappedHeader.setSchema(theSchema);
+            Schema mappedSchema = context.getSchema(schema);
+            mappedHeader.setSchema(mappedSchema);
         }
         if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
-            Schema theSchema = SchemaUtils.toSchemaReference(predefinedSchema);
-            mappedHeader.setSchema(theSchema);
+            Schema mappedSchema = context.getSchema(predefinedSchema);
+            mappedHeader.setSchema(mappedSchema);
         }
 
         mappedHeader.setExample(example);

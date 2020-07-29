@@ -32,18 +32,24 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
+        // Prepare the contect
         OpenApiSerializableContext context = new OpenApiSerializableContext();
+
+        // OpenApi
         OpenApiObject openAPI = configuration.getOpenApi().map(context);
 
+        // Server Object
         ServerObject defaultServerObject = DefaultServerObjectBuilder.from(configuration);
         openAPI.getServers().add(defaultServerObject);
 
+        // Paths Object
         PathsObject pathsObject = openAPI.getPaths();
-
         routeDefinitionList.forEach(routeDefinition ->
                 buildOperationObjectFromRoute(context, pathsObject, routeDefinition));
 
+        // Components Object
         ComponentsObject components = openAPI.getComponents();
+        // We must add all the schemas which where defined on the fly and not user defined.
         context.getSchemas().forEach((schemaId, schema) -> {
             if (!components.getSchemas().containsKey(schemaId)) {
                 SchemaObject schemaObject = new SchemaObject();

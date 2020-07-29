@@ -1,6 +1,5 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.v3.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -8,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = SchemaObject.class, scope = ServiceScope.PROTOTYPE)
-public class SchemaObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.SchemaObject> {
+public class SchemaObject implements Implementor {
 
     @Property("Schema")
     @WidthAuto
@@ -26,12 +25,4 @@ public class SchemaObject implements Implementor, OpenAPIModel<com.reedelk.opena
         this.schema = schema;
     }
 
-    @Override
-    public com.reedelk.openapi.v3.SchemaObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.SchemaObject mappedSchema =
-                new com.reedelk.openapi.v3.SchemaObject();
-        Schema schema = SchemaUtils.toSchemaReference(this.schema, context);
-        mappedSchema.setSchema(schema);
-        return mappedSchema;
-    }
 }
