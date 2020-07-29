@@ -54,6 +54,10 @@ public class Defaults {
             return "/";
         }
 
+        public static String pathSeparator() {
+            return "/";
+        }
+
         private static final boolean DEFAULT_VALIDATE_HEADERS = false;
         private static final boolean DEFAULT_COMPRESS = false;
         private static final String DEFAULT_HOST = "localhost";
