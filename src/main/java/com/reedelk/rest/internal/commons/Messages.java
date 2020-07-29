@@ -53,4 +53,20 @@ public class Messages {
             return message;
         }
     }
+
+    public enum OpenApi implements FormattedMessage {
+
+        DEFAULT_SERVER_DESCRIPTION("Default Server");
+
+        private String message;
+
+        OpenApi(String message) {
+            this.message = message;
+        }
+
+        @Override
+        public String template() {
+            return message;
+        }
+    }
 }
