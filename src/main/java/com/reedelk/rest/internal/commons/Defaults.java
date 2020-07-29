@@ -50,6 +50,10 @@ public class Defaults {
             return actual == null ? DEFAULT_MAX_HEADER_SIZE : actual;
         }
 
+        public static String path() {
+            return "/";
+        }
+
         private static final boolean DEFAULT_VALIDATE_HEADERS = false;
         private static final boolean DEFAULT_COMPRESS = false;
         private static final String DEFAULT_HOST = "localhost";

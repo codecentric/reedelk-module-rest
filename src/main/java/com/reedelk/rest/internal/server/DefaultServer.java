@@ -2,6 +2,7 @@ package com.reedelk.rest.internal.server;
 
 
 import com.reedelk.rest.component.RESTListenerConfiguration;
+import com.reedelk.rest.internal.commons.Defaults;
 import com.reedelk.rest.internal.server.configurer.ServerConfigurer;
 import com.reedelk.rest.internal.server.configurer.ServerSecurityConfigurer;
 import com.reedelk.runtime.api.commons.StringUtils;
@@ -138,7 +139,7 @@ public class DefaultServer implements Server {
         if (StringUtils.isNotBlank(configuration.getBasePath())) {
             return configuration.getBasePath() + thePath;
         } else {
-            return StringUtils.isBlank(thePath) ? "/" : thePath;
+            return StringUtils.isBlank(thePath) ? Defaults.RestListener.path() : thePath;
         }
     }
 }
