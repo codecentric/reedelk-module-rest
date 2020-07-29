@@ -32,8 +32,8 @@ public class SchemaUtils {
             schemaId = fromFilePath(path);
         }
 
-        Schema schema = new Schema(schemaId, schemaData);
-        context.setSchema(schema);
+        Schema schema = new Schema(schemaId);
+        context.setSchema(schemaId, schemaData);
         return schema;
     }
 

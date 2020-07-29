@@ -10,13 +10,11 @@ public class OpenApiSerializableContext {
 
     private final Map<String, Schema> SCHEMAS_MAP = new HashMap<>();
 
-    public void setSchema(Schema schema) {
+    public void setSchema(String schemaId, Map<String,Object> schemaData) {
         // If it is a reference we need to register, otherwise we
         // just serialize the schema as is.
-        if (schema.isReference()) {
-            if (!SCHEMAS_MAP.containsKey(schema.getSchemaId())) {
-                SCHEMAS_MAP.put(schema.getSchemaId(), schema);
-            }
+        if (!SCHEMAS_MAP.containsKey(schemaId)) {
+            SCHEMAS_MAP.put(schemaId, new Schema(schemaData));
         }
     }
 

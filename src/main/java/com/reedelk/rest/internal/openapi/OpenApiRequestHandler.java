@@ -1,7 +1,9 @@
 package com.reedelk.rest.internal.openapi;
 
+import com.reedelk.openapi.v3.ComponentsObject;
 import com.reedelk.openapi.v3.OpenApiObject;
 import com.reedelk.openapi.v3.PathsObject;
+import com.reedelk.openapi.v3.SchemaObject;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
@@ -36,7 +38,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
         OpenApiSerializableContext context = new OpenApiSerializableContext();
         OpenApiObject openAPI = configuration.getOpenApi().map(context);
-        openAPI.setBasePath(configuration.getBasePath());
+
         PathsObject pathsObject = openAPI.getPaths();
 
         // For each route definition in the list:
@@ -65,7 +67,16 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
             // ----
         });
 
-        String serializedOpenAPI = formatter.format(openAPI, context);
+        ComponentsObject components = openAPI.getComponents();
+        context.getSchemas().forEach((schemaId, schema) -> {
+            if (!components.getSchemas().containsKey(schemaId)) {
+                SchemaObject schemaObject = new SchemaObject();
+                schemaObject.setSchema(schema);
+                components.getSchemas().put(schemaId, schemaObject);
+            }
+        });
+
+        String serializedOpenAPI = formatter.format(openAPI);
 
         // Content Type depends on the formatter. It could be 'application/json' or 'application/x-yaml'.
         response.addHeader(HttpHeader.CONTENT_TYPE, formatter.contentType());
