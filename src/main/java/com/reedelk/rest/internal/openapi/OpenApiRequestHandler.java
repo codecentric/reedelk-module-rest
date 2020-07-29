@@ -1,9 +1,6 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.openapi.v3.ComponentsObject;
-import com.reedelk.openapi.v3.OpenApiObject;
-import com.reedelk.openapi.v3.PathsObject;
-import com.reedelk.openapi.v3.SchemaObject;
+import com.reedelk.openapi.v3.*;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
@@ -11,6 +8,7 @@ import com.reedelk.rest.component.listener.openapi.v3.OpenApiSerializableContext
 import com.reedelk.rest.component.listener.openapi.v3.OperationObject;
 import com.reedelk.rest.component.listener.openapi.v3.OperationObjectUtils;
 import com.reedelk.rest.internal.commons.HttpHeader;
+import com.reedelk.rest.internal.commons.HttpProtocol;
 import com.reedelk.rest.internal.commons.RestMethod;
 import com.reedelk.rest.internal.server.HttpRequestHandler;
 import com.reedelk.rest.internal.server.RouteDefinition;
@@ -38,6 +36,9 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
         OpenApiSerializableContext context = new OpenApiSerializableContext();
         OpenApiObject openAPI = configuration.getOpenApi().map(context);
+
+        ServerObject defaultServerObject = createDefaultServerObject(configuration);
+        openAPI.getServers().add(defaultServerObject);
 
         PathsObject pathsObject = openAPI.getPaths();
 
@@ -82,6 +83,17 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         response.addHeader(HttpHeader.CONTENT_TYPE, formatter.contentType());
         response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(serializedOpenAPI.getBytes()));
+    }
+
+    private ServerObject createDefaultServerObject(RESTListenerConfiguration configuration) {
+        String basePath = configuration.getBasePath();
+        String host = configuration.getHost();
+        Integer port = configuration.getPort();
+        HttpProtocol protocol = configuration.getProtocol();
+        ServerObject defaultServerObject = new ServerObject();
+        defaultServerObject.setUrl(protocol.name().toLowerCase() + "://" + host + ":" + port + basePath);
+        defaultServerObject.setDescription("Default Server");
+        return defaultServerObject;
     }
 
     public void add(RouteDefinition routeDefinition) {
