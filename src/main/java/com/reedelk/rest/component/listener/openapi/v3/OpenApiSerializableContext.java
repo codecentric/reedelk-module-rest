@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class OpenApiSerializableContext {
 
+    private static final String SCHEMA_REFERENCE_TEMPLATE = "#/components/schemas/%s";
+
     private final Map<String, SchemaDataHolder> schemasMap = new HashMap<>();
 
     public Map<String, Schema> getSchemas() {
@@ -35,13 +37,13 @@ public class OpenApiSerializableContext {
         // If exists a user defined, then use that ID, otherwise generate one.
         if (schemasMap.containsKey(schemaResource.path())) {
             SchemaDataHolder schemaDataHolder = schemasMap.get(schemaResource.path());
-            return new Schema("#/components/schemas/" + schemaDataHolder.schemaId);
+            return new Schema(formatSchemaReference(schemaDataHolder));
         } else {
             Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
             String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
             SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
             schemasMap.put(schemaResource.path(), schemaDataHolder);
-            return new Schema("#/components/schemas/" + schemaGeneratedId);
+            return new Schema(formatSchemaReference(schemaDataHolder));
         }
     }
 
@@ -87,6 +89,10 @@ public class OpenApiSerializableContext {
         String schemaDataAsString = StreamUtils.FromString.consume(schemaResource.data());
         Yaml yaml = new Yaml();
         return yaml.load(schemaDataAsString);
+    }
+
+    private String formatSchemaReference(SchemaDataHolder schemaDataHolder) {
+        return String.format(SCHEMA_REFERENCE_TEMPLATE, schemaDataHolder.schemaId);
     }
 
     /**
