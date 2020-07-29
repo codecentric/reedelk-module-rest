@@ -62,7 +62,8 @@ public class RequestBodyObject implements Implementor, OpenAPIModel<com.reedelk.
 
         // Content
         Map<String, com.reedelk.openapi.v3.MediaTypeObject> mappedContent = new HashMap<>();
-        content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map(context)));
+        content.forEach((contentType, mediaTypeObject) ->
+                mappedContent.put(contentType, mediaTypeObject.map(context)));
         mappedRequestBody.setContent(mappedContent);
 
         return mappedRequestBody;
