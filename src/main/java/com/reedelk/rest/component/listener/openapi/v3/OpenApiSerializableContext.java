@@ -1,6 +1,7 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
 import com.reedelk.openapi.v3.Schema;
+import com.reedelk.openapi.v3.SchemaDefault;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
@@ -19,7 +20,7 @@ public class OpenApiSerializableContext {
     public Map<String, Schema> getSchemas() {
         Map<String,Schema> result = new HashMap<>();
         schemasMap.forEach((resourcePath, schemaDataHolder) ->
-                result.put(schemaDataHolder.schemaId, new Schema(schemaDataHolder.schemaData)));
+                result.put(schemaDataHolder.schemaId, new SchemaDefault(schemaDataHolder.schemaData)));
         return result;
     }
 
@@ -30,20 +31,20 @@ public class OpenApiSerializableContext {
         Map<String, Object> schemaDataAsMap = schemaDataFrom(schemaResource);
         SchemaDataHolder schemaDataHolder = new SchemaDataHolder(userDefinedId, schemaDataAsMap);
         schemasMap.put(schemaResource.path(), schemaDataHolder);
-        return new Schema(schemaDataAsMap);
+        return new SchemaDefault(schemaDataAsMap);
     }
 
     public Schema getSchema(ResourceText schemaResource) {
         // If exists a user defined, then use that ID, otherwise generate one.
         if (schemasMap.containsKey(schemaResource.path())) {
             SchemaDataHolder schemaDataHolder = schemasMap.get(schemaResource.path());
-            return new Schema(formatSchemaReference(schemaDataHolder));
+            return new SchemaDefault(formatSchemaReference(schemaDataHolder));
         } else {
             Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
             String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
             SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
             schemasMap.put(schemaResource.path(), schemaDataHolder);
-            return new Schema(formatSchemaReference(schemaDataHolder));
+            return new SchemaDefault(formatSchemaReference(schemaDataHolder));
         }
     }
 
@@ -54,7 +55,7 @@ public class OpenApiSerializableContext {
         if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Immediately build the schema inline.
             Map<String, Object> schemaAsMap = new JSONObject(predefinedSchema.schema()).toMap();
-            return new Schema(schemaAsMap);
+            return new SchemaDefault(schemaAsMap);
         }
         return null;
     }
