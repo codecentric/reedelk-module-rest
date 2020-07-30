@@ -158,7 +158,6 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
         com.reedelk.openapi.v3.OperationObject target =
                 new com.reedelk.openapi.v3.OperationObject();
 
-        target.setExclude(exclude);
         target.setDeprecated(deprecated);
         target.setSummary(summary);
         target.setDescription(description);
