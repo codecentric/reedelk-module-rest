@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.openapi.OpenApiSerializer;
+import com.reedelk.openapi.OpenApi;
 import com.reedelk.openapi.v3.model.OpenApiObject;
 import com.reedelk.rest.internal.commons.HttpContentType;
 import com.reedelk.runtime.api.message.content.MimeType;
@@ -10,7 +10,7 @@ public enum Formatter {
     JSON {
         @Override
         String format(OpenApiObject openApiObject) {
-            return OpenApiSerializer.toJson(openApiObject);
+            return OpenApi.toJson(openApiObject);
         }
 
         @Override
@@ -22,7 +22,7 @@ public enum Formatter {
     YAML {
         @Override
         String format(OpenApiObject openApiObject) {
-            return OpenApiSerializer.toYaml(openApiObject);
+            return OpenApi.toYaml(openApiObject);
         }
 
         @Override
