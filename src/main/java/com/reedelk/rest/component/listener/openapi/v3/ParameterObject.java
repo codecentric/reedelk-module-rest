@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = ParameterObject.class, scope = ServiceScope.PROTOTYPE)
-public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.ParameterObject> {
+public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ParameterObject> {
 
     @Property("Name")
     @Hint("myParam")
@@ -186,13 +186,13 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     }
 
     @Override
-    public com.reedelk.openapi.v3.ParameterObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.ParameterObject mappedParameter =
-                new com.reedelk.openapi.v3.ParameterObject();
+    public com.reedelk.openapi.v3.model.ParameterObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.ParameterObject mappedParameter =
+                new com.reedelk.openapi.v3.model.ParameterObject();
         mappedParameter.setName(name);
         mappedParameter.setDescription(description);
-        mappedParameter.setIn(com.reedelk.openapi.v3.ParameterLocation.valueOf(in.name()));
-        mappedParameter.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
+        mappedParameter.setIn(com.reedelk.openapi.v3.model.ParameterLocation.valueOf(in.name()));
+        mappedParameter.setStyle(com.reedelk.openapi.v3.model.ParameterStyle.valueOf(style.name()));
         mappedParameter.setSchema(context.getSchema(predefinedSchema, schema));
         mappedParameter.setExample(example);
         mappedParameter.setExplode(explode);

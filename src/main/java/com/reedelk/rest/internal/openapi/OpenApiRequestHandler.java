@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.openapi.v3.*;
+import com.reedelk.openapi.v3.model.*;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.component.listener.ErrorResponse;
 import com.reedelk.rest.component.listener.Response;
@@ -84,8 +84,8 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
             OperationObjectUtils.addErrorResponse(realOperationObject, errorResponse);
 
             // Add Operation to path.
-            Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> operationsByPath = findOperationByPath(pathsObject, path);
-            operationsByPath.put(com.reedelk.openapi.v3.RestMethod.valueOf(method.name()), realOperationObject.map(context));
+            Map<com.reedelk.openapi.v3.model.RestMethod, com.reedelk.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(pathsObject, path);
+            operationsByPath.put(com.reedelk.openapi.v3.model.RestMethod.valueOf(method.name()), realOperationObject.map(context));
         }
     }
 
@@ -97,8 +97,8 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         routeDefinitionList.remove(routeDefinition);
     }
 
-    private Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject> findOperationByPath(PathsObject pathsObject, String path) {
-        Map<String, Map<com.reedelk.openapi.v3.RestMethod, com.reedelk.openapi.v3.OperationObject>> paths = pathsObject.getPaths();
+    private Map<com.reedelk.openapi.v3.model.RestMethod, com.reedelk.openapi.v3.model.OperationObject> findOperationByPath(PathsObject pathsObject, String path) {
+        Map<String, Map<com.reedelk.openapi.v3.model.RestMethod, com.reedelk.openapi.v3.model.OperationObject>> paths = pathsObject.getPaths();
         String fixedPath = realPathOf(path);
         if (!paths.containsKey(fixedPath)) {
             paths.put(fixedPath, new HashMap<>());

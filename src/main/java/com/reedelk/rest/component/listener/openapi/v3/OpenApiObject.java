@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 
 @Collapsible
 @Component(service = OpenApiObject.class, scope = ServiceScope.PROTOTYPE)
-public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.OpenApiObject> {
+public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.OpenApiObject> {
 
     // Info Object is required by spec
     @Property("Info")
@@ -52,9 +52,9 @@ public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.open
     }
 
     @Override
-    public com.reedelk.openapi.v3.OpenApiObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.OpenApiObject mappedOpenApi =
-                new com.reedelk.openapi.v3.OpenApiObject();
+    public com.reedelk.openapi.v3.model.OpenApiObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.OpenApiObject mappedOpenApi =
+                new com.reedelk.openapi.v3.model.OpenApiObject();
 
         // Info
         if (info != null) {
@@ -68,7 +68,7 @@ public class OpenApiObject implements Implementor, OpenAPIModel<com.reedelk.open
 
         // Servers
         if (servers != null) {
-            List<com.reedelk.openapi.v3.ServerObject> mappedServers =
+            List<com.reedelk.openapi.v3.model.ServerObject> mappedServers =
                     servers.stream().map(serverObject -> serverObject.map(context)).collect(toList());
             mappedOpenApi.setServers(mappedServers);
         }

@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 import java.util.List;
 
 @Component(service = ServerVariableObject.class, scope = ServiceScope.PROTOTYPE)
-public class ServerVariableObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.ServerVariableObject> {
+public class ServerVariableObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ServerVariableObject> {
 
     @Property("Description")
     @Hint("Hosts variable")
@@ -54,9 +54,9 @@ public class ServerVariableObject implements Implementor, OpenAPIModel<com.reede
     }
 
     @Override
-    public com.reedelk.openapi.v3.ServerVariableObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.ServerVariableObject mappedServerVariable =
-                new com.reedelk.openapi.v3.ServerVariableObject();
+    public com.reedelk.openapi.v3.model.ServerVariableObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.ServerVariableObject mappedServerVariable =
+                new com.reedelk.openapi.v3.model.ServerVariableObject();
         mappedServerVariable.setDescription(description);
         mappedServerVariable.setDefaultValue(defaultValue);
         mappedServerVariable.setEnumValues(enumValues);

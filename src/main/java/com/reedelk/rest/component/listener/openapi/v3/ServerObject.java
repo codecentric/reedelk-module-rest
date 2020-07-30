@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component(service = ServerObject.class, scope = ServiceScope.PROTOTYPE)
-public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.ServerObject> {
+public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ServerObject> {
 
     @Property("URL")
     @Hint("https://development.gigantic-server.com/v1")
@@ -57,14 +57,14 @@ public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.opena
     }
 
     @Override
-    public com.reedelk.openapi.v3.ServerObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.ServerObject mappedServer =
-                new com.reedelk.openapi.v3.ServerObject();
+    public com.reedelk.openapi.v3.model.ServerObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.ServerObject mappedServer =
+                new com.reedelk.openapi.v3.model.ServerObject();
         mappedServer.setUrl(url);
         mappedServer.setDescription(description);
 
         // Server Variables
-        Map<String, com.reedelk.openapi.v3.ServerVariableObject> mappedServerVariables = new HashMap<>();
+        Map<String, com.reedelk.openapi.v3.model.ServerVariableObject> mappedServerVariables = new HashMap<>();
         variables.forEach((variableName, serverVariableObject) -> mappedServerVariables.put(variableName, serverVariableObject.map(context)));
         mappedServer.setVariables(mappedServerVariables);
 

@@ -55,18 +55,18 @@ public class ResponseObject implements Implementor {
         this.headers = headers;
     }
 
-    public com.reedelk.openapi.v3.ResponseObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.ResponseObject target =
-                new com.reedelk.openapi.v3.ResponseObject();
+    public com.reedelk.openapi.v3.model.ResponseObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.ResponseObject target =
+                new com.reedelk.openapi.v3.model.ResponseObject();
         target.setDescription(description);
 
         // Content
-        Map<String, com.reedelk.openapi.v3.MediaTypeObject> mappedContent = new HashMap<>();
+        Map<String, com.reedelk.openapi.v3.model.MediaTypeObject> mappedContent = new HashMap<>();
         content.forEach((contentType, mediaTypeObject) -> mappedContent.put(contentType, mediaTypeObject.map(context)));
         target.setContent(mappedContent);
 
         // Headers
-        Map<String, com.reedelk.openapi.v3.HeaderObject> mappedHeaders = new HashMap<>();
+        Map<String, com.reedelk.openapi.v3.model.HeaderObject> mappedHeaders = new HashMap<>();
         headers.forEach((headerName, headerObject) -> mappedHeaders.put(headerName, headerObject.map(context)));
         target.setHeaders(mappedHeaders);
 

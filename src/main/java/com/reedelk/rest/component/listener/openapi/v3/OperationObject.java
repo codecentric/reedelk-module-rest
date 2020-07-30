@@ -13,7 +13,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
 @Component(service = OperationObject.class, scope = ServiceScope.PROTOTYPE)
-public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.OperationObject> {
+public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.OperationObject> {
 
     @Property("Exclude this resource from the OpenAPI document")
     @Description("Excludes this endpoint from being published in the OpenAPI document.")
@@ -154,9 +154,9 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
     }
 
     @Override
-    public com.reedelk.openapi.v3.OperationObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.OperationObject target =
-                new com.reedelk.openapi.v3.OperationObject();
+    public com.reedelk.openapi.v3.model.OperationObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.OperationObject target =
+                new com.reedelk.openapi.v3.model.OperationObject();
 
         target.setDeprecated(deprecated);
         target.setSummary(summary);
@@ -165,18 +165,18 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
 
         // Request Body
         if (requestBody != null) {
-            com.reedelk.openapi.v3.RequestBodyObject mappedRequestBody = requestBody.map(context);
+            com.reedelk.openapi.v3.model.RequestBodyObject mappedRequestBody = requestBody.map(context);
             target.setRequestBody(mappedRequestBody);
         }
 
         // Responses
-        Map<String, com.reedelk.openapi.v3.ResponseObject> mappedResponses = new HashMap<>();
+        Map<String, com.reedelk.openapi.v3.model.ResponseObject> mappedResponses = new HashMap<>();
         responses.forEach((responseStatusCode, responseObject) ->
                 mappedResponses.put(responseStatusCode, responseObject.map(context)));
         target.setResponses(mappedResponses);
 
         // Parameters
-        List<com.reedelk.openapi.v3.ParameterObject> mappedParameters =
+        List<com.reedelk.openapi.v3.model.ParameterObject> mappedParameters =
                 parameters.stream().map(parameterObject -> parameterObject.map(context)).collect(toList());
         target.setParameters(mappedParameters);
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Collapsible
 @Component(service = InfoObject.class, scope = ServiceScope.PROTOTYPE)
-public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.InfoObject> {
+public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.InfoObject> {
 
     @Property("Title")
     @Hint("My API")
@@ -91,9 +91,9 @@ public class InfoObject implements Implementor, OpenAPIModel<com.reedelk.openapi
     }
 
     @Override
-    public com.reedelk.openapi.v3.InfoObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.InfoObject mappedInfo =
-                new com.reedelk.openapi.v3.InfoObject();
+    public com.reedelk.openapi.v3.model.InfoObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.InfoObject mappedInfo =
+                new com.reedelk.openapi.v3.model.InfoObject();
         mappedInfo.setTitle(Optional.ofNullable(title).orElse("My API"));
         mappedInfo.setDescription(description);
         mappedInfo.setTermsOfService(termsOfService);

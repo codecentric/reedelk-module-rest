@@ -1,7 +1,7 @@
 package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.openapi.OpenApiSerializer;
-import com.reedelk.openapi.v3.OpenApiObject;
+import com.reedelk.openapi.v3.model.OpenApiObject;
 import com.reedelk.rest.internal.commons.HttpContentType;
 import com.reedelk.runtime.api.message.content.MimeType;
 

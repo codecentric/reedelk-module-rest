@@ -1,6 +1,6 @@
 package com.reedelk.rest.internal.openapi;
 
-import com.reedelk.openapi.v3.ServerObject;
+import com.reedelk.openapi.v3.model.ServerObject;
 import com.reedelk.rest.component.RESTListenerConfiguration;
 import com.reedelk.rest.internal.commons.Defaults;
 import com.reedelk.rest.internal.commons.HttpProtocol;

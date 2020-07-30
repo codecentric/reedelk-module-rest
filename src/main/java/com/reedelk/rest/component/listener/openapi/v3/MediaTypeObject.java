@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.v3.Schema;
+import com.reedelk.openapi.v3.model.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
@@ -9,7 +9,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = MediaTypeObject.class, scope = ServiceScope.PROTOTYPE)
-public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.MediaTypeObject> {
+public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.MediaTypeObject> {
 
     @Property("Example")
     @WidthAuto
@@ -44,9 +44,9 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     }
 
     @Override
-    public com.reedelk.openapi.v3.MediaTypeObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.MediaTypeObject mappedMediaType =
-                new com.reedelk.openapi.v3.MediaTypeObject();
+    public com.reedelk.openapi.v3.model.MediaTypeObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.MediaTypeObject mappedMediaType =
+                new com.reedelk.openapi.v3.model.MediaTypeObject();
 
         // Schema
         if (schema != null) {
@@ -57,7 +57,7 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
         // Example
         if (example != null) {
             String exampleData = StreamUtils.FromString.consume(example.data());
-            mappedMediaType.setExample(new com.reedelk.openapi.v3.Example(exampleData));
+            mappedMediaType.setExample(new com.reedelk.openapi.v3.model.Example(exampleData));
         }
         return mappedMediaType;
     }

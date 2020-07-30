@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = HeaderObject.class, scope = ServiceScope.PROTOTYPE)
-public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.HeaderObject> {
+public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.HeaderObject> {
 
     @Property("Description")
     @Hint("My header description")
@@ -125,11 +125,11 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
     }
 
     @Override
-    public com.reedelk.openapi.v3.HeaderObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.HeaderObject mappedHeader =
-                new com.reedelk.openapi.v3.HeaderObject();
+    public com.reedelk.openapi.v3.model.HeaderObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.HeaderObject mappedHeader =
+                new com.reedelk.openapi.v3.model.HeaderObject();
         mappedHeader.setDescription(description);
-        mappedHeader.setStyle(com.reedelk.openapi.v3.ParameterStyle.valueOf(style.name()));
+        mappedHeader.setStyle(com.reedelk.openapi.v3.model.ParameterStyle.valueOf(style.name()));
         mappedHeader.setSchema(context.getSchema(predefinedSchema, schema));
         mappedHeader.setExample(example);
         mappedHeader.setExplode(explode);
