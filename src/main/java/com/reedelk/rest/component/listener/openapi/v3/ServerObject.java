@@ -65,8 +65,10 @@ public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.opena
 
         // Server Variables
         Map<String, com.reedelk.openapi.v3.model.ServerVariableObject> mappedServerVariables = new HashMap<>();
-        variables.forEach((variableName, serverVariableObject) -> mappedServerVariables.put(variableName, serverVariableObject.map(context)));
-        mappedServer.setVariables(mappedServerVariables);
+        if (variables != null) {
+            variables.forEach((variableName, serverVariableObject) -> mappedServerVariables.put(variableName, serverVariableObject.map(context)));
+            mappedServer.setVariables(mappedServerVariables);
+        }
 
         return mappedServer;
     }
