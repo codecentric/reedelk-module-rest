@@ -57,7 +57,7 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
             // Map HTTP request to Message object.
             inputMessage = requestMapper.map(request);
 
-        } catch (Exception exception) {
+        } catch (Throwable exception) {
 
             byte[] bodyBytes = asByteArray(exception);
 
@@ -104,7 +104,7 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
 
                 sink.success(body);
 
-            } catch (Exception exception) {
+            } catch (Throwable exception) {
 
                 // An exception happened while executing the response mapping.
                 // We handle the error before sending it to the client.
@@ -143,7 +143,7 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
 
                 sink.success(body);
 
-            } catch (Exception error) {
+            } catch (Throwable error) {
                 // Mapping an error might thrown an exception too! This for instance might
                 // happen when the Error response body script contains an error and therefore
                 // the 'responseMapper.map' call above might throw an exception as well. In that
