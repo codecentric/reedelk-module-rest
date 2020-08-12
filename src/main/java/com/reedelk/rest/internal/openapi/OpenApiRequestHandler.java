@@ -32,7 +32,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
     @Override
     public Publisher<Void> apply(HttpServerRequest request, HttpServerResponse response) {
-        // Prepare the contect
+        // Prepare the context
         OpenApiSerializableContext context = new OpenApiSerializableContext();
 
         // OpenApi
