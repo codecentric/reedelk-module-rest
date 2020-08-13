@@ -27,6 +27,7 @@ public class ServerObject implements Implementor, OpenAPIModel<com.reedelk.opena
     private String description;
 
     @Property("URL Variables")
+    @DialogTitle("Server Variable")
     @TabGroup("URL Variables")
     @KeyName("Variable Name")
     @ValueName("Variable Definition")
