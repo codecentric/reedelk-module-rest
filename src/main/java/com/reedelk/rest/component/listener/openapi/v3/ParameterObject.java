@@ -73,12 +73,12 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     @DefaultValue("false")
     @Description("Determines whether this parameter is mandatory. " +
             "Otherwise, the property MAY be included and its default value is false.")
-    @When(propertyName = "in", propertyValue = "PATH")
+    @When(propertyName = "in", propertyValue = "path")
     private Boolean required;
 
     @Property("Allow Empty")
     @DefaultValue("false")
-    @When(propertyName = "in", propertyValue = "QUERY")
+    @When(propertyName = "in", propertyValue = "query")
     @Description("Sets the ability to pass empty-valued parameters. " +
             "This is valid only for query parameters and allows sending a parameter with an empty value.")
     private Boolean allowEmptyValue;

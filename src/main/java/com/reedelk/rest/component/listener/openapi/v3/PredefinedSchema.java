@@ -2,40 +2,28 @@ package com.reedelk.rest.component.listener.openapi.v3;
 
 import com.reedelk.runtime.api.annotation.DisplayName;
 
+import java.util.Map;
+
 public enum PredefinedSchema {
 
     @DisplayName("Custom Schema")
-    NONE(""),
+    NONE(null),
     @DisplayName("String")
-    STRING("{\n" +
-            "    \"type\": \"string\"\n" +
-            "  }"),
+    STRING(com.reedelk.openapi.commons.PredefinedSchema.STRING),
     @DisplayName("Integer")
-    INTEGER("{\n" +
-            "    \"type\": \"integer\"\n" +
-            "  }"),
+    INTEGER(com.reedelk.openapi.commons.PredefinedSchema.INTEGER),
     @DisplayName("Array of Integers")
-    ARRAY_INTEGER("{\n" +
-            "    \"type\": \"array\",\n" +
-            "    \"items\": {\n" +
-            "      \"type\": \"integer\"\n" +
-            "      }" +
-            "    }"),
+    ARRAY_INTEGER(com.reedelk.openapi.commons.PredefinedSchema.ARRAY_INTEGER),
     @DisplayName("Array of Strings")
-    ARRAY_STRING("{\n" +
-            "    \"type\": \"array\",\n" +
-            "    \"items\": {\n" +
-            "      \"type\": \"string\"\n" +
-            "      }" +
-            "    }");
+    ARRAY_STRING(com.reedelk.openapi.commons.PredefinedSchema.ARRAY_STRING);
 
-    private String schema;
+    private com.reedelk.openapi.commons.PredefinedSchema schema;
 
-    PredefinedSchema(String schema) {
+    PredefinedSchema(com.reedelk.openapi.commons.PredefinedSchema schema) {
         this.schema = schema;
     }
 
-    public String schema() {
-        return schema;
+    public Map<String, Object> schema() {
+        return schema.schema();
     }
 }

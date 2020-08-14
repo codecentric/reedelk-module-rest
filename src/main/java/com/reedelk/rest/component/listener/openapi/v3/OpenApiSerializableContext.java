@@ -4,7 +4,6 @@ import com.reedelk.openapi.v3.model.Schema;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.resource.ResourceText;
-import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
 import java.util.HashMap;
@@ -53,8 +52,7 @@ public class OpenApiSerializableContext {
         }
         if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Immediately build the schema inline.
-            Map<String, Object> schemaAsMap = new JSONObject(predefinedSchema.schema()).toMap();
-            return new Schema(schemaAsMap);
+            return new Schema(predefinedSchema.schema());
         }
         return null;
     }
