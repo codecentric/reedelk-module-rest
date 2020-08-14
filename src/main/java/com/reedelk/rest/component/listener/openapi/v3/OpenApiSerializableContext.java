@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class OpenApiSerializableContext {
 
@@ -32,23 +33,18 @@ public class OpenApiSerializableContext {
         return new Schema(schemaDataAsMap);
     }
 
-    public Schema getSchema(ResourceText schemaResource) {
-        // If exists a user defined, then use that ID, otherwise generate one.
-        if (schemasMap.containsKey(schemaResource.path())) {
-            SchemaDataHolder schemaDataHolder = schemasMap.get(schemaResource.path());
-            return new Schema(formatSchemaReference(schemaDataHolder));
+    public Schema getSchema(ResourceText schemaResource, Boolean inlineSchema) {
+        boolean shouldInline = Optional.ofNullable(inlineSchema).orElse(false);
+        if (shouldInline) {
+            return getInlineSchema(schemaResource);
         } else {
-            Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
-            String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
-            SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
-            schemasMap.put(schemaResource.path(), schemaDataHolder);
-            return new Schema(formatSchemaReference(schemaDataHolder));
+            return getSchema(schemaResource);
         }
     }
 
-    public Schema getSchema(PredefinedSchema predefinedSchema, ResourceText resourceSchema) {
+    public Schema getSchema(PredefinedSchema predefinedSchema, ResourceText resourceSchema, Boolean inlineSchema) {
         if (PredefinedSchema.NONE.equals(predefinedSchema) && resourceSchema != null) {
-            return getSchema(resourceSchema);
+            return getSchema(resourceSchema, inlineSchema);
         }
         if (!PredefinedSchema.NONE.equals(predefinedSchema)) {
             // Immediately build the schema inline.
@@ -65,6 +61,25 @@ public class OpenApiSerializableContext {
             fileNameWithoutExtension = FileUtils.removeExtension(fileNameWithoutExtension);
         }
         return normalizeNameFrom(fileNameWithoutExtension);
+    }
+
+    private Schema getSchema(ResourceText schemaResource) {
+        // If exists a user defined, then use that ID, otherwise generate one.
+        if (schemasMap.containsKey(schemaResource.path())) {
+            SchemaDataHolder schemaDataHolder = schemasMap.get(schemaResource.path());
+            return new Schema(formatSchemaReference(schemaDataHolder));
+        } else {
+            Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
+            String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
+            SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
+            schemasMap.put(schemaResource.path(), schemaDataHolder);
+            return new Schema(formatSchemaReference(schemaDataHolder));
+        }
+    }
+
+    private Schema getInlineSchema(ResourceText schemaResource) {
+        Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
+        return new Schema(schemaDataAsMap);
     }
 
     /**

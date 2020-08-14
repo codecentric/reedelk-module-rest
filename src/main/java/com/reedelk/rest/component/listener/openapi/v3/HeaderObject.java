@@ -35,6 +35,14 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
     @When(propertyName = "predefinedSchema", propertyValue = When.NULL)
     private ResourceText schema;
 
+    @Property("Inline Schema")
+    @DefaultValue("false")
+    @Example("true")
+    @When(propertyName = "schema", propertyValue = When.NOT_BLANK)
+    @Description("If true, the schema is in-lined in the final OpenAPI document instead " +
+            "of referencing the schema from the Components object.")
+    private Boolean inlineSchema;
+
     @Property("Example")
     @Hint("myParamValue")
     @Example("myParamValue")
@@ -92,6 +100,10 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
         this.schema = schema;
     }
 
+    public void setInlineSchema(Boolean inlineSchema) {
+        this.inlineSchema = inlineSchema;
+    }
+
     public String getExample() {
         return example;
     }
@@ -130,7 +142,7 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
                 new com.reedelk.openapi.v3.model.HeaderObject();
         mappedHeader.setDescription(description);
         mappedHeader.setStyle(com.reedelk.openapi.v3.model.ParameterStyle.valueOf(style.name()));
-        mappedHeader.setSchema(context.getSchema(predefinedSchema, schema));
+        mappedHeader.setSchema(context.getSchema(predefinedSchema, schema, inlineSchema));
         mappedHeader.setExample(example);
         mappedHeader.setExplode(explode);
         mappedHeader.setDeprecated(deprecated);

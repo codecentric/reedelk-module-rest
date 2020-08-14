@@ -51,6 +51,14 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     @When(propertyName = "predefinedSchema", propertyValue = When.NULL)
     private ResourceText schema;
 
+    @Property("Inline Schema")
+    @DefaultValue("false")
+    @Example("true")
+    @When(propertyName = "schema", propertyValue = When.NOT_BLANK)
+    @Description("If true, the schema is in-lined in the final OpenAPI document instead " +
+            "of referencing the schema from the Components object.")
+    private Boolean inlineSchema;
+
     @Property("Example")
     @Hint("myParamValue")
     @Example("myParamValue")
@@ -145,6 +153,10 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
         this.example = example;
     }
 
+    public void setInlineSchema(Boolean inlineSchema) {
+        this.inlineSchema = inlineSchema;
+    }
+
     public Boolean getExplode() {
         return explode;
     }
@@ -193,7 +205,7 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
         mappedParameter.setDescription(description);
         mappedParameter.setIn(com.reedelk.openapi.v3.model.ParameterLocation.valueOf(in.name()));
         mappedParameter.setStyle(com.reedelk.openapi.v3.model.ParameterStyle.valueOf(style.name()));
-        mappedParameter.setSchema(context.getSchema(predefinedSchema, schema));
+        mappedParameter.setSchema(context.getSchema(predefinedSchema, schema, inlineSchema));
         mappedParameter.setExample(example);
         mappedParameter.setExplode(explode);
         mappedParameter.setDeprecated(deprecated);

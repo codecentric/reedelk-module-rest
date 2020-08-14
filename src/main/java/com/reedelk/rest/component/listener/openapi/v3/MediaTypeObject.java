@@ -27,6 +27,13 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
 
+    @Property("Inline Schema")
+    @DefaultValue("false")
+    @Example("true")
+    @Description("If true, the schema is in-lined in the final OpenAPI document instead " +
+            "of referencing the schema from the Components object.")
+    private Boolean inlineSchema;
+
     public ResourceText getExample() {
         return example;
     }
@@ -43,6 +50,10 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
         this.schema = schema;
     }
 
+    public void setInlineSchema(Boolean inlineSchema) {
+        this.inlineSchema = inlineSchema;
+    }
+
     @Override
     public com.reedelk.openapi.v3.model.MediaTypeObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.model.MediaTypeObject mappedMediaType =
@@ -50,7 +61,7 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
 
         // Schema
         if (schema != null) {
-            Schema mappedSchema = context.getSchema(schema);
+            Schema mappedSchema = context.getSchema(schema, inlineSchema);
             mappedMediaType.setSchema(mappedSchema);
         }
 
