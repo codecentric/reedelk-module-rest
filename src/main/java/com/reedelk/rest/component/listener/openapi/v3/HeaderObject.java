@@ -28,7 +28,7 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
     @DefaultValue("STRING")
     private PredefinedSchema predefinedSchema = PredefinedSchema.STRING;
 
-    @Property("Custom Schema")
+    @Property("Schema File")
     @WidthAuto
     @HintBrowseFile("Select Schema File ...")
     @When(propertyName = "predefinedSchema", propertyValue = "NONE")

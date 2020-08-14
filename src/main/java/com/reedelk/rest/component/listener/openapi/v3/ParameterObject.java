@@ -27,7 +27,8 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Example("header")
     @InitValue("query")
     @DefaultValue("query")
-    @Description("The location of the parameter. Possible values are 'query', 'header', 'path' or 'cookie'.")
+    @Description("The location of the parameter. Possible values are 'query', 'header', 'path' or 'cookie'. " +
+            "<b>Important</b>: if the location of the parameter is 'path' the 'Required' property MUST be set to true.")
     private ParameterLocation in;
 
     @Property("Style")
@@ -43,7 +44,7 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     @DefaultValue("STRING")
     private PredefinedSchema predefinedSchema = PredefinedSchema.STRING;
 
-    @Property("Custom Schema")
+    @Property("Schema File")
     @WidthAuto
     @HintBrowseFile("Select Schema File ...")
     @When(propertyName = "predefinedSchema", propertyValue = "NONE")
@@ -73,7 +74,6 @@ public class ParameterObject implements Implementor, OpenAPIModel<com.reedelk.op
     @DefaultValue("false")
     @Description("Determines whether this parameter is mandatory. " +
             "Otherwise, the property MAY be included and its default value is false.")
-    @When(propertyName = "in", propertyValue = "path")
     private Boolean required;
 
     @Property("Allow Empty")
