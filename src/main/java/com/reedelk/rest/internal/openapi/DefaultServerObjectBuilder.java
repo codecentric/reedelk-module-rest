@@ -9,7 +9,9 @@ import com.reedelk.runtime.api.commons.StringUtils;
 
 public class DefaultServerObjectBuilder {
 
-    // TODO: Testme
+    private DefaultServerObjectBuilder() {
+    }
+
     public static ServerObject from(RESTListenerConfiguration configuration) {
         String host = Defaults.RestListener.host(configuration.getHost());
         int port = Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol());
