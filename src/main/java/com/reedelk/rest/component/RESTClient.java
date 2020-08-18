@@ -38,7 +38,7 @@ import static org.osgi.service.component.annotations.ServiceScope.PROTOTYPE;
         payload = { byte[].class, String.class },
         description = "The data content of the HTTP response")
 @ComponentInput(
-        payload = Object.class,
+        payload = { byte[].class, String.class },
         description = "The data to be sent in the HTTP request for POST, PUT, DELETE requests.")
 @Description("Use this component to make a REST API Call. " +
                 "Supported REST methods are: GET, POST, PUT, DELETE, HEAD, OPTIONS. " +
