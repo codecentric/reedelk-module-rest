@@ -15,6 +15,7 @@
     <artifactId>module-rest</artifactId> <!-- NAME_CONVENTION -->
 
     <properties>
+        <reedelk.openapi.version>1.0.1</reedelk.openapi.version>
         <maven.compiler.release>8</maven.compiler.release>
         <reactor.addons.version>3.3.3.RELEASE</reactor.addons.version>
         <reactor.netty.version>0.9.8.RELEASE</reactor.netty.version>
@@ -44,7 +45,7 @@
         <dependency>
             <groupId>com.reedelk</groupId>
             <artifactId>reedelk-openapi</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${reedelk.openapi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
