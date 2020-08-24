@@ -17,8 +17,14 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
     @Property("Schemas")
     @KeyName("Schema Name")
     @ValueName("Schema Definition")
-    @TabGroup("Schemas")
+    @TabGroup("components")
     private Map<String, SchemaObject> schemas = new HashMap<>();
+
+    @Property("Examples")
+    @KeyName("Example Name")
+    @ValueName("Example Definition")
+    @TabGroup("components")
+    private Map<String, ExampleObject> examples = new HashMap<>();
 
     public Map<String, SchemaObject> getSchemas() {
         return schemas;
@@ -28,10 +34,20 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
         this.schemas = schemas;
     }
 
+    public Map<String, ExampleObject> getExamples() {
+        return examples;
+    }
+
+    public void setExamples(Map<String, ExampleObject> examples) {
+        this.examples = examples;
+    }
+
     @Override
     public com.reedelk.openapi.v3.model.ComponentsObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.model.ComponentsObject mappedComponents =
                 new com.reedelk.openapi.v3.model.ComponentsObject();
+
+        // TODO: Handle examples
 
         // Add user defined schemas
         Map<String, com.reedelk.openapi.v3.model.SchemaObject> mappedSchemas = new HashMap<>();

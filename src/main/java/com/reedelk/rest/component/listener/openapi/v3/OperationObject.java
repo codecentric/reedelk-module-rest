@@ -60,6 +60,7 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Property("Responses")
     @KeyName("Status Code")
     @ValueName("Response")
+    @DialogTitle("Response")
     @TabGroup("Parameters Definitions and Tags")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
@@ -68,14 +69,13 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Property("Parameters")
     @TabGroup("Parameters Definitions and Tags")
     @ListDisplayProperty("name")
-    @DialogTitle("Parameter Configuration")
+    @DialogTitle("Parameter")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
     private List<ParameterObject> parameters = new ArrayList<>();
 
     @Property("Tags")
     @Hint("Tag name")
-    @DialogTitle("Tag")
     @TabGroup("Parameters Definitions and Tags")
     @When(propertyName = "exclude", propertyValue = "false")
     @When(propertyName = "exclude", propertyValue = When.NULL)
