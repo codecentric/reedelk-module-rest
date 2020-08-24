@@ -8,7 +8,7 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import java.util.List;
+import java.util.Map;
 
 @Component(service = MediaTypeObject.class, scope = ServiceScope.PROTOTYPE)
 public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.MediaTypeObject> {
@@ -39,10 +39,8 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Property("Examples")
     @TabGroup("Examples")
     @Hint("assets/data_model.json")
-    @HintBrowseFile("Select Example File ...")
-    @ListInputType(ListInputType.ListInput.FILE)
     @Description("The path and name of the files to be read from the project's resources folder.")
-    private List<ResourceText> examples;
+    private Map<String, ExampleObject> examples;
 
     public ResourceText getSchema() {
         return schema;
@@ -68,11 +66,11 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
         this.example = example;
     }
 
-    public List<ResourceText> getExamples() {
+    public Map<String, ExampleObject> getExamples() {
         return examples;
     }
 
-    public void setExamples(List<ResourceText> examples) {
+    public void setExamples(Map<String, ExampleObject> examples) {
         this.examples = examples;
     }
 
@@ -80,8 +78,6 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     public com.reedelk.openapi.v3.model.MediaTypeObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.model.MediaTypeObject mappedMediaType =
                 new com.reedelk.openapi.v3.model.MediaTypeObject();
-
-        // TODO: Map in the model multiple examples
 
         // Schema
         if (schema != null) {
@@ -94,6 +90,18 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
             String exampleData = StreamUtils.FromString.consume(example.data());
             mappedMediaType.setExample(new com.reedelk.openapi.v3.model.Example(exampleData));
         }
+
+        // Examples
+        if (examples != null) {
+            // TODO: Map examples
+            /**
+            List<com.reedelk.openapi.v3.model.Example> examples = this.examples
+                    .stream()
+                    .map(context::getExample)
+                    .collect(toList());
+            mappedMediaType.setExamples(examples);*/
+        }
+
         return mappedMediaType;
     }
 }

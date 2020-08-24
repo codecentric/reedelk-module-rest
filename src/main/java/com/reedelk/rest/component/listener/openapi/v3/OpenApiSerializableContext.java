@@ -1,5 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
+import com.reedelk.openapi.v3.model.Example;
 import com.reedelk.openapi.v3.model.Schema;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
@@ -13,8 +14,10 @@ import java.util.Optional;
 public class OpenApiSerializableContext {
 
     private static final String SCHEMA_REFERENCE_TEMPLATE = "#/components/schemas/%s";
+    private static final String EXAMPLE_REFERENCE_TEMPLATE = "#/components/examples/%s";
 
     private final Map<String, SchemaDataHolder> schemasMap = new HashMap<>();
+    private final Map<String, ExampleDataHolder> examplesMap = new HashMap<>();
 
     public Map<String, Schema> getSchemas() {
         Map<String,Schema> result = new HashMap<>();
@@ -51,6 +54,27 @@ public class OpenApiSerializableContext {
             return new Schema(predefinedSchema.schema());
         }
         return null;
+    }
+
+    public Example registerExample(String exampleId, ResourceText exampleResource) {
+        String exampleData = exampleDataFrom(exampleResource);
+        ExampleDataHolder schemaDataHolder = new ExampleDataHolder(exampleId, exampleData);
+        examplesMap.put(exampleResource.path(), schemaDataHolder);
+        return new Example(exampleData);
+    }
+
+    public Example getExample(ResourceText exampleResource) {
+        // If exists a user defined, then use that ID, otherwise generate one.
+        if (examplesMap.containsKey(exampleResource.path())) {
+            ExampleDataHolder schemaDataHolder = examplesMap.get(exampleResource.path());
+            return new Example(formatExampleReference(schemaDataHolder));
+        } else {
+            String exampleData = exampleDataFrom(exampleResource);
+            String exampleId = generateExampleId(exampleResource);
+            ExampleDataHolder schemaDataHolder = new ExampleDataHolder(exampleId, exampleData);
+            examplesMap.put(exampleResource.path(), schemaDataHolder);
+            return new Example(formatExampleReference(schemaDataHolder));
+        }
     }
 
     private String fromFilePath(String path) {
@@ -98,14 +122,30 @@ public class OpenApiSerializableContext {
         }
     }
 
+    /**
+     * Extract schema id from JSON could be YAML
+     */
+    private String generateExampleId(ResourceText exampleResource) {
+            String path = exampleResource.path();
+            return fromFilePath(path);
+    }
+
     private Map<String, Object> schemaDataFrom(ResourceText schemaResource) {
         String schemaDataAsString = StreamUtils.FromString.consume(schemaResource.data());
         Yaml yaml = new Yaml();
-        return yaml.load(schemaDataAsString);
+        return yaml.load(schemaDataAsString); // TODO: Handle this null
+    }
+
+    private String exampleDataFrom(ResourceText schemaResource) {
+        return StreamUtils.FromString.consume(schemaResource.data());
     }
 
     private String formatSchemaReference(SchemaDataHolder schemaDataHolder) {
         return String.format(SCHEMA_REFERENCE_TEMPLATE, schemaDataHolder.schemaId);
+    }
+
+    private String formatExampleReference(ExampleDataHolder exampleDataHolder) {
+        return String.format(EXAMPLE_REFERENCE_TEMPLATE, exampleDataHolder.exampleId);
     }
 
     /**
@@ -127,6 +167,17 @@ public class OpenApiSerializableContext {
         SchemaDataHolder(String schemaId, Map<String,Object> schemaData) {
             this.schemaId = schemaId;
             this.schemaData = schemaData;
+        }
+    }
+
+    static class ExampleDataHolder {
+
+        final String exampleId;
+        final String exampleData;
+
+        ExampleDataHolder(String exampleId, String exampleData) {
+            this.exampleId = exampleId;
+            this.exampleData = exampleData;
         }
     }
 }

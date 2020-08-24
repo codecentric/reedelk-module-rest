@@ -1,5 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
+import com.reedelk.openapi.v3.model.Example;
 import com.reedelk.openapi.v3.model.Schema;
 import com.reedelk.runtime.api.annotation.*;
 import com.reedelk.runtime.api.component.Implementor;
@@ -47,9 +48,7 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
         com.reedelk.openapi.v3.model.ComponentsObject mappedComponents =
                 new com.reedelk.openapi.v3.model.ComponentsObject();
 
-        // TODO: Handle examples
-
-        // Add user defined schemas
+        // User defined Schemas
         Map<String, com.reedelk.openapi.v3.model.SchemaObject> mappedSchemas = new HashMap<>();
         mappedComponents.setSchemas(mappedSchemas);
         schemas.forEach((schemaId, schemaObject) -> {
@@ -61,6 +60,20 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
                     new com.reedelk.openapi.v3.model.SchemaObject();
             mappedSchemaObject.setSchema(mappedSchema);
             mappedSchemas.put(schemaId, mappedSchemaObject);
+        });
+
+        // User defined Examples
+        Map<String, com.reedelk.openapi.v3.model.ExampleObject> mappedExamples = new HashMap<>();
+        mappedComponents.setExamples(mappedExamples);
+        examples.forEach((schemaId, exampleObject) -> {
+            ResourceText exampleResource = exampleObject.getValue();
+
+            Example mappedExample = context.registerExample(schemaId, exampleResource);
+
+            com.reedelk.openapi.v3.model.ExampleObject mappedExampleObject =
+                    new com.reedelk.openapi.v3.model.ExampleObject();
+            mappedExampleObject.setExample(mappedExample);
+            mappedExamples.put(schemaId, mappedExampleObject);
         });
 
         return mappedComponents;
