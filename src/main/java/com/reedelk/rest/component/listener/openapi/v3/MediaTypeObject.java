@@ -8,6 +8,7 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component(service = MediaTypeObject.class, scope = ServiceScope.PROTOTYPE)
@@ -93,13 +94,12 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
 
         // Examples
         if (examples != null) {
-            // TODO: Map examples
-            /**
-            List<com.reedelk.openapi.v3.model.Example> examples = this.examples
-                    .stream()
-                    .map(context::getExample)
-                    .collect(toList());
-            mappedMediaType.setExamples(examples);*/
+            Map<String, com.reedelk.openapi.v3.model.ExampleObject> mappedExamples = new HashMap<>();
+            this.examples.forEach((exampleId, exampleObject) -> {
+                com.reedelk.openapi.v3.model.ExampleObject mappedExampleObject = exampleObject.map(context);
+                mappedExamples.put(exampleId, mappedExampleObject);
+            });
+            mappedMediaType.setExamples(mappedExamples);
         }
 
         return mappedMediaType;

@@ -1,13 +1,14 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
 import com.reedelk.runtime.api.annotation.*;
+import com.reedelk.runtime.api.commons.StreamUtils;
 import com.reedelk.runtime.api.component.Implementor;
 import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @Component(service = ExampleObject.class, scope = ServiceScope.PROTOTYPE)
-public class ExampleObject implements Implementor {
+public class ExampleObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ExampleObject> {
 
     @Property("Summary")
     private String summary;
@@ -56,5 +57,18 @@ public class ExampleObject implements Implementor {
 
     public void setValue(ResourceText value) {
         this.value = value;
+    }
+
+    @Override
+    public com.reedelk.openapi.v3.model.ExampleObject map(OpenApiSerializableContext context) {
+        com.reedelk.openapi.v3.model.ExampleObject mapped = new com.reedelk.openapi.v3.model.ExampleObject();
+        mapped.setSummary(summary);
+        mapped.setDescription(description);
+        mapped.setExternalValue(externalValue);
+        if (value != null) {
+            String exampleData = StreamUtils.FromString.consume(value.data());
+            mapped.setValue(exampleData);
+        }
+        return mapped;
     }
 }
