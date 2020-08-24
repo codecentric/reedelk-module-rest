@@ -1,8 +1,13 @@
 [
   {
+    "version": "1.0.2",
+    "date": "// TODO: Date",
+    "release-notes": "<ul><li>bugfix: OpenAPI ServerObject was published with leading '/' slash, causing issue during the import process in other software. It has been fixed to NOT include the leading '/' slash.</li><ul>"
+  },
+  {
     "version": "1.0.1",
     "date": "18/8/2020",
-    "release-notes": "<ul><li>Bugfix: RESTListener route matching did not prioritize routes with exact match.</li><ul>"
+    "release-notes": "<ul><li>bugfix: RESTListener route matching did not prioritize routes with exact match.</li><ul>"
   },
   {
     "version": "1.0.0",
