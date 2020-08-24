@@ -17,7 +17,7 @@ public class DefaultServerObjectBuilder {
         int port = Defaults.RestListener.port(configuration.getPort(), configuration.getProtocol());
 
         String basePath = configuration.getBasePath();
-        basePath = StringUtils.isBlank(basePath) ? Defaults.RestListener.path() : basePath;
+        basePath = StringUtils.isBlank(basePath) ? StringUtils.EMPTY : basePath;
 
         HttpProtocol protocol = configuration.getProtocol();
         ServerObject defaultServerObject = new ServerObject();

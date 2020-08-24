@@ -30,4 +30,26 @@ class DefaultServerObjectBuilderTest {
         assertThat(actualDescription).isEqualTo("Default Server");
         assertThat(variables).isNull();
     }
+
+    // The frontend should not be added, because otherwise other import tools,
+    // such as Postman will add http://localhost:9292//myApiPath,
+    // however we must have http://localhost:9292/myApiPath.
+    @Test
+    void shouldNotAddFrontSlashWhenEmptyBasePath() {
+        // Given
+        RESTListenerConfiguration configuration = new RESTListenerConfiguration();
+        configuration.setPort(9292);
+        configuration.setHost("0.0.0.0");
+
+        // When
+        ServerObject serverObject = DefaultServerObjectBuilder.from(configuration);
+
+        // Then
+        String actualUrl = serverObject.getUrl();
+        String actualDescription = serverObject.getDescription();
+        Map<String, ServerVariableObject> variables = serverObject.getVariables();
+        assertThat(actualUrl).isEqualTo("http://0.0.0.0:9292");
+        assertThat(actualDescription).isEqualTo("Default Server");
+        assertThat(variables).isNull();
+    }
 }
