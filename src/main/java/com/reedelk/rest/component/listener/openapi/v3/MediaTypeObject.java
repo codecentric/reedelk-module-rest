@@ -8,16 +8,17 @@ import com.reedelk.runtime.api.resource.ResourceText;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
+import java.util.List;
+
 @Component(service = MediaTypeObject.class, scope = ServiceScope.PROTOTYPE)
 public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.MediaTypeObject> {
 
-    @Property("Example")
-    @WidthAuto
-    @Hint("assets/data_model.json")
-    @Example("assets/data_model.json")
-    @HintBrowseFile("Select Example File ...")
-    @Description("The path and name of the file to be read from the project's resources folder.")
-    private ResourceText example;
+    @Property("Inline Schema")
+    @DefaultValue("false")
+    @Example("true")
+    @Description("If true, the schema is in-lined in the final OpenAPI document instead " +
+            "of referencing the schema from the Components object.")
+    private Boolean inlineSchema;
 
     @Property("Schema")
     @WidthAuto
@@ -27,20 +28,21 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
     @Description("The path and name of the file to be read from the project's resources folder.")
     private ResourceText schema;
 
-    @Property("Inline Schema")
-    @DefaultValue("false")
-    @Example("true")
-    @Description("If true, the schema is in-lined in the final OpenAPI document instead " +
-            "of referencing the schema from the Components object.")
-    private Boolean inlineSchema;
+    @Property("Example")
+    @WidthAuto
+    @Hint("assets/data_model.json")
+    @Example("assets/data_model.json")
+    @HintBrowseFile("Select Example File ...")
+    @Description("The path and name of the file to be read from the project's resources folder.")
+    private ResourceText example;
 
-    public ResourceText getExample() {
-        return example;
-    }
-
-    public void setExample(ResourceText example) {
-        this.example = example;
-    }
+    @Property("Examples")
+    @TabGroup("Examples")
+    @Hint("assets/data_model.json")
+    @HintBrowseFile("Select Example File ...")
+    @ListInputType(ListInputType.ListInput.FILE)
+    @Description("The path and name of the files to be read from the project's resources folder.")
+    private List<ResourceText> examples;
 
     public ResourceText getSchema() {
         return schema;
@@ -50,14 +52,36 @@ public class MediaTypeObject implements Implementor, OpenAPIModel<com.reedelk.op
         this.schema = schema;
     }
 
+    public Boolean getInlineSchema() {
+        return inlineSchema;
+    }
+
     public void setInlineSchema(Boolean inlineSchema) {
         this.inlineSchema = inlineSchema;
+    }
+
+    public ResourceText getExample() {
+        return example;
+    }
+
+    public void setExample(ResourceText example) {
+        this.example = example;
+    }
+
+    public List<ResourceText> getExamples() {
+        return examples;
+    }
+
+    public void setExamples(List<ResourceText> examples) {
+        this.examples = examples;
     }
 
     @Override
     public com.reedelk.openapi.v3.model.MediaTypeObject map(OpenApiSerializableContext context) {
         com.reedelk.openapi.v3.model.MediaTypeObject mappedMediaType =
                 new com.reedelk.openapi.v3.model.MediaTypeObject();
+
+        // TODO: Map in the model multiple examples
 
         // Schema
         if (schema != null) {
