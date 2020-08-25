@@ -61,7 +61,7 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
         com.reedelk.openapi.v3.model.ComponentsObject mappedComponents =
                 new com.reedelk.openapi.v3.model.ComponentsObject();
 
-        // User defined Schemas
+        //  Schemas
         Map<String, com.reedelk.openapi.v3.model.SchemaObject> mappedSchemas = new HashMap<>();
         mappedComponents.setSchemas(mappedSchemas);
         schemas.forEach((schemaId, schemaObject) -> {
@@ -75,13 +75,22 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
             mappedSchemas.put(schemaId, mappedSchemaObject);
         });
 
-        // User defined Examples
+        // Examples
         Map<String, com.reedelk.openapi.v3.model.ExampleObject> mappedExamples = new HashMap<>();
         mappedComponents.setExamples(mappedExamples);
         examples.forEach((exampleId, exampleObject) -> {
             com.reedelk.openapi.v3.model.ExampleObject mappedExample = exampleObject.map(context);
             context.registerExample(exampleId, exampleObject.getValue(), mappedExample);
             mappedExamples.put(exampleId, mappedExample);
+        });
+
+        // Security Schemes
+        Map<String, com.reedelk.openapi.v3.model.SecuritySchemeObject> mappedSecuritySchemes = new HashMap<>();
+        mappedComponents.setSecuritySchemes(mappedSecuritySchemes);
+        securitySchemes.forEach((securitySchemeId, securitySchemeObject) -> {
+            com.reedelk.openapi.v3.model.SecuritySchemeObject mappedSecurityScheme =
+                    securitySchemeObject.map(context);
+            mappedSecuritySchemes.put(securitySchemeId, mappedSecurityScheme);
         });
 
         return mappedComponents;
