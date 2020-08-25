@@ -46,11 +46,7 @@ public class OpenApiSerializableContext {
 
     public Schema getSchema(ResourceText schemaResource, Boolean inlineSchema) {
         boolean shouldInline = Optional.ofNullable(inlineSchema).orElse(false);
-        if (shouldInline) {
-            return getInlineSchema(schemaResource);
-        } else {
-            return getSchema(schemaResource);
-        }
+        return shouldInline ? getInlineSchema(schemaResource) : getSchema(schemaResource);
     }
 
     public Schema getSchema(PredefinedSchema predefinedSchema, ResourceText resourceSchema, Boolean inlineSchema) {
