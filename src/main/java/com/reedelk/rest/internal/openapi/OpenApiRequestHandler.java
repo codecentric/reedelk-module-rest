@@ -18,16 +18,17 @@ import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 public class OpenApiRequestHandler implements HttpRequestHandler {
 
-    private final Formatter formatter;
+    private final Serializer serializer;
     private final RESTListenerConfiguration configuration;
     private final List<RouteDefinition> routeDefinitionList = new ArrayList<>();
 
-    protected OpenApiRequestHandler(RESTListenerConfiguration configuration, Formatter formatter) {
+    protected OpenApiRequestHandler(RESTListenerConfiguration configuration, Serializer serializer) {
         this.configuration = configuration;
-        this.formatter = formatter;
+        this.serializer = serializer;
     }
 
     @Override
@@ -49,6 +50,7 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
 
         // Components Object
         ComponentsObject components = openAPI.getComponents();
+
         // We must add all the schemas which where defined on the fly and not user defined.
         context.getSchemas().forEach((schemaId, schema) -> {
             if (!components.getSchemas().containsKey(schemaId)) {
@@ -58,10 +60,19 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
             }
         });
 
-        String serializedOpenAPI = formatter.format(openAPI);
+        // We must add all the Examples which were added on the fly and not user defined.
+        context.getExamples().forEach(new BiConsumer<String, ExampleObject>() {
+            @Override
+            public void accept(String exampleId, ExampleObject exampleObject) {
+                // TODO: Check this.
+                components.getExamples().put(exampleId, exampleObject);
+            }
+        });
+
+        String serializedOpenAPI = serializer.serialize(openAPI);
 
         // Content Type depends on the formatter. It could be 'application/json' or 'application/x-yaml'.
-        response.addHeader(HttpHeader.CONTENT_TYPE, formatter.contentType());
+        response.addHeader(HttpHeader.CONTENT_TYPE, serializer.contentType());
         response.addHeader(HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return response.sendByteArray(Mono.just(serializedOpenAPI.getBytes()));
     }

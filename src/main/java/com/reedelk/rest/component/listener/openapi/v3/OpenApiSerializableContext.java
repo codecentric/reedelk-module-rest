@@ -1,6 +1,6 @@
 package com.reedelk.rest.component.listener.openapi.v3;
 
-import com.reedelk.openapi.v3.model.Example;
+import com.reedelk.openapi.v3.model.ExampleObject;
 import com.reedelk.openapi.v3.model.Schema;
 import com.reedelk.runtime.api.commons.FileUtils;
 import com.reedelk.runtime.api.commons.StreamUtils;
@@ -20,9 +20,17 @@ public class OpenApiSerializableContext {
     private final Map<String, ExampleDataHolder> examplesMap = new HashMap<>();
 
     public Map<String, Schema> getSchemas() {
-        Map<String,Schema> result = new HashMap<>();
+        Map<String, Schema> result = new HashMap<>();
         schemasMap.forEach((resourcePath, schemaDataHolder) ->
                 result.put(schemaDataHolder.schemaId, new Schema(schemaDataHolder.schemaData)));
+        return result;
+    }
+
+    public Map<String, ExampleObject> getExamples() {
+        Map<String, ExampleObject> result = new HashMap<>();
+        examplesMap.forEach((examplePath, exampleDataHolder) -> {
+            result.put(exampleDataHolder.exampleId, exampleDataHolder.exampleObject);
+        });
         return result;
     }
 
@@ -56,24 +64,29 @@ public class OpenApiSerializableContext {
         return null;
     }
 
-    public Example registerExample(String exampleId, ResourceText exampleResource) {
-        String exampleData = exampleDataFrom(exampleResource);
-        ExampleDataHolder schemaDataHolder = new ExampleDataHolder(exampleId, exampleData);
-        examplesMap.put(exampleResource.path(), schemaDataHolder);
-        return new Example(exampleData);
+    public void registerExample(String exampleId, ResourceText resourceText, ExampleObject exampleResource) {
+        ExampleDataHolder schemaDataHolder = new ExampleDataHolder(exampleId, exampleResource);
+        examplesMap.put(resourceText.path(), schemaDataHolder);
     }
 
-    public Example getExample(ResourceText exampleResource) {
+    public ExampleObject getExampleObject(ResourceText exampleResource) {
         // If exists a user defined, then use that ID, otherwise generate one.
         if (examplesMap.containsKey(exampleResource.path())) {
-            ExampleDataHolder schemaDataHolder = examplesMap.get(exampleResource.path());
-            return new Example(formatExampleReference(schemaDataHolder));
+            ExampleDataHolder holder = examplesMap.get(exampleResource.path());
+            ExampleObject exampleObject = new ExampleObject();
+            exampleObject.setExampleRef(formatExampleReference(holder));
+            return exampleObject;
         } else {
             String exampleData = exampleDataFrom(exampleResource);
             String exampleId = generateExampleId(exampleResource);
-            ExampleDataHolder schemaDataHolder = new ExampleDataHolder(exampleId, exampleData);
-            examplesMap.put(exampleResource.path(), schemaDataHolder);
-            return new Example(formatExampleReference(schemaDataHolder));
+            ExampleObject exampleObject = new ExampleObject();
+            exampleObject.setValue(exampleData);
+
+            ExampleDataHolder holder = new ExampleDataHolder(exampleId, exampleObject);
+            examplesMap.put(exampleResource.path(), holder);
+            ExampleObject objectWithRef = new ExampleObject();
+            objectWithRef.setExampleRef(formatExampleReference(holder));
+            return objectWithRef;
         }
     }
 
@@ -93,7 +106,7 @@ public class OpenApiSerializableContext {
             SchemaDataHolder schemaDataHolder = schemasMap.get(schemaResource.path());
             return new Schema(formatSchemaReference(schemaDataHolder));
         } else {
-            Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
+            Map<String, Object> schemaDataAsMap = schemaDataFrom(schemaResource);
             String schemaGeneratedId = generateSchemaId(schemaDataAsMap, schemaResource);
             SchemaDataHolder schemaDataHolder = new SchemaDataHolder(schemaGeneratedId, schemaDataAsMap);
             schemasMap.put(schemaResource.path(), schemaDataHolder);
@@ -102,7 +115,7 @@ public class OpenApiSerializableContext {
     }
 
     private Schema getInlineSchema(ResourceText schemaResource) {
-        Map<String,Object> schemaDataAsMap = schemaDataFrom(schemaResource);
+        Map<String, Object> schemaDataAsMap = schemaDataFrom(schemaResource);
         return new Schema(schemaDataAsMap);
     }
 
@@ -126,8 +139,8 @@ public class OpenApiSerializableContext {
      * Extract schema id from JSON could be YAML
      */
     private String generateExampleId(ResourceText exampleResource) {
-            String path = exampleResource.path();
-            return fromFilePath(path);
+        String path = exampleResource.path();
+        return fromFilePath(path);
     }
 
     private Map<String, Object> schemaDataFrom(ResourceText schemaResource) {
@@ -152,7 +165,6 @@ public class OpenApiSerializableContext {
      * A function which removes white spaces, dots, hyphens
      * and other not desired character when the schema name
      * is taken from file name.
-     *
      */
     private String normalizeNameFrom(String value) {
         //  checkArgument(StringUtils.isNotBlank(value), "value");
@@ -162,9 +174,9 @@ public class OpenApiSerializableContext {
     static class SchemaDataHolder {
 
         final String schemaId;
-        final Map<String,Object> schemaData;
+        final Map<String, Object> schemaData;
 
-        SchemaDataHolder(String schemaId, Map<String,Object> schemaData) {
+        SchemaDataHolder(String schemaId, Map<String, Object> schemaData) {
             this.schemaId = schemaId;
             this.schemaData = schemaData;
         }
@@ -173,11 +185,11 @@ public class OpenApiSerializableContext {
     static class ExampleDataHolder {
 
         final String exampleId;
-        final String exampleData;
+        final ExampleObject exampleObject;
 
-        ExampleDataHolder(String exampleId, String exampleData) {
+        ExampleDataHolder(String exampleId, ExampleObject exampleObject) {
             this.exampleId = exampleId;
-            this.exampleData = exampleData;
+            this.exampleObject = exampleObject;
         }
     }
 }

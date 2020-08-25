@@ -64,9 +64,10 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
         // User defined Examples
         Map<String, com.reedelk.openapi.v3.model.ExampleObject> mappedExamples = new HashMap<>();
         mappedComponents.setExamples(mappedExamples);
-        examples.forEach((schemaId, exampleObject) -> {
+        examples.forEach((exampleId, exampleObject) -> {
             com.reedelk.openapi.v3.model.ExampleObject mappedExample = exampleObject.map(context);
-            mappedExamples.put(schemaId, mappedExample);
+            context.registerExample(exampleId, exampleObject.getValue(), mappedExample);
+            mappedExamples.put(exampleId, mappedExample);
         });
 
         return mappedComponents;

@@ -10,13 +10,23 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Component(service = ExampleObject.class, scope = ServiceScope.PROTOTYPE)
 public class ExampleObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ExampleObject> {
 
+    @Property("Inline Example")
+    @DefaultValue("false")
+    @Example("true")
+    @Description("If true, the example is in-lined in the final OpenAPI document instead " +
+            "of referencing the example from the Components object.")
+    private Boolean inlineExample;
+
     @Property("Summary")
+    @When(propertyName = "inlineExample", propertyValue = "true")
     private String summary;
 
     @Property("Description")
+    @When(propertyName = "inlineExample", propertyValue = "true")
     private String description;
 
     @Property("External Value")
+    @When(propertyName = "inlineExample", propertyValue = "true")
     private String externalValue;
 
     @Property("Example")
@@ -59,16 +69,30 @@ public class ExampleObject implements Implementor, OpenAPIModel<com.reedelk.open
         this.value = value;
     }
 
+    public Boolean getInlineExample() {
+        return inlineExample;
+    }
+
+    public void setInlineExample(Boolean inlineExample) {
+        this.inlineExample = inlineExample;
+    }
+
     @Override
     public com.reedelk.openapi.v3.model.ExampleObject map(OpenApiSerializableContext context) {
-        com.reedelk.openapi.v3.model.ExampleObject mapped = new com.reedelk.openapi.v3.model.ExampleObject();
-        mapped.setSummary(summary);
-        mapped.setDescription(description);
-        mapped.setExternalValue(externalValue);
-        if (value != null) {
-            String exampleData = StreamUtils.FromString.consume(value.data());
-            mapped.setValue(exampleData);
+        if (inlineExample != null && inlineExample) {
+            com.reedelk.openapi.v3.model.ExampleObject mapped =
+                    new com.reedelk.openapi.v3.model.ExampleObject();
+            mapped.setSummary(summary);
+            mapped.setDescription(description);
+            mapped.setExternalValue(externalValue);
+            if (value != null) {
+                String exampleData = StreamUtils.FromString.consume(value.data());
+                mapped.setValue(exampleData);
+            }
+            return mapped;
+
+        } else {
+            return value != null ? context.getExampleObject(value) : null;
         }
-        return mapped;
     }
 }
