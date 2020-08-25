@@ -74,6 +74,14 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
     @When(propertyName = "exclude", propertyValue = When.NULL)
     private List<ParameterObject> parameters = new ArrayList<>();
 
+    @Property("Security Requirements")
+    @TabGroup("Parameters Definitions and Tags")
+    @When(propertyName = "exclude", propertyValue = "false")
+    @When(propertyName = "exclude", propertyValue = When.NULL)
+    @DialogTitle("Security Requirement")
+    @ListDisplayProperty("name")
+    private List<SecurityRequirementObject> security = new ArrayList<>();
+
     @Property("Tags")
     @Hint("Tag name")
     @TabGroup("Parameters Definitions and Tags")
@@ -151,6 +159,14 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public List<SecurityRequirementObject> getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(List<SecurityRequirementObject> security) {
+        this.security = security;
     }
 
     @Override
