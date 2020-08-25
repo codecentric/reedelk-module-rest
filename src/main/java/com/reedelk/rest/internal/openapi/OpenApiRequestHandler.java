@@ -18,7 +18,6 @@ import reactor.netty.http.server.HttpServerRequest;
 import reactor.netty.http.server.HttpServerResponse;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 
 public class OpenApiRequestHandler implements HttpRequestHandler {
 
@@ -61,13 +60,8 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
         });
 
         // We must add all the Examples which were added on the fly and not user defined.
-        context.getExamples().forEach(new BiConsumer<String, ExampleObject>() {
-            @Override
-            public void accept(String exampleId, ExampleObject exampleObject) {
-                // TODO: Check this.
-                components.getExamples().put(exampleId, exampleObject);
-            }
-        });
+        context.getExamples().forEach((exampleId, exampleObject) ->
+                components.getExamples().put(exampleId, exampleObject));
 
         String serializedOpenAPI = serializer.serialize(openAPI);
 

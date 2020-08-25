@@ -26,6 +26,12 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
     @TabGroup("components")
     private Map<String, ExampleComponentObject> examples = new HashMap<>();
 
+    @Property("Security Schemes")
+    @KeyName("Security Scheme Name")
+    @ValueName("Security Definition")
+    @TabGroup("components")
+    private Map<String, SecuritySchemeObject> securitySchemes = new HashMap<>();
+
     public Map<String, SchemaObject> getSchemas() {
         return schemas;
     }
@@ -40,6 +46,14 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
 
     public void setExamples(Map<String, ExampleComponentObject> examples) {
         this.examples = examples;
+    }
+
+    public Map<String, SecuritySchemeObject> getSecuritySchemes() {
+        return securitySchemes;
+    }
+
+    public void setSecuritySchemes(Map<String, SecuritySchemeObject> securitySchemes) {
+        this.securitySchemes = securitySchemes;
     }
 
     @Override
