@@ -85,8 +85,6 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
             // If the 'exclude' property is true, we don't add the path.
             // Otherwise we add the path to the open API specification.
             OperationObjectUtils.addRequestParameters(realOperationObject, path);
-            OperationObjectUtils.addSuccessResponse(realOperationObject, successResponse);
-            OperationObjectUtils.addErrorResponse(realOperationObject, errorResponse);
 
             // Add Operation to path.
             Map<com.reedelk.openapi.v3.model.RestMethod, com.reedelk.openapi.v3.model.OperationObject> operationsByPath = findOperationByPath(pathsObject, path);

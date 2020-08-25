@@ -129,7 +129,19 @@ public class SecuritySchemeObject implements Implementor, OpenAPIModel<com.reede
 
     @Override
     public com.reedelk.openapi.v3.model.SecuritySchemeObject map(OpenApiSerializableContext context) {
-        // TODO: Fixme
-        return null;
+        com.reedelk.openapi.v3.model.SecuritySchemeObject mapped =
+                new com.reedelk.openapi.v3.model.SecuritySchemeObject();
+        mapped.setType(com.reedelk.openapi.v3.model.SecurityType.valueOf(type.name()));
+        mapped.setDescription(description);
+        mapped.setName(name);
+        mapped.setIn(com.reedelk.openapi.v3.model.SecurityKeyLocation.valueOf(in.name()));
+        mapped.setScheme(scheme);
+        mapped.setBearerFormat(bearerFormat);
+        if (flows != null) {
+            com.reedelk.openapi.v3.model.OAuthFlowsObject mappedFlows = flows.map(context);
+            mapped.setFlows(mappedFlows);
+        }
+        mapped.setOpenIdConnectUrl(openIdConnectUrl);
+        return mapped;
     }
 }

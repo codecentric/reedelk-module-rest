@@ -38,7 +38,8 @@ public class SecurityRequirementObject implements Implementor, OpenAPIModel<com.
 
     @Override
     public com.reedelk.openapi.v3.model.SecurityRequirementObject map(OpenApiSerializableContext context) {
-        // TODO: Fixme
-        return null;
+        com.reedelk.openapi.v3.model.SecurityRequirementObject mapped = new com.reedelk.openapi.v3.model.SecurityRequirementObject();
+        mapped.setScopes(scopes);
+        return mapped;
     }
 }

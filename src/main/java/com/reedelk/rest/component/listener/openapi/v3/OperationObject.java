@@ -25,7 +25,7 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
     @When(propertyName = "exclude", propertyValue = When.NULL)
     @Description("Declares this operation to be deprecated. Consumers SHOULD refrain from usage of the declared operation.")
     private Boolean deprecated;
-    
+
     @Property("Summary")
     @Hint("Updates orders")
     @Example("Updates an order")
@@ -198,6 +198,16 @@ public class OperationObject implements Implementor, OpenAPIModel<com.reedelk.op
 
         // Tags
         target.setTags(tags);
+
+        // Security
+        List<Map<String, com.reedelk.openapi.v3.model.SecurityRequirementObject>> mapped =
+                security.stream().map(securityRequirementObject -> {
+                    Map<String, com.reedelk.openapi.v3.model.SecurityRequirementObject> mappedSecurity = new HashMap<>();
+                    com.reedelk.openapi.v3.model.SecurityRequirementObject mappedRequirement = securityRequirementObject.map(context);
+                    mappedSecurity.put(securityRequirementObject.getName(), mappedRequirement);
+                    return mappedSecurity;
+                }).collect(toList());
+        target.setSecurity(mapped);
         return target;
     }
 }

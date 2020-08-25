@@ -60,7 +60,11 @@ public class OAuthFlowsObject implements Implementor, OpenAPIModel<com.reedelk.o
 
     @Override
     public com.reedelk.openapi.v3.model.OAuthFlowsObject map(OpenApiSerializableContext context) {
-        // TODO: Fixme
-        return null;
+        com.reedelk.openapi.v3.model.OAuthFlowsObject mapped = new com.reedelk.openapi.v3.model.OAuthFlowsObject();
+        if (implicit != null) mapped.setImplicit(implicit.map(context));
+        if (password != null) mapped.setPassword(password.map(context));
+        if (clientCredentials != null) mapped.setClientCredentials(clientCredentials.map(context));
+        if (authorizationCode != null) mapped.setAuthorizationCode(authorizationCode.map(context));
+        return mapped;
     }
 }
