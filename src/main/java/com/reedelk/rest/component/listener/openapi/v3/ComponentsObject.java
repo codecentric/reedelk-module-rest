@@ -24,7 +24,7 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
     @KeyName("Example Name")
     @ValueName("Example Definition")
     @TabGroup("components")
-    private Map<String, ExampleObject> examples = new HashMap<>();
+    private Map<String, ExampleComponentObject> examples = new HashMap<>();
 
     public Map<String, SchemaObject> getSchemas() {
         return schemas;
@@ -34,11 +34,11 @@ public class ComponentsObject implements Implementor, OpenAPIModel<com.reedelk.o
         this.schemas = schemas;
     }
 
-    public Map<String, ExampleObject> getExamples() {
+    public Map<String, ExampleComponentObject> getExamples() {
         return examples;
     }
 
-    public void setExamples(Map<String, ExampleObject> examples) {
+    public void setExamples(Map<String, ExampleComponentObject> examples) {
         this.examples = examples;
     }
 
