@@ -18,14 +18,20 @@ public class ExampleObject implements Implementor, OpenAPIModel<com.reedelk.open
     private Boolean inlineExample;
 
     @Property("Summary")
+    @Hint("My example")
+    @Example("A foo example")
     @When(propertyName = "inlineExample", propertyValue = "true")
     private String summary;
 
     @Property("Description")
+    @Hint("My description")
+    @Example("A foo description")
     @When(propertyName = "inlineExample", propertyValue = "true")
     private String description;
 
     @Property("External Value")
+    @Hint("http://example.org/examples/address-example.xml")
+    @Example("http://example.org/examples/address-example.xml")
     @When(propertyName = "inlineExample", propertyValue = "true")
     private String externalValue;
 
