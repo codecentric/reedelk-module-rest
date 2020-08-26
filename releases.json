@@ -1,7 +1,7 @@
 [
   {
     "version": "1.0.2",
-    "date": "// TODO: Date",
+    "date": "26/8/2020",
     "release-notes": "<ul><li>bugfix: OpenAPI ServerObject was published with leading '/' slash, causing issue during the import process in other software. It has been fixed to NOT include the leading '/' slash.</li><ul>"
   },
   {
