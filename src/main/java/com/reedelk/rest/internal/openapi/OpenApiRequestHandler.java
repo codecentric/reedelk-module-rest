@@ -2,8 +2,6 @@ package com.reedelk.rest.internal.openapi;
 
 import com.reedelk.openapi.v3.model.*;
 import com.reedelk.rest.component.RESTListenerConfiguration;
-import com.reedelk.rest.component.listener.ErrorResponse;
-import com.reedelk.rest.component.listener.Response;
 import com.reedelk.rest.component.listener.openapi.v3.OpenApiSerializableContext;
 import com.reedelk.rest.component.listener.openapi.v3.OperationObject;
 import com.reedelk.rest.component.listener.openapi.v3.OperationObjectUtils;
@@ -74,8 +72,6 @@ public class OpenApiRequestHandler implements HttpRequestHandler {
     private void buildOperationObjectFromRoute(OpenApiSerializableContext context, PathsObject pathsObject, RouteDefinition routeDefinition) {
         String path = routeDefinition.getPath();
         RestMethod method = routeDefinition.getMethod();
-        Response successResponse = routeDefinition.getResponse();
-        ErrorResponse errorResponse = routeDefinition.getErrorResponse();
         OperationObject operationObject = routeDefinition.getOpenApiObject();
 
         Boolean excludeApiPath = shouldExcludeApiPath(operationObject);
