@@ -10,15 +10,22 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Component(service = ExampleComponentObject.class, scope = ServiceScope.PROTOTYPE)
 public class ExampleComponentObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ExampleObject> {
 
-    // The component object cannot be inlined, it is by default inlined.
+    // The example within a component object cannot be inlined,
+    // it is by default inlined.
 
     @Property("Summary")
+    @Hint("My example")
+    @Example("A foo example")
     private String summary;
 
     @Property("Description")
+    @Hint("My description")
+    @Example("A foo description")
     private String description;
 
     @Property("External Value")
+    @Hint("http://example.org/examples/address-example.xml")
+    @Example("http://example.org/examples/address-example.xml")
     private String externalValue;
 
     @Property("Example")
