@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class ExampleObject implements Implementor, OpenAPIModel<com.reedelk.openapi.v3.model.ExampleObject> {
 
     @Property("Inline Example")
+    @InitValue("true")
     @DefaultValue("false")
     @Example("true")
     @Description("If true, the example is in-lined in the final OpenAPI document instead " +
@@ -21,18 +22,23 @@ public class ExampleObject implements Implementor, OpenAPIModel<com.reedelk.open
     @Hint("My example")
     @Example("A foo example")
     @When(propertyName = "inlineExample", propertyValue = "true")
+    @Description("Short description for the example.")
     private String summary;
 
     @Property("Description")
     @Hint("My description")
     @Example("A foo description")
     @When(propertyName = "inlineExample", propertyValue = "true")
+    @Description("Long description for the example. CommonMark syntax MAY be used for rich text representation.")
     private String description;
 
     @Property("External Value")
     @Hint("http://example.org/examples/address-example.xml")
     @Example("http://example.org/examples/address-example.xml")
     @When(propertyName = "inlineExample", propertyValue = "true")
+    @Description("A URL that points to the literal example. This provides the capability to reference examples " +
+            "that cannot easily be included in JSON or YAML documents. The value field and externalValue " +
+            "field are mutually exclusive.")
     private String externalValue;
 
     @Property("Example")

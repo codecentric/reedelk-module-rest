@@ -16,16 +16,21 @@ public class ExampleComponentObject implements Implementor, OpenAPIModel<com.ree
     @Property("Summary")
     @Hint("My example")
     @Example("A foo example")
+    @Description("Short description for the example.")
     private String summary;
 
     @Property("Description")
     @Hint("My description")
     @Example("A foo description")
+    @Description("Long description for the example. CommonMark syntax MAY be used for rich text representation.")
     private String description;
 
     @Property("External Value")
     @Hint("http://example.org/examples/address-example.xml")
     @Example("http://example.org/examples/address-example.xml")
+    @Description("A URL that points to the literal example. This provides the capability to reference examples " +
+            "that cannot easily be included in JSON or YAML documents. The value field and externalValue " +
+            "field are mutually exclusive.")
     private String externalValue;
 
     @Property("Example")
