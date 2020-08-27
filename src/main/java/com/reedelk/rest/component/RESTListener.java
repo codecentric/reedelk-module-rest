@@ -113,8 +113,12 @@ public class RESTListener extends AbstractInbound {
     @Override
     public void onShutdown() {
         provider.get(configuration).ifPresent(server -> {
-            server.removeRoute(routeDefinition);
-            this.routeDefinition = null;
+            // The route definition might be null when we cannot create a server,
+            // because for instance there were two listeners configured on the
+            // same port and different path. In that case the route definition would
+            // be null, and the route was never added.
+            if (routeDefinition != null) server.removeRoute(routeDefinition);
+            routeDefinition = null;
             try {
                 provider.release(server);
             } catch (Exception exception) {
