@@ -134,7 +134,9 @@ public class SecuritySchemeObject implements Implementor, OpenAPIModel<com.reede
         mapped.setType(com.reedelk.openapi.v3.model.SecurityType.valueOf(type.name()));
         mapped.setDescription(description);
         mapped.setName(name);
-        mapped.setIn(com.reedelk.openapi.v3.model.SecurityKeyLocation.valueOf(in.name()));
+        if (in != null) {
+            mapped.setIn(com.reedelk.openapi.v3.model.SecurityKeyLocation.valueOf(in.name()));
+        }
         mapped.setScheme(scheme);
         mapped.setBearerFormat(bearerFormat);
         if (flows != null) {

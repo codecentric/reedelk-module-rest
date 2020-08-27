@@ -141,7 +141,9 @@ public class HeaderObject implements Implementor, OpenAPIModel<com.reedelk.opena
         com.reedelk.openapi.v3.model.HeaderObject mappedHeader =
                 new com.reedelk.openapi.v3.model.HeaderObject();
         mappedHeader.setDescription(description);
-        mappedHeader.setStyle(com.reedelk.openapi.v3.model.ParameterStyle.valueOf(style.name()));
+        if (style != null) {
+            mappedHeader.setStyle(com.reedelk.openapi.v3.model.ParameterStyle.valueOf(style.name()));
+        }
         mappedHeader.setSchema(context.getSchema(predefinedSchema, schema, inlineSchema));
         mappedHeader.setExample(example);
         mappedHeader.setExplode(explode);
