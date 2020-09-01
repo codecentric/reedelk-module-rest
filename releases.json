@@ -1,7 +1,7 @@
 [
   {
-    "version": "1.0.3",
-    "date": "//TODO",
+    "version": "1.0.4",
+    "date": "1/9/2020",
     "release-notes": "<ul><li>bugfix: missing check for null styles and parameter locations in OpenAPI HeaderObject, ParameterObject and SecuritySchemeObject.</li><li>bugfix: avoid removing route definition if the route could have not been added due to previous errors during startup.</li><ul>"
   },
   {
