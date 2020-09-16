@@ -104,7 +104,7 @@ public class RESTListener extends AbstractInbound {
         requireTrue(RESTListener.class, maybeServer.isPresent(), LISTENER_CONFIG_MISSING.format());
 
         // The check is done in the require true precondition above.
-        @SuppressWarnings("OptionalGetWithoutIsPresent") Server server = maybeServer.get();
+        Server server = maybeServer.get();
 
         this.routeDefinition = new RouteDefinition(path, method, response, errorResponse, openApi);
         server.addRoute(routeDefinition, requestHandler);

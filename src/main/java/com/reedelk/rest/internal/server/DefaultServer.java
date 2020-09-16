@@ -2,10 +2,9 @@ package com.reedelk.rest.internal.server;
 
 
 import com.reedelk.rest.component.RESTListenerConfiguration;
-import com.reedelk.rest.internal.commons.Defaults;
+import com.reedelk.rest.internal.commons.RealPath;
 import com.reedelk.rest.internal.server.configurer.ServerConfigurer;
 import com.reedelk.rest.internal.server.configurer.ServerSecurityConfigurer;
-import com.reedelk.runtime.api.commons.StringUtils;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpMethod;
@@ -49,7 +48,7 @@ public class DefaultServer implements Server {
         requireNonNull(httpHandler, "httpHandler");
         requireNonNull(routeDefinition.getMethod(), "method");
 
-        String realPath = getRealPath(routeDefinition.getPath());
+        String realPath = RealPath.from(configuration, routeDefinition.getPath());
 
         routeDefinition.getMethod().addRoute(routes, realPath, httpHandler);
     }
@@ -58,7 +57,7 @@ public class DefaultServer implements Server {
     public void removeRoute(RouteDefinition routeDefinition) {
         requireNonNull(routeDefinition.getMethod(), "method");
 
-        String realPath = getRealPath(routeDefinition.getPath());
+        String realPath = RealPath.from(configuration, routeDefinition.getPath());
 
         routes.remove(HttpMethod.valueOf(routeDefinition.getMethod().name()), realPath);
     }
@@ -109,9 +108,7 @@ public class DefaultServer implements Server {
         try {
             executionGroup.shutdownGracefully(0, 3, SECONDS).sync();
         } catch (InterruptedException e) {
-
             logger.warn("Error while shutting down event group", e);
-
             Thread.currentThread().interrupt();
         }
     }
@@ -123,23 +120,6 @@ public class DefaultServer implements Server {
             } catch (Exception e) {
                 logger.warn("Error while disposing Http server", e);
             }
-        }
-    }
-
-    /**
-     * Returns the real path, with the base path prefixed to the given
-     * path if it is not blank.
-     *
-     * @param path the original path.
-     * @return the base path + original path if the base path is not blank,
-     * otherwise the original path is returned.
-     */
-    private String getRealPath(String path) {
-        String thePath = StringUtils.isBlank(path) ? StringUtils.EMPTY : path;
-        if (StringUtils.isNotBlank(configuration.getBasePath())) {
-            return configuration.getBasePath() + thePath;
-        } else {
-            return StringUtils.isBlank(thePath) ? Defaults.RestListener.path() : thePath;
         }
     }
 }
