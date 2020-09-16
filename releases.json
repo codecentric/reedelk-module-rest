@@ -1,5 +1,10 @@
 [
   {
+    "version": "1.0.5",
+    "date": "17/9/2020",
+    "release-notes": "<ul><li>bugfix: fixed wrong path computed when base path is '/' and listener path starts with '/' as well, e.g: /resource.</li></ul>"
+  },
+  {
     "version": "1.0.4",
     "date": "1/9/2020",
     "release-notes": "<ul><li>bugfix: missing check for null styles and parameter locations in OpenAPI HeaderObject, ParameterObject and SecuritySchemeObject.</li><li>bugfix: avoid removing route definition if the route could have not been added due to previous errors during startup.</li><ul>"
