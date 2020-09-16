@@ -7,15 +7,15 @@
     <parent>
         <groupId>com.reedelk</groupId>
         <artifactId>module-parent</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
     </parent>
 
     <packaging>bundle</packaging>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <artifactId>module-rest</artifactId> <!-- NAME_CONVENTION -->
 
     <properties>
-        <reedelk.openapi.version>1.0.4</reedelk.openapi.version>
+        <reedelk.openapi.version>1.0.5</reedelk.openapi.version>
         <maven.compiler.release>8</maven.compiler.release>
         <reactor.addons.version>3.3.3.RELEASE</reactor.addons.version>
         <reactor.netty.version>0.9.8.RELEASE</reactor.netty.version>
