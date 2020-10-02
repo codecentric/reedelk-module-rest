@@ -26,9 +26,18 @@ public class DefaultBodyProvider implements BodyProvider {
         this.isEvaluateMessagePayloadBody = ScriptUtils.isEvaluateMessagePayload(body);
     }
 
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
     @Override
     public BodyResult get(Message message, FlowContext flowContext) {
-        Object evaluatedObject = scriptEngine.evaluate(body, flowContext, message).orElse(new byte[0]);
+        // For the REST Client with POST method, if the body property has
+        // not been defined we use the message.payload() by default.
+        Object evaluatedObject = body == null ?
+                message.payload() :
+                scriptEngine.evaluate(body, flowContext, message).orElse(null);
+
+        // If the evaluated object is null, then the payload must be an empty byte array.
+        if (evaluatedObject == null) evaluatedObject = new byte[0];
+
         // The evaluated payload might be an Attachments map (Multipart) or any other value.
         // For any other value we must convert it to byte array otherwise we keep it as Attachments map (Multipart).
         // The body strategy will take care of building the correct HTTP response for Multipart or not Multipart request.

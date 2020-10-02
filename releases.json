@@ -1,5 +1,10 @@
 [
   {
+    "version": "1.0.6",
+    "date": "//TODO",
+    "release-notes": "<ul><li>bugfix: fixed default body to message.payload() for REST client and method POST.</li></ul>"
+  },
+  {
     "version": "1.0.5",
     "date": "16/9/2020",
     "release-notes": "<ul><li>bugfix: fixed wrong path computed when base path is '/' and listener path starts with '/' as well, e.g: /resource.</li></ul>"

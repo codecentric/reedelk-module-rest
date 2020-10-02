@@ -4,9 +4,7 @@ import com.reedelk.rest.TestComponent;
 import com.reedelk.runtime.api.flow.FlowContext;
 import com.reedelk.runtime.api.message.Message;
 import com.reedelk.runtime.api.message.MessageBuilder;
-import com.reedelk.runtime.api.script.dynamicvalue.DynamicByteArray;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Optional;
 
@@ -53,10 +51,6 @@ class RESTClientPutTest extends RESTClientAbstractTest {
         // Given
         String expectedResponseBody = "It works";
         RESTClient client = clientWith(PUT, BASE_URL, PATH);
-
-        doReturn(Optional.of(new byte[]{}))
-                .when(scriptEngine)
-                .evaluate(Mockito.isNull(DynamicByteArray.class), any(FlowContext.class), any(Message.class));
 
         givenThat(put(urlEqualTo(PATH))
                 .withRequestBody(binaryEqualTo(new byte[0]))
