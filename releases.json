@@ -1,7 +1,7 @@
 [
   {
     "version": "1.0.6",
-    "date": "//TODO",
+    "date": "6/10/2020",
     "release-notes": "<ul><li>bugfix: fixed default body to message.payload() for REST client and method POST.</li></ul>"
   },
   {
