@@ -20,7 +20,7 @@ public class SelfSignedCertificateBuilder {
     private static final Date DEFAULT_NOT_AFTER = new Date(253402300799000L);
 
     private static final String FULLY_QUALIFIED_DOMAIN_NAME = "localhost"; // must match the requests host.domain part.
-    private static final String TARGET_FOLDER =  "/Users/lorenzo/Desktop/certsss";
+    private static final String TARGET_FOLDER =  "/Users/username/Desktop/certsss";
 
     public static void main(String[] args) throws CertificateException, IOException {
         build();
