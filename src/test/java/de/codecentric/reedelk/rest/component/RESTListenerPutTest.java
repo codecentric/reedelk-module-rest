@@ -1,0 +1,76 @@
+package de.codecentric.reedelk.rest.component;
+
+import de.codecentric.reedelk.rest.internal.commons.RestMethod;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static de.codecentric.reedelk.runtime.api.message.content.MimeType.*;
+import static org.apache.http.HttpStatus.SC_OK;
+
+class RESTListenerPutTest extends RESTListenerAbstractTest {
+
+    private HttpPut putRequest;
+
+    @BeforeEach
+    void setUp() {
+        super.setUp();
+        putRequest = new HttpPut("http://" + DEFAULT_HOST + ":" + DEFAULT_PORT);
+    }
+
+    @Test
+    void shouldReturn200() {
+        // Given
+        StringEntity entity = new StringEntity(TEST_JSON_BODY, ContentType.APPLICATION_JSON);
+        putRequest.setEntity(entity);
+
+        RESTListener listener = listenerWith(RestMethod.PUT, defaultConfiguration);
+        listener.addEventListener((message, callback) -> callback.onResult(context, message));
+        listener.onStart();
+
+        // Expect
+        assertStatusCodeIs(putRequest, SC_OK);
+    }
+
+    @Test
+    void shouldPutJsonBody() throws IOException {
+        // Given
+        StringEntity entity = new StringEntity(TEST_JSON_BODY, ContentType.APPLICATION_JSON);
+        putRequest.setEntity(entity);
+
+        RESTListener listener = listenerWith(RestMethod.PUT, defaultConfiguration);
+
+        // Expect
+        assertBodySent(listener, putRequest, TEST_JSON_BODY, APPLICATION_JSON);
+    }
+
+    @Test
+    void shouldPutTextBody() throws IOException {
+        // Given
+        StringEntity entity = new StringEntity(TEST_TEXT_BODY, ContentType.TEXT_PLAIN);
+        putRequest.setEntity(entity);
+
+        RESTListener listener = listenerWith(RestMethod.PUT, defaultConfiguration);
+
+        // Expect
+        assertBodySent(listener, putRequest, TEST_TEXT_BODY, TEXT_PLAIN);
+    }
+
+    @Test
+    void shouldPostBinaryBody() throws IOException {
+        // Given
+        byte[] binaryData = TEST_JSON_BODY.getBytes();
+        ByteArrayEntity entity = new ByteArrayEntity(binaryData, ContentType.DEFAULT_BINARY);
+        putRequest.setEntity(entity);
+
+        RESTListener listener = listenerWith(RestMethod.PUT, defaultConfiguration);
+
+        // Expect
+        assertBodySent(listener, putRequest, binaryData, APPLICATION_BINARY);
+    }
+}

@@ -1,0 +1,94 @@
+package de.codecentric.reedelk.rest.internal.client;
+
+import de.codecentric.reedelk.rest.internal.client.response.HttpResponseMessageMapper;
+import de.codecentric.reedelk.rest.internal.commons.HttpHeadersAsMap;
+import de.codecentric.reedelk.rest.internal.commons.IsSuccessfulStatus;
+import de.codecentric.reedelk.runtime.api.commons.StackTraceUtils;
+import de.codecentric.reedelk.runtime.api.component.OnResult;
+import de.codecentric.reedelk.runtime.api.exception.PlatformException;
+import de.codecentric.reedelk.runtime.api.flow.FlowContext;
+import de.codecentric.reedelk.runtime.api.message.Message;
+import de.codecentric.reedelk.runtime.api.script.ScriptEngineService;
+import de.codecentric.reedelk.rest.internal.commons.Messages;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.concurrent.FutureCallback;
+import org.apache.http.util.EntityUtils;
+
+import java.net.URI;
+import java.util.List;
+import java.util.TreeMap;
+
+import static de.codecentric.reedelk.runtime.api.commons.StringUtils.isNotBlank;
+
+public class HttpClientResultCallback implements FutureCallback<HttpResponse> {
+
+    private final URI uri;
+    private final OnResult callback;
+    private final FlowContext flowContext;
+    private final String target;
+    private final Message originalMessage;
+    private final ScriptEngineService scriptEngine;
+
+    public HttpClientResultCallback(URI uri, FlowContext flowContext, Message message, String target, OnResult callback, ScriptEngineService scriptEngine) {
+        this.uri = uri;
+        this.target = target;
+        this.callback = callback;
+        this.originalMessage = message;
+        this.flowContext = flowContext;
+        this.scriptEngine = scriptEngine;
+    }
+
+    @Override
+    public void completed(HttpResponse response) {
+        try {
+            StatusLine statusLine = response.getStatusLine();
+
+            if (IsSuccessfulStatus.status(statusLine.getStatusCode())) {
+
+                // If the target variable has been set, we assign to a context variable
+                // the result of the HTTP response and we return the original message.
+                if (isNotBlank(target)) {
+                    Object responseContent = HttpResponseMessageMapper.mapBody(response);
+                    flowContext.put(target, responseContent);
+                    callback.onResult(flowContext, originalMessage);
+
+                } else {
+                    Message message = HttpResponseMessageMapper.map(response);
+                    callback.onResult(flowContext, message);
+                }
+
+            } else {
+                // If the response is not successful (e.g >= 200 && < 300) we throw an exception.
+                HttpEntity finalEntity = HttpResponseMessageMapper.applyDecompressStrategyFrom(response.getEntity());
+                TreeMap<String, List<String>> headers = HttpHeadersAsMap.of(response.getAllHeaders());
+                byte[] bytes = EntityUtils.toByteArray(finalEntity);
+
+                HttpClientResponseException exception = new HttpClientResponseException(
+                        statusLine.getStatusCode(),
+                        statusLine.getReasonPhrase(),
+                        headers,
+                        bytes);
+
+                callback.onError(flowContext, exception);
+            }
+
+        } catch (Throwable thrown) {
+            callback.onError(flowContext, thrown);
+        }
+    }
+
+    @Override
+    public void failed(Exception ex) {
+        String errorMessage = StackTraceUtils.rootCauseMessageOf(ex);
+        PlatformException exception = new PlatformException(Messages.RestClient.REQUEST_FAILED.format(uri.toString(), errorMessage), ex);
+        callback.onError(flowContext, exception);
+    }
+
+    @Override
+    public void cancelled() {
+        PlatformException exception = new PlatformException(Messages.RestClient.REQUEST_CANCELLED.format(uri.toString()));
+        callback.onError(flowContext, exception);
+    }
+}
