@@ -52,7 +52,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/codecentric/reedelk-module-rabbitmq</url>
+            <url>https://maven.pkg.github.com/codecentric/reedelk-module-rest</url>
         </repository>
     </distributionManagement>
     <dependencies>
