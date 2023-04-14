@@ -24,7 +24,7 @@
         <wiremock.version>2.24.1</wiremock.version>
         <assertj.version>3.11.1</assertj.version>
         <junit.version>5.5.2</junit.version>
-        <json.version>20190722</json.version>
+        <json.version>20230227</json.version>
         <jsonassert.version>1.5.0</jsonassert.version>
         <jacoco.version>0.8.2</jacoco.version>
         <mockito.version>2.23.0</mockito.version>
